@@ -1,0 +1,21 @@
+{
+  "name": "@multiapps/shared",
+  "version": "1.0.0",
+  "description": "Code partagé entre toutes les applications",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "jest",
+    "lint": "eslint src --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "zod": "^3.22.0",
+    "date-fns": "^2.30.0",
+    "crypto-js": "^4.1.1"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
