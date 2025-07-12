@@ -10,7 +10,7 @@
   "scripts": {
     "dev": "concurrently \"npm run dev --workspace=postmath-app\" \"npm run dev --workspace=unitflip-app\" \"npm run dev --workspace=budgetcron-app\" \"npm run dev --workspace=ai4kids-app\" \"npm run dev --workspace=multiai-app\"",
     "dev:postmath": "npm run dev --workspace=postmath-app",
-    "dev:unitflip": "npm run dev --workspace=unitflip-app", 
+    "dev:unitflip": "npm run dev --workspace=unitflip-app",
     "dev:budgetcron": "npm run dev --workspace=budgetcron-app",
     "dev:ai4kids": "npm run dev --workspace=ai4kids-app",
     "dev:multiai": "npm run dev --workspace=multiai-app",
@@ -29,7 +29,7 @@
   },
   "keywords": [
     "nextjs",
-    "typescript", 
+    "typescript",
     "monorepo",
     "multi-tenant",
     "saas",
@@ -46,22 +46,23 @@
     "npm": ">=8.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.40.0",
     "@cucumber/cucumber": "^10.0.0",
+    "@playwright/test": "^1.54.1",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "concurrently": "^8.0.0",
+    "cross-env": "^7.0.0",
     "eslint": "^8.0.0",
     "eslint-config-next": "^14.0.0",
     "eslint-config-prettier": "^9.0.0",
     "prettier": "^3.0.0",
     "rimraf": "^5.0.0",
-    "typescript": "^5.0.0",
-    "concurrently": "^8.0.0",
-    "cross-env": "^7.0.0"
+    "typescript": "^5.0.0"
   },
   "dependencies": {
     "next": "^14.0.0",
+    "playwright": "^1.54.1",
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   }

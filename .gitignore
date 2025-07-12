@@ -69,3 +69,8 @@ Thumbs.db
 
 # Turborepo
 .turbo
+
+# Playwright
+/playwright-report/
+/blob-report/
+/playwright/.cache/
