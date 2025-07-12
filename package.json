@@ -1,0 +1,68 @@
+{
+  "name": "multi-apps-platform",
+  "version": "1.0.0",
+  "description": "🚀 Plateforme multi-applications : PostMath Pro, UnitFlip Pro, BudgetCron, AI4Kids et MultiAI Search",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspaces --if-present",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:smoke": "playwright test --project=smoke",
+    "test:regression": "playwright test --grep '@regression'",
+    "test:performance": "playwright test --project=performance",
+    "test:accessibility": "playwright test --project=accessibility",
+    "test:security": "playwright test --project=security",
+    "test:mobile": "playwright test --project=mobile-chrome,mobile-safari",
+    "test:cross-browser": "playwright test --project=chromium-desktop,firefox-desktop,webkit-desktop",
+    "test:install": "playwright install",
+    "test:report": "playwright show-report",
+    "lint": "eslint . --ext .ts,.tsx",
+    "format": "prettier --write .",
+    "type-check": "tsc --noEmit",
+    "setup": "npm install && npm run test:install",
+    "clean": "rimraf node_modules/.cache && rimraf apps/*/dist && rimraf packages/*/dist",
+    "security:audit": "npm audit --workspaces",
+    "security:fix": "npm audit fix --workspaces"
+  },
+  "keywords": [
+    "nextjs",
+    "typescript",
+    "monorepo",
+    "multi-tenant",
+    "saas",
+    "postmath",
+    "unitflip",
+    "budgetcron",
+    "ai4kids",
+    "multiai",
+    "playwright",
+    "cucumber",
+    "bdd"
+  ],
+  "author": "Khalid Ksouri <khalid_ksouri@yahoo.fr>",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "@cucumber/cucumber": "^10.0.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.0.0",
+    "concurrently": "^8.0.0"
+  }
+}
