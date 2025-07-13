@@ -1,120 +1,228 @@
+# 🚀 MultiApps Workspace
 
-# multi-apps-platform
-"🚀 Plateforme multi-applications : PostMath Pro, UnitFlip Pro, BudgetCron, AI4Kids et MultiAI Search
+Workspace monorepo contenant plusieurs applications Next.js avec des packages partagés et des tests Playwright.
 
+## 📁 Structure du projet
 
-Une plateforme moderne hébergeant **5 applications** innovantes avec architecture monorepo, tests E2E complets et support multilingue (20 langues).
+```
+├── apps/                     # Applications Next.js
+│   ├── ai4kids/             # Interface IA pour enfants (port 3004)
+│   ├── budgetcron/          # Gestion budgétaire (port 3003)
+│   ├── postmath/            # Calculateur d'expédition (port 3001)
+│   ├── unitflip/            # Convertisseur d'unités (port 3002)
+│   └── multiai/             # Hub services IA (port 3005)
+├── packages/                # Packages partagés
+│   ├── shared/              # Types TypeScript partagés
+│   └── ui/                  # Composants React réutilisables
+├── tests/                   # Tests Playwright E2E
+├── scripts/                 # Scripts de développement
+└── playwright.config.ts     # Configuration Playwright
+```
 
 ## 🎯 Applications
 
-| Application | Port | Description | Status |
-|-------------|------|-------------|--------|
-| **PostMath Pro** | 3001 | Calcul de frais d'expédition intelligent | ✅ Ready |
-| **UnitFlip Pro** | 3002 | Conversion d'unités avancée | ✅ Ready |
-| **BudgetCron** | 3003 | Gestion budgétaire avec IA | ✅ Ready |
-| **AI4Kids** | 3004 | IA éducative sécurisée pour enfants | ✅ Ready |
-| **MultiAI Search** | 3005 | Recherche multi-IA comparative | ✅ Ready |
+### 🤖 AI4Kids (port 3004)
+Interface ludique pour enseigner l'IA aux enfants avec des modules interactifs.
 
-## ⚡ Démarrage Rapide
+### 💰 BudgetCron (port 3003)
+Application de gestion budgétaire avec insights IA et synchronisation bancaire.
 
+### 📦 PostMath (port 3001)
+Calculateur intelligent de frais d'expédition avec comparaison de transporteurs.
+
+### 🔄 UnitFlip (port 3002)
+Convertisseur d'unités avancé avec explications détaillées.
+
+### 🧠 MultiAI (port 3005)
+Hub centralisé pour accéder à différents services d'IA.
+
+## 🛠️ Installation
+
+### Installation rapide
 ```bash
-# Installation
-git clone https://github.com/khalidksouri/multi-apps-platform.git
-cd multi-apps-platform
+# Cloner le repository
+git clone <repository-url>
+cd multiapps-workspace
+
+# Script de configuration automatique
+chmod +x scripts/setup.sh
+./scripts/setup.sh
+```
+
+### Installation manuelle
+```bash
+# Installation des dépendances racine
 npm install
 
-# Configuration
-cp .env.example .env
-# Éditer .env avec vos configurations
+# Installation des dépendances des packages
+cd packages/shared && npm install && cd ../..
+cd packages/ui && npm install && cd ../..
 
-# Démarrage développement
+# Installation des dépendances des apps
+cd apps/ai4kids && npm install && cd ../..
+cd apps/budgetcron && npm install && cd ../..
+cd apps/postmath && npm install && cd ../..
+cd apps/unitflip && npm install && cd ../..
+cd apps/multiai && npm install && cd ../..
+
+# Build des packages
+npm run build:packages
+
+# Installation de Playwright
+npx playwright install
+```
+
+## 🚀 Développement
+
+### Démarrer toutes les applications
+```bash
 npm run dev
+```
 
-# Tests
-npm run test:install
-npm run test:e2e
+### Démarrer une application spécifique
+```bash
+npm run dev:postmath    # Port 3001
+npm run dev:unitflip    # Port 3002
+npm run dev:budgetcron  # Port 3003
+npm run dev:ai4kids     # Port 3004
+npm run dev:multiai     # Port 3005
+```
+
+### Utiliser le script de développement
+```bash
+./scripts/dev-all.sh
+```
+
+## 🏗️ Build
+
+### Build de tout
+```bash
+npm run build
+```
+
+### Build des packages seulement
+```bash
+npm run build:packages
+```
+
+### Build d'une app spécifique
+```bash
+npm run build:postmath
+npm run build:unitflip
+# etc.
+```
+
+### Script de build complet
+```bash
+./scripts/build-all.sh
 ```
 
 ## 🧪 Tests
 
-- **292 scénarios BDD** avec Cucumber
-- **156 tests unitaires** (85% couverture)
-- **Tests E2E** Playwright multi-navigateurs
-- **Tests de sécurité** et accessibilité
-- **Tests de performance** < 3s
+### Tests Playwright
+```bash
+# Tous les tests
+npm run test
 
-## 🌍 Internationalisation
+# Tests avec interface
+npm run test:ui
 
-Support complet de **20 langues** :
-🇫🇷🇺🇸🇪🇸🇩🇪🇮🇹🇵🇹🇳🇱🇵🇱🇷🇺🇨🇳🇯🇵🇰🇷🇸🇦🇮🇳🇹🇷🇸🇪🇳🇴🇩🇰🇫🇮🇮🇱
+# Tests en mode headed
+npm run test:headed
 
-## 📊 Architecture
-
-```
-multi-apps-platform/
-├── apps/                 # Applications Next.js
-│   ├── postmath/        # Calcul expédition
-│   ├── unitflip/        # Conversion unités
-│   ├── budgetcron/      # Gestion budget
-│   ├── ai4kids/         # IA éducative
-│   └── multiai/         # Recherche multi-IA
-├── packages/            # Packages partagés
-│   ├── ui/             # Composants UI
-│   ├── shared/         # Utilitaires
-│   ├── database/       # Gestion BDD
-│   └── security/       # Sécurité
-└── tests/              # Tests E2E
-    ├── features/       # Scénarios BDD
-    └── step-definitions/ # Steps Cucumber
+# Tests spécifiques
+npm run test:postmath
 ```
 
-## 🔒 Sécurité
+### Script de tests complet
+```bash
+./scripts/test-all.sh
+```
 
-- **Headers sécurisés** (CSP, X-Frame-Options)
-- **Validation Zod** sur toutes les APIs
-- **JWT sécurisé** avec refresh tokens
-- **Protection enfants** pour AI4Kids
-- **Tests de pénétration** automatisés
+## 📦 Packages partagés
 
-## 📈 Performance
+### @multiapps/shared
+Types TypeScript partagés entre toutes les applications :
+- Types API (Shipping, Budget, etc.)
+- Interfaces de données
+- Types de réponses
 
-- **Bundle splitting** et lazy loading
-- **Core Web Vitals** optimisés
-- **Caching intelligent** Redis + CDN
-- **Monitoring** temps réel
+### @multiapps/ui
+Composants React réutilisables :
+- Button avec variants et états de chargement
+- Input avec icônes et validation
+- Card avec différents paddings
+- Select avec options
+- Modal responsive
 
-## 🚀 Déploiement
+## 🎨 Stack technologique
 
-- **Vercel/Netlify** ready
-- **Docker** support
-- **CI/CD** GitHub Actions
-- **Monitoring** intégré
+- **Framework**: Next.js 14
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **Testing**: Playwright
+- **Package Manager**: npm avec workspaces
+- **Monorepo**: npm workspaces
 
-## 📚 Documentation
+## 📝 Scripts disponibles
 
-- [Guide Utilisateur](./docs/user-guide/)
-- [Documentation API](./docs/api/)
-- [Guide Développeur](./docs/developer/)
+| Script | Description |
+|--------|-------------|
+| `npm run dev` | Démarre toutes les apps |
+| `npm run build` | Build tout le projet |
+| `npm run test` | Lance les tests Playwright |
+| `npm run lint` | Lint toutes les apps |
+| `./scripts/setup.sh` | Configuration initiale |
+| `./scripts/dev-all.sh` | Démarrage avec concurrently |
+| `./scripts/test-all.sh` | Tests complets |
+| `./scripts/build-all.sh` | Build complet |
 
-## 👥 Contribution
+## 🔧 Configuration
 
-1. Fork le projet
-2. Créer une feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit les changements (`git commit -m 'feat: add amazing feature'`)
-4. Push la branch (`git push origin feature/amazing-feature`)
-5. Ouvrir une Pull Request
+### Playwright
+Configuré pour tester toutes les applications avec :
+- Tests sur Chrome, Firefox, Safari
+- Tests mobiles
+- Serveurs de développement automatiques
+- Rapports HTML
 
-## 📄 Licence
+### TypeScript
+- Configuration partagée avec `tsconfig.base.json`
+- Path mapping pour les packages
+- Mode strict activé
 
-Ce projet est sous licence MIT. Voir le fichier [LICENSE](LICENSE) pour plus de détails.
+### Tailwind CSS
+- Configuration partagée entre toutes les apps
+- Classes utilitaires personnalisées
+- Design system cohérent
 
-## 👨‍💻 Auteur
+## 📱 Ports des applications
 
-**Khalid Ksouri**
-- Email: khalid_ksouri@yahoo.fr
-- GitHub: [@khalid_ksouri](https://github.com/khalid_ksouri)
+| Application | Port | URL |
+|------------|------|-----|
+| PostMath | 3001 | http://localhost:3001 |
+| UnitFlip | 3002 | http://localhost:3002 |
+| BudgetCron | 3003 | http://localhost:3003 |
+| AI4Kids | 3004 | http://localhost:3004 |
+| MultiAI | 3005 | http://localhost:3005 |
 
----
+## 🤝 Développement
 
-⭐ **N'hésitez pas à donner une étoile si ce projet vous plaît !**
->>>>>>> 264c288 (🚀 Initial commit: Multi-Apps Platform)
+### Ajouter une nouvelle application
+1. Créer le dossier dans `apps/`
+2. Ajouter les scripts dans le `package.json` racine
+3. Configurer le port dans `playwright.config.ts`
+4. Ajouter les tests dans `tests/features/`
+
+### Ajouter un composant partagé
+1. Créer le composant dans `packages/ui/src/components/`
+2. Exporter dans `packages/ui/src/index.ts`
+3. Build le package avec `npm run build`
+
+### Ajouter des types partagés
+1. Ajouter les types dans `packages/shared/src/index.ts`
+2. Build le package avec `npm run build`
+
+## 📄 License
+
+MIT

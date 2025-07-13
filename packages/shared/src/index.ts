@@ -1,14 +1,76 @@
-export * from './types/common';
-export * from './types/postmath';
-export * from './types/unitflip';
-export * from './types/budgetcron';
-export * from './types/ai4kids';
-export * from './types/multiai';
-export * from './utils/validation';
-export * from './utils/date';
-export * from './utils/string';
-export * from './utils/api';
-export * from './constants/config';
-export * from './hooks/use-auth';
-export * from './i18n/config';
-export * from './i18n/useTranslation';
+// Types pour l'API de shipping
+export interface Carrier {
+  id: string;
+  name: string;
+  price: number;
+  deliveryTime: string;
+  reliability: number;
+  tracking: boolean;
+}
+
+export interface ShippingCalculation {
+  id: string;
+  departure: string;
+  destination: string;
+  weight: number;
+  dimensions: string;
+  carriers: Carrier[];
+  createdAt: Date;
+}
+
+export interface APIResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: {
+    code: string;
+    message: string;
+  };
+}
+
+// Types pour la conversion d'unités
+export interface ConversionResult {
+  value: number;
+  unit: string;
+  explanation: string;
+}
+
+export interface UnitCategory {
+  id: string;
+  name: string;
+  units: UnitDefinition[];
+}
+
+export interface UnitDefinition {
+  id: string;
+  name: string;
+  symbol: string;
+  toBase: (value: number) => number;
+  fromBase: (value: number) => number;
+}
+
+// Types pour le budget
+export interface BudgetCategory {
+  id: string;
+  name: string;
+  budget: number;
+  spent: number;
+  color: string;
+}
+
+export interface BudgetInsight {
+  id: number;
+  type: 'savings_opportunity' | 'budget_alert' | 'spending_pattern';
+  title: string;
+  description: string;
+  confidence: number;
+  color: string;
+}
+
+export interface BankAccount {
+  id: string;
+  name: string;
+  type: string;
+  balance: number;
+  status: 'active' | 'error' | 'pending';
+  lastSync: Date;
+}
