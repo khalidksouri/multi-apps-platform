@@ -7,8 +7,8 @@
       "DOM",
       "DOM.Iterable"
     ],
-    "module": "commonjs",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     
     /* ===== STRICT TYPE CHECKING ===== */
     "strict": true,
@@ -19,8 +19,9 @@
     "strictPropertyInitialization": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": false,
+    "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true,
+    "exactOptionalPropertyTypes": true,
     
     /* ===== MODULES ===== */
     "esModuleInterop": true,
@@ -28,16 +29,18 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "verbatimModuleSyntax": false,
     
     /* ===== EMIT ===== */
     "declaration": true,
     "declarationMap": true,
     "sourceMap": true,
     "outDir": "./dist",
-    "rootDir": "./",
+    "rootDir": "./src",
     "removeComments": false,
     "downlevelIteration": true,
     "importHelpers": true,
+    "noEmit": false,
     
     /* ===== JAVASCRIPT SUPPORT ===== */
     "allowJs": true,
@@ -66,6 +69,11 @@
       "@fixtures/*": ["tests/fixtures/*"],
       "@utils/*": ["tests/utils/*"],
       "@config/*": ["config/*"],
+      "@components/*": ["src/components/*"],
+      "@pages/*": ["src/pages/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@lib/*": ["src/lib/*"],
+      "@types/*": ["src/types/*"],
       "@ai4kids/*": ["src/ai4kids/*"],
       "@multiai/*": ["src/multiai/*"],
       "@budgetcron/*": ["src/budgetcron/*"],
@@ -76,12 +84,13 @@
     /* ===== TYPE ACQUISITION ===== */
     "typeRoots": [
       "./node_modules/@types",
-      "./types"
+      "./types",
+      "./@types"
     ],
     "types": [
       "node",
       "jest",
-      "playwright",
+      "@playwright/test",
       "@cucumber/cucumber"
     ]
   },
@@ -93,7 +102,8 @@
     "*.config.ts",
     "*.config.js",
     "scripts/**/*",
-    "types/**/*"
+    "types/**/*",
+    "@types/**/*"
   ],
   
   "exclude": [
@@ -104,22 +114,29 @@
     "reports",
     "test-results",
     "playwright-report",
+    "allure-report",
+    "allure-results",
     "**/*.d.ts",
     "**/.next/**",
-    "**/out/**"
+    "**/out/**",
+    "**/tmp/**",
+    "**/.cache/**"
   ],
   
   /* ===== TS-NODE CONFIGURATION ===== */
   "ts-node": {
     "compilerOptions": {
-      "module": "commonjs",
-      "target": "ES2020",
+      "module": "CommonJS",
+      "target": "ES2022",
       "moduleResolution": "node",
       "allowSyntheticDefaultImports": true,
-      "esModuleInterop": true
+      "esModuleInterop": true,
+      "isolatedModules": false
     },
     "files": true,
-    "experimentalSpecifierResolution": "node"
+    "experimentalSpecifierResolution": "node",
+    "transpileOnly": true,
+    "swc": false
   },
   
   /* ===== WATCHOPTIONS ===== */
@@ -131,14 +148,10 @@
     "excludeDirectories": [
       "**/node_modules",
       "**/dist",
-      "**/reports"
+      "**/reports",
+      "**/coverage",
+      "**/test-results",
+      "**/playwright-report"
     ]
-  },
-  
-  /* ===== BUILD OPTIONS ===== */
-  "buildOptions": {
-    "dry": false,
-    "force": false,
-    "verbose": false
   }
 }
