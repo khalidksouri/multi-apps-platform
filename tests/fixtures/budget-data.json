@@ -1,0 +1,158 @@
+// =============================================
+// 📄 tests/fixtures/budget-data.json
+// =============================================
+{
+  "budgetData": {
+    "totalBudget": 2500,
+    "spent": 1850,
+    "remaining": 650,
+    "currency": "EUR",
+    "period": "monthly",
+    "lastUpdated": "2024-12-15T10:30:00Z"
+  },
+  "categories": [
+    {
+      "id": "cat-001",
+      "name": "Alimentation",
+      "budget": 500,
+      "spent": 350,
+      "percentage": 70.0,
+      "color": "#4CAF50",
+      "icon": "🍽️"
+    },
+    {
+      "id": "cat-002", 
+      "name": "Transport",
+      "budget": 300,
+      "spent": 280,
+      "percentage": 93.3,
+      "color": "#FF9800",
+      "icon": "🚗"
+    },
+    {
+      "id": "cat-003",
+      "name": "Loisirs",
+      "budget": 200,
+      "spent": 90,
+      "percentage": 45.0,
+      "color": "#2196F3",
+      "icon": "🎯"
+    },
+    {
+      "id": "cat-004",
+      "name": "Logement",
+      "budget": 1000,
+      "spent": 850,
+      "percentage": 85.0,
+      "color": "#9C27B0",
+      "icon": "🏠"
+    },
+    {
+      "id": "cat-005",
+      "name": "Santé",
+      "budget": 300,
+      "spent": 120,
+      "percentage": 40.0,
+      "color": "#F44336",
+      "icon": "⚕️"
+    },
+    {
+      "id": "cat-006",
+      "name": "Éducation",
+      "budget": 200,
+      "spent": 160,
+      "percentage": 80.0,
+      "color": "#795548",
+      "icon": "📚"
+    }
+  ],
+  "bankAccounts": [
+    {
+      "id": "bank-001",
+      "name": "Crédit Agricole",
+      "accountNumber": "****1234",
+      "balance": 2450.50,
+      "currency": "EUR",
+      "status": "active",
+      "lastSync": "2024-12-15T10:25:00Z",
+      "accountType": "checking"
+    },
+    {
+      "id": "bank-002",
+      "name": "BNP Paribas",
+      "accountNumber": "****5678",
+      "balance": 15000.00,
+      "currency": "EUR",
+      "status": "active",
+      "lastSync": "2024-12-15T10:20:00Z",
+      "accountType": "savings"
+    },
+    {
+      "id": "bank-003",
+      "name": "Revolut",
+      "accountNumber": "****9012",
+      "balance": 320.75,
+      "currency": "EUR",
+      "status": "error",
+      "lastSync": "2024-12-14T15:30:00Z",
+      "accountType": "digital"
+    }
+  ],
+  "aiInsights": [
+    {
+      "id": "insight-001",
+      "type": "economy",
+      "title": "Économie détectée",
+      "description": "Vous avez dépensé 15% de moins en loisirs ce mois-ci",
+      "impact": "positive",
+      "amount": 30,
+      "confidence": 0.85
+    },
+    {
+      "id": "insight-002",
+      "type": "alert",
+      "title": "Alerte budget",
+      "description": "Budget transport bientôt dépassé (93% utilisé)",
+      "impact": "negative",
+      "amount": 20,
+      "confidence": 0.95
+    },
+    {
+      "id": "insight-003",
+      "type": "pattern",
+      "title": "Pattern détecté",
+      "description": "Pic de dépenses alimentaires le vendredi",
+      "impact": "neutral",
+      "confidence": 0.75
+    }
+  ],
+  "transactions": [
+    {
+      "id": "trans-001",
+      "date": "2024-12-15",
+      "amount": -45.60,
+      "merchant": "Carrefour",
+      "category": "Alimentation",
+      "description": "Courses alimentaires",
+      "account": "bank-001"
+    },
+    {
+      "id": "trans-002",
+      "date": "2024-12-14",
+      "amount": -85.00,
+      "merchant": "Station Essence",
+      "category": "Transport",
+      "description": "Plein d'essence",
+      "account": "bank-001"
+    },
+    {
+      "id": "trans-003",
+      "date": "2024-12-13",
+      "amount": -25.00,
+      "merchant": "Cinéma",
+      "category": "Loisirs",
+      "description": "Séance de cinéma",
+      "account": "bank-003"
+    }
+  ]
+}

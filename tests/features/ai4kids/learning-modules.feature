@@ -16,155 +16,165 @@ Feature: AI4Kids - Modules d'apprentissage
     And l'interface doit être colorée et adaptée aux enfants
 
   @positive @modules-display
-  Scenario: Affichage des trois modules d'apprentissage
+  Scenario Outline: Affichage des modules d'apprentissage
     When je consulte les modules disponibles
-    Then je dois voir exactement 3 modules
-    And je dois voir "Mon Premier Chatbot" avec l'emoji "🤖"
-    And je dois voir "Reconnaissance d'Images" avec l'emoji "👁️"
-    And je dois voir "Commandes Vocales" avec l'emoji "🎤"
-    And je dois voir la description "Crée ton propre assistant virtuel"
-    And je dois voir la description "Apprends à l'IA à voir les images"
-    And je dois voir la description "Contrôle ton ordinateur avec ta voix"
+    Then je dois voir le module "<module>" avec l'emoji "<emoji>"
+    And je dois voir la description "<description>"
+    And je dois voir le bouton "Commencer"
+    And le bouton doit être visible et activé
 
-  @positive @module-selection
-  Scenario: Sélection d'un module d'apprentissage
-    When je clique sur "Mon Premier Chatbot"
-    Then je dois voir "Tu as choisi: Mon Premier Chatbot"
+    Examples:
+      | module                    | emoji | description                              |
+      | Mon Premier Chatbot       | 🤖    | Crée ton propre assistant virtuel       |
+      | Reconnaissance d'Images   | 👁️    | Apprends à l'IA à voir les images        |
+      | Commandes Vocales         | 🎤    | Contrôle ton ordinateur avec ta voix     |
+
+  @positive @module-interaction
+  Scenario Outline: Interaction avec les modules
+    When je clique sur "<module>"
+    Then je dois voir "Tu as choisi: <module>"
     And je dois voir "Félicitations! Tu vas apprendre quelque chose d'incroyable aujourd'hui."
     And je dois voir le bouton "Suivant 🚀"
     And je dois voir le bouton "Retour"
 
-  @positive @navigation-back
-  Scenario: Retour à la sélection des modules
-    Given j'ai sélectionné "Reconnaissance d'Images"
-    And je vois "Tu as choisi: Reconnaissance d'Images"
+    Examples:
+      | module                    |
+      | Mon Premier Chatbot       |
+      | Reconnaissance d'Images   |
+      | Commandes Vocales         |
+
+  @positive @navigation-flow
+  Scenario Outline: Navigation complète dans les modules
+    Given j'ai sélectionné "<module>"
+    And je vois "Tu as choisi: <module>"
     When je clique sur le bouton "Retour"
     Then je retourne à la vue des modules
     And je ne vois plus "Tu as choisi:"
-    And tous les modules sont à nouveau visibles
+    And le module "<module>" est à nouveau visible
 
-  @positive @start-buttons
-  Scenario: Boutons de démarrage sur chaque module
-    When je consulte chaque module
-    Then chaque module doit avoir un bouton "Commencer"
-    And tous les boutons "Commencer" doivent être visibles
-    And tous les boutons "Commencer" doivent être activés
-    And je peux cliquer sur n'importe quel bouton
+    Examples:
+      | module                    |
+      | Mon Premier Chatbot       |
+      | Reconnaissance d'Images   |
+      | Commandes Vocales         |
 
-  @positive @child-friendly-design
-  Scenario: Design adapté aux enfants
-    When j'observe l'interface
-    Then je dois voir un fond coloré avec gradient
-    And le titre "AI4Kids" doit être en violet
-    And les emojis doivent être de grande taille (text-6xl)
-    And l'ensemble doit être visuellement attrayant pour les enfants
-
-  @positive @module-progression
-  Scenario: Progression dans un module
-    Given j'ai sélectionné "Mon Premier Chatbot"
+  @positive @progression
+  Scenario Outline: Progression dans l'apprentissage
+    Given j'ai sélectionné "<module>"
     When je clique sur "Suivant 🚀"
     Then je dois progresser dans le module
-    And je dois voir du contenu pédagogique
+    And je dois voir du contenu pédagogique adapté à "<niveau>"
     And je dois pouvoir continuer l'apprentissage
 
-  @negative @invalid-module-access
-  Scenario: Tentative d'accès à un module inexistant
-    When j'essaie d'accéder directement à un module inexistant
-    Then je dois voir "Module introuvable"
-    And je dois être redirigé vers la page d'accueil
-    And les modules valides doivent rester affichés
+    Examples:
+      | module                    | niveau      |
+      | Mon Premier Chatbot       | débutant    |
+      | Reconnaissance d'Images   | intermédiaire |
+      | Commandes Vocales         | avancé      |
 
-  @negative @server-error
-  Scenario: Erreur serveur lors du chargement
-    Given le serveur ne répond pas
-    When j'essaie de charger la page
-    Then je dois voir "Oups! Quelque chose s'est mal passé"
-    And je dois voir un message d'erreur adapté aux enfants
+  @negative @error-handling
+  Scenario Outline: Gestion des erreurs adaptée aux enfants
+    Given "<condition_erreur>"
+    When "<action>"
+    Then je dois voir "<message_enfant>"
     And je dois voir un bouton "Réessayer"
+    And le message doit être rassurant
 
-  @negative @module-content-error
-  Scenario: Erreur lors du chargement du contenu d'un module
-    Given j'ai sélectionné un module
-    When le contenu du module ne se charge pas
-    Then je dois voir "Le module n'est pas disponible pour le moment"
-    And je dois pouvoir retourner à la sélection
-    And les autres modules doivent rester fonctionnels
+    Examples:
+      | condition_erreur              | action                              | message_enfant                                |
+      | le serveur ne répond pas      | j'essaie de charger la page        | Oups! Quelque chose s'est mal passé         |
+      | un module ne se charge pas    | je clique sur un module             | Le module n'est pas disponible pour le moment |
+      | la connexion est interrompue  | j'essaie d'accéder au contenu      | Vérifie ta connexion internet                |
 
-  @edge-case @rapid-selection
-  Scenario: Sélection rapide de plusieurs modules
-    When je clique rapidement sur "Mon Premier Chatbot"
-    And je clique immédiatement sur "Commandes Vocales"
-    Then seul le dernier module sélectionné doit être actif
-    And il ne doit pas y avoir de conflits d'affichage
-    And l'interface doit rester stable
+  @edge-case @rapid-interactions
+  Scenario Outline: Tests de stabilité pour enfants
+    When "<action_rapide>"
+    Then "<resultat_stable>"
+    And l'interface doit rester stable pour l'enfant
 
-  @edge-case @browser-back-button
-  Scenario: Utilisation du bouton retour du navigateur
-    Given j'ai sélectionné un module
-    And je suis dans la vue de configuration
-    When j'utilise le bouton retour du navigateur
-    Then je dois retourner à la vue des modules
-    And l'état de l'application doit être cohérent
+    Examples:
+      | action_rapide                                    | resultat_stable                                   |
+      | je clique rapidement sur plusieurs modules      | seul le dernier module sélectionné doit être actif |
+      | je clique plusieurs fois sur le même module     | le module doit répondre normalement               |
+      | j'utilise le bouton retour plusieurs fois       | la navigation doit rester cohérente               |
 
-  @edge-case @small-touch-screen
-  Scenario: Utilisation sur petite tablette tactile
-    Given je suis sur une tablette de 7 pouces
+  @twisted-case @child-specific
+  Scenario Outline: Cas spéciaux pour enfants
+    Given "<situation_speciale>"
+    When "<action_enfant>"
+    Then "<protection_attendue>"
+    And l'expérience doit rester sûre
+
+    Examples:
+      | situation_speciale                | action_enfant                    | protection_attendue                           |
+      | je suis dans un module depuis longtemps | ma session expire         | je ne dois pas perdre ma progression         |
+      | un module a des données corrompues | je tente de le charger        | je dois voir "Ce module sera bientôt disponible!" |
+      | j'utilise l'application intensivement | je navigue rapidement     | les performances doivent rester fluides      |
+
+  @boundary @device-compatibility
+  Scenario Outline: Compatibilité avec différents appareils
+    Given je suis sur "<appareil>"
     When j'interagis avec les modules
-    Then les boutons doivent être assez grands pour les petits doigts
-    And l'interface doit s'adapter à la taille d'écran
-    And la navigation tactile doit être fluide
+    Then "<adaptation_appareil>"
+    And l'expérience doit être adaptée aux enfants
 
-  @twisted-case @simultaneous-clicks
-  Scenario: Clics simultanés sur plusieurs modules
-    When je clique simultanément sur deux modules différents
-    Then l'application doit gérer le conflit
-    And un seul module doit être sélectionné
-    And l'interface ne doit pas se bloquer
+    Examples:
+      | appareil              | adaptation_appareil                                |
+      | une tablette 7 pouces | les boutons doivent être assez grands pour les petits doigts |
+      | un smartphone         | l'interface doit s'adapter à l'écran tactile      |
+      | un ordinateur portable | la navigation clavier doit être simple            |
+      | une tablette en portrait | l'affichage doit s'adapter à l'orientation      |
 
-  @twisted-case @session-timeout
-  Scenario: Expiration de session pendant l'apprentissage
-    Given je suis dans un module depuis longtemps
-    When ma session expire
-    Then je ne dois pas perdre ma progression
-    And je dois pouvoir reprendre où je me suis arrêté
-    And l'expérience doit rester fluide pour l'enfant
+  @performance @child-attention
+  Scenario Outline: Performance adaptée à l'attention des enfants
+    When "<action_performance>"
+    Then "<temps_enfant>"
+    And l'expérience ne doit pas frustrer l'enfant
 
-  @twisted-case @corrupted-module-data
-  Scenario: Données de module corrompues
-    Given un module a des données corrompues
-    When je tente de le charger
-    Then l'application doit détecter l'erreur
-    And je dois voir "Ce module sera bientôt disponible!"
-    And les autres modules doivent continuer à fonctionner
+    Examples:
+      | action_performance        | temps_enfant                                    |
+      | je clique sur un module   | la réponse doit être immédiate (moins d'1s)    |
+      | je navigue entre pages    | chaque transition doit être instantanée        |
+      | je charge du contenu      | aucun temps d'attente frustrant               |
+      | j'utilise les animations  | elles doivent être fluides et engageantes      |
 
   @accessibility @child-a11y
-  Scenario: Accessibilité pour enfants avec besoins spéciaux
-    Given un enfant utilise des technologies d'assistance
+  Scenario Outline: Accessibilité pour enfants avec besoins spéciaux
+    Given un enfant utilise "<technologie_assistance>"
     When il navigue dans l'application
-    Then tous les éléments doivent être accessibles
-    And les descriptions doivent être adaptées aux enfants
-    And la navigation au clavier doit être simple
-    And les contrastes doivent être élevés
+    Then "<adaptation_a11y>"
+    And l'expérience doit être inclusive
 
-  @performance @child-patience
-  Scenario: Performance adaptée à l'attention des enfants
-    When je clique sur un module
-    Then la réponse doit être immédiate (moins d'1 seconde)
-    And les animations doivent être fluides
-    And il ne doit pas y avoir de temps d'attente frustrants
+    Examples:
+      | technologie_assistance | adaptation_a11y                                    |
+      | un lecteur d'écran     | les descriptions doivent être adaptées aux enfants |
+      | navigation clavier     | les raccourcis doivent être simples               |
+      | zoom important         | l'interface doit rester claire                     |
+      | contraste élevé        | les couleurs doivent être vives et contrastées    |
 
   @safety @child-protection
-  Scenario: Protection des données des enfants
-    Given un enfant utilise l'application
-    When il interagit avec les modules
-    Then aucune donnée personnelle ne doit être collectée
-    And aucun contenu inapproprié ne doit être affiché
-    And la navigation externe doit être bloquée
+  Scenario Outline: Protection et sécurité des enfants
+    Given "<contexte_protection>"
+    When "<action_enfant>"
+    Then "<mesure_protection>"
+    And l'enfant doit être protégé
+
+    Examples:
+      | contexte_protection           | action_enfant                  | mesure_protection                                |
+      | un enfant utilise l'application | il interagit avec les modules | aucune donnée personnelle ne doit être collectée |
+      | du contenu externe existe     | il navigue dans l'app         | la navigation externe doit être bloquée         |
+      | des liens sortants apparaissent | il clique accidentellement   | les liens doivent être sécurisés                |
 
   @parental-control @supervision
-  Scenario: Contrôles parentaux
-    Given les parents veulent superviser l'apprentissage
+  Scenario Outline: Contrôles parentaux et supervision
+    Given les parents veulent "<type_controle>"
     When ils accèdent aux paramètres
-    Then ils doivent pouvoir voir la progression de l'enfant
-    And ils doivent pouvoir limiter le temps d'utilisation
-    And ils doivent recevoir des rapports d'activité
+    Then ils doivent pouvoir "<action_parentale>"
+    And recevoir "<information_parentale>"
+
+    Examples:
+      | type_controle           | action_parentale                      | information_parentale        |
+      | superviser l'apprentissage | voir la progression de l'enfant    | des rapports détaillés      |
+      | limiter le temps          | configurer des limites d'utilisation | des notifications de temps  |
+      | suivre l'activité         | consulter l'historique d'usage      | des statistiques d'activité |
+      | bloquer certains contenus | définir des restrictions            | des confirmations de sécurité |

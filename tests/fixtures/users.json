@@ -1,0 +1,79 @@
+// =============================================
+// 📄 tests/fixtures/users.json
+// =============================================
+{
+  "users": [
+    {
+      "id": "user-001",
+      "username": "testuser",
+      "email": "test@example.com",
+      "password": "Test123!",
+      "role": "user",
+      "profile": {
+        "firstName": "Test",
+        "lastName": "User",
+        "age": 25,
+        "preferences": {
+          "language": "fr",
+          "currency": "EUR",
+          "timezone": "Europe/Paris"
+        }
+      },
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "admin-001",
+      "username": "admin",
+      "email": "admin@example.com",
+      "password": "Admin123!",
+      "role": "admin",
+      "profile": {
+        "firstName": "Admin",
+        "lastName": "User",
+        "age": 35,
+        "preferences": {
+          "language": "fr",
+          "currency": "EUR",
+          "timezone": "Europe/Paris"
+        }
+      },
+      "createdAt": "2024-01-01T00:00:00Z"
+    },
+    {
+      "id": "child-001",
+      "username": "enfant",
+      "email": "parent@example.com",
+      "password": "Parent123!",
+      "role": "child",
+      "profile": {
+        "firstName": "Enfant",
+        "lastName": "Test",
+        "age": 8,
+        "parentalControls": {
+          "timeLimit": 60,
+          "allowedModules": ["Mon Premier Chatbot"],
+          "supervisorEmail": "parent@example.com"
+        },
+        "preferences": {
+          "language": "fr",
+          "difficulty": "beginner"
+        }
+      },
+      "createdAt": "2024-01-01T00:00:00Z"
+    }
+  ],
+  "roles": {
+    "user": {
+      "permissions": ["read", "write", "execute"],
+      "restrictions": []
+    },
+    "admin": {
+      "permissions": ["read", "write", "execute", "admin"],
+      "restrictions": []
+    },
+    "child": {
+      "permissions": ["read"],
+      "restrictions": ["no_external_links", "time_limited", "content_filtered"]
+    }
+  }
+}

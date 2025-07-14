@@ -1,0 +1,198 @@
+// =============================================
+// 📄 tests/fixtures/conversion-data.json
+// =============================================
+{
+  "categories": [
+    {
+      "id": "temperature",
+      "name": "Température",
+      "icon": "🌡️",
+      "units": [
+        {
+          "id": "celsius",
+          "name": "Celsius",
+          "symbol": "°C",
+          "isBase": true
+        },
+        {
+          "id": "fahrenheit", 
+          "name": "Fahrenheit",
+          "symbol": "°F",
+          "isBase": false,
+          "formula": "C * 9/5 + 32"
+        },
+        {
+          "id": "kelvin",
+          "name": "Kelvin", 
+          "symbol": "K",
+          "isBase": false,
+          "formula": "C + 273.15"
+        }
+      ]
+    },
+    {
+      "id": "length",
+      "name": "Longueur",
+      "icon": "📏",
+      "units": [
+        {
+          "id": "meters",
+          "name": "Mètres",
+          "symbol": "m",
+          "isBase": true
+        },
+        {
+          "id": "kilometers",
+          "name": "Kilomètres",
+          "symbol": "km",
+          "isBase": false,
+          "factor": 0.001
+        },
+        {
+          "id": "centimeters",
+          "name": "Centimètres",
+          "symbol": "cm",
+          "isBase": false,
+          "factor": 100
+        },
+        {
+          "id": "feet",
+          "name": "Pieds",
+          "symbol": "ft",
+          "isBase": false,
+          "factor": 3.28084
+        }
+      ]
+    },
+    {
+      "id": "weight",
+      "name": "Poids",
+      "icon": "⚖️",
+      "units": [
+        {
+          "id": "kilograms",
+          "name": "Kilogrammes",
+          "symbol": "kg",
+          "isBase": true
+        },
+        {
+          "id": "grams",
+          "name": "Grammes", 
+          "symbol": "g",
+          "isBase": false,
+          "factor": 1000
+        },
+        {
+          "id": "pounds",
+          "name": "Livres",
+          "symbol": "lb",
+          "isBase": false,
+          "factor": 2.20462
+        },
+        {
+          "id": "ounces",
+          "name": "Onces",
+          "symbol": "oz",
+          "isBase": false,
+          "factor": 35.274
+        }
+      ]
+    },
+    {
+      "id": "volume",
+      "name": "Volume",
+      "icon": "🥤",
+      "units": [
+        {
+          "id": "liters",
+          "name": "Litres",
+          "symbol": "L",
+          "isBase": true
+        },
+        {
+          "id": "milliliters",
+          "name": "Millilitres",
+          "symbol": "mL",
+          "isBase": false,
+          "factor": 1000
+        },
+        {
+          "id": "gallons",
+          "name": "Gallons US",
+          "symbol": "gal",
+          "isBase": false,
+          "factor": 0.264172
+        },
+        {
+          "id": "cups",
+          "name": "Tasses",
+          "symbol": "cup",
+          "isBase": false,
+          "factor": 4.22675
+        }
+      ]
+    }
+  ],
+  "commonConversions": [
+    {
+      "category": "temperature",
+      "conversions": [
+        { "from": { "value": 0, "unit": "celsius" }, "to": { "value": 32, "unit": "fahrenheit" } },
+        { "from": { "value": 100, "unit": "celsius" }, "to": { "value": 212, "unit": "fahrenheit" } },
+        { "from": { "value": -40, "unit": "celsius" }, "to": { "value": -40, "unit": "fahrenheit" } },
+        { "from": { "value": 37, "unit": "celsius" }, "to": { "value": 98.6, "unit": "fahrenheit" } }
+      ]
+    },
+    {
+      "category": "length", 
+      "conversions": [
+        { "from": { "value": 1, "unit": "meters" }, "to": { "value": 0.001, "unit": "kilometers" } },
+        { "from": { "value": 1000, "unit": "meters" }, "to": { "value": 1, "unit": "kilometers" } },
+        { "from": { "value": 1, "unit": "meters" }, "to": { "value": 100, "unit": "centimeters" } },
+        { "from": { "value": 1, "unit": "meters" }, "to": { "value": 3.28084, "unit": "feet" } }
+      ]
+    }
+  ],
+  "validationRules": {
+    "temperature": {
+      "min": -273.15,
+      "max": 10000,
+      "precision": 5
+    },
+    "length": {
+      "min": 0,
+      "max": 1000000,
+      "precision": 6
+    },
+    "weight": {
+      "min": 0,
+      "max": 100000,
+      "precision": 4
+    },
+    "volume": {
+      "min": 0,
+      "max": 100000,
+      "precision": 4
+    }
+  },
+  "testCases": [
+    {
+      "category": "temperature",
+      "input": { "value": 25, "unit": "celsius" },
+      "expected": { "value": 77, "unit": "fahrenheit" },
+      "tolerance": 0.1
+    },
+    {
+      "category": "length",
+      "input": { "value": 5, "unit": "kilometers" },
+      "expected": { "value": 5000, "unit": "meters" },
+      "tolerance": 0.001
+    },
+    {
+      "category": "weight",
+      "input": { "value": 1, "unit": "kilograms" },
+      "expected": { "value": 2.20462, "unit": "pounds" },
+      "tolerance": 0.00001
+    }
+  ]
+}
