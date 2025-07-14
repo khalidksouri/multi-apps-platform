@@ -1,369 +1,158 @@
+
 {
-  "name": "multi-app-testing-suite",
+  "name": "@multiapps/shared",
   "version": "1.0.0",
-  "description": "🚀 Suite de tests BDD complète pour workspace monorepo avec 5 applications Next.js et tests Playwright/Cucumber avancés",
   "main": "dist/index.js",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
+  "types": "dist/index.d.ts",
   "scripts": {
-    "___COMMENT_SETUP___": "=== Scripts de configuration et installation ===",
-    "setup": "npm install && npm run build:packages && npx playwright install && npm run typecheck",
-    "setup:full": "npm run clean && npm run setup && npm run test:smoke",
-    "setup:workspace": "npm install --workspaces && npm run build:packages",
-    "setup:ci": "npm ci && npm run build:packages && npx playwright install --with-deps",
-    "postinstall": "npx playwright install",
-    
-    "___COMMENT_BUILD___": "=== Scripts de build ===",
-    "build": "npm run build:packages && npm run build:apps",
-    "build:packages": "npm run build --workspace=@multiapps/shared && npm run build --workspace=@multiapps/ui",
-    "build:apps": "npm run build:ai4kids && npm run build:multiai && npm run build:budgetcron && npm run build:unitflip && npm run build:postmath",
-    "build:ai4kids": "npm run build --workspace=ai4kids-app",
-    "build:multiai": "npm run build --workspace=multiai-app", 
-    "build:budgetcron": "npm run build --workspace=budgetcron-app",
-    "build:unitflip": "npm run build --workspace=unitflip-app",
-    "build:postmath": "npm run build --workspace=postmath-app",
-    "build:watch": "npm run build:packages -- --watch",
-    
-    "___COMMENT_DEV___": "=== Scripts de développement ===",
-    "dev": "npm run dev:all",
-    "dev:all": "concurrently --kill-others --names \"ai4kids,multiai,budgetcron,unitflip,postmath\" --prefix-colors \"cyan,magenta,yellow,green,blue\" \"npm run dev:ai4kids\" \"npm run dev:multiai\" \"npm run dev:budgetcron\" \"npm run dev:unitflip\" \"npm run dev:postmath\"",
-    "dev:ai4kids": "npm run dev --workspace=ai4kids-app",
-    "dev:multiai": "npm run dev --workspace=multiai-app",
-    "dev:budgetcron": "npm run dev --workspace=budgetcron-app",
-    "dev:unitflip": "npm run dev --workspace=unitflip-app",
-    "dev:postmath": "npm run dev --workspace=postmath-app",
-    
-    "___COMMENT_TESTS_CORE___": "=== Tests principaux ===",
-    "test": "cucumber-js --profile default",
-    "test:all": "cucumber-js --profile all",
-    "test:smoke": "cucumber-js --profile smoke",
-    "test:regression": "cucumber-js --profile regression",
-    "test:nightly": "cucumber-js --profile nightly",
-    "test:debug": "cucumber-js --profile debug",
-    "test:fast": "cucumber-js --profile fast",
-    "test:parallel": "cucumber-js --parallel 4 --tags 'not @sequential'",
-    "test:sequential": "cucumber-js --profile sequential",
-    
-    "___COMMENT_TESTS_APPS___": "=== Tests par application ===",
-    "test:ai4kids": "cucumber-js --profile ai4kids",
-    "test:ai4kids:smoke": "cucumber-js --tags '@ai4kids and @smoke'",
-    "test:ai4kids:full": "cucumber-js --tags '@ai4kids'",
-    "test:multiai": "cucumber-js --profile multiai",
-    "test:multiai:smoke": "cucumber-js --tags '@multiai and @smoke'",
-    "test:multiai:full": "cucumber-js --tags '@multiai'",
-    "test:budgetcron": "cucumber-js --profile budgetcron",
-    "test:budgetcron:smoke": "cucumber-js --tags '@budgetcron and @smoke'",
-    "test:budgetcron:full": "cucumber-js --tags '@budgetcron'",
-    "test:unitflip": "cucumber-js --profile unitflip",
-    "test:unitflip:smoke": "cucumber-js --tags '@unitflip and @smoke'",
-    "test:unitflip:full": "cucumber-js --tags '@unitflip'",
-    "test:postmath": "cucumber-js --profile postmath",
-    "test:postmath:smoke": "cucumber-js --tags '@postmath and @smoke'",
-    "test:postmath:full": "cucumber-js --tags '@postmath'",
-    
-    "___COMMENT_TESTS_TYPES___": "=== Tests par type ===",
-    "test:positive": "cucumber-js --profile positive",
-    "test:negative": "cucumber-js --profile negative",
-    "test:edge-case": "cucumber-js --profile edge-case",
-    "test:twisted-case": "cucumber-js --profile twisted-case",
-    "test:boundary": "cucumber-js --tags '@boundary'",
-    "test:validation": "cucumber-js --tags '@validation'",
-    
-    "___COMMENT_TESTS_SPECIALIZED___": "=== Tests spécialisés ===",
-    "test:performance": "cucumber-js --profile performance",
-    "test:perf": "npm run test:performance",
-    "test:accessibility": "cucumber-js --profile accessibility",
-    "test:a11y": "npm run test:accessibility",
-    "test:security": "cucumber-js --profile security",
-    "test:sec": "npm run test:security",
-    "test:mobile": "cucumber-js --profile mobile",
-    "test:tablet": "cucumber-js --profile tablet",
-    "test:responsive": "cucumber-js --tags '@mobile or @responsive'",
-    "test:cross-browser": "cucumber-js --tags '@cross-browser'",
-    
-    "___COMMENT_TESTS_ENV___": "=== Tests par environnement ===",
-    "test:dev": "NODE_ENV=development cucumber-js --profile dev",
-    "test:staging": "NODE_ENV=staging cucumber-js --profile staging",
-    "test:prod": "NODE_ENV=production cucumber-js --profile prod",
-    "test:local": "npm run test:dev",
-    
-    "___COMMENT_TESTS_CI___": "=== Tests CI/CD ===",
-    "test:ci": "npm run test:smoke && npm run test:regression",
-    "test:ci:full": "npm run test:all",
-    "test:pre-commit": "npm run typecheck && npm run lint:check && npm run test:smoke",
-    "test:pre-push": "npm run test:regression",
-    "test:pipeline": "npm run build && npm run test:ci",
-    
-    "___COMMENT_PLAYWRIGHT___": "=== Tests Playwright directs ===",
-    "test:playwright": "playwright test",
-    "test:playwright:headed": "playwright test --headed",
-    "test:playwright:debug": "playwright test --debug",
-    "test:playwright:ui": "playwright test --ui",
-    "test:playwright:chrome": "playwright test --project=chromium-desktop",
-    "test:playwright:firefox": "playwright test --project=firefox-desktop",
-    "test:playwright:safari": "playwright test --project=webkit-desktop",
-    "test:playwright:mobile": "playwright test --project=mobile-chrome",
-    
-    "___COMMENT_REPORTS___": "=== Rapports et analyse ===",
-    "report:open": "npx playwright show-report reports/playwright-report",
-    "report:cucumber": "open reports/cucumber-report.html || start reports/cucumber-report.html",
-    "report:generate": "node scripts/generate-test-report.js",
-    "report:coverage": "nyc report --reporter=html --reporter=text",
-    "report:merge": "node scripts/merge-reports.js",
-    "report:clean": "rimraf reports test-results playwright-report",
-    "report:upload": "node scripts/upload-reports.js",
-    
-    "___COMMENT_QUALITY___": "=== Qualité du code ===",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings 0",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
-    "lint:check": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings 0",
-    "lint:workspace": "npm run lint --workspaces",
-    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css,scss}\"",
-    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,md,yml,yaml,css,scss}\"",
-    "typecheck": "tsc --noEmit && npm run typecheck:workspace",
-    "typecheck:workspace": "npm run typecheck --workspaces --if-present",
-    
-    "___COMMENT_DATA___": "=== Gestion des données de test ===",
-    "data:setup": "node scripts/setup-test-data.js",
-    "data:cleanup": "node scripts/cleanup-test-data.js",
-    "data:reset": "npm run data:cleanup && npm run data:setup",
-    "data:validate": "node scripts/validate-test-data.js",
-    "data:fixtures": "node scripts/generate-fixtures.js",
-    "data:mock": "node scripts/setup-mock-data.js",
-    
-    "___COMMENT_MAINTENANCE___": "=== Maintenance ===",
-    "clean": "npm run clean:build && npm run clean:reports && npm run clean:cache",
-    "clean:build": "rimraf dist build .next out apps/*/dist apps/*/.next apps/*/out packages/*/dist",
-    "clean:reports": "rimraf reports test-results playwright-report coverage",
-    "clean:cache": "rimraf node_modules/.cache .eslintcache .tsbuildinfo apps/*/.tsbuildinfo packages/*/.tsbuildinfo",
-    "clean:deps": "rimraf node_modules package-lock.json apps/*/node_modules apps/*/package-lock.json packages/*/node_modules packages/*/package-lock.json",
-    "clean:all": "npm run clean:deps && npm run clean",
-    
-    "___COMMENT_DEPS___": "=== Gestion des dépendances ===",
-    "deps:update": "npm update && npm update --workspaces",
-    "deps:check": "npm outdated && npm outdated --workspaces",
-    "deps:audit": "npm audit && npm audit --workspaces",
-    "deps:audit:fix": "npm audit fix && npm audit fix --workspaces",
-    "deps:dedupe": "npm dedupe && npm dedupe --workspaces",
-    
-    "___COMMENT_HEALTH___": "=== Santé du projet ===",
-    "health:check": "node scripts/health-check.js",
-    "health:apps": "node scripts/check-apps-health.js",
-    "health:workspace": "node scripts/workspace-health.js",
-    "health:full": "npm run health:workspace && npm run health:apps && npm run test:smoke",
-    
-    "___COMMENT_DOCKER___": "=== Docker (si applicable) ===",
-    "docker:build": "docker build -t multi-app-testing-suite .",
-    "docker:run": "docker run -p 3000-3010:3000-3010 multi-app-testing-suite",
-    "docker:test": "docker run --rm multi-app-testing-suite npm run test:ci",
-    
-    "___COMMENT_SCRIPTS___": "=== Scripts utilitaires ===",
-    "script:generate-component": "node scripts/generate-component.js",
-    "script:generate-test": "node scripts/generate-test-file.js",
-    "script:workspace-info": "node scripts/workspace-info.js",
-    "script:performance-analysis": "node scripts/analyze-performance.js",
-    
-    "___COMMENT_HOOKS___": "=== Git hooks ===",
-    "prepare": "husky install",
-    "pre-commit": "lint-staged && npm run test:pre-commit",
-    "commit-msg": "commitlint --edit $1",
-    "pre-push": "npm run test:pre-push"
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit"
   },
-  
-  "keywords": [
-    "testing",
-    "bdd", 
-    "cucumber",
-    "playwright",
-    "typescript",
-    "automation",
-    "e2e",
-    "multi-app",
-    "workspace",
-    "monorepo",
-    "nextjs",
-    "gherkin",
-    "quality-assurance",
-    "test-automation",
-    "web-testing",
-    "frontend-testing",
-    "accessibility-testing",
-    "performance-testing",
-    "cross-browser-testing",
-    "ci-cd"
-  ],
-  
-  "author": {
-    "name": "Khalid Ksouri",
-    "email": "khalid_ksouri@yahoo.fr",
-    "url": "https://github.com/khalidksouri"
-  },
-  
-  "license": "MIT",
-  
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
-  },
-  
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/khalidksouri/multi-app-testing-suite.git"
-  },
-  
-  "bugs": {
-    "url": "https://github.com/khalidksouri/multi-app-testing-suite/issues"
-  },
-  
-  "homepage": "https://github.com/khalidksouri/multi-app-testing-suite#readme",
-  
   "dependencies": {
     "date-fns": "^2.30.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "zod": "^3.22.0"
   },
-  
   "devDependencies": {
-    "@cucumber/cucumber": "^10.9.0",
-    "@playwright/test": "^1.54.1",
-    "playwright": "^1.54.1",
-    
-    "typescript": "^5.8.3",
-    "ts-node": "^10.9.2",
-    "@types/node": "^20.8.0",
-    "@types/lodash": "^4.14.200",
-    
-    "concurrently": "^8.2.2",
-    "cross-env": "^7.0.3",
-    "rimraf": "^5.0.5",
-    "wait-on": "^7.0.1",
-    
-    "eslint": "^8.52.0",
-    "@typescript-eslint/eslint-plugin": "^6.9.0",
-    "@typescript-eslint/parser": "^6.9.0",
-    "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-cucumber": "^2.0.0",
-    "eslint-plugin-playwright": "^0.18.0",
-    
-    "prettier": "^3.0.3",
-    
-    "husky": "^8.0.3",
-    "lint-staged": "^15.0.2",
-    "@commitlint/cli": "^18.0.0",
-    "@commitlint/config-conventional": "^18.0.0",
-    
-    "nyc": "^15.1.0",
-    "c8": "^8.0.1",
-    
-    "chalk": "^4.1.2",
-    "ora": "^5.4.1",
-    "inquirer": "^8.2.6"
+    "typescript": "^5.0.0",
+    "@types/lodash": "^4.14.200"
   },
-  
-  "optionalDependencies": {
-    "playwright-core": "^1.54.1"
-  },
-  
   "peerDependencies": {
-    "typescript": ">=5.0.0"
-  },
-  
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx}": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.{json,md,yml,yaml,css,scss}": [
-      "prettier --write"
-    ],
-    "*.feature": [
-      "prettier --write --parser yaml"
-    ]
-  },
-  
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged && npm run test:pre-commit",
-      "pre-push": "npm run test:pre-push",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
-  },
-  
-  "nyc": {
-    "extends": "@istanbuljs/nyc-config-typescript",
-    "check-coverage": false,
-    "all": true,
-    "include": [
-      "apps/**/*.ts",
-      "apps/**/*.tsx",
-      "packages/**/*.ts", 
-      "packages/**/*.tsx",
-      "tests/**/*.ts"
-    ],
-    "exclude": [
-      "**/*.d.ts",
-      "**/*.config.ts",
-      "**/*.config.js",
-      "**/dist/**",
-      "**/.next/**",
-      "**/coverage/**",
-      "**/reports/**",
-      "**/node_modules/**",
-      "**/test-results/**",
-      "**/playwright-report/**"
-    ],
-    "reporter": [
-      "html",
-      "lcov",
-      "text",
-      "text-summary",
-      "json"
-    ],
-    "report-dir": "coverage"
-  },
-  
-  "browserslist": [
-    "defaults",
-    "not IE 11",
-    "not op_mini all",
-    "last 2 Chrome versions",
-    "last 2 Firefox versions",
-    "last 2 Safari versions",
-    "last 2 Edge versions"
-  ],
-  
-  "volta": {
-    "node": "18.18.0",
-    "npm": "9.8.1"
-  },
-  
-  "directories": {
-    "doc": "docs",
-    "test": "tests",
-    "lib": "packages"
-  },
-  
-  "config": {
-    "workspaces": {
-      "apps": [
-        "ai4kids-app",
-        "multiai-app", 
-        "budgetcron-app",
-        "unitflip-app",
-        "postmath-app"
-      ],
-      "packages": [
-        "@multiapps/shared",
-        "@multiapps/ui"
-      ]
-    },
-    "testing": {
-      "defaultBrowser": "chromium",
-      "defaultTimeout": 30000,
-      "parallelWorkers": 4,
-      "retryCount": 2
-    }
+    "react": "^18.0.0"
   }
+}
+
+// =============================================
+// 📄 packages/shared/src/index.ts - Corrigé
+// =============================================
+// Types de base
+export interface APIResponse<T = any> {
+  success: boolean;
+  data?: T;
+  error?: {
+    code: string;
+    message: string;
+    details?: any;
+  };
+  meta?: {
+    page?: number;
+    limit?: number;
+    total?: number;
+    timestamp?: string;
+  };
+}
+
+// Types pour le shipping
+export interface Carrier {
+  id: string;
+  name: string;
+  price: number;
+  deliveryTime: string;
+  reliability: number;
+  tracking: boolean;
+}
+
+export interface ShippingCalculation {
+  id: string;
+  departure: string;
+  destination: string;
+  weight: number;
+  dimensions: string;
+  carriers: Carrier[];
+  createdAt: Date;
+}
+
+// Types pour la conversion d'unités
+export interface ConversionResult {
+  value: number;
+  unit: string;
+  explanation: string;
+}
+
+export interface UnitCategory {
+  id: string;
+  name: string;
+  units: UnitDefinition[];
+}
+
+export interface UnitDefinition {
+  id: string;
+  name: string;
+  symbol: string;
+  toBase: (value: number) => number;
+  fromBase: (value: number) => number;
+}
+
+// Types pour le budget
+export interface BudgetCategory {
+  id: string;
+  name: string;
+  budget: number;
+  spent: number;
+  color: string;
+}
+
+export interface BudgetInsight {
+  id: number;
+  type: 'savings_opportunity' | 'budget_alert' | 'spending_pattern';
+  title: string;
+  description: string;
+  confidence: number;
+  color: string;
+}
+
+export interface BankAccount {
+  id: string;
+  name: string;
+  type: string;
+  balance: number;
+  status: 'active' | 'error' | 'pending';
+  lastSync: Date;
+}
+
+// Fonctions utilitaires
+export function formatCurrency(amount: number, currency: string = 'EUR'): string {
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency
+  }).format(amount);
+}
+
+export function validateEmail(email: string): boolean {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+export function formatDate(date: Date): string {
+  return date.toLocaleDateString('fr-FR');
+}
+
+// Constantes
+export const APP_URLS = {
+  AI4KIDS: process.env.AI4KIDS_URL || 'http://localhost:3004',
+  MULTIAI: process.env.MULTIAI_URL || 'http://localhost:3005',
+  BUDGETCRON: process.env.BUDGETCRON_URL || 'http://localhost:3003',
+  UNITFLIP: process.env.UNITFLIP_URL || 'http://localhost:3002',
+  POSTMATH: process.env.POSTMATH_URL || 'http://localhost:3001'
+} as const;
+
+// =============================================
+// 📄 packages/shared/tsconfig.json - Corrigé
+// =============================================
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

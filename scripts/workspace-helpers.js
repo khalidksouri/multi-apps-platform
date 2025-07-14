@@ -1,100 +1,204 @@
-# =============================================
-# 📄 scripts/workspace-helpers.js - Nouveau fichier
-# =============================================
+// =============================================
+// 📄 scripts/workspace-helpers.js - Corrigé
+// =============================================
 
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-class WorkspaceManager {
-  constructor() {
-    this.workspaceRoot = process.cwd();
-    this.appsPath = path.join(this.workspaceRoot, 'apps');
-    this.packagesPath = path.join(this.workspaceRoot, 'packages');
-  }
-
-  // Obtenir toutes les applications
-  getApps() {
-    return fs.readdirSync(this.appsPath)
-      .filter(name => fs.statSync(path.join(this.appsPath, name)).isDirectory())
-      .map(name => ({
-        name,
-        path: path.join(this.appsPath, name),
-        packageJson: path.join(this.appsPath, name, 'package.json'),
-        port: this.getAppPort(name)
-      }));
-  }
-
-  // Obtenir le port d'une application
-  getAppPort(appName) {
-    const portMap = {
-      'postmath': 3001,
-      'unitflip': 3002,
-      'budgetcron': 3003,
-      'ai4kids': 3004,
-      'multiai': 3005
-    };
-    return portMap[appName] || 3000;
-  }
-
-  // Démarrer une application
-  startApp(appName) {
-    const app = this.getApps().find(a => a.name === appName);
-    if (!app) throw new Error(`App ${appName} not found`);
-    
-    console.log(`Starting ${appName} on port ${app.port}...`);
-    execSync('npm run dev', { cwd: app.path, stdio: 'inherit' });
-  }
-
-  // Démarrer toutes les applications
-  startAllApps() {
-    const apps = this.getApps();
-    console.log(`Starting ${apps.length} applications...`);
-    
-    const commands = apps.map(app => `cd ${app.path} && npm run dev`);
-    execSync(`concurrently --kill-others "${commands.join('" "')}"`, { 
-      stdio: 'inherit' 
-    });
-  }
-
-  // Builder une application
-  buildApp(appName) {
-    const app = this.getApps().find(a => a.name === appName);
-    if (!app) throw new Error(`App ${appName} not found`);
-    
-    console.log(`Building ${appName}...`);
-    execSync('npm run build', { cwd: app.path, stdio: 'inherit' });
-  }
-
-  // Builder toutes les applications
-  buildAllApps() {
-    // D'abord builder les packages
-    console.log('Building shared packages...');
-    execSync('npm run build:packages', { stdio: 'inherit' });
-    
-    // Ensuite builder les apps
-    const apps = this.getApps();
-    for (const app of apps) {
-      this.buildApp(app.name);
+/**
+ * Récupère la liste des applications dans le workspace
+ */
+function getWorkspaceApps() {
+  try {
+    const appsDir = path.join(__dirname, '../apps');
+    if (!fs.existsSync(appsDir)) {
+      return [];
     }
-  }
-
-  // Vérifier le statut des applications
-  checkAppsStatus() {
-    const apps = this.getApps();
-    console.log('Checking applications status...');
     
-    for (const app of apps) {
-      try {
-        execSync(`curl -f http://localhost:${app.port}/api/health`, { 
-          stdio: 'pipe' 
-        });
-        console.log(`✅ ${app.name} (port ${app.port}) - OK`);
-      } catch (error) {
-        console.log(`❌ ${app.name} (port ${app.port}) - Not responding`);
-      }
-    }
+    return fs.readdirSync(appsDir, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des apps:', error);
+    return [];
   }
 }
 
-module.exports = { WorkspaceManager };
+/**
+ * Récupère la liste des packages dans le workspace
+ */
+function getWorkspacePackages() {
+  try {
+    const packagesDir = path.join(__dirname, '../packages');
+    if (!fs.existsSync(packagesDir)) {
+      return [];
+    }
+    
+    return fs.readdirSync(packagesDir, { withFileTypes: true })
+      .filter(dirent => dirent.isDirectory())
+      .map(dirent => dirent.name);
+  } catch (error) {
+    console.error('Erreur lors de la récupération des packages:', error);
+    return [];
+  }
+}
+
+/**
+ * Vérifie si une application est démarrée
+ */
+function isAppRunning(port) {
+  try {
+    execSync(`lsof -i :${port}`, { stdio: 'ignore' });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Vérifie l'état de santé d'une application
+ */
+async function checkAppHealth(url) {
+  try {
+    const response = await fetch(`${url}/api/health`);
+    return response.ok;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Construit le projet workspace
+ */
+function buildWorkspace() {
+  console.log('🏗️ Construction du workspace...');
+  
+  try {
+    // Construire les packages partagés
+    console.log('📦 Construction des packages...');
+    execSync('npm run build:packages', { stdio: 'inherit' });
+    
+    // Construire les applications
+    console.log('🚀 Construction des applications...');
+    execSync('npm run build:apps', { stdio: 'inherit' });
+    
+    console.log('✅ Construction terminée avec succès');
+    return true;
+  } catch (error) {
+    console.error('❌ Erreur lors de la construction:', error.message);
+    return false;
+  }
+}
+
+/**
+ * Démarre toutes les applications
+ */
+function startAllApps() {
+  console.log('🚀 Démarrage de toutes les applications...');
+  
+  try {
+    execSync('npm run dev:all', { stdio: 'inherit' });
+  } catch (error) {
+    console.error('❌ Erreur lors du démarrage:', error.message);
+  }
+}
+
+/**
+ * Teste la connectivité des applications
+ */
+async function testAppsConnectivity() {
+  const apps = [
+    { name: 'ai4kids', port: 3004, url: 'http://localhost:3004' },
+    { name: 'multiai', port: 3005, url: 'http://localhost:3005' },
+    { name: 'budgetcron', port: 3003, url: 'http://localhost:3003' },
+    { name: 'unitflip', port: 3002, url: 'http://localhost:3002' },
+    { name: 'postmath', port: 3001, url: 'http://localhost:3001' }
+  ];
+
+  console.log('🔍 Test de connectivité des applications...');
+  
+  const results = [];
+  
+  for (const app of apps) {
+    const isRunning = isAppRunning(app.port);
+    const isHealthy = isRunning ? await checkAppHealth(app.url) : false;
+    
+    results.push({
+      name: app.name,
+      port: app.port,
+      url: app.url,
+      running: isRunning,
+      healthy: isHealthy,
+      status: isHealthy ? '✅' : isRunning ? '⚠️' : '❌'
+    });
+    
+    console.log(`${results[results.length - 1].status} ${app.name} (port ${app.port})`);
+  }
+  
+  return results;
+}
+
+/**
+ * Nettoie le workspace
+ */
+function cleanWorkspace() {
+  console.log('🧹 Nettoyage du workspace...');
+  
+  try {
+    execSync('npm run clean', { stdio: 'inherit' });
+    console.log('✅ Nettoyage terminé');
+    return true;
+  } catch (error) {
+    console.error('❌ Erreur lors du nettoyage:', error.message);
+    return false;
+  }
+}
+
+module.exports = {
+  getWorkspaceApps,
+  getWorkspacePackages,
+  isAppRunning,
+  checkAppHealth,
+  buildWorkspace,
+  startAllApps,
+  testAppsConnectivity,
+  cleanWorkspace
+};
+
+// Si le script est exécuté directement
+if (require.main === module) {
+  const command = process.argv[2];
+  
+  switch (command) {
+    case 'build':
+      buildWorkspace();
+      break;
+    case 'start':
+      startAllApps();
+      break;
+    case 'test':
+      testAppsConnectivity();
+      break;
+    case 'clean':
+      cleanWorkspace();
+      break;
+    case 'list':
+      console.log('Applications:', getWorkspaceApps());
+      console.log('Packages:', getWorkspacePackages());
+      break;
+    default:
+      console.log(`
+Utilisation: node workspace-helpers.js <command>
+
+Commandes disponibles:
+  build    - Construit tout le workspace
+  start    - Démarre toutes les applications
+  test     - Teste la connectivité des applications
+  clean    - Nettoie le workspace
+  list     - Liste les apps et packages
+
+Exemple: node workspace-helpers.js build
+      `);
+  }
+}

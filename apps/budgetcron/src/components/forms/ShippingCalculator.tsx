@@ -1,16 +1,44 @@
+// =============================================
+// 📄 apps/budgetcron/src/components/forms/ShippingCalculator.tsx - Corrigé
+// =============================================
 'use client';
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, Input, Card } from '@multiapps/ui';
-import { ShippingCalculation, APIResponse } from '@multiapps/shared';
-import { Package, MapPin, Weight, Ruler } from 'lucide-react';
 
 interface ShippingFormData {
   departure: string;
   destination: string;
   weight: number;
   dimensions: string;
+}
+
+interface Carrier {
+  id: string;
+  name: string;
+  price: number;
+  deliveryTime: string;
+  reliability: number;
+  tracking: boolean;
+}
+
+interface ShippingCalculation {
+  id: string;
+  departure: string;
+  destination: string;
+  weight: number;
+  dimensions: string;
+  carriers: Carrier[];
+  createdAt: Date;
+}
+
+interface APIResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: {
+    code: string;
+    message: string;
+  };
 }
 
 export function ShippingCalculator() {
@@ -56,70 +84,94 @@ export function ShippingCalculator() {
     <div className="space-y-6">
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Input
-            {...register('departure', { required: 'Ville de départ requise' })}
-            label="Ville de départ"
-            placeholder="Paris"
-            leftIcon={<MapPin className="w-4 h-4" />}
-            error={errors.departure?.message}
-            data-testid="departure-input"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Ville de départ
+            </label>
+            <input
+              {...register('departure', { required: 'Ville de départ requise' })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              placeholder="Paris"
+              data-testid="departure-input"
+            />
+            {errors.departure && (
+              <p className="text-red-600 text-sm mt-1">{errors.departure.message}</p>
+            )}
+          </div>
           
-          <Input
-            {...register('destination', { required: 'Ville de destination requise' })}
-            label="Ville de destination"
-            placeholder="Lyon"
-            leftIcon={<MapPin className="w-4 h-4" />}
-            error={errors.destination?.message}
-            data-testid="destination-input"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Ville de destination
+            </label>
+            <input
+              {...register('destination', { required: 'Ville de destination requise' })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              placeholder="Lyon"
+              data-testid="destination-input"
+            />
+            {errors.destination && (
+              <p className="text-red-600 text-sm mt-1">{errors.destination.message}</p>
+            )}
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <Input
-            {...register('weight', { 
-              required: 'Poids requis',
-              min: { value: 0.1, message: 'Poids minimum 0.1kg' },
-              max: { value: 30, message: 'Poids maximum 30kg' }
-            })}
-            type="number"
-            step="0.1"
-            label="Poids (kg)"
-            placeholder="2.5"
-            leftIcon={<Weight className="w-4 h-4" />}
-            error={errors.weight?.message}
-            data-testid="weight-input"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Poids (kg)
+            </label>
+            <input
+              {...register('weight', { 
+                required: 'Poids requis',
+                min: { value: 0.1, message: 'Poids minimum 0.1kg' },
+                max: { value: 30, message: 'Poids maximum 30kg' }
+              })}
+              type="number"
+              step="0.1"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              placeholder="2.5"
+              data-testid="weight-input"
+            />
+            {errors.weight && (
+              <p className="text-red-600 text-sm mt-1">{errors.weight.message}</p>
+            )}
+          </div>
           
-          <Input
-            {...register('dimensions', { 
-              required: 'Dimensions requises',
-              pattern: {
-                value: /^\d+x\d+x\d+$/,
-                message: 'Format: LxlxH (ex: 30x20x15)'
-              }
-            })}
-            label="Dimensions (cm)"
-            placeholder="30x20x15"
-            leftIcon={<Ruler className="w-4 h-4" />}
-            error={errors.dimensions?.message}
-            data-testid="dimensions-input"
-          />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Dimensions (cm)
+            </label>
+            <input
+              {...register('dimensions', { 
+                required: 'Dimensions requises',
+                pattern: {
+                  value: /^\d+x\d+x\d+$/,
+                  message: 'Format: LxlxH (ex: 30x20x15)'
+                }
+              })}
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+              placeholder="30x20x15"
+              data-testid="dimensions-input"
+            />
+            {errors.dimensions && (
+              <p className="text-red-600 text-sm mt-1">{errors.dimensions.message}</p>
+            )}
+          </div>
         </div>
 
         <div className="flex gap-4">
-          <Button
+          <button
             type="submit"
-            loading={loading}
-            icon={<Package className="w-4 h-4" />}
+            disabled={loading}
+            className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50"
             data-testid="calculate-button"
           >
             {loading ? 'Calcul en cours...' : 'Calculer les frais'}
-          </Button>
+          </button>
           
-          <Button
+          <button
             type="button"
-            variant="secondary"
+            className="bg-gray-200 text-gray-900 px-4 py-2 rounded-md hover:bg-gray-300"
             onClick={() => {
               reset();
               setResults(null);
@@ -127,7 +179,7 @@ export function ShippingCalculator() {
             }}
           >
             Réinitialiser
-          </Button>
+          </button>
         </div>
       </form>
 
@@ -143,7 +195,7 @@ export function ShippingCalculator() {
           
           <div className="grid gap-4">
             {results.carriers.map((carrier) => (
-              <Card key={carrier.id} className="p-4" data-testid={`carrier-${carrier.id}`}>
+              <div key={carrier.id} className="bg-white p-4 border border-gray-200 rounded-lg" data-testid={`carrier-${carrier.id}`}>
                 <div className="flex justify-between items-center">
                   <div>
                     <h4 className="font-medium" data-testid="carrier-name">{carrier.name}</h4>
@@ -176,7 +228,7 @@ export function ShippingCalculator() {
                     )}
                   </div>
                 </div>
-              </Card>
+              </div>
             ))}
           </div>
         </div>
