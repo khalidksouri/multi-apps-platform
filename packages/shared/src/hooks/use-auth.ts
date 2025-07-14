@@ -51,6 +51,12 @@ export interface RegisterData {
   acceptTerms: boolean;
 }
 
+export interface AuthResponse {
+  user: User;
+  token: string;
+  refreshToken?: string;
+}
+
 export interface AuthHookReturn {
   user: User | null;
   token: string | null;
@@ -167,7 +173,7 @@ export function useAuth(apiClient?: ApiClient): AuthHookReturn {
     setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
 
     try {
-      const response = await api.post('/auth/login', credentials);
+      const response = await api.post<AuthResponse>('/auth/login', credentials);
 
       if (response.success && response.data) {
         const { user, token, refreshToken } = response.data;
@@ -213,7 +219,7 @@ export function useAuth(apiClient?: ApiClient): AuthHookReturn {
     setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
 
     try {
-      const response = await api.post('/auth/register', data);
+      const response = await api.post<AuthResponse>('/auth/register', data);
 
       if (response.success && response.data) {
         const { user, token, refreshToken } = response.data;
@@ -291,7 +297,7 @@ export function useAuth(apiClient?: ApiClient): AuthHookReturn {
     }
 
     try {
-      const response = await api.post('/auth/refresh', {
+      const response = await api.post<AuthResponse>('/auth/refresh', {
         refreshToken: storedRefreshToken
       });
 
@@ -332,7 +338,7 @@ export function useAuth(apiClient?: ApiClient): AuthHookReturn {
     setAuthState(prev => ({ ...prev, isLoading: true, error: null }));
 
     try {
-      const response = await api.patch('/auth/profile', updates);
+      const response = await api.patch<Partial<User>>('/auth/profile', updates);
 
       if (response.success && response.data) {
         const updatedUser = { ...authState.user, ...response.data };
@@ -477,35 +483,6 @@ export function useRequirePermission(permission: string, redirectTo?: string): A
   }, [auth.isAuthenticated, auth.isLoading, permission, redirectTo]);
 
   return auth;
-}
-
-// =============================================
-// CONTEXT PROVIDER (OPTIONNEL)
-// =============================================
-
-import { createContext, useContext } from 'react';
-
-const AuthContext = createContext<AuthHookReturn | null>(null);
-
-export function AuthProvider({ children, apiClient }: { 
-  children: React.ReactNode;
-  apiClient?: ApiClient;
-}): JSX.Element {
-  const auth = useAuth(apiClient);
-
-  return (
-    <AuthContext.Provider value={auth}>
-      {children}
-    </AuthContext.Provider>
-  );
-}
-
-export function useAuthContext(): AuthHookReturn {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuthContext must be used within an AuthProvider');
-  }
-  return context;
 }
 
 // =============================================

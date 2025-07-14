@@ -2,9 +2,11 @@
 // CONFIGURATION INTERNATIONALISATION
 // =============================================
 
-import { LOCALES, type Locale } from '../constants/config';
+import { LOCALES } from '../constants/config';
 
 // ===== TYPES =====
+export type Locale = typeof LOCALES[keyof typeof LOCALES];
+
 export interface TranslationResource {
   [key: string]: string | TranslationResource;
 }

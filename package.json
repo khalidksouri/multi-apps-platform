@@ -1,17 +1,30 @@
 {
   "name": "multi-app-testing-suite",
   "version": "1.0.0",
-  "description": "Suite de tests BDD complète pour applications multiples avec Playwright et Cucumber",
-  "main": "dist/index.js",
+  "description": "🚀 Suite de tests BDD complète pour workspace monorepo avec 5 applications Next.js",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
   "scripts": {
     "___COMMENT_BUILD___": "=== Scripts de build et setup ===",
     "clean": "rimraf dist reports coverage test-results playwright-report",
     "clean:reports": "rimraf reports test-results playwright-report",
     "clean:deps": "rimraf node_modules package-lock.json",
-    "build": "tsc",
+    "build": "npm run build:packages && npm run build:apps",
     "build:watch": "tsc --watch",
     "typecheck": "tsc --noEmit",
     "postinstall": "playwright install",
+    
+    "___COMMENT_PACKAGES___": "=== Build des packages ===",
+    "build:packages": "npm run build --workspace=packages/shared && npm run build --workspace=packages/ui",
+    "build:apps": "concurrently \"npm run build:ai4kids\" \"npm run build:multiai\" \"npm run build:budgetcron\" \"npm run build:unitflip\" \"npm run build:postmath\"",
+    "build:ai4kids": "npm run build --workspace=ai4kids-app",
+    "build:multiai": "npm run build --workspace=multiai-app", 
+    "build:budgetcron": "npm run build --workspace=budgetcron-app",
+    "build:unitflip": "npm run build --workspace=unitflip-app",
+    "build:postmath": "npm run build --workspace=postmath-app",
     
     "___COMMENT_APPS___": "=== Démarrage des applications ===",
     "start:ai4kids": "cd apps/ai4kids && npm run dev",
@@ -22,16 +35,14 @@
     "start:all": "concurrently --kill-others \"npm run start:ai4kids\" \"npm run start:multiai\" \"npm run start:budgetcron\" \"npm run start:unitflip\" \"npm run start:postmath\"",
     "start:all-ci": "concurrently --kill-others --success first \"npm run start:ai4kids\" \"npm run start:multiai\" \"npm run start:budgetcron\" \"npm run start:unitflip\" \"npm run start:postmath\"",
     
-    "___COMMENT_WORKSPACE___": "=== Gestion du workspace ===",
-    "dev": "concurrently --kill-others \"npm run start:all\"",
-    "dev:ai4kids": "cd apps/ai4kids && npm run dev",
-    "dev:multiai": "cd apps/multiai && npm run dev", 
-    "dev:budgetcron": "cd apps/budgetcron && npm run dev",
-    "dev:unitflip": "cd apps/unitflip && npm run dev",
-    "dev:postmath": "cd apps/postmath && npm run dev",
-    "build:packages": "npm run build --workspace=packages/shared && npm run build --workspace=packages/ui",
-    "build:apps": "npm run build --workspace=apps/ai4kids && npm run build --workspace=apps/multiai && npm run build --workspace=apps/budgetcron && npm run build --workspace=apps/unitflip && npm run build --workspace=apps/postmath",
-    "build:all": "npm run build:packages && npm run build:apps",
+    "___COMMENT_DEV___": "=== Développement ===",
+    "dev": "npm run dev:all",
+    "dev:all": "concurrently --kill-others --names \"ai4kids,multiai,budgetcron,unitflip,postmath\" --prefix-colors \"cyan,magenta,yellow,green,blue\" \"npm run dev:ai4kids\" \"npm run dev:multiai\" \"npm run dev:budgetcron\" \"npm run dev:unitflip\" \"npm run dev:postmath\"",
+    "dev:ai4kids": "npm run dev --workspace=ai4kids-app",
+    "dev:multiai": "npm run dev --workspace=multiai-app",
+    "dev:budgetcron": "npm run dev --workspace=budgetcron-app",
+    "dev:unitflip": "npm run dev --workspace=unitflip-app",
+    "dev:postmath": "npm run dev --workspace=postmath-app",
     
     "___COMMENT_TESTS_BASE___": "=== Tests de base ===",
     "test": "cucumber-js",
@@ -136,18 +147,8 @@
     "maintenance:logs": "node scripts/cleanup-logs.js",
     "maintenance:cache": "node scripts/clear-cache.js",
     "maintenance:full": "npm run clean && npm run maintenance:logs && npm run maintenance:cache",
-    "maintenance:workspace": "npm run clean --workspaces",
-    
-    "___COMMENT_HOOKS___": "=== Git hooks ===",
-    "prepare": "husky install",
-    "pre-commit": "lint-staged",
-    "commit-msg": "commitlint --edit $1"
+    "maintenance:workspace": "npm run clean --workspaces"
   },
-  
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
   
   "keywords": [
     "testing",
@@ -165,8 +166,8 @@
   ],
   
   "author": {
-    "name": "Votre Nom",
-    "email": "votre.email@example.com"
+    "name": "Khalid Ksouri",
+    "email": "khalid_ksouri@yahoo.fr"
   },
   
   "license": "MIT",
@@ -178,14 +179,14 @@
   
   "repository": {
     "type": "git",
-    "url": "https://github.com/votre-username/multi-app-testing-suite.git"
+    "url": "https://github.com/khalidksouri/multi-app-testing-suite.git"
   },
   
   "bugs": {
-    "url": "https://github.com/votre-username/multi-app-testing-suite/issues"
+    "url": "https://github.com/khalidksouri/multi-app-testing-suite/issues"
   },
   
-  "homepage": "https://github.com/votre-username/multi-app-testing-suite#readme",
+  "homepage": "https://github.com/khalidksouri/multi-app-testing-suite#readme",
   
   "dependencies": {
     "dotenv": "^16.3.1",
@@ -304,90 +305,6 @@
   "directories": {
     "doc": "docs",
     "test": "tests"
-  }
-}
-{
-  "name": "multi-app-testing-suite",
-  "version": "1.0.0",
-  "description": "🚀 Suite de tests BDD complète pour workspace monorepo avec 5 applications Next.js",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "setup": "npm install && npm run build:packages && npx playwright install && npm run typecheck",
-    "setup:full": "npm run clean && npm run setup && npm run test:smoke",
-    "postinstall": "npx playwright install",
-    
-    "build": "npm run build:packages && npm run build:apps",
-    "build:packages": "npm run build --workspace=packages/shared && npm run build --workspace=packages/ui",
-    "build:apps": "concurrently \"npm run build:ai4kids\" \"npm run build:multiai\" \"npm run build:budgetcron\" \"npm run build:unitflip\" \"npm run build:postmath\"",
-    "build:ai4kids": "npm run build --workspace=ai4kids-app",
-    "build:multiai": "npm run build --workspace=multiai-app", 
-    "build:budgetcron": "npm run build --workspace=budgetcron-app",
-    "build:unitflip": "npm run build --workspace=unitflip-app",
-    "build:postmath": "npm run build --workspace=postmath-app",
-    
-    "dev": "npm run dev:all",
-    "dev:all": "concurrently --kill-others --names \"ai4kids,multiai,budgetcron,unitflip,postmath\" --prefix-colors \"cyan,magenta,yellow,green,blue\" \"npm run dev:ai4kids\" \"npm run dev:multiai\" \"npm run dev:budgetcron\" \"npm run dev:unitflip\" \"npm run dev:postmath\"",
-    "dev:ai4kids": "npm run dev --workspace=ai4kids-app",
-    "dev:multiai": "npm run dev --workspace=multiai-app",
-    "dev:budgetcron": "npm run dev --workspace=budgetcron-app",
-    "dev:unitflip": "npm run dev --workspace=unitflip-app",
-    "dev:postmath": "npm run dev --workspace=postmath-app",
-    
-    "test": "cucumber-js --profile default",
-    "test:smoke": "cucumber-js --profile smoke",
-    "test:e2e": "playwright test",
-    "test:ai4kids": "cucumber-js --tags '@ai4kids'",
-    "test:multiai": "cucumber-js --tags '@multiai'",
-    "test:budgetcron": "cucumber-js --tags '@budgetcron'",
-    "test:unitflip": "cucumber-js --tags '@unitflip'",
-    "test:postmath": "cucumber-js --tags '@postmath'",
-    
-    "typecheck": "npm run typecheck --workspaces --if-present",
-    "lint": "eslint . --ext .ts,.tsx,.js,.jsx --max-warnings 0",
-    "lint:fix": "eslint . --ext .ts,.tsx,.js,.jsx --fix",
-    
-    "clean": "npm run clean:build && npm run clean:reports",
-    "clean:build": "rimraf dist build .next out apps/*/dist apps/*/.next apps/*/out packages/*/dist",
-    "clean:reports": "rimraf reports test-results playwright-report",
-    
-    "report:open": "npx playwright show-report reports/playwright-report"
-  },
-  
-  "keywords": [
-    "testing", "bdd", "cucumber", "playwright", "typescript", "automation",
-    "e2e", "multi-app", "workspace", "monorepo", "nextjs"
-  ],
-  
-  "author": {
-    "name": "Khalid Ksouri",
-    "email": "khalid_ksouri@yahoo.fr"
-  },
-  
-  "license": "MIT",
-  
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
-  },
-  
-  "devDependencies": {
-    "@cucumber/cucumber": "^10.9.0",
-    "@playwright/test": "^1.54.1",
-    "playwright": "^1.54.1",
-    "typescript": "^5.8.3",
-    "ts-node": "^10.9.2",
-    "@types/node": "^20.8.0",
-    "concurrently": "^8.2.2",
-    "cross-env": "^7.0.3",
-    "rimraf": "^5.0.5",
-    "eslint": "^8.52.0",
-    "@typescript-eslint/eslint-plugin": "^6.9.0",
-    "@typescript-eslint/parser": "^6.9.0",
-    "prettier": "^3.0.3"
   },
   
   "config": {

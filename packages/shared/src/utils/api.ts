@@ -76,7 +76,7 @@ export class ApiClient {
     const url = this.buildUrl(endpoint, config.baseUrl);
     const requestHeaders = { ...this.defaultHeaders, ...headers };
 
-    let lastError: Error;
+    let lastError: Error | null = null;
 
     for (let attempt = 0; attempt <= retries; attempt++) {
       try {

@@ -42,10 +42,11 @@ const I18nContext = createContext<TranslationHookReturn | null>(null);
 
 class TranslationManager {
   private config: I18nConfig;
-  private loadedTranslations: Record<Locale, TranslationResource> = {};
+  private loadedTranslations: Partial<Record<Locale, TranslationResource>>;
 
   constructor(config: I18nConfig) {
     this.config = config;
+    this.loadedTranslations = {};
     
     // Charger les traductions communes
     Object.entries(commonTranslations).forEach(([locale, translations]) => {
@@ -59,7 +60,7 @@ class TranslationManager {
     }
     
     this.loadedTranslations[locale] = this.mergeTranslations(
-      this.loadedTranslations[locale],
+      this.loadedTranslations[locale] || {},
       translations
     );
   }
@@ -260,27 +261,6 @@ export function useTranslation(
 }
 
 // =============================================
-// PROVIDER
-// =============================================
-
-export function I18nProvider({ 
-  children, 
-  config = {},
-  initialLocale 
-}: I18nProviderProps): JSX.Element {
-  const translation = useTranslation({
-    ...config,
-    defaultLocale: initialLocale || config.defaultLocale
-  });
-
-  return (
-    <I18nContext.Provider value={translation}>
-      {children}
-    </I18nContext.Provider>
-  );
-}
-
-// =============================================
 // HOOK DE CONTEXTE
 // =============================================
 
@@ -360,7 +340,7 @@ export function createTranslationHelpers(translations: Record<Locale, Translatio
     // Vérifier la complétude des traductions
     checkCompleteness: (baseLocale: Locale = 'fr-FR') => {
       const baseKeys = extractKeys(translations[baseLocale]);
-      const results: Record<Locale, { missing: string[]; extra: string[] }> = {};
+      const results: Partial<Record<Locale, { missing: string[]; extra: string[] }>> = {};
       
       Object.keys(translations).forEach(locale => {
         if (locale === baseLocale) return;
@@ -391,25 +371,6 @@ function extractKeys(obj: TranslationResource, prefix = ''): string[] {
   });
   
   return keys;
-}
-
-// =============================================
-// COMPOSANTS UTILITAIRES
-// =============================================
-
-export interface TransProps {
-  i18nKey: string;
-  values?: TranslationContext;
-  fallback?: string;
-}
-
-export function Trans({ i18nKey, values = {}, fallback }: TransProps): JSX.Element {
-  const { t } = useI18n();
-  
-  const translation = t(i18nKey, values);
-  const displayText = translation === i18nKey && fallback ? fallback : translation;
-  
-  return <span>{displayText}</span>;
 }
 
 // =============================================

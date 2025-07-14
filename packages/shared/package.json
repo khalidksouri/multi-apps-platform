@@ -1,13 +1,17 @@
-
 {
   "name": "@multiapps/shared",
   "version": "1.0.0",
+  "description": "Types et utilitaires partagés pour les applications multi-apps",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
   },
   "dependencies": {
     "date-fns": "^2.30.0",
@@ -16,143 +20,31 @@
   },
   "devDependencies": {
     "typescript": "^5.0.0",
-    "@types/lodash": "^4.14.200"
+    "@types/lodash": "^4.14.200",
+    "rimraf": "^5.0.5"
   },
   "peerDependencies": {
     "react": "^18.0.0"
-  }
-}
-
-// =============================================
-// 📄 packages/shared/src/index.ts - Corrigé
-// =============================================
-// Types de base
-export interface APIResponse<T = any> {
-  success: boolean;
-  data?: T;
-  error?: {
-    code: string;
-    message: string;
-    details?: any;
-  };
-  meta?: {
-    page?: number;
-    limit?: number;
-    total?: number;
-    timestamp?: string;
-  };
-}
-
-// Types pour le shipping
-export interface Carrier {
-  id: string;
-  name: string;
-  price: number;
-  deliveryTime: string;
-  reliability: number;
-  tracking: boolean;
-}
-
-export interface ShippingCalculation {
-  id: string;
-  departure: string;
-  destination: string;
-  weight: number;
-  dimensions: string;
-  carriers: Carrier[];
-  createdAt: Date;
-}
-
-// Types pour la conversion d'unités
-export interface ConversionResult {
-  value: number;
-  unit: string;
-  explanation: string;
-}
-
-export interface UnitCategory {
-  id: string;
-  name: string;
-  units: UnitDefinition[];
-}
-
-export interface UnitDefinition {
-  id: string;
-  name: string;
-  symbol: string;
-  toBase: (value: number) => number;
-  fromBase: (value: number) => number;
-}
-
-// Types pour le budget
-export interface BudgetCategory {
-  id: string;
-  name: string;
-  budget: number;
-  spent: number;
-  color: string;
-}
-
-export interface BudgetInsight {
-  id: number;
-  type: 'savings_opportunity' | 'budget_alert' | 'spending_pattern';
-  title: string;
-  description: string;
-  confidence: number;
-  color: string;
-}
-
-export interface BankAccount {
-  id: string;
-  name: string;
-  type: string;
-  balance: number;
-  status: 'active' | 'error' | 'pending';
-  lastSync: Date;
-}
-
-// Fonctions utilitaires
-export function formatCurrency(amount: number, currency: string = 'EUR'): string {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency
-  }).format(amount);
-}
-
-export function validateEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
-
-export function formatDate(date: Date): string {
-  return date.toLocaleDateString('fr-FR');
-}
-
-// Constantes
-export const APP_URLS = {
-  AI4KIDS: process.env.AI4KIDS_URL || 'http://localhost:3004',
-  MULTIAI: process.env.MULTIAI_URL || 'http://localhost:3005',
-  BUDGETCRON: process.env.BUDGETCRON_URL || 'http://localhost:3003',
-  UNITFLIP: process.env.UNITFLIP_URL || 'http://localhost:3002',
-  POSTMATH: process.env.POSTMATH_URL || 'http://localhost:3001'
-} as const;
-
-// =============================================
-// 📄 packages/shared/tsconfig.json - Corrigé
-// =============================================
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
-    "declaration": true,
-    "outDir": "dist",
-    "rootDir": "src",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "node"
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"]
+  "publishConfig": {
+    "access": "restricted"
+  },
+  "keywords": [
+    "typescript",
+    "shared",
+    "utils",
+    "types",
+    "validation",
+    "api"
+  ],
+  "author": {
+    "name": "Khalid Ksouri",
+    "email": "khalid_ksouri@yahoo.fr"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/khalidksouri/multi-app-testing-suite.git",
+    "directory": "packages/shared"
+  }
 }

@@ -1,4 +1,21 @@
-import { Carrier, ShippingCalculation } from '@multiapps/shared';
+export interface Carrier {
+  id: string;
+  name: string;
+  price: number;
+  deliveryTime: string;
+  reliability: number;
+  tracking: boolean;
+}
+
+export interface ShippingCalculation {
+  id: string;
+  departure: string;
+  destination: string;
+  weight: number;
+  dimensions: string;
+  carriers: Carrier[];
+  createdAt: Date;
+}
 
 export class ShippingService {
   private carriers = [
