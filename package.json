@@ -27,6 +27,11 @@
     "test:ai4kids": "playwright test --project=ai4kids",
     "test:multiai": "playwright test --project=multiai",
     "test:report": "playwright show-report reports/playwright-report",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f",
+    "docker:health": "docker-compose ps",
     "lint": "eslint . --ext .ts,.tsx",
     "format": "prettier --write .",
     "clean": "rimraf node_modules/.cache && rimraf apps/*/dist && rimraf packages/*/dist"
@@ -41,7 +46,9 @@
     "unitflip",
     "budgetcron",
     "ai4kids",
-    "multiai"
+    "multiai",
+    "docker",
+    "ci-cd"
   ],
   "author": "Khalid Ksouri <khalid_ksouri@yahoo.fr>",
   "license": "MIT",

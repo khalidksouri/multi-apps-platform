@@ -1,0 +1,54 @@
+FROM node:20-alpine AS base
+
+# Install dependencies only when needed
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+COPY packages/shared/package*.json ./packages/shared/
+COPY packages/ui/package*.json ./packages/ui/
+COPY apps/multiai/package*.json ./apps/multiai/
+
+# Install dependencies
+RUN npm ci --only=production
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Build packages first
+RUN npm run build:packages
+
+# Build the specific app
+RUN cd apps/multiai && npm run build
+
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copy built application
+COPY --from=builder /app/apps/multiai/public ./public
+
+# Automatically leverage output traces to reduce image size
+# https://nextjs.org/docs/advanced-features/output-file-tracing
+COPY --from=builder --chown=nextjs:nodejs /app/apps/multiai/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/multiai/.next/static ./apps/multiai/.next/static
+
+USER nextjs
+
+EXPOSE 3005
+
+ENV PORT=3005
+ENV HOSTNAME="0.0.0.0"
+
+CMD ["node", "apps/multiai/server.js"]
