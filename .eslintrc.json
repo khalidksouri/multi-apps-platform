@@ -1,15 +1,24 @@
 {
   "extends": [
     "next/core-web-vitals",
-    "@typescript-eslint/recommended",
-    "prettier"
+    "@typescript-eslint/recommended"
   ],
-  "parser": "@typescript-eslint/parser",
-  "plugins": ["@typescript-eslint"],
+  "plugins": [
+    "@typescript-eslint"
+  ],
   "rules": {
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/no-explicit-any": "warn",
-    "prefer-const": "error"
+    "no-console": "warn",
+    "no-eval": "error",
+    "no-implied-eval": "error",
+    "no-new-func": "error",
+    "no-script-url": "error"
   },
-  "ignorePatterns": ["dist/", "build/", ".next/"]
+  "ignorePatterns": [
+    "node_modules/",
+    ".next/",
+    "dist/",
+    "build/"
+  ]
 }

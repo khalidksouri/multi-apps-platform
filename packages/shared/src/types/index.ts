@@ -2,7 +2,9 @@ export interface User {
   id: string;
   email: string;
   name: string;
+  role: 'USER' | 'ADMIN' | 'CHILD';
   createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface APIResponse<T = any> {
@@ -11,6 +13,7 @@ export interface APIResponse<T = any> {
   error?: {
     code: string;
     message: string;
+    details?: string[];
   };
 }
 
@@ -33,13 +36,17 @@ export interface Carrier {
   tracking: boolean;
 }
 
-export interface ConversionResult {
-  id: string;
-  category: string;
-  fromValue: number;
-  fromUnit: string;
-  toValue: number;
-  toUnit: string;
-  formula: string;
-  createdAt: Date;
+export interface ValidationResult<T> {
+  success: boolean;
+  data?: T;
+  errors?: string[];
+}
+
+export interface LogMeta {
+  userId?: string;
+  action?: string;
+  resource?: string;
+  ip?: string;
+  userAgent?: string;
+  [key: string]: any;
 }

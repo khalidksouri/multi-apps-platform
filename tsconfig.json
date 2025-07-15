@@ -23,17 +23,15 @@
     }
   },
   "include": [
-    "src/**/*",
-    "apps/*/src/**/*",
-    "packages/*/src/**/*",
-    "*.config.ts"
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx"
   ],
   "exclude": [
     "node_modules",
     "dist",
     ".next",
-    "**/*.test.*",
-    "**/*.spec.*",
-    "tests/**/*"
+    "build"
   ]
 }
