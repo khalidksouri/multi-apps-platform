@@ -1,12 +1,31 @@
-// Types
-export * from './types';
+export const utils = {
+  formatDate: (date: Date): string => {
+    return date.toISOString().split('T')[0];
+  },
+  
+  generateId: (): string => {
+    return Math.random().toString(36).substr(2, 9);
+  },
+  
+  delay: (ms: number): Promise<void> => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+};
 
-// Validation
-export * from './validation';
+export type ApiResponse<T = any> = {
+  success: boolean;
+  data?: T;
+  error?: string;
+  timestamp: string;
+};
 
-// Utils
-export * from './utils/logger';
-export * from './utils/cache';
-
-// Middleware
-export * from './middleware/security';
+export const createApiResponse = <T>(
+  success: boolean,
+  data?: T,
+  error?: string
+): ApiResponse<T> => ({
+  success,
+  data,
+  error,
+  timestamp: new Date().toISOString(),
+});

@@ -1,119 +1,62 @@
-// =============================================
-// 📄 tests/support/hooks.ts
-// =============================================
 import { Before, After, BeforeAll, AfterAll, Status } from '@cucumber/cucumber';
 import { CustomWorld } from './world';
-import * as fs from 'fs';
-import * as path from 'path';
 
-// ===== HOOKS GLOBAUX =====
 BeforeAll(async function() {
-  console.log('🚀 Initialisation de la suite de tests BDD...');
+  console.log('🥒 Démarrage des tests Cucumber BDD');
+  console.log('🚀 Applications à tester:');
+  console.log('   - Postmath: http://localhost:3001');
+  console.log('   - AI4Kids: http://localhost:3004');
+  console.log('   - MultiAI: http://localhost:3005');
+  console.log('   - BudgetCron: http://localhost:3003');
+  console.log('   - UnitFlip: http://localhost:3002');
   
-  // Créer les dossiers de rapports si nécessaire
-  const reportDirs = ['reports', 'test-results', 'test-results/screenshots', 'test-results/videos'];
-  reportDirs.forEach(dir => {
+  // Créer les dossiers nécessaires
+  const fs = require('fs');
+  const dirs = ['test-results/screenshots', 'test-results/videos', 'test-results/traces', 'reports'];
+  dirs.forEach(dir => {
     if (!fs.existsSync(dir)) {
       fs.mkdirSync(dir, { recursive: true });
     }
   });
-  
-  console.log('📁 Dossiers de rapports créés');
 });
 
-AfterAll(async function() {
-  console.log('✅ Suite de tests terminée');
-  console.log('📊 Rapports disponibles dans le dossier reports/');
-});
-
-// ===== HOOKS PAR SCÉNARIO =====
 Before(async function(this: CustomWorld, scenario) {
-  console.log(`▶️ Démarrage: ${scenario.pickle.name}`);
+  console.log(`\n🧪 Scénario: ${scenario.pickle.name}`);
+  if (this.appName) {
+    console.log(`📱 Application: ${this.appName}`);
+  }
   
-  // Initialiser le World Playwright
+  // IMPORTANT: Initialiser le navigateur pour chaque scénario
   await this.init();
-  
-  // Enregistrer les informations du scénario
-  this.setTestData('scenarioName', scenario.pickle.name);
-  this.setTestData('scenarioTags', scenario.pickle.tags.map(tag => tag.name));
-  this.setTestData('startTime', Date.now());
 });
 
 After(async function(this: CustomWorld, scenario) {
-  const endTime = Date.now();
-  const startTime = this.getTestData('startTime') || endTime;
-  const duration = endTime - startTime;
-  
-  console.log(`⏱️ Durée: ${duration}ms - ${scenario.pickle.name}`);
-  
-  // Capture d'écran et vidéo en cas d'échec
+  // Prendre une capture d'écran en cas d'échec
   if (scenario.result?.status === Status.FAILED) {
-    console.log(`❌ Échec: ${scenario.pickle.name}`);
+    console.log(`❌ Échec du scénario: ${scenario.pickle.name}`);
+    await this.takeScreenshot(`failed-${scenario.pickle.name.replace(/\s+/g, '-')}`);
     
-    // Screenshot
-    if (this.page) {
-      const screenshot = await this.page.screenshot({ fullPage: true });
-      this.attach(screenshot, 'image/png');
-    }
-    
-    // HTML snapshot
-    if (this.page) {
-      const htmlContent = await this.page.content();
-      this.attach(htmlContent, 'text/html');
-    }
-    
-    // Performance metrics si activées
-    if (process.env.ENABLE_PERFORMANCE_METRICS === 'true') {
-      const metrics = Array.from(this.performance.entries());
-      this.attach(JSON.stringify(metrics, null, 2), 'application/json');
+    // Attacher les logs de la console si disponibles
+    try {
+      const logs = await this.page.evaluate(() => {
+        // @ts-ignore
+        return window.testLogs || [];
+      });
+      
+      if (logs.length > 0) {
+        this.attach(JSON.stringify(logs, null, 2), 'application/json');
+      }
+    } catch (e) {
+      // Ignorer les erreurs de logs
     }
   } else if (scenario.result?.status === Status.PASSED) {
-    console.log(`✅ Succès: ${scenario.pickle.name}`);
+    console.log(`✅ Succès du scénario: ${scenario.pickle.name}`);
   }
-  
-  // Nettoyage
+
+  // IMPORTANT: Nettoyer après chaque scénario
   await this.cleanup();
 });
 
-// ===== HOOKS PAR TAG =====
-Before({ tags: '@performance' }, async function(this: CustomWorld) {
-  console.log('🚀 Activation du monitoring de performance');
-  process.env.ENABLE_PERFORMANCE_METRICS = 'true';
-});
-
-Before({ tags: '@accessibility' }, async function(this: CustomWorld) {
-  console.log('♿ Activation des vérifications d\'accessibilité');
-  process.env.ENABLE_A11Y_CHECKS = 'true';
-});
-
-Before({ tags: '@mobile' }, async function(this: CustomWorld) {
-  console.log('📱 Configuration mobile activée');
-  process.env.DEVICE_TYPE = 'mobile';
-});
-
-Before({ tags: '@debug' }, async function(this: CustomWorld) {
-  console.log('🐛 Mode debug activé');
-  process.env.HEADLESS = 'false';
-  process.env.SLOW_MO = '1000';
-});
-
-// ===== HOOKS PAR APPLICATION =====
-Before({ tags: '@ai4kids' }, async function(this: CustomWorld) {
-  this.currentApp = 'ai4kids';
-});
-
-Before({ tags: '@multiai' }, async function(this: CustomWorld) {
-  this.currentApp = 'multiai';
-});
-
-Before({ tags: '@budgetcron' }, async function(this: CustomWorld) {
-  this.currentApp = 'budgetcron';
-});
-
-Before({ tags: '@unitflip' }, async function(this: CustomWorld) {
-  this.currentApp = 'unitflip';
-});
-
-Before({ tags: '@postmath' }, async function(this: CustomWorld) {
-  this.currentApp = 'postmath';
+AfterAll(async function() {
+  console.log('\n🏁 Tests Cucumber terminés');
 });

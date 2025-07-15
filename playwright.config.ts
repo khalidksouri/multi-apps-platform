@@ -1,49 +1,39 @@
 import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: './tests/e2e',
+  timeout: 30 * 1000,
+  expect: { timeout: 5000 },
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   
   reporter: [
-    ['html', { outputFolder: 'reports/playwright-report' }],
-    ['json', { outputFile: 'reports/results.json' }]
+    ['html', { outputFolder: 'test-results/html-reports' }],
+    ['json', { outputFile: 'test-results/results.json' }],
   ],
   
   use: {
     baseURL: 'http://localhost:3001',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure'
+    video: 'retain-on-failure',
   },
   
   projects: [
-    {
-      name: 'postmath',
-      use: { ...devices['Desktop Chrome'] },
-      testMatch: '**/postmath*.spec.ts'
-    },
-    {
-      name: 'unitflip', 
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:3002' },
-      testMatch: '**/unitflip*.spec.ts'
-    },
-    {
-      name: 'budgetcron',
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:3003' },
-      testMatch: '**/budgetcron*.spec.ts'
-    },
-    {
-      name: 'ai4kids',
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:3004' },
-      testMatch: '**/ai4kids*.spec.ts'
-    },
-    {
-      name: 'multiai',
-      use: { ...devices['Desktop Chrome'], baseURL: 'http://localhost:3005' },
-      testMatch: '**/multiai*.spec.ts'
-    }
-  ]
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+  ],
+  
+  outputDir: 'test-results/artifacts',
+  
+  // Démarrer le serveur uniquement pour les tests
+  webServer: process.env.CI ? undefined : {
+    command: 'cd apps/postmath && npm run dev',
+    url: 'http://localhost:3001/health',
+    reuseExistingServer: !process.env.CI,
+    timeout: 120000,
+  },
 });

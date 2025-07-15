@@ -1,141 +1,72 @@
 #!/bin/bash
+set -e
+set -u
 
-echo "🚀 Configuration de l'environnement de développement..."
+# Couleurs
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m'
 
-# Vérifier les prérequis
-check_requirements() {
-    echo "🔍 Vérification des prérequis..."
-    
-    if ! command -v node &> /dev/null; then
-        echo "❌ Node.js non installé"
-        exit 1
-    fi
-    
-    if ! command -v npm &> /dev/null; then
-        echo "❌ npm non installé"
-        exit 1
-    fi
-    
-    echo "✅ Node.js: $(node --version)"
-    echo "✅ npm: $(npm --version)"
-}
+echo -e "${BLUE}🚀 Setup du Workspace Multi-Applications${NC}"
 
-# Démarrer les services Docker
-start_services() {
-    if command -v docker &> /dev/null && command -v docker-compose &> /dev/null; then
-        echo "🐳 Démarrage des services Docker..."
-        docker-compose up -d postgres redis
-        
-        echo "⏳ Attente de la disponibilité des services..."
-        sleep 15
-        
-        # Vérifier PostgreSQL
-        if docker-compose exec postgres pg_isready -U multiapps > /dev/null 2>&1; then
-            echo "✅ PostgreSQL prêt"
-        else
-            echo "⚠️ PostgreSQL non disponible, continuons..."
-        fi
-        
-        # Vérifier Redis
-        if docker-compose exec redis redis-cli ping > /dev/null 2>&1; then
-            echo "✅ Redis prêt"
-        else
-            echo "⚠️ Redis non disponible, continuons..."
-        fi
-    else
-        echo "⚠️ Docker non disponible, services externes requis"
-    fi
-}
-
-# Installer les dépendances
-install_dependencies() {
-    echo "📦 Installation des dépendances..."
-    
-    # Nettoyer le cache
-    npm cache clean --force
-    
-    # Installer les dépendances root
-    npm install --no-audit --no-fund
-    
-    # Construire les packages partagés
-    echo "🏗️ Construction des packages partagés..."
-    npm run build:packages || echo "⚠️ Build packages échoué, continuons..."
-}
-
-# Configurer Prisma
-setup_prisma() {
-    echo "🔧 Configuration Prisma..."
-    
-    # Générer le client Prisma
-    npx prisma generate
-    
-    # Pousser le schéma (en développement)
-    if [[ "$NODE_ENV" != "production" ]]; then
-        npx prisma db push --skip-generate || echo "⚠️ Push DB échoué, continuons..."
-    fi
-}
-
-# Vérifier la configuration
-verify_setup() {
-    echo "🔍 Vérification de la configuration..."
-    
-    # Vérifier les fichiers essentiels
-    files_to_check=(
-        ".env"
-        "prisma/schema.prisma"
-        "packages/shared/src/validation/index.ts"
-        "packages/shared/src/utils/logger.ts"
-    )
-    
-    for file in "${files_to_check[@]}"; do
-        if [[ -f "$file" ]]; then
-            echo "✅ $file présent"
-        else
-            echo "❌ $file manquant"
-        fi
-    done
-}
-
-# Afficher les informations de démarrage
-show_startup_info() {
-    echo ""
-    echo "🎉 Configuration terminée !"
-    echo "=============================================="
-    echo "🌐 Applications disponibles :"
-    echo "   • PostMath:    http://localhost:3001"
-    echo "   • UnitFlip:    http://localhost:3002"
-    echo "   • BudgetCron:  http://localhost:3003"
-    echo "   • AI4Kids:     http://localhost:3004"
-    echo "   • MultiAI:     http://localhost:3005"
-    echo ""
-    echo "📊 Services :"
-    echo "   • PostgreSQL: localhost:5432"
-    echo "   • Redis:      localhost:6379"
-    echo ""
-    echo "🚀 Commandes suivantes :"
-    echo "   npm run dev              # Démarrer toutes les apps"
-    echo "   npm run test:security    # Tests de sécurité"
-    echo "   npm run db:studio        # Interface Prisma"
-    echo "=============================================="
-}
-
-# Exécution principale
-main() {
-    check_requirements
-    start_services
-    install_dependencies
-    setup_prisma
-    verify_setup
-    show_startup_info
-}
-
-# Gestion des erreurs
-handle_error() {
-    echo "❌ Erreur durant la configuration"
-    echo "💡 Vérifiez les logs ci-dessus et réessayez"
+# Vérifications de base
+if [ ! -f "package.json" ]; then
+    echo "❌ Ce script doit être exécuté depuis la racine du projet"
     exit 1
-}
+fi
 
-trap handle_error ERR
+# Créer les dossiers
+mkdir -p logs reports coverage test-results scripts
 
-main "$@"
+# Créer .env si inexistant
+if [ ! -f ".env" ]; then
+    cat > .env << 'ENVEOF'
+NODE_ENV=development
+DATABASE_URL=postgresql://postgres:password@localhost:5432/multiapps_dev
+REDIS_URL=redis://localhost:6379
+JWT_SECRET=generated-jwt-secret-$(date +%s)
+POSTMATH_URL=http://localhost:3001
+UNITFLIP_URL=http://localhost:3002
+BUDGETCRON_URL=http://localhost:3003
+AI4KIDS_URL=http://localhost:3004
+MULTIAI_URL=http://localhost:3005
+ENVEOF
+    echo "✅ Fichier .env créé"
+fi
+
+# Créer docker-compose.yml si inexistant
+if [ ! -f "docker-compose.yml" ]; then
+    cat > docker-compose.yml << 'DOCKEREOF'
+version: '3.8'
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: multiapps_postgres
+    environment:
+      POSTGRES_DB: multiapps_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: multiapps_redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  postgres_data:
+DOCKEREOF
+    echo "✅ Fichier docker-compose.yml créé"
+fi
+
+echo -e "${GREEN}✅ Setup de base terminé !${NC}"
+echo ""
+echo "Prochaines étapes :"
+echo "1. Démarrer Docker Desktop"
+echo "2. docker-compose up -d"
+echo "3. npm install"
+echo "4. npm run dev"

@@ -1,29 +1,41 @@
 module.exports = {
   root: true,
-  env: {
-    browser: true,
-    node: true,
-    es6: true
-  },
   parser: '@typescript-eslint/parser',
   parserOptions: {
-    ecmaVersion: 2020,
+    ecmaVersion: 2022,
     sourceType: 'module',
     ecmaFeatures: {
-      jsx: true
-    }
+      jsx: true,
+    },
   },
+  extends: [
+    'eslint:recommended',
+    '@typescript-eslint/recommended',
+    'plugin:security/recommended',
+  ],
+  plugins: [
+    '@typescript-eslint',
+    'security',
+  ],
   rules: {
-    // Règles de base pour éviter les erreurs
-    'no-unused-vars': 'off',
-    '@typescript-eslint/no-unused-vars': 'off'
+    '@typescript-eslint/no-unused-vars': 'error',
+    '@typescript-eslint/no-explicit-any': 'warn',
+    'security/detect-object-injection': 'error',
+    'security/detect-non-literal-regexp': 'error',
+    'security/detect-unsafe-regex': 'error',
+  },
+  env: {
+    node: true,
+    browser: true,
+    es2022: true,
   },
   ignorePatterns: [
     'node_modules/',
-    '.next/',
     'dist/',
-    'build/',
+    '.next/',
     'coverage/',
-    '*.config.js'
-  ]
-}
+    'test-results/',
+    '*.config.js',
+    '*.config.ts'
+  ],
+};
