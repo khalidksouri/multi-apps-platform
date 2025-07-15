@@ -1,0 +1,369 @@
+{
+  "config": {
+    "configFile": "/Users/khalidksouri/Desktop/multi-apps-platform/playwright.config.ts",
+    "rootDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 4
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "reports/playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "reports/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "postmath",
+        "name": "postmath",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/postmath*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "unitflip",
+        "name": "unitflip",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/unitflip*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "budgetcron",
+        "name": "budgetcron",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/budgetcron*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "ai4kids",
+        "name": "ai4kids",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/ai4kids*.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 4
+        },
+        "id": "multiai",
+        "name": "multiai",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/multiai*.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.54.1",
+    "workers": 8,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "postmath.spec.ts",
+      "file": "postmath.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "PostMath Application",
+          "file": "postmath.spec.ts",
+          "line": 3,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should load the homepage",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "postmath",
+                  "projectName": "postmath",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "failed",
+                      "duration": 1123,
+                      "error": {
+                        "message": "Error: expect.toContainText: Error: strict mode violation: locator('h1') resolved to 2 elements:\n    1) <h1 class=\"text-3xl font-bold text-blue-600\">PostMath Pro</h1> aka getByRole('heading', { name: 'PostMath Pro' })\n    2) <h1 class=\"text-3xl font-bold text-gray-900\">Calculateur d'Expédition</h1> aka getByRole('heading', { name: 'Calculateur d\\'Expédition' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n",
+                        "stack": "Error: expect.toContainText: Error: strict mode violation: locator('h1') resolved to 2 elements:\n    1) <h1 class=\"text-3xl font-bold text-blue-600\">PostMath Pro</h1> aka getByRole('heading', { name: 'PostMath Pro' })\n    2) <h1 class=\"text-3xl font-bold text-gray-900\">Calculateur d'Expédition</h1> aka getByRole('heading', { name: 'Calculateur d\\'Expédition' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:12:38",
+                        "location": {
+                          "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
+                          "column": 38,
+                          "line": 12
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 10 |\u001b[39m     \n \u001b[90m 11 |\u001b[39m     \u001b[90m// Vérifier les éléments principaux\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'PostMath Pro'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 13 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Calculateur intelligent'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 15 |\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
+                            "column": 38,
+                            "line": 12
+                          },
+                          "message": "Error: expect.toContainText: Error: strict mode violation: locator('h1') resolved to 2 elements:\n    1) <h1 class=\"text-3xl font-bold text-blue-600\">PostMath Pro</h1> aka getByRole('heading', { name: 'PostMath Pro' })\n    2) <h1 class=\"text-3xl font-bold text-gray-900\">Calculateur d'Expédition</h1> aka getByRole('heading', { name: 'Calculateur d\\'Expédition' })\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('h1')\u001b[22m\n\n\n\u001b[0m \u001b[90m 10 |\u001b[39m     \n \u001b[90m 11 |\u001b[39m     \u001b[90m// Vérifier les éléments principaux\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 12 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'h1'\u001b[39m))\u001b[33m.\u001b[39mtoContainText(\u001b[32m'PostMath Pro'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                      \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 13 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'text=Calculateur intelligent'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 14 |\u001b[39m   })\u001b[33m;\u001b[39m\n \u001b[90m 15 |\u001b[39m\u001b[0m\n\u001b[2m    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:12:38\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-15T00:22:20.930Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results/postmath-PostMath-Application-should-load-the-homepage-postmath/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results/postmath-PostMath-Application-should-load-the-homepage-postmath/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results/postmath-PostMath-Application-should-load-the-homepage-postmath/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
+                        "column": 38,
+                        "line": 12
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c2c4106c28933478fb9e-d502a8007e82fad43d57",
+              "file": "postmath.spec.ts",
+              "line": 5,
+              "column": 7
+            },
+            {
+              "title": "should display shipping calculator form",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "postmath",
+                  "projectName": "postmath",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 1102,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-15T00:22:20.930Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c2c4106c28933478fb9e-01beb09a9fe81e3693de",
+              "file": "postmath.spec.ts",
+              "line": 16,
+              "column": 7
+            },
+            {
+              "title": "should calculate shipping costs",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "postmath",
+                  "projectName": "postmath",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 9265,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-testid^=\"carrier-\"]')\nExpected: \u001b[32m2\u001b[39m\nReceived: \u001b[31m9\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid^=\"carrier-\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to 9 elements\u001b[22m\n\u001b[2m      - unexpected value \"9\"\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-testid^=\"carrier-\"]')\nExpected: \u001b[32m2\u001b[39m\nReceived: \u001b[31m9\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid^=\"carrier-\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to 9 elements\u001b[22m\n\u001b[2m      - unexpected value \"9\"\u001b[22m\n\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:43:61",
+                        "location": {
+                          "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
+                          "column": 61,
+                          "line": 43
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 41 |\u001b[39m     \n \u001b[90m 42 |\u001b[39m     \u001b[90m// Vérifier qu'au moins un transporteur est affiché\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 43 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid^=\"carrier-\"]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m2\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 44 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"carrier-name\"]'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"carrier-price\"]'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
+                            "column": 61,
+                            "line": 43
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\nLocator: locator('[data-testid^=\"carrier-\"]')\nExpected: \u001b[32m2\u001b[39m\nReceived: \u001b[31m9\u001b[39m\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[data-testid^=\"carrier-\"]')\u001b[22m\n\u001b[2m    9 × locator resolved to 9 elements\u001b[22m\n\u001b[2m      - unexpected value \"9\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 41 |\u001b[39m     \n \u001b[90m 42 |\u001b[39m     \u001b[90m// Vérifier qu'au moins un transporteur est affiché\u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 43 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid^=\"carrier-\"]'\u001b[39m))\u001b[33m.\u001b[39mtoHaveCount(\u001b[35m2\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                                                             \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 44 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"carrier-name\"]'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 45 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mlocator(\u001b[32m'[data-testid=\"carrier-price\"]'\u001b[39m)\u001b[33m.\u001b[39mfirst())\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\n \u001b[90m 46 |\u001b[39m   })\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:43:61\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-15T00:22:20.930Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results/postmath-PostMath-Applicat-bb2af-ld-calculate-shipping-costs-postmath/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results/postmath-PostMath-Applicat-bb2af-ld-calculate-shipping-costs-postmath/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results/postmath-PostMath-Applicat-bb2af-ld-calculate-shipping-costs-postmath/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
+                        "column": 61,
+                        "line": 43
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c2c4106c28933478fb9e-0d501cb44654058a08a1",
+              "file": "postmath.spec.ts",
+              "line": 27,
+              "column": 7
+            },
+            {
+              "title": "should show validation errors for empty form",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "postmath",
+                  "projectName": "postmath",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 1197,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-15T00:22:20.932Z",
+                      "annotations": [],
+                      "attachments": []
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "c2c4106c28933478fb9e-8b47b1922a985ab43bfe",
+              "file": "postmath.spec.ts",
+              "line": 48,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-07-15T00:22:20.233Z",
+    "duration": 10253.94,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 2,
+    "flaky": 0
+  }
+}

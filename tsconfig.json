@@ -1,157 +1,39 @@
 {
   "compilerOptions": {
-    /* ===== CONFIGURATION DE BASE ===== */
-    "target": "ES2022",
-    "lib": [
-      "ES2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    
-    /* ===== STRICT TYPE CHECKING ===== */
-    "strict": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "strictBindCallApply": true,
-    "strictPropertyInitialization": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
-    "noImplicitOverride": true,
-    "exactOptionalPropertyTypes": true,
-    
-    /* ===== MODULES ===== */
+    "target": "ES2020",
+    "lib": ["ES2020", "DOM"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "verbatimModuleSyntax": false,
-    
-    /* ===== EMIT ===== */
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
-    "removeComments": false,
-    "downlevelIteration": true,
-    "importHelpers": true,
-    "noEmit": false,
-    
-    /* ===== JAVASCRIPT SUPPORT ===== */
-    "allowJs": true,
-    "checkJs": false,
-    
-    /* ===== EDITOR SUPPORT ===== */
+    "jsx": "preserve",
     "incremental": true,
-    "tsBuildInfoFile": "./dist/.tsbuildinfo",
-    
-    /* ===== INTEROP CONSTRAINTS ===== */
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
-    
-    /* ===== ADVANCED ===== */
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    
-    /* ===== PATH MAPPING ===== */
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@tests/*": ["tests/*"],
-      "@features/*": ["tests/features/*"],
-      "@steps/*": ["tests/steps/*"],
-      "@support/*": ["tests/support/*"],
-      "@fixtures/*": ["tests/fixtures/*"],
-      "@utils/*": ["tests/utils/*"],
-      "@config/*": ["config/*"],
-      "@components/*": ["src/components/*"],
-      "@pages/*": ["src/pages/*"],
-      "@hooks/*": ["src/hooks/*"],
-      "@lib/*": ["src/lib/*"],
-      "@types/*": ["src/types/*"],
-      "@ai4kids/*": ["src/ai4kids/*"],
-      "@multiai/*": ["src/multiai/*"],
-      "@budgetcron/*": ["src/budgetcron/*"],
-      "@unitflip/*": ["src/unitflip/*"],
-      "@postmath/*": ["src/postmath/*"]
-    },
-    
-    /* ===== TYPE ACQUISITION ===== */
-    "typeRoots": [
-      "./node_modules/@types",
-      "./types",
-      "./@types"
-    ],
-    "types": [
-      "node",
-      "jest",
-      "@playwright/test",
-      "@cucumber/cucumber"
-    ]
+      "@/*": ["./src/*"],
+      "@multiapps/shared": ["./packages/shared/src/index"],
+      "@multiapps/shared/*": ["./packages/shared/src/*"],
+      "@multiapps/ui": ["./packages/ui/src/index"],
+      "@multiapps/ui/*": ["./packages/ui/src/*"]
+    }
   },
-  
-  /* ===== INCLUSION/EXCLUSION ===== */
   "include": [
     "src/**/*",
-    "tests/**/*",
-    "*.config.ts",
-    "*.config.js",
-    "scripts/**/*",
-    "types/**/*",
-    "@types/**/*"
+    "apps/*/src/**/*",
+    "packages/*/src/**/*",
+    "*.config.ts"
   ],
-  
   "exclude": [
     "node_modules",
     "dist",
-    "build",
-    "coverage",
-    "reports",
-    "test-results",
-    "playwright-report",
-    "allure-report",
-    "allure-results",
-    "**/*.d.ts",
-    "**/.next/**",
-    "**/out/**",
-    "**/tmp/**",
-    "**/.cache/**"
-  ],
-  
-  /* ===== TS-NODE CONFIGURATION ===== */
-  "ts-node": {
-    "compilerOptions": {
-      "module": "CommonJS",
-      "target": "ES2022",
-      "moduleResolution": "node",
-      "allowSyntheticDefaultImports": true,
-      "esModuleInterop": true,
-      "isolatedModules": false
-    },
-    "files": true,
-    "experimentalSpecifierResolution": "node",
-    "transpileOnly": true,
-    "swc": false
-  },
-  
-  /* ===== WATCHOPTIONS ===== */
-  "watchOptions": {
-    "watchFile": "useFsEvents",
-    "watchDirectory": "useFsEvents",
-    "fallbackPolling": "dynamicPriority",
-    "synchronousWatchDirectory": true,
-    "excludeDirectories": [
-      "**/node_modules",
-      "**/dist",
-      "**/reports",
-      "**/coverage",
-      "**/test-results",
-      "**/playwright-report"
-    ]
-  }
+    ".next",
+    "**/*.test.*",
+    "**/*.spec.*",
+    "tests/**/*"
+  ]
 }

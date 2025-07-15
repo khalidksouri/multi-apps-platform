@@ -1,0 +1,20 @@
+{
+  "name": "@multiapps/shared",
+  "version": "1.0.0",
+  "description": "Code TypeScript partagé",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "zod": "^3.22.0",
+    "date-fns": "^2.30.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0",
+    "rimraf": "^5.0.0"
+  }
+}

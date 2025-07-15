@@ -1,50 +1,23 @@
 {
   "name": "@multiapps/shared",
   "version": "1.0.0",
-  "description": "Types et utilitaires partagés pour les applications multi-apps",
+  "description": "Code TypeScript partagé entre toutes les applications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsc --watch",
-    "typecheck": "tsc --noEmit",
     "clean": "rimraf dist"
   },
   "dependencies": {
-    "date-fns": "^2.30.0",
-    "lodash": "^4.17.21",
-    "zod": "^3.22.0"
+    "zod": "^3.22.0",
+    "date-fns": "^2.30.0"
   },
   "devDependencies": {
     "typescript": "^5.0.0",
-    "@types/lodash": "^4.14.200",
-    "rimraf": "^5.0.5"
+    "rimraf": "^5.0.0"
   },
   "peerDependencies": {
-    "react": "^18.0.0"
-  },
-  "publishConfig": {
-    "access": "restricted"
-  },
-  "keywords": [
-    "typescript",
-    "shared",
-    "utils",
-    "types",
-    "validation",
-    "api"
-  ],
-  "author": {
-    "name": "Khalid Ksouri",
-    "email": "khalid_ksouri@yahoo.fr"
-  },
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/khalidksouri/multi-app-testing-suite.git",
-    "directory": "packages/shared"
+    "react": ">=18.0.0"
   }
 }

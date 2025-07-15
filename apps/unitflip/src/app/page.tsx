@@ -21,10 +21,12 @@ const unitsByCategory = {
     { value: 'pounds', label: 'Livres (lb)' },
     { value: 'ounces', label: 'Onces (oz)' },
   ],
-};
+} as const;
+
+type CategoryKey = keyof typeof unitsByCategory;
 
 export default function HomePage() {
-  const [category, setCategory] = useState('temperature');
+  const [category, setCategory] = useState<CategoryKey>('temperature');
   const [fromValue, setFromValue] = useState('');
   const [toValue, setToValue] = useState('');
   const [fromUnit, setFromUnit] = useState('celsius');
@@ -38,7 +40,6 @@ export default function HomePage() {
     let result = 0;
     let exp = '';
 
-    // Conversions de température
     if (category === 'temperature') {
       if (fromUnit === 'celsius' && toUnit === 'fahrenheit') {
         result = (value * 9/5) + 32;
@@ -49,13 +50,15 @@ export default function HomePage() {
       } else if (fromUnit === 'celsius' && toUnit === 'kelvin') {
         result = value + 273.15;
         exp = `${value}°C + 273.15 = ${result.toFixed(2)}K`;
+      } else if (fromUnit === 'kelvin' && toUnit === 'celsius') {
+        result = value - 273.15;
+        exp = `${value}K - 273.15 = ${result.toFixed(2)}°C`;
       } else if (fromUnit === toUnit) {
         result = value;
         exp = `${value} ${fromUnit} = ${result} ${toUnit}`;
       }
     }
     
-    // Conversions de longueur
     if (category === 'length') {
       if (fromUnit === 'meters' && toUnit === 'kilometers') {
         result = value / 1000;
@@ -66,6 +69,25 @@ export default function HomePage() {
       } else if (fromUnit === 'meters' && toUnit === 'centimeters') {
         result = value * 100;
         exp = `${value}m × 100 = ${result}cm`;
+      } else if (fromUnit === 'centimeters' && toUnit === 'meters') {
+        result = value / 100;
+        exp = `${value}cm ÷ 100 = ${result}m`;
+      } else if (fromUnit === toUnit) {
+        result = value;
+        exp = `${value} ${fromUnit} = ${result} ${toUnit}`;
+      }
+    }
+
+    if (category === 'weight') {
+      if (fromUnit === 'kilograms' && toUnit === 'grams') {
+        result = value * 1000;
+        exp = `${value}kg × 1000 = ${result}g`;
+      } else if (fromUnit === 'grams' && toUnit === 'kilograms') {
+        result = value / 1000;
+        exp = `${value}g ÷ 1000 = ${result}kg`;
+      } else if (fromUnit === 'pounds' && toUnit === 'kilograms') {
+        result = value * 0.453592;
+        exp = `${value}lb × 0.453592 = ${result.toFixed(3)}kg`;
       } else if (fromUnit === toUnit) {
         result = value;
         exp = `${value} ${fromUnit} = ${result} ${toUnit}`;
@@ -77,10 +99,10 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    const units = unitsByCategory[category as keyof typeof unitsByCategory];
-    if (units.length > 0) {
+    const units = unitsByCategory[category];
+    if (units && units.length > 0) {
       setFromUnit(units[0].value);
-      setToUnit(units[1]?.value || units[0].value);
+      setToUnit(units.length > 1 ? units[1].value : units[0].value);
     }
     setFromValue('');
     setToValue('');
@@ -91,28 +113,28 @@ export default function HomePage() {
     if (fromValue) {
       convertValue();
     }
-  }, [fromValue, fromUnit, toUnit]);
+  }, [fromValue, fromUnit, toUnit, category]);
 
   const swapUnits = () => {
+    const temp = fromUnit;
     setFromUnit(toUnit);
-    setToUnit(fromUnit);
+    setToUnit(temp);
     setFromValue(toValue);
   };
 
-  const units = unitsByCategory[category as keyof typeof unitsByCategory] || [];
+  const units = unitsByCategory[category];
 
   return (
     <div className="space-y-8">
       <div className="text-center">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">UnitFlip Pro</h1>
+        <h1 className="text-4xl font-bold text-gray-900 mb-4">🔄 UnitFlip Pro</h1>
         <p className="text-xl text-gray-600">Convertissez toutes vos unités avec précision</p>
       </div>
 
-      {/* Sélecteur de catégorie */}
       <div className="bg-white p-6 rounded-lg shadow">
         <h2 className="text-lg font-semibold mb-4">Catégories</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {Object.keys(unitsByCategory).map((cat) => (
+          {(Object.keys(unitsByCategory) as CategoryKey[]).map((cat) => (
             <button
               key={cat}
               onClick={() => setCategory(cat)}
@@ -134,14 +156,12 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Convertisseur */}
       <div className="bg-white p-6 rounded-lg shadow">
         <h2 className="text-2xl font-semibold capitalize mb-6">
           Conversion de {category}
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-end">
-          {/* From Section */}
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">De :</label>
@@ -169,7 +189,6 @@ export default function HomePage() {
             />
           </div>
 
-          {/* Swap Button */}
           <div className="flex justify-center md:mb-4">
             <button
               onClick={swapUnits}
@@ -180,7 +199,6 @@ export default function HomePage() {
             </button>
           </div>
 
-          {/* To Section */}
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium mb-2">Vers :</label>
@@ -209,7 +227,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Explanation */}
         {explanation && (
           <div className="mt-6 p-4 bg-indigo-50 border border-indigo-200 rounded-lg">
             <h4 className="font-medium text-indigo-900 mb-2">Explication</h4>
@@ -217,7 +234,6 @@ export default function HomePage() {
           </div>
         )}
 
-        {/* Conversions courantes */}
         {category === 'temperature' && (
           <div className="mt-6 p-4 bg-gray-50 rounded-lg">
             <h4 className="font-medium mb-3">Conversions courantes</h4>

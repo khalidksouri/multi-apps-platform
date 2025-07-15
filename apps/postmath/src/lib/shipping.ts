@@ -1,3 +1,7 @@
+// =============================================
+// 📄 Fichier shipping.ts à créer dans chaque app
+// =============================================
+
 export interface Carrier {
   id: string;
   name: string;
