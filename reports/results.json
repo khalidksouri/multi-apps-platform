@@ -11,7 +11,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 4
+      "actualWorkers": 5
     },
     "preserveOutput": "always",
     "reporter": [
@@ -39,7 +39,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 5
         },
         "id": "postmath",
         "name": "postmath",
@@ -55,7 +55,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 5
         },
         "id": "unitflip",
         "name": "unitflip",
@@ -71,7 +71,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 5
         },
         "id": "budgetcron",
         "name": "budgetcron",
@@ -87,7 +87,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 5
         },
         "id": "ai4kids",
         "name": "ai4kids",
@@ -103,7 +103,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 5
         },
         "id": "multiai",
         "name": "multiai",
@@ -152,7 +152,7 @@
                       "workerIndex": 0,
                       "parallelIndex": 0,
                       "status": "failed",
-                      "duration": 704,
+                      "duration": 817,
                       "error": {
                         "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n",
                         "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:6:16",
@@ -161,7 +161,7 @@
                           "column": 16,
                           "line": 6
                         },
-                        "snippet": "  4 |   \n  5 |   test('should load the homepage', async ({ page }) => {\n> 6 |     await page.goto('/');\n    |                ^\n  7 |     \n  8 |     // Vérifier le titre\n  9 |     await expect(page).toHaveTitle(/PostMath/);"
+                        "snippet": "\u001b[0m \u001b[90m 4 |\u001b[39m   \n \u001b[90m 5 |\u001b[39m   test(\u001b[32m'should load the homepage'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \n \u001b[90m 8 |\u001b[39m     \u001b[90m// Vérifier le titre\u001b[39m\n \u001b[90m 9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/PostMath/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
                       },
                       "errors": [
                         {
@@ -170,13 +170,13 @@
                             "column": 16,
                             "line": 6
                           },
-                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n\n  4 |   \n  5 |   test('should load the homepage', async ({ page }) => {\n> 6 |     await page.goto('/');\n    |                ^\n  7 |     \n  8 |     // Vérifier le titre\n  9 |     await expect(page).toHaveTitle(/PostMath/);\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:6:16"
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 4 |\u001b[39m   \n \u001b[90m 5 |\u001b[39m   test(\u001b[32m'should load the homepage'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 6 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 7 |\u001b[39m     \n \u001b[90m 8 |\u001b[39m     \u001b[90m// Vérifier le titre\u001b[39m\n \u001b[90m 9 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page)\u001b[33m.\u001b[39mtoHaveTitle(\u001b[35m/PostMath/\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:6:16\u001b[22m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-07-15T14:06:24.443Z",
+                      "startTime": "2025-07-15T14:52:51.118Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -221,31 +221,31 @@
                       "workerIndex": 1,
                       "parallelIndex": 1,
                       "status": "failed",
-                      "duration": 706,
+                      "duration": 817,
                       "error": {
                         "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n",
-                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:17:16",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:18:16",
                         "location": {
                           "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
                           "column": 16,
-                          "line": 17
+                          "line": 18
                         },
-                        "snippet": "  15 |\n  16 |   test('should display shipping calculator form', async ({ page }) => {\n> 17 |     await page.goto('/');\n     |                ^\n  18 |     \n  19 |     // Vérifier que le formulaire est présent\n  20 |     await expect(page.locator('[data-testid=\"departure-input\"]')).toBeVisible();"
+                        "snippet": "\u001b[0m \u001b[90m 16 |\u001b[39m\n \u001b[90m 17 |\u001b[39m   test(\u001b[32m'should display shipping calculator form'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \n \u001b[90m 20 |\u001b[39m     \u001b[90m// Utiliser des sélecteurs basés sur les placeholders ou data-testid\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByPlaceholder(\u001b[32m'Paris'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m"
                       },
                       "errors": [
                         {
                           "location": {
                             "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
                             "column": 16,
-                            "line": 17
+                            "line": 18
                           },
-                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n\n  15 |\n  16 |   test('should display shipping calculator form', async ({ page }) => {\n> 17 |     await page.goto('/');\n     |                ^\n  18 |     \n  19 |     // Vérifier que le formulaire est présent\n  20 |     await expect(page.locator('[data-testid=\"departure-input\"]')).toBeVisible();\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:17:16"
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 16 |\u001b[39m\n \u001b[90m 17 |\u001b[39m   test(\u001b[32m'should display shipping calculator form'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 18 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 19 |\u001b[39m     \n \u001b[90m 20 |\u001b[39m     \u001b[90m// Utiliser des sélecteurs basés sur les placeholders ou data-testid\u001b[39m\n \u001b[90m 21 |\u001b[39m     \u001b[36mawait\u001b[39m expect(page\u001b[33m.\u001b[39mgetByPlaceholder(\u001b[32m'Paris'\u001b[39m))\u001b[33m.\u001b[39mtoBeVisible()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:18:16\u001b[22m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-07-15T14:06:24.438Z",
+                      "startTime": "2025-07-15T14:52:51.112Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -262,7 +262,7 @@
                       "errorLocation": {
                         "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
                         "column": 16,
-                        "line": 17
+                        "line": 18
                       }
                     }
                   ],
@@ -271,7 +271,7 @@
               ],
               "id": "c2c4106c28933478fb9e-01beb09a9fe81e3693de",
               "file": "postmath.spec.ts",
-              "line": 16,
+              "line": 17,
               "column": 7
             },
             {
@@ -290,31 +290,31 @@
                       "workerIndex": 2,
                       "parallelIndex": 2,
                       "status": "failed",
-                      "duration": 706,
+                      "duration": 817,
                       "error": {
                         "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n",
-                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:28:16",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:29:16",
                         "location": {
                           "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
                           "column": 16,
-                          "line": 28
+                          "line": 29
                         },
-                        "snippet": "  26 |\n  27 |   test('should calculate shipping costs', async ({ page }) => {\n> 28 |     await page.goto('/');\n     |                ^\n  29 |     \n  30 |     // Remplir le formulaire\n  31 |     await page.fill('[data-testid=\"departure-input\"]', 'Paris');"
+                        "snippet": "\u001b[0m \u001b[90m 27 |\u001b[39m\n \u001b[90m 28 |\u001b[39m   test(\u001b[32m'should calculate shipping costs'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m     \n \u001b[90m 31 |\u001b[39m     \u001b[90m// Utiliser des sélecteurs basés sur les placeholders\u001b[39m\n \u001b[90m 32 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByPlaceholder(\u001b[32m'Paris'\u001b[39m)\u001b[33m.\u001b[39mfill(\u001b[32m'Paris'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
                       },
                       "errors": [
                         {
                           "location": {
                             "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
                             "column": 16,
-                            "line": 28
+                            "line": 29
                           },
-                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n\n  26 |\n  27 |   test('should calculate shipping costs', async ({ page }) => {\n> 28 |     await page.goto('/');\n     |                ^\n  29 |     \n  30 |     // Remplir le formulaire\n  31 |     await page.fill('[data-testid=\"departure-input\"]', 'Paris');\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:28:16"
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 27 |\u001b[39m\n \u001b[90m 28 |\u001b[39m   test(\u001b[32m'should calculate shipping costs'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 29 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 30 |\u001b[39m     \n \u001b[90m 31 |\u001b[39m     \u001b[90m// Utiliser des sélecteurs basés sur les placeholders\u001b[39m\n \u001b[90m 32 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByPlaceholder(\u001b[32m'Paris'\u001b[39m)\u001b[33m.\u001b[39mfill(\u001b[32m'Paris'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:29:16\u001b[22m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-07-15T14:06:24.438Z",
+                      "startTime": "2025-07-15T14:52:51.113Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -331,7 +331,7 @@
                       "errorLocation": {
                         "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
                         "column": 16,
-                        "line": 28
+                        "line": 29
                       }
                     }
                   ],
@@ -340,7 +340,7 @@
               ],
               "id": "c2c4106c28933478fb9e-0d501cb44654058a08a1",
               "file": "postmath.spec.ts",
-              "line": 27,
+              "line": 28,
               "column": 7
             },
             {
@@ -359,31 +359,31 @@
                       "workerIndex": 3,
                       "parallelIndex": 3,
                       "status": "failed",
-                      "duration": 705,
+                      "duration": 817,
                       "error": {
                         "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n",
-                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:49:16",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:65:16",
                         "location": {
                           "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
                           "column": 16,
-                          "line": 49
+                          "line": 65
                         },
-                        "snippet": "  47 |\n  48 |   test('should show validation errors for empty form', async ({ page }) => {\n> 49 |     await page.goto('/');\n     |                ^\n  50 |     \n  51 |     // Cliquer sur calculer sans remplir\n  52 |     await page.click('[data-testid=\"calculate-button\"]');"
+                        "snippet": "\u001b[0m \u001b[90m 63 |\u001b[39m\n \u001b[90m 64 |\u001b[39m   test(\u001b[32m'should show validation errors for empty form'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 65 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 66 |\u001b[39m     \n \u001b[90m 67 |\u001b[39m     \u001b[90m// Cliquer sur calculer sans remplir\u001b[39m\n \u001b[90m 68 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Calculer les frais'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m"
                       },
                       "errors": [
                         {
                           "location": {
                             "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
                             "column": 16,
-                            "line": 49
+                            "line": 65
                           },
-                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n\n  47 |\n  48 |   test('should show validation errors for empty form', async ({ page }) => {\n> 49 |     await page.goto('/');\n     |                ^\n  50 |     \n  51 |     // Cliquer sur calculer sans remplir\n  52 |     await page.click('[data-testid=\"calculate-button\"]');\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:49:16"
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 63 |\u001b[39m\n \u001b[90m 64 |\u001b[39m   test(\u001b[32m'should show validation errors for empty form'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 65 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 66 |\u001b[39m     \n \u001b[90m 67 |\u001b[39m     \u001b[90m// Cliquer sur calculer sans remplir\u001b[39m\n \u001b[90m 68 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByRole(\u001b[32m'button'\u001b[39m\u001b[33m,\u001b[39m { name\u001b[33m:\u001b[39m \u001b[32m'Calculer les frais'\u001b[39m })\u001b[33m.\u001b[39mclick()\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:65:16\u001b[22m"
                         }
                       ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-07-15T14:06:24.438Z",
+                      "startTime": "2025-07-15T14:52:51.113Z",
                       "annotations": [],
                       "attachments": [
                         {
@@ -400,7 +400,7 @@
                       "errorLocation": {
                         "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
                         "column": 16,
-                        "line": 49
+                        "line": 65
                       }
                     }
                   ],
@@ -409,7 +409,76 @@
               ],
               "id": "c2c4106c28933478fb9e-8b47b1922a985ab43bfe",
               "file": "postmath.spec.ts",
-              "line": 48,
+              "line": 64,
+              "column": 7
+            },
+            {
+              "title": "should display carrier information correctly",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "postmath",
+                  "projectName": "postmath",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 4,
+                      "status": "failed",
+                      "duration": 815,
+                      "error": {
+                        "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n",
+                        "stack": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:78:16",
+                        "location": {
+                          "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
+                          "column": 16,
+                          "line": 78
+                        },
+                        "snippet": "\u001b[0m \u001b[90m 76 |\u001b[39m\n \u001b[90m 77 |\u001b[39m   test(\u001b[32m'should display carrier information correctly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 78 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 79 |\u001b[39m     \n \u001b[90m 80 |\u001b[39m     \u001b[90m// Remplir le formulaire\u001b[39m\n \u001b[90m 81 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByPlaceholder(\u001b[32m'Paris'\u001b[39m)\u001b[33m.\u001b[39mfill(\u001b[32m'Paris'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
+                            "column": 16,
+                            "line": 78
+                          },
+                          "message": "Error: page.goto: net::ERR_CONNECTION_REFUSED at http://localhost:3001/\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3001/\", waiting until \"load\"\u001b[22m\n\n\n\u001b[0m \u001b[90m 76 |\u001b[39m\n \u001b[90m 77 |\u001b[39m   test(\u001b[32m'should display carrier information correctly'\u001b[39m\u001b[33m,\u001b[39m \u001b[36masync\u001b[39m ({ page }) \u001b[33m=>\u001b[39m {\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 78 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgoto(\u001b[32m'/'\u001b[39m)\u001b[33m;\u001b[39m\n \u001b[90m    |\u001b[39m                \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 79 |\u001b[39m     \n \u001b[90m 80 |\u001b[39m     \u001b[90m// Remplir le formulaire\u001b[39m\n \u001b[90m 81 |\u001b[39m     \u001b[36mawait\u001b[39m page\u001b[33m.\u001b[39mgetByPlaceholder(\u001b[32m'Paris'\u001b[39m)\u001b[33m.\u001b[39mfill(\u001b[32m'Paris'\u001b[39m)\u001b[33m;\u001b[39m\u001b[0m\n\u001b[2m    at /Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts:78:16\u001b[22m"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-07-15T14:52:51.112Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results/postmath-PostMath-Applicat-a4d3b-rrier-information-correctly-postmath/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results/postmath-PostMath-Applicat-a4d3b-rrier-information-correctly-postmath/video.webm"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/khalidksouri/Desktop/multi-apps-platform/tests/postmath.spec.ts",
+                        "column": 16,
+                        "line": 78
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "c2c4106c28933478fb9e-a27afc6276e9be4e700b",
+              "file": "postmath.spec.ts",
+              "line": 77,
               "column": 7
             }
           ]
@@ -419,11 +488,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-07-15T14:06:23.444Z",
-    "duration": 2293.5280000000002,
+    "startTime": "2025-07-15T14:52:50.329Z",
+    "duration": 1989.1660000000002,
     "expected": 0,
     "skipped": 0,
-    "unexpected": 4,
+    "unexpected": 5,
     "flaky": 0
   }
 }
