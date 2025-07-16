@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+#root {
+  height: 100%;
+}
+
+/* Support pour RTL */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .rtl\\:text-right {
+  text-align: right;
+}
+
+[dir="rtl"] .rtl\\:text-left {
+  text-align: left;
+}
+
+/* Support pour les safe areas */
+@supports (padding: env(safe-area-inset-top)) {
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}

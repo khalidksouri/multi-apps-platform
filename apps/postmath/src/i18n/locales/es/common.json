@@ -1,0 +1,20 @@
+{
+  "appName": "Postmath Pro",
+  "appDescription": "Calculadora Avanzada",
+  "calculate": "Calcular",
+  "clear": "Limpiar",
+  "history": "Historial",
+  "result": "Resultado",
+  "enterValidNumbers": "Por favor ingrese números válidos",
+  "divisionByZero": "División por cero no es posible",
+  "operations": {
+    "add": "Sumar",
+    "subtract": "Restar",
+    "multiply": "Multiplicar",
+    "divide": "Dividir"
+  },
+  "placeholders": {
+    "firstNumber": "Primer número",
+    "secondNumber": "Segundo número"
+  }
+}
