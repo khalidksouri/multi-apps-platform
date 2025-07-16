@@ -1,47 +1,37 @@
 {
-  "name": "@multiapps/ai4kids",
-  "version": "2.0.0",
-  "private": true,
-  "description": "Intelligence Artificielle pour Enfants - Application hybride",
-  "keywords": ["ai4kids", "intelligence artificielle", "enfants", "éducation", "hybride", "capacitor"],
+  "name": "ai4kids",
+  "version": "1.0.0",
+  "description": "AI4Kids - Application multilingue",
   "scripts": {
     "dev": "next dev -p 3004",
     "build": "next build",
-    "export": "next build && next export",
     "start": "next start -p 3004",
     "lint": "next lint",
-    "cap:add": "npx cap add",
-    "cap:copy": "npx cap copy",
-    "cap:sync": "npx cap sync",
-    "cap:open": "npx cap open",
-    "cap:run": "npx cap run",
-    "cap:build": "npm run build && npx cap copy && npx cap sync",
-    "android": "npm run cap:build && npx cap open android",
-    "ios": "npm run cap:build && npx cap open ios"
+    "export": "next export",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "i18n:extract": "echo 'Extraction des clés i18n...'",
+    "i18n:validate": "echo 'Validation des traductions...'"
   },
   "dependencies": {
-    "next": "14.2.30",
+    "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^5.3.3",
-    "@capacitor/core": "^5.0.0",
-    "@capacitor/app": "^5.0.0",
-    "@capacitor/haptics": "^5.0.0",
-    "@capacitor/keyboard": "^5.0.0",
-    "@capacitor/status-bar": "^5.0.0",
-    "@capacitor/splash-screen": "^5.0.0"
-  },
-  "devDependencies": {
+    "typescript": "^5.2.0",
     "@types/node": "^20.8.0",
     "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "eslint": "^8.57.1",
-    "eslint-config-next": "14.2.30",
-    "tailwindcss": "^3.4.0",
-    "autoprefixer": "^10.4.16",
-    "postcss": "^8.4.31",
-    "@capacitor/cli": "^5.0.0",
-    "@capacitor/android": "^5.0.0",
-    "@capacitor/ios": "^5.0.0"
-  }
+    "@types/react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "eslint": "^8.52.0",
+    "eslint-config-next": "^14.0.0",
+    "@playwright/test": "^1.40.0"
+  },
+  "keywords": ["i18n", "multilingual", "nextjs", "typescript", "ai4kids"],
+  "author": "Assistant Claude",
+  "license": "MIT",
+  "private": true
 }

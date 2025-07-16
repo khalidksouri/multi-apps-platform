@@ -1,20 +1,37 @@
 {
-  "name": "@multiapps/unitflip",
+  "name": "unitflip",
   "version": "1.0.0",
-  "private": true,
+  "description": "UnitFlip Pro - Application multilingue",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "test": "vitest",
-    "test:unit": "vitest run"
+    "dev": "next dev -p 3002",
+    "build": "next build",
+    "start": "next start -p 3002",
+    "lint": "next lint",
+    "export": "next export",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "i18n:extract": "echo 'Extraction des clés i18n...'",
+    "i18n:validate": "echo 'Validation des traductions...'"
   },
   "dependencies": {
-    "fastify": "^4.28.0"
+    "next": "^14.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.2.0",
+    "@types/node": "^20.8.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "tsx": "^4.7.0",
-    "typescript": "^5.3.3",
-    "vitest": "^3.2.4"
-  }
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.0",
+    "postcss": "^8.4.0",
+    "eslint": "^8.52.0",
+    "eslint-config-next": "^14.0.0",
+    "@playwright/test": "^1.40.0"
+  },
+  "keywords": ["i18n", "multilingual", "nextjs", "typescript", "unitflip"],
+  "author": "Assistant Claude",
+  "license": "MIT",
+  "private": true
 }

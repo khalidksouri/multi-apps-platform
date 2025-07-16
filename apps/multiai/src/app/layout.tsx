@@ -1,9 +1,9 @@
-import type { Metadata } from 'next';
+import { I18nLayout } from '../components/I18nLayout';
 import './globals.css';
 
-export const metadata: Metadata = {
+export const metadata = {
   title: 'MultiAI',
-  description: 'Application MultiAI - Plateforme MultiApps',
+  description: 'Application multilingue MultiAI',
 };
 
 export default function RootLayout({
@@ -12,11 +12,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr">
-      <body className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-8">
+    <html>
+      <body>
+        <I18nLayout showLanguageSelector={true}>
           {children}
-        </div>
+        </I18nLayout>
       </body>
     </html>
   );
