@@ -1,4 +1,3 @@
-// package.json - Configuration React Native Multi-Apps
 {
   "name": "multi-apps-mobile",
   "version": "1.0.0",
@@ -16,323 +15,31 @@
     "type-check": "tsc --noEmit"
   },
   "dependencies": {
-    "expo": "~49.0.0",
-    "react": "18.2.0",
-    "react-native": "0.72.0",
+    "@expo/vector-icons": "^13.0.0",
+    "@react-navigation/bottom-tabs": "^6.5.0",
     "@react-navigation/native": "^6.1.0",
     "@react-navigation/stack": "^6.3.0",
-    "@react-navigation/bottom-tabs": "^6.5.0",
+    "expo": "^53.0.19",
+    "expo-constants": "~14.4.2",
+    "expo-font": "~11.4.0",
+    "expo-splash-screen": "^0.30.10",
+    "expo-status-bar": "~1.6.0",
+    "react": "18.3.1",
+    "react-native": "0.76.6",
+    "react-native-animatable": "^1.3.3",
+    "react-native-linear-gradient": "^2.8.0",
     "react-native-safe-area-context": "4.6.3",
     "react-native-screens": "~3.22.0",
-    "react-native-vector-icons": "^10.0.0",
-    "react-native-linear-gradient": "^2.8.0",
-    "react-native-animatable": "^1.3.3",
-    "@expo/vector-icons": "^13.0.0",
-    "expo-constants": "~14.4.2",
-    "expo-status-bar": "~1.6.0",
-    "expo-font": "~11.4.0",
-    "expo-splash-screen": "~0.20.5"
+    "react-native-vector-icons": "^10.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "@types/react": "~18.2.14",
+    "@types/react": "~18.3.1",
     "@types/react-native": "~0.72.2",
-    "typescript": "^5.1.3",
-    "jest": "^29.2.1",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
     "detox": "^20.0.0",
     "eslint": "^8.0.0",
-    "@typescript-eslint/eslint-plugin": "^6.0.0"
+    "jest": "^29.2.1",
+    "typescript": "^5.1.3"
   }
 }
-
-// App.tsx - Point d'entrée principal
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { StatusBar } from 'expo-status-bar';
-import { MaterialIcons } from '@expo/vector-icons';
-
-// Import des applications
-import PostmathApp from './src/postmath/PostmathApp';
-import UnitFlipApp from './src/unitflip/UnitFlipApp';
-import BudgetCronApp from './src/budgetcron/BudgetCronApp';
-import AI4KidsApp from './src/ai4kids/AI4KidsApp';
-import MultiAIApp from './src/multiai/MultiAIApp';
-
-const Tab = createBottomTabNavigator();
-
-export default function App() {
-  return (
-    <SafeAreaProvider>
-      <NavigationContainer>
-        <Tab.Navigator
-          screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-              let iconName: keyof typeof MaterialIcons.glyphMap;
-
-              switch (route.name) {
-                case 'Postmath':
-                  iconName = 'calculate';
-                  break;
-                case 'UnitFlip':
-                  iconName = 'swap-horiz';
-                  break;
-                case 'BudgetCron':
-                  iconName = 'account-balance-wallet';
-                  break;
-                case 'AI4Kids':
-                  iconName = 'child-care';
-                  break;
-                case 'MultiAI':
-                  iconName = 'psychology';
-                  break;
-                default:
-                  iconName = 'apps';
-              }
-
-              return <MaterialIcons name={iconName} size={size} color={color} />;
-            },
-            tabBarActiveTintColor: '#667eea',
-            tabBarInactiveTintColor: 'gray',
-            headerShown: false,
-          })}
-        >
-          <Tab.Screen name="Postmath" component={PostmathApp} />
-          <Tab.Screen name="UnitFlip" component={UnitFlipApp} />
-          <Tab.Screen name="BudgetCron" component={BudgetCronApp} />
-          <Tab.Screen name="AI4Kids" component={AI4KidsApp} />
-          <Tab.Screen name="MultiAI" component={MultiAIApp} />
-        </Tab.Navigator>
-      </NavigationContainer>
-      <StatusBar style="auto" />
-    </SafeAreaProvider>
-  );
-}
-
-// src/postmath/PostmathApp.tsx
-import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
-  Alert,
-} from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-
-const PostmathApp: React.FC = () => {
-  const [num1, setNum1] = useState('');
-  const [num2, setNum2] = useState('');
-  const [operation, setOperation] = useState<'add' | 'subtract' | 'multiply' | 'divide'>('add');
-  const [result, setResult] = useState<number | null>(null);
-
-  const calculate = () => {
-    const a = parseFloat(num1);
-    const b = parseFloat(num2);
-
-    if (isNaN(a) || isNaN(b)) {
-      Alert.alert('Erreur', 'Veuillez entrer des nombres valides');
-      return;
-    }
-
-    let calcResult: number;
-    switch (operation) {
-      case 'add':
-        calcResult = a + b;
-        break;
-      case 'subtract':
-        calcResult = a - b;
-        break;
-      case 'multiply':
-        calcResult = a * b;
-        break;
-      case 'divide':
-        if (b === 0) {
-          Alert.alert('Erreur', 'Division par zéro impossible');
-          return;
-        }
-        calcResult = a / b;
-        break;
-    }
-
-    setResult(calcResult);
-  };
-
-  const getOperatorSymbol = () => {
-    switch (operation) {
-      case 'add': return '+';
-      case 'subtract': return '-';
-      case 'multiply': return '×';
-      case 'divide': return '÷';
-    }
-  };
-
-  return (
-    <SafeAreaView style={styles.container}>
-      <LinearGradient
-        colors={['#667eea', '#764ba2']}
-        style={styles.gradient}
-      >
-        <Text style={styles.title}>🧮 Postmath</Text>
-        <Text style={styles.subtitle}>Calculatrice Avancée</Text>
-
-        <View style={styles.calculatorContainer}>
-          <View style={styles.inputRow}>
-            <TextInput
-              style={styles.input}
-              value={num1}
-              onChangeText={setNum1}
-              placeholder="Premier nombre"
-              placeholderTextColor="#888"
-              keyboardType="numeric"
-            />
-            <Text style={styles.operator}>{getOperatorSymbol()}</Text>
-            <TextInput
-              style={styles.input}
-              value={num2}
-              onChangeText={setNum2}
-              placeholder="Second nombre"
-              placeholderTextColor="#888"
-              keyboardType="numeric"
-            />
-          </View>
-
-          <View style={styles.operationButtons}>
-            {(['add', 'subtract', 'multiply', 'divide'] as const).map((op) => (
-              <TouchableOpacity
-                key={op}
-                style={[
-                  styles.operationButton,
-                  operation === op && styles.activeOperation
-                ]}
-                onPress={() => setOperation(op)}
-              >
-                <Text style={styles.operationText}>
-                  {op === 'add' ? '+' : op === 'subtract' ? '-' : 
-                   op === 'multiply' ? '×' : '÷'}
-                </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-
-          <TouchableOpacity style={styles.calculateButton} onPress={calculate}>
-            <Text style={styles.calculateText}>Calculer</Text>
-          </TouchableOpacity>
-
-          {result !== null && (
-            <View style={styles.resultContainer}>
-              <Text style={styles.resultText}>
-                {num1} {getOperatorSymbol()} {num2} = {result}
-              </Text>
-            </View>
-          )}
-        </View>
-      </LinearGradient>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  gradient: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
-    marginBottom: 10,
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 4,
-  },
-  subtitle: {
-    fontSize: 18,
-    color: 'rgba(255, 255, 255, 0.9)',
-    textAlign: 'center',
-    marginBottom: 40,
-  },
-  calculatorContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 20,
-    padding: 30,
-    backdropFilter: 'blur(10px)',
-  },
-  inputRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 30,
-  },
-  input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 15,
-    padding: 15,
-    fontSize: 18,
-    flex: 0.4,
-    textAlign: 'center',
-    color: '#333',
-  },
-  operator: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: 'white',
-    flex: 0.2,
-    textAlign: 'center',
-  },
-  operationButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 30,
-  },
-  operationButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 15,
-    padding: 15,
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  activeOperation: {
-    backgroundColor: 'rgba(76, 175, 80, 0.8)',
-  },
-  operationText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  calculateButton: {
-    backgroundColor: 'rgba(76, 175, 80, 0.8)',
-    borderRadius: 15,
-    padding: 20,
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  calculateText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  resultContainer: {
-    backgroundColor: 'rgba(76, 175, 80, 0.3)',
-    borderRadius: 15,
-    padding: 20,
-    alignItems: 'center',
-  },
-  resultText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-});
-
-export default PostmathApp;

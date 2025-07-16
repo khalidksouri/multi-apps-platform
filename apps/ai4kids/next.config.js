@@ -2,7 +2,19 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  transpilePackages: ['@multiapps/shared', '@multiapps/ui']
-}
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+  },
+  assetPrefix: '',
+  output: 'export',
+  distDir: 'out',
+  eslint: {
+    ignoreDuringBuilds: false,
+  },
+  typescript: {
+    ignoreBuildErrors: false,
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

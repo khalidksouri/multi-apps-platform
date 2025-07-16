@@ -1,26 +1,19 @@
-import { NextRequest } from 'next/server';
-import { securityMiddleware, corsMiddleware, rateLimitMiddleware } from '@multiapps/shared/middleware/security';
+import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  // Appliquer le rate limiting
-  const rateLimitResponse = rateLimitMiddleware(request);
-  if (rateLimitResponse.status === 429) {
-    return rateLimitResponse;
-  }
+  // Middleware simple pour AI4KIDS
+  const response = NextResponse.next();
   
-  // Appliquer CORS
-  const corsResponse = corsMiddleware(request);
-  if (corsResponse) {
-    return corsResponse;
-  }
+  // Headers de sécurité de base
+  response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('X-Frame-Options', 'DENY');
+  response.headers.set('X-XSS-Protection', '1; mode=block');
   
-  // Appliquer la sécurité
-  return securityMiddleware(request);
+  return response;
 }
 
 export const config = {
   matcher: [
-    '/api/:path*',
-    '/((?!_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

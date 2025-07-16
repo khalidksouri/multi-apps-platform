@@ -2,34 +2,38 @@ import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
   appId: 'com.multiapps.ai4kids',
-  appName: '🎨 AI4Kids',
-  webDir: 'dist',
+  appName: 'AI4KIDS',
+  webDir: 'out',
   server: {
     androidScheme: 'https'
   },
   plugins: {
     SplashScreen: {
-      launchShowDuration: 2000,
-      backgroundColor: "#ec4899",
-      showSpinner: true,
-      spinnerColor: "#ffffff"
+      launchShowDuration: 3000,
+      launchAutoHide: true,
+      backgroundColor: "#4ECDC4",
+      androidSplashResourceName: "splash",
+      androidScaleType: "CENTER_CROP",
+      showSpinner: false,
+      androidSpinnerStyle: "large",
+      iosSpinnerStyle: "small",
+      spinnerColor: "#999999",
+      splashFullScreen: true,
+      splashImmersive: true,
+      layoutName: "launch_screen",
+      useDialog: true,
     },
     StatusBar: {
-      style: 'light',
-      backgroundColor: "#ec4899"
+      style: "DARK",
+      backgroundColor: "#4ECDC4",
+      overlaysWebView: false,
     },
-    Haptics: {
-      enabled: true
-    }
+    Keyboard: {
+      resize: "body",
+      style: "DARK",
+      resizeOnFullScreen: true,
+    },
   },
-  ios: {
-    contentInset: 'automatic',
-    backgroundColor: '#ec4899'
-  },
-  android: {
-    allowMixedContent: true,
-    backgroundColor: '#ec4899'
-  }
 };
 
 export default config;
