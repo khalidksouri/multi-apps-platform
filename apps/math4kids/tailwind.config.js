@@ -1,37 +1,22 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+export default {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif'],
+        'fredoka': ['Fredoka One', 'cursive'],
       },
-      colors: {
-        primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
-        },
-      },
-      screens: {
-        'xs': '475px',
+      animation: {
+        'bounce-in': 'bounce-in 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)',
+        'shake': 'shake 0.6s ease-in-out',
+        'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
+        'float': 'float 4s ease-in-out infinite',
+        'gradient-shift': 'gradient-shift 8s ease infinite',
       },
     },
   },
   plugins: [],
-  // Support RTL
-  future: {
-    hoverOnlyWhenSupported: true,
-  },
 }

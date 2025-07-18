@@ -1,0 +1,260 @@
+/* Math4Kids Enhanced - Styles personnalisés */
+
+/* Variables CSS pour la cohérence */
+:root {
+  --primary-color: #8b5cf6;
+  --secondary-color: #ec4899;
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --warning-color: #f59e0b;
+  --text-primary: #1f2937;
+  --text-secondary: #6b7280;
+  --border-radius: 1rem;
+  --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --gradient-primary: linear-gradient(135deg, #60a5fa 0%, #a855f7 50%, #ec4899 100%);
+}
+
+/* Police personnalisée pour les titres */
+.font-fredoka {
+  font-family: 'Fredoka One', cursive !important;
+}
+
+/* Animations avancées */
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.3) rotate(-10deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05) rotate(2deg);
+  }
+  70% {
+    transform: scale(0.9) rotate(-1deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+  20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(139, 92, 246, 0.5);
+    transform: scale(1);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(139, 92, 246, 0.8), 0 0 35px rgba(139, 92, 246, 0.6);
+    transform: scale(1.02);
+  }
+}
+
+@keyframes particle-float {
+  0% {
+    transform: translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-50px) scale(1.2) rotate(180deg);
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-120px) scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+@keyframes rainbow {
+  0% { color: #ff6b6b; }
+  16% { color: #4ecdc4; }
+  32% { color: #45b7d1; }
+  48% { color: #96ceb4; }
+  64% { color: #feca57; }
+  80% { color: #ff9ff3; }
+  100% { color: #ff6b6b; }
+}
+
+/* Classes utilitaires */
+.animate-bounce-in {
+  animation: bounce-in 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.animate-shake {
+  animation: shake 0.6s ease-in-out;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.animate-rainbow {
+  animation: rainbow 3s ease-in-out infinite;
+}
+
+.particle {
+  position: fixed;
+  pointer-events: none;
+  border-radius: 50%;
+  animation: particle-float 3s ease-out forwards;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Feedback haptique amélioré */
+.haptic-feedback {
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.haptic-feedback:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+}
+
+.haptic-feedback:active {
+  transform: translateY(0) scale(0.98);
+  filter: brightness(0.95);
+}
+
+/* Responsive design avancé */
+@media (max-width: 640px) {
+  .text-responsive {
+    font-size: clamp(1rem, 5vw, 2rem);
+  }
+  
+  .button-responsive {
+    padding: 0.75rem 1.5rem;
+    font-size: clamp(0.875rem, 4vw, 1.125rem);
+  }
+  
+  .grid-responsive {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .mobile-stack {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .mobile-full {
+    width: 100%;
+  }
+}
+
+/* Accessibilité renforcée */
+.focus-visible, *:focus-visible {
+  outline: 3px solid var(--primary-color);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Mode sombre automatique */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text-primary: #f9fafb;
+    --text-secondary: #d1d5db;
+  }
+}
+
+/* Réduction des mouvements pour l'accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .particle {
+    display: none;
+  }
+}
+
+/* Mode contraste élevé */
+@media (prefers-contrast: high) {
+  :root {
+    --primary-color: #000;
+    --secondary-color: #000;
+    --text-primary: #000;
+    --text-secondary: #333;
+  }
+  
+  .bg-gradient-to-br {
+    background: #fff !important;
+    color: #000 !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print, .particle, button {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Styles pour les écrans haute résolution */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .sharp-text {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Optimisations de performance */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.smooth-scroll {
+  scroll-behavior: smooth;
+}
+
+/* Classes utilitaires supplémentaires */
+.backdrop-blur-strong {
+  backdrop-filter: blur(20px) saturate(180%);
+}
+
+.gradient-text {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.shadow-glow {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+}
+
+.border-gradient {
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box, var(--gradient-primary) border-box;
+}

@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.multiapps.postmath"
-    compileSdk rootProject.ext.compileSdkVersion
+    namespace "com.multiapps.math4kids"
+    compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "com.multiapps.postmath"
+        applicationId "com.multiapps.math4kids"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

@@ -1,34 +1,47 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.multiapps.postmath',
-  appName: '🧮 Postmath Pro',
+  appId: 'com.multiapps.math4kids',
+  appName: '🧮 Math4Kids Enhanced',
   webDir: 'dist',
+  
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
+    iosScheme: 'https'
   },
+
   plugins: {
     SplashScreen: {
-      launchShowDuration: 2000,
-      backgroundColor: "#667eea",
+      launchShowDuration: 3000,
+      launchAutoHide: true,
+      backgroundColor: "#8b5cf6",
       showSpinner: true,
       spinnerColor: "#ffffff"
     },
+    
     StatusBar: {
       style: 'light',
-      backgroundColor: "#667eea"
+      backgroundColor: "#8b5cf6"
     },
+    
     Haptics: {
       enabled: true
+    },
+    
+    Keyboard: {
+      resize: 'body',
+      style: 'dark'
     }
   },
+
   ios: {
     contentInset: 'automatic',
-    backgroundColor: '#667eea'
+    backgroundColor: '#8b5cf6'
   },
+
   android: {
-    allowMixedContent: true,
-    backgroundColor: '#667eea'
+    backgroundColor: '#8b5cf6',
+    allowMixedContent: true
   }
 };
 

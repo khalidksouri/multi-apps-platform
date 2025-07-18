@@ -1,37 +1,28 @@
 {
   "name": "ai4kids",
   "version": "1.0.0",
-  "description": "AI4Kids - Application multilingue",
-  "scripts": {
-    "dev": "next dev -p 3004",
-    "build": "next build",
-    "start": "next start -p 3004",
-    "lint": "next lint",
-    "export": "next export",
-    "test": "playwright test",
-    "test:headed": "playwright test --headed",
-    "i18n:extract": "echo 'Extraction des clés i18n...'",
-    "i18n:validate": "echo 'Validation des traductions...'"
-  },
+  "private": true,
   "dependencies": {
-    "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "typescript": "^5.2.0",
-    "@types/node": "^20.8.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0"
+    "react-scripts": "^5.0.1"
   },
-  "devDependencies": {
-    "tailwindcss": "^3.3.0",
-    "autoprefixer": "^10.4.0",
-    "postcss": "^8.4.0",
-    "eslint": "^8.52.0",
-    "eslint-config-next": "^14.0.0",
-    "@playwright/test": "^1.40.0"
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
   },
-  "keywords": ["i18n", "multilingual", "nextjs", "typescript", "ai4kids"],
-  "author": "Assistant Claude",
-  "license": "MIT",
-  "private": true
+  "eslintConfig": {
+    "extends": [
+      "react-app"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead"
+    ],
+    "development": [
+      "last 1 chrome version"
+    ]
+  }
 }

@@ -1,8 +1,0 @@
-{
-  "appName": "BudgetCron",
-  "appDescription": "Personal Budget Manager",
-  "income": "Income",
-  "expenses": "Expenses", 
-  "balance": "Balance",
-  "addTransaction": "Add Transaction"
-}
