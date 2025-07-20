@@ -1,0 +1,16 @@
+# ENREGISTREMENTS DNS POUR math4child.com
+# Configuration A Records (ALTERNATIVE)
+
+# Domaine principal
+Type: A
+Name: @ (ou laisser vide)
+Value: 75.2.60.5
+TTL: 3600
+
+# Sous-domaine www
+Type: CNAME
+Name: www
+Value: math4child.com
+TTL: 3600
+
+# Note: Les IP de Netlify peuvent changer, CNAME est préférable

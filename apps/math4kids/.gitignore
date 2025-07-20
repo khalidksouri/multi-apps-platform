@@ -31,3 +31,6 @@ ios/App/build/
 # Cache
 .cache/
 .vite/
+
+# Local Netlify folder
+.netlify

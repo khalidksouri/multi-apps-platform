@@ -1,0 +1,18 @@
+# Redirections Math4Kids Enhanced
+
+# Redirection de l'ancien domaine Netlify vers le nouveau
+https://spiffy-arithmetic-99342f.netlify.app/* https://math4child.com/:splat 301!
+
+# Redirection www vers non-www
+https://www.math4child.com/* https://math4child.com/:splat 301!
+
+# Redirections HTTP vers HTTPS
+http://math4child.com/* https://math4child.com/:splat 301!
+http://www.math4child.com/* https://math4child.com/:splat 301!
+
+# Redirections pour compatibilité
+/index.html / 301
+/home / 301
+
+# SPA fallback (important pour React)
+/* /index.html 200

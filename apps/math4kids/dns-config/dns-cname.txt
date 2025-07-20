@@ -1,0 +1,19 @@
+# ENREGISTREMENTS DNS POUR math4child.com
+# Configuration CNAME (RECOMMANDÉE)
+
+# Domaine principal
+Type: CNAME
+Name: @ (ou laisser vide pour le domaine racine)
+Value: spiffy-arithmetic-99342f.netlify.app
+TTL: 3600
+
+# Sous-domaine www
+Type: CNAME
+Name: www
+Value: spiffy-arithmetic-99342f.netlify.app
+TTL: 3600
+
+# Vérification
+# Ces enregistrements permettront d'accéder à votre site via :
+# - https://math4child.com
+# - https://www.math4child.com
