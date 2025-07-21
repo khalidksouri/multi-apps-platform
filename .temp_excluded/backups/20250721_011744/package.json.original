@@ -1,0 +1,55 @@
+{
+  "name": "ultimate-hybrid-platform",
+  "version": "1.0.0",
+  "description": "Plateforme ultime de 6 applications hybrides avec tests BDD",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:apps",
+    "install:apps": "for app in apps/*/; do (cd \"$app\" && npm install --legacy-peer-deps); done",
+    "start:all": "concurrently \"npm run start:math4kids\" \"npm run start:unitflip\" \"npm run start:budgetcron\" \"npm run start:ai4kids\" \"npm run start:multiai\" \"npm run start:digital4kids\"",
+    "start:math4kids": "cd apps/math4kids && npm start",
+    "start:unitflip": "cd apps/unitflip && npm start",
+    "start:budgetcron": "cd apps/budgetcron && npm run serve",
+    "start:ai4kids": "cd apps/ai4kids && npm start",
+    "start:multiai": "cd apps/multiai && npm run dev",
+    "start:digital4kids": "cd apps/digital4kids && npm start",
+    "build:all": "for app in apps/*/; do (cd \"$app\" && npm run build); done",
+    "test:unit": "for app in apps/*/; do (cd \"$app\" && npm test); done",
+    "test:e2e": "playwright test",
+    "test:bdd": "cucumber-js",
+    "test:all": "npm run test:unit && npm run test:e2e && npm run test:bdd",
+    "android:all": "for app in apps/*/; do (cd \"$app\" && npm run android 2>/dev/null || echo \"Android build failed for $app\"); done",
+    "ios:all": "for app in apps/*/; do (cd \"$app\" && npm run ios 2>/dev/null || echo \"iOS build failed for $app\"); done",
+    "lint": "for app in apps/*/; do (cd \"$app\" && npm run lint 2>/dev/null || echo \"Lint not configured for $app\"); done",
+    "clean": "rm -rf node_modules apps/*/node_modules apps/*/dist apps/*/build apps/*/out",
+    "report": "npm run test:all && node scripts/generate-report.js"
+  },
+  "devDependencies": {
+    "@cucumber/cucumber": "^10.0.0",
+    "@playwright/test": "^1.40.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.6.1",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^14.3.1",
+    "@testing-library/user-event": "^14.5.2",
+    "@types/node": "^20.0.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/ui": "^1.6.0",
+    "concurrently": "^8.2.0",
+    "cross-env": "^7.0.3",
+    "happy-dom": "^14.12.0",
+    "jsdom": "^24.1.0",
+    "react-refresh": "^0.17.0",
+    "rimraf": "^5.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.0.0",
+    "vite": "^4.5.3",
+    "vitest": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

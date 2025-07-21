@@ -1,7 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">🧮 Math4Kids Enhanced</string>
-    <string name="title_activity_main">🧮 Math4Kids Enhanced</string>
-    <string name="package_name">com.multiapps.math4kids</string>
-    <string name="custom_url_scheme">com.multiapps.math4kids</string>
-</resources>
