@@ -1,3 +1,15 @@
+#!/bin/bash
+
+# ===================================================================
+# CORRECTION FINALE DU WORKFLOW GITHUB ACTIONS
+# Supprime toutes les fonctions problématiques
+# ===================================================================
+
+set -e
+
+echo "🔧 Correction finale du workflow - suppression des fonctions problématiques..."
+
+cat > .github/workflows/math4child.yml << 'EOF'
 name: Math4Child CI/CD
 
 on:
@@ -371,3 +383,31 @@ jobs:
         run: |
           echo "🎉 Math4Child CI/CD Pipeline completed!"
           echo "Check the summary above for detailed results."
+EOF
+
+echo ""
+echo "✅ WORKFLOW FINAL CRÉÉ !"
+echo ""
+echo "🔧 Corrections apportées :"
+echo "   ❌ Suppression de hashFiles() problématique"
+echo "   ❌ Suppression des conditions complexes avec secrets"
+echo "   ✅ Conditions simples avec id/outputs"
+echo "   ✅ Gestion d'erreurs robuste"
+echo "   ✅ Résumés détaillés"
+echo "   ✅ Actions v4 uniquement"
+echo ""
+echo "📊 Fonctionnalités :"
+echo "   🏗️ Build automatique avec détection du projet"
+echo "   🧪 Tests (si configurés)"  
+echo "   🎭 E2E Tests avec Playwright (si dossier tests/ existe)"
+echo "   🔒 Scan de sécurité non-bloquant"
+echo "   🚀 Déploiement Vercel (si secrets configurés)"
+echo "   📧 Notifications Slack (optionnelles)"
+echo "   📊 Résumé détaillé du pipeline"
+echo ""
+echo "🚀 Commandes finales :"
+echo "   git add .github/workflows/math4child.yml"
+echo "   git commit -m \"fix: final GitHub Actions workflow without hashFiles\""
+echo "   git push origin main"
+echo ""
+echo "🎯 Ce workflow va fonctionner sans erreur !"
