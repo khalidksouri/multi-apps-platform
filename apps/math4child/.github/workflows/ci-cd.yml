@@ -1,0 +1,367 @@
+name: Math4Child CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    - cron: '0 6 * * *'
+
+env:
+  NODE_VERSION: 18
+  NEXT_PUBLIC_APP_NAME: Math4Child
+  NEXT_PUBLIC_DOMAIN: www.math4child.com
+
+jobs:
+  # ===================================================================
+  # JOB 1: ANALYSE CODE
+  # ===================================================================
+  analyze:
+    name: 📊 Code Analysis
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: apps/math4child/package-lock.json
+          
+      - name: 📦 Install dependencies
+        run: |
+          cd apps/math4child
+          npm ci
+          
+      - name: 🔍 TypeScript Check
+        run: |
+          cd apps/math4child
+          npm run type-check
+          
+      - name: 🔍 ESLint Analysis
+        run: |
+          cd apps/math4child
+          npm run lint
+          
+      - name: 🔒 Security Audit
+        run: |
+          cd apps/math4child
+          npm audit --audit-level=moderate
+
+  # ===================================================================
+  # JOB 2: TESTS UNITAIRES
+  # ===================================================================
+  unit-tests:
+    name: 🧪 Unit Tests
+    runs-on: ubuntu-latest
+    needs: analyze
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: apps/math4child/package-lock.json
+          
+      - name: 📦 Install dependencies
+        run: |
+          cd apps/math4child
+          npm ci
+          
+      - name: 🧪 Run Unit Tests
+        run: |
+          cd apps/math4child
+          npm run test:ci
+          
+      - name: 📊 Upload Coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./apps/math4child/coverage/lcov.info
+          fail_ci_if_error: false
+
+  # ===================================================================
+  # JOB 3: BUILD APPLICATION
+  # ===================================================================
+  build:
+    name: 🏗️ Build Application
+    runs-on: ubuntu-latest
+    needs: [analyze, unit-tests]
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: apps/math4child/package-lock.json
+          
+      - name: 📦 Install dependencies
+        run: |
+          cd apps/math4child
+          npm ci
+          
+      - name: 🏗️ Build Application
+        run: |
+          cd apps/math4child
+          npm run build
+          
+      - name: 📤 Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-files
+          path: apps/math4child/.next
+          retention-days: 7
+
+  # ===================================================================
+  # JOB 4: TESTS E2E PLAYWRIGHT
+  # ===================================================================
+  e2e-tests:
+    name: 🎭 E2E Tests
+    runs-on: ubuntu-latest
+    needs: build
+    
+    strategy:
+      matrix:
+        browser: [chromium, firefox, webkit]
+        
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📦 Install App Dependencies
+        run: |
+          cd apps/math4child
+          npm ci
+          
+      - name: 📤 Download Build Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+          path: apps/math4child/.next
+          
+      - name: 🎭 Install Playwright
+        run: |
+          cd tests
+          npm ci
+          npx playwright install --with-deps ${{ matrix.browser }}
+          
+      - name: 🚀 Start Application
+        run: |
+          cd apps/math4child
+          npm start &
+          sleep 10
+        env:
+          PORT: 3000
+          
+      - name: ⏳ Wait for App
+        run: |
+          timeout 60 bash -c 'until curl -s http://localhost:3000; do sleep 2; done'
+          
+      - name: 🎭 Run E2E Tests
+        run: |
+          cd tests
+          npx playwright test --project=${{ matrix.browser }}-desktop
+        env:
+          BASE_URL: http://localhost:3000
+          CI: true
+          
+      - name: 📤 Upload Test Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.browser }}
+          path: tests/playwright-report/
+          retention-days: 30
+
+  # ===================================================================
+  # JOB 5: TESTS MULTILINGUES
+  # ===================================================================
+  i18n-tests:
+    name: 🌍 Multilingual Tests
+    runs-on: ubuntu-latest
+    needs: build
+    
+    strategy:
+      matrix:
+        locale: [fr-FR, es-ES, de-DE, ar-SA, zh-CN]
+        
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📦 Install Dependencies
+        run: |
+          cd apps/math4child && npm ci
+          cd tests && npm ci
+          
+      - name: 🎭 Install Playwright
+        run: |
+          cd tests
+          npx playwright install --with-deps chromium
+          
+      - name: 📤 Download Build
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+          path: apps/math4child/.next
+          
+      - name: 🚀 Start Application
+        run: |
+          cd apps/math4child
+          npm start &
+          sleep 10
+          
+      - name: 🌍 Run I18N Tests
+        run: |
+          cd tests
+          npx playwright test --project=${{ matrix.locale }}-locale
+        env:
+          BASE_URL: http://localhost:3000
+          TEST_LOCALE: ${{ matrix.locale }}
+          CI: true
+          
+      - name: 📤 Upload I18N Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: i18n-report-${{ matrix.locale }}
+          path: tests/playwright-report/
+
+  # ===================================================================
+  # JOB 6: TESTS PERFORMANCE
+  # ===================================================================
+  performance-tests:
+    name: ⚡ Performance Tests
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          
+      - name: 📦 Install Dependencies
+        run: |
+          cd apps/math4child && npm ci
+          cd tests && npm ci
+          
+      - name: 📤 Download Build
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+          path: apps/math4child/.next
+          
+      - name: 🚀 Start Application
+        run: |
+          cd apps/math4child
+          npm start &
+          sleep 10
+          
+      - name: ⚡ Run Lighthouse Audit
+        run: |
+          cd apps/math4child
+          mkdir -p reports
+          npm run lighthouse
+          
+      - name: ⚡ Run Performance Tests
+        run: |
+          cd tests
+          npx playwright test --project=performance-chrome
+        env:
+          BASE_URL: http://localhost:3000
+          PERF_TESTS: true
+          
+      - name: 📤 Upload Performance Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: performance-reports
+          path: |
+            apps/math4child/reports/
+            tests/playwright-report/
+
+  # ===================================================================
+  # JOB 7: DÉPLOIEMENT
+  # ===================================================================
+  deploy:
+    name: 🚀 Deploy
+    runs-on: ubuntu-latest
+    needs: [e2e-tests, i18n-tests, performance-tests]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    environment:
+      name: production
+      url: https://www.math4child.com
+      
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        
+      - name: 📤 Download Build
+        uses: actions/download-artifact@v3
+        with:
+          name: build-files
+          path: apps/math4child/.next
+          
+      - name: 🚀 Deploy to Vercel
+        uses: amondnet/vercel-action@v25
+        with:
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          working-directory: apps/math4child
+          vercel-args: '--prod'
+
+  # ===================================================================
+  # JOB 8: NOTIFICATIONS
+  # ===================================================================
+  notify:
+    name: 📧 Notify Results
+    runs-on: ubuntu-latest
+    needs: [deploy]
+    if: always()
+    
+    steps:
+      - name: 📊 Generate Report
+        run: |
+          echo "# Math4Child Pipeline Results" > report.md
+          echo "- **Commit:** ${{ github.sha }}" >> report.md
+          echo "- **Branch:** ${{ github.ref }}" >> report.md
+          echo "- **Status:** ${{ needs.deploy.result }}" >> report.md
+          
+      - name: 📧 Notify Slack
+        uses: 8398a7/action-slack@v3
+        if: always()
+        with:
+          status: ${{ job.status }}
+          text: 'Math4Child Pipeline completed: ${{ job.status }}'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}

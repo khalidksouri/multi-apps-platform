@@ -1,0 +1,190 @@
+name: Math4Child E2E Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  schedule:
+    # Tests quotidiens à 6h UTC
+    - cron: '0 6 * * *'
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        project: 
+          - chromium-desktop
+          - firefox-desktop
+          - webkit-desktop
+        
+    steps:
+    - uses: actions/checkout@v4
+    
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'npm'
+        cache-dependency-path: 'tests/package-lock.json'
+    
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ./tests
+      
+    - name: Install Playwright Browsers
+      run: npx playwright install --with-deps
+      working-directory: ./tests
+      
+    - name: Start Math4Child App
+      run: |
+        cd apps/math4child
+        npm ci
+        npm run build
+        npm run start &
+        sleep 10
+        
+    - name: Wait for app to be ready
+      run: |
+        timeout 60 bash -c 'until curl -s http://localhost:3000; do sleep 2; done'
+        
+    - name: Run Playwright tests
+      run: npx playwright test --project=${{ matrix.project }}
+      working-directory: ./tests
+      env:
+        BASE_URL: http://localhost:3000
+        CI: true
+        
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: playwright-report-${{ matrix.project }}
+        path: tests/playwright-report/
+        retention-days: 30
+
+  test-mobile:
+    timeout-minutes: 45
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'npm'
+        cache-dependency-path: 'tests/package-lock.json'
+        
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ./tests
+      
+    - name: Install Playwright
+      run: npx playwright install --with-deps chromium webkit
+      working-directory: ./tests
+      
+    - name: Start Math4Child App
+      run: |
+        cd apps/math4child
+        npm ci
+        npm run build
+        npm run start &
+        sleep 10
+        
+    - name: Run Mobile Tests
+      run: npm run test:mobile
+      working-directory: ./tests
+      env:
+        BASE_URL: http://localhost:3000
+        CI: true
+        
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: mobile-test-report
+        path: tests/playwright-report/
+
+  test-i18n:
+    timeout-minutes: 45
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'npm'
+        cache-dependency-path: 'tests/package-lock.json'
+        
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ./tests
+      
+    - name: Install Playwright
+      run: npx playwright install --with-deps chromium
+      working-directory: ./tests
+      
+    - name: Start Math4Child App
+      run: |
+        cd apps/math4child
+        npm ci
+        npm run build
+        npm run start &
+        sleep 10
+        
+    - name: Run I18N Tests
+      run: npm run test:i18n
+      working-directory: ./tests
+      env:
+        BASE_URL: http://localhost:3000
+        CI: true
+        I18N_TESTS: true
+        
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: i18n-test-report
+        path: tests/playwright-report/
+
+  test-performance:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'npm'
+        cache-dependency-path: 'tests/package-lock.json'
+        
+    - name: Install dependencies
+      run: npm ci
+      working-directory: ./tests
+      
+    - name: Install Playwright
+      run: npx playwright install --with-deps chromium
+      working-directory: ./tests
+      
+    - name: Start Math4Child App
+      run: |
+        cd apps/math4child
+        npm ci
+        npm run build
+        npm run start &
+        sleep 10
+        
+    - name: Run Performance Tests
+      run: npm run test:performance
+      working-directory: ./tests
+      env:
+        BASE_URL: http://localhost:3000
+        CI: true
+        PERF_TESTS: true
+        
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: performance-test-report
+        path: tests/playwright-report/

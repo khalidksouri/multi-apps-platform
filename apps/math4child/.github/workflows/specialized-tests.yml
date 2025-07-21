@@ -1,0 +1,107 @@
+name: Math4Child Specialized Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+  workflow_dispatch:
+
+jobs:
+  # Tests d'accessibilité
+  accessibility-tests:
+    name: ♿ Accessibility Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: apps/math4child/package-lock.json
+          
+      - name: Install dependencies
+        run: |
+          cd apps/math4child && npm ci
+          cd tests && npm ci && npx playwright install --with-deps
+          
+      - name: Start app
+        run: |
+          cd apps/math4child
+          npm run build
+          npm start &
+          sleep 10
+          
+      - name: Run A11Y tests
+        run: |
+          cd tests
+          npx playwright test --project=accessibility-chrome
+        env:
+          BASE_URL: http://localhost:3000
+          
+      - name: Upload A11Y Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: accessibility-report
+          path: tests/playwright-report/
+
+  # Tests mobile
+  mobile-tests:
+    name: 📱 Mobile Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          
+      - name: Install dependencies
+        run: |
+          cd apps/math4child && npm ci
+          cd tests && npm ci && npx playwright install --with-deps
+          
+      - name: Start app
+        run: |
+          cd apps/math4child
+          npm run build
+          npm start &
+          sleep 10
+          
+      - name: Run Mobile Tests
+        run: |
+          cd tests
+          npx playwright test --project=mobile-android --project=mobile-ios
+        env:
+          BASE_URL: http://localhost:3000
+          
+      - name: Upload Mobile Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: mobile-test-report
+          path: tests/playwright-report/
+
+  # Tests de sécurité
+  security-tests:
+    name: 🔒 Security Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          scan-ref: 'apps/math4child'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
