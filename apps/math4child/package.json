@@ -1,17 +1,15 @@
 {
   "name": "math4child-app",
   "version": "2.0.0",
-  "description": "Math4Child.com - Application éducative",
+  "description": "Math4Child.com - Application éducative multilingue",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "lint:fix": "next lint --fix",
-    "type-check": "tsc --noEmit",
-    "test": "echo 'No tests configured' && exit 0",
-    "clean": "rm -rf .next out dist"
+    "export": "next build && next export",
+    "netlify-build": "npm run build"
   },
   "dependencies": {
     "next": "15.4.2",
@@ -29,5 +27,9 @@
     "typescript": "5.4.5",
     "eslint": "8.57.0",
     "eslint-config-next": "15.4.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }

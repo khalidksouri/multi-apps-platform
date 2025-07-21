@@ -1,35 +1,33 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  
+  // Configuration pour Netlify
+  trailingSlash: true,
+  images: {
+    unoptimized: true,
+    domains: []
+  },
+  
+  // Optimisations
   experimental: {
     optimizePackageImports: ['lucide-react']
   },
-  compress: true,
-  poweredByHeader: false,
-  generateEtags: true,
-  images: {
-    formats: ['image/webp', 'image/avif'],
-    domains: []
+  
+  // Export statique pour Netlify
+  output: 'export',
+  distDir: '.next',
+  
+  // Configuration pour éviter les erreurs hydration
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
   },
-  headers: async () => [
-    {
-      source: '/(.*)',
-      headers: [
-        {
-          key: 'X-Frame-Options', 
-          value: 'DENY'
-        },
-        {
-          key: 'X-Content-Type-Options',
-          value: 'nosniff' 
-        },
-        {
-          key: 'Referrer-Policy',
-          value: 'strict-origin-when-cross-origin'
-        }
-      ]
-    }
-  ]
+  
+  // Variables d'environnement publiques
+  env: {
+    NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'https://math4child.com',
+    NEXT_PUBLIC_APP_NAME: 'Math4Child'
+  }
 }
 
 module.exports = nextConfig
