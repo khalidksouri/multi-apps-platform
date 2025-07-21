@@ -1,13 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  swcMinify: true,
   experimental: {
-    appDir: true,
+    optimizePackageImports: ['lucide-react']
   },
-  env: {
-    NEXT_PUBLIC_APP_NAME: 'Math4Child',
-    NEXT_PUBLIC_APP_VERSION: '2.0.0',
-    NEXT_PUBLIC_DOMAIN: 'www.math4child.com',
+  eslint: {
+    ignoreDuringBuilds: false,
+    dirs: ['app', 'components', 'lib', 'utils']
   },
+  images: {
+    domains: []
+  }
 }
 
 module.exports = nextConfig
