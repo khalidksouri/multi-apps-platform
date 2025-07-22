@@ -1,3 +1,22 @@
+# =============================================================================
+# 🔥 REMPLACEMENT DIRECT - DROPDOWN AVANCÉ
+# =============================================================================
+
+# 1. Aller dans le bon dossier
+cd apps/math4child
+
+# 2. Arrêter le serveur (Ctrl+C dans le terminal où tourne npm run dev)
+
+# 3. Supprimer tous les caches
+rm -rf .next
+rm -rf node_modules/.cache
+npm cache clean --force
+
+# 4. Sauvegarder l'ancien fichier
+cp src/components/language/LanguageDropdown.tsx src/components/language/LanguageDropdown.tsx.old
+
+# 5. Remplacer par la nouvelle version (copiez-collez le contenu ci-dessous)
+cat > src/components/language/LanguageDropdown.tsx << 'EOF'
 'use client'
 
 import { useState, useRef, useEffect, useMemo } from 'react'
@@ -527,3 +546,7 @@ export default function AdvancedLanguageDropdown() {
     </div>
   )
 }
+EOF
+
+# 6. Redémarrer le serveur
+npm run dev
