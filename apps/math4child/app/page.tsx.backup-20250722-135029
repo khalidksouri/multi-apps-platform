@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { Calculator, Globe, Star, Play, Heart, Trophy, Crown, Gift, Users, Lock, CheckCircle, Target, Smartphone, Monitor, Tablet, X } from 'lucide-react'
+import { Calculator, Globe, Star, Play, Heart, Trophy, Crown, Gift, Users, Lock, CheckCircle, XCircle, Target, Smartphone, Monitor, Tablet } from 'lucide-react'
 
 export default function Math4Child() {
   const [currentLanguage, setCurrentLanguage] = useState<string>('fr')
@@ -9,10 +9,6 @@ export default function Math4Child() {
   const [showSubscription, setShowSubscription] = useState(false)
   const [selectedOperation, setSelectedOperation] = useState<string | null>(null)
   const [selectedLevel, setSelectedLevel] = useState<number>(0)
-  const [selectedPlatform, setSelectedPlatform] = useState<string>('web')
-  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
-  
-  // Système de progression utilisateur
   const [userProgress, setUserProgress] = useState({
     level0: { completed: true, correctAnswers: 150 },
     level1: { completed: false, correctAnswers: 45 },
@@ -20,12 +16,13 @@ export default function Math4Child() {
     level3: { completed: false, correctAnswers: 0 },
     level4: { completed: false, correctAnswers: 0 }
   })
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // Traductions COMPLÈTES pour toutes les langues
+  // Support de toutes les langues des continents
   const translations = {
     // Europe
     fr: {
@@ -35,10 +32,7 @@ export default function Math4Child() {
       operations: ['Addition', 'Soustraction', 'Multiplication', 'Division', 'Mixte'],
       levels: ['Débutant', 'Élémentaire', 'Intermédiaire', 'Avancé', 'Expert'],
       ageRange: 'Pour enfants de 4 à 12 ans',
-      progressLevels: 'Niveaux de Progression',
       subscription: {
-        title: 'Choisissez votre abonnement',
-        deviceOptions: 'Choisissez votre plateforme',
         free: 'Version Gratuite',
         freeDesc: '50 questions • 1 semaine',
         monthly: 'Mensuel',
@@ -47,18 +41,13 @@ export default function Math4Child() {
         quarterlyPrice: '26,99€ (-10%)',
         yearly: 'Annuel', 
         yearlyPrice: '83,99€ (-30%)',
+        deviceOptions: 'Choisissez votre plateforme',
         web: 'Version Web',
         android: 'Android',
         ios: 'iOS',
         multiDevice: 'Multi-appareils',
         secondDevice: '2ème appareil (-50%)',
-        thirdDevice: '3ème appareil (-75%)',
-        choose: 'Choisir',
-        startFree: 'Commencer gratuit',
-        bestDeal: 'Meilleure offre',
-        maxSavings: 'Maximum d\'économies',
-        close: 'Fermer',
-        subscriptionFor: 'Abonnement pour'
+        thirdDevice: '3ème appareil (-75%)'
       },
       progress: {
         correctAnswers: 'Bonnes réponses',
@@ -67,14 +56,12 @@ export default function Math4Child() {
         levelLocked: 'Niveau verrouillé'
       },
       features: {
-        title: 'Fonctionnalités',
         interactive: 'Exercices interactifs',
         progress: 'Suivi des progrès',
         rewards: 'Système de récompenses', 
         multilingual: 'Interface multilingue',
         adaptive: 'Apprentissage adaptatif'
-      },
-      footer: 'Apprendre en s\'amusant'
+      }
     },
     en: {
       title: 'Math4Child',
@@ -83,10 +70,7 @@ export default function Math4Child() {
       operations: ['Addition', 'Subtraction', 'Multiplication', 'Division', 'Mixed'],
       levels: ['Beginner', 'Elementary', 'Intermediate', 'Advanced', 'Expert'],
       ageRange: 'For children aged 4 to 12',
-      progressLevels: 'Progress Levels',
       subscription: {
-        title: 'Choose your subscription',
-        deviceOptions: 'Choose your platform',
         free: 'Free Version',
         freeDesc: '50 questions • 1 week',
         monthly: 'Monthly',
@@ -95,18 +79,13 @@ export default function Math4Child() {
         quarterlyPrice: '$26.99 (-10%)',
         yearly: 'Yearly',
         yearlyPrice: '$83.99 (-30%)',
+        deviceOptions: 'Choose your platform',
         web: 'Web Version',
         android: 'Android',
         ios: 'iOS',
         multiDevice: 'Multi-device',
         secondDevice: '2nd device (-50%)',
-        thirdDevice: '3rd device (-75%)',
-        choose: 'Choose',
-        startFree: 'Start free',
-        bestDeal: 'Best deal',
-        maxSavings: 'Maximum savings',
-        close: 'Close',
-        subscriptionFor: 'Subscription for'
+        thirdDevice: '3rd device (-75%)'
       },
       progress: {
         correctAnswers: 'Correct answers',
@@ -115,14 +94,12 @@ export default function Math4Child() {
         levelLocked: 'Level locked'
       },
       features: {
-        title: 'Features',
         interactive: 'Interactive exercises',
         progress: 'Progress tracking',
         rewards: 'Reward system',
         multilingual: 'Multilingual interface',
         adaptive: 'Adaptive learning'
-      },
-      footer: 'Learning while having fun'
+      }
     },
     es: {
       title: 'Math4Child',
@@ -131,10 +108,7 @@ export default function Math4Child() {
       operations: ['Suma', 'Resta', 'Multiplicación', 'División', 'Mixto'],
       levels: ['Principiante', 'Elemental', 'Intermedio', 'Avanzado', 'Experto'],
       ageRange: 'Para niños de 4 a 12 años',
-      progressLevels: 'Niveles de Progreso',
       subscription: {
-        title: 'Elige tu suscripción',
-        deviceOptions: 'Elige tu plataforma',
         free: 'Versión Gratuita',
         freeDesc: '50 preguntas • 1 semana',
         monthly: 'Mensual',
@@ -143,18 +117,13 @@ export default function Math4Child() {
         quarterlyPrice: '26,99€ (-10%)',
         yearly: 'Anual',
         yearlyPrice: '83,99€ (-30%)',
+        deviceOptions: 'Elige tu plataforma',
         web: 'Versión Web',
         android: 'Android',
         ios: 'iOS',
         multiDevice: 'Multi-dispositivo',
         secondDevice: '2º dispositivo (-50%)',
-        thirdDevice: '3º dispositivo (-75%)',
-        choose: 'Elegir',
-        startFree: 'Empezar gratis',
-        bestDeal: 'Mejor oferta',
-        maxSavings: 'Máximo ahorro',
-        close: 'Cerrar',
-        subscriptionFor: 'Suscripción para'
+        thirdDevice: '3º dispositivo (-75%)'
       },
       progress: {
         correctAnswers: 'Respuestas correctas',
@@ -163,15 +132,52 @@ export default function Math4Child() {
         levelLocked: 'Nivel bloqueado'
       },
       features: {
-        title: 'Características',
         interactive: 'Ejercicios interactivos',
         progress: 'Seguimiento del progreso',
         rewards: 'Sistema de recompensas',
         multilingual: 'Interfaz multilingüe',
         adaptive: 'Aprendizaje adaptativo'
-      },
-      footer: 'Aprender divirtiéndose'
+      }
     },
+    de: {
+      title: 'Math4Child',
+      subtitle: 'Mathematik lernen macht Spaß!',
+      startLearning: 'Lernen beginnen',
+      operations: ['Addition', 'Subtraktion', 'Multiplikation', 'Division', 'Gemischt'],
+      levels: ['Anfänger', 'Grundstufe', 'Mittelstufe', 'Fortgeschritten', 'Experte'],
+      ageRange: 'Für Kinder von 4 bis 12 Jahren',
+      subscription: {
+        free: 'Kostenlose Version',
+        freeDesc: '50 Fragen • 1 Woche',
+        monthly: 'Monatlich',
+        monthlyPrice: '9,99€/Monat',
+        quarterly: '3 Monate',
+        quarterlyPrice: '26,99€ (-10%)',
+        yearly: 'Jährlich',
+        yearlyPrice: '83,99€ (-30%)',
+        deviceOptions: 'Wähle deine Plattform',
+        web: 'Web-Version',
+        android: 'Android',
+        ios: 'iOS',
+        multiDevice: 'Multi-Gerät',
+        secondDevice: '2. Gerät (-50%)',
+        thirdDevice: '3. Gerät (-75%)'
+      },
+      progress: {
+        correctAnswers: 'Richtige Antworten',
+        requiredToUnlock: 'Erforderlich zum Freischalten',
+        levelUnlocked: 'Level freigeschaltet',
+        levelLocked: 'Level gesperrt'
+      },
+      features: {
+        interactive: 'Interaktive Übungen',
+        progress: 'Fortschrittsverfolgung',
+        rewards: 'Belohnungssystem',
+        multilingual: 'Mehrsprachige Oberfläche',
+        adaptive: 'Adaptives Lernen'
+      }
+    },
+    // Asie
     zh: {
       title: 'Math4Child',
       subtitle: '快乐学数学！',
@@ -179,10 +185,7 @@ export default function Math4Child() {
       operations: ['加法', '减法', '乘法', '除法', '混合'],
       levels: ['初级', '基础', '中级', '高级', '专家'],
       ageRange: '适合4-12岁儿童',
-      progressLevels: '进度等级',
       subscription: {
-        title: '选择您的订阅',
-        deviceOptions: '选择平台',
         free: '免费版',
         freeDesc: '50道题 • 1周',
         monthly: '月付',
@@ -191,18 +194,13 @@ export default function Math4Child() {
         quarterlyPrice: '¥184 (-10%)',
         yearly: '年付',
         yearlyPrice: '¥571 (-30%)',
+        deviceOptions: '选择平台',
         web: '网页版',
         android: '安卓',
         ios: 'iOS',
         multiDevice: '多设备',
         secondDevice: '第2台设备 (-50%)',
-        thirdDevice: '第3台设备 (-75%)',
-        choose: '选择',
-        startFree: '免费开始',
-        bestDeal: '最优选择',
-        maxSavings: '最大优惠',
-        close: '关闭',
-        subscriptionFor: '订阅'
+        thirdDevice: '第3台设备 (-75%)'
       },
       progress: {
         correctAnswers: '正确答案',
@@ -211,15 +209,52 @@ export default function Math4Child() {
         levelLocked: '等级已锁定'
       },
       features: {
-        title: '功能特色',
         interactive: '互动练习',
         progress: '进度跟踪',
         rewards: '奖励系统',
         multilingual: '多语言界面',
         adaptive: '自适应学习'
-      },
-      footer: '快乐学习'
+      }
     },
+    ja: {
+      title: 'Math4Child',
+      subtitle: '楽しく数学を学ぼう！',
+      startLearning: '学習を始める',
+      operations: ['足し算', '引き算', '掛け算', '割り算', 'ミックス'],
+      levels: ['初級', '基礎', '中級', '上級', '専門家'],
+      ageRange: '4歳から12歳のお子様向け',
+      subscription: {
+        free: '無料版',
+        freeDesc: '50問 • 1週間',
+        monthly: '月額',
+        monthlyPrice: '¥1,200/月',
+        quarterly: '3ヶ月',
+        quarterlyPrice: '¥3,240 (-10%)',
+        yearly: '年額',
+        yearlyPrice: '¥10,080 (-30%)',
+        deviceOptions: 'プラットフォームを選択',
+        web: 'ウェブ版',
+        android: 'Android',
+        ios: 'iOS',
+        multiDevice: 'マルチデバイス',
+        secondDevice: '2台目 (-50%)',
+        thirdDevice: '3台目 (-75%)'
+      },
+      progress: {
+        correctAnswers: '正解数',
+        requiredToUnlock: 'アンロックに必要',
+        levelUnlocked: 'レベルアンロック済み',
+        levelLocked: 'レベルロック中'
+      },
+      features: {
+        interactive: 'インタラクティブ練習',
+        progress: '進捗追跡',
+        rewards: '報酬システム',
+        multilingual: '多言語インターフェース',
+        adaptive: '適応学習'
+      }
+    },
+    // Moyen-Orient
     ar: {
       title: 'Math4Child',
       subtitle: 'تعلم الرياضيات بمتعة!',
@@ -227,10 +262,7 @@ export default function Math4Child() {
       operations: ['الجمع', 'الطرح', 'الضرب', 'القسمة', 'مختلط'],
       levels: ['مبتدئ', 'أساسي', 'متوسط', 'متقدم', 'خبير'],
       ageRange: 'للأطفال من 4 إلى 12 سنة',
-      progressLevels: 'مستويات التقدم',
       subscription: {
-        title: 'اختر اشتراكك',
-        deviceOptions: 'اختر منصتك',
         free: 'النسخة المجانية',
         freeDesc: '50 سؤال • أسبوع واحد',
         monthly: 'شهري',
@@ -239,18 +271,13 @@ export default function Math4Child() {
         quarterlyPrice: '100 ريال (-10%)',
         yearly: 'سنوي',
         yearlyPrice: '311 ريال (-30%)',
+        deviceOptions: 'اختر منصتك',
         web: 'النسخة الويب',
         android: 'أندرويد',
         ios: 'iOS',
         multiDevice: 'متعدد الأجهزة',
         secondDevice: 'الجهاز الثاني (-50%)',
-        thirdDevice: 'الجهاز الثالث (-75%)',
-        choose: 'اختيار',
-        startFree: 'ابدأ مجاناً',
-        bestDeal: 'أفضل عرض',
-        maxSavings: 'أقصى توفير',
-        close: 'إغلاق',
-        subscriptionFor: 'اشتراك لـ'
+        thirdDevice: 'الجهاز الثالث (-75%)'
       },
       progress: {
         correctAnswers: 'الإجابات الصحيحة',
@@ -259,14 +286,90 @@ export default function Math4Child() {
         levelLocked: 'المستوى مقفل'
       },
       features: {
-        title: 'المميزات',
         interactive: 'تمارين تفاعلية',
         progress: 'تتبع التقدم',
         rewards: 'نظام المكافآت',
         multilingual: 'واجهة متعددة اللغات',
         adaptive: 'تعلم تكيفي'
+      }
+    },
+    // Afrique
+    sw: {
+      title: 'Math4Child',
+      subtitle: 'Jifunze hesabu kwa kufurahia!',
+      startLearning: 'Anza Kujifunza',
+      operations: ['Kuongeza', 'Kutoa', 'Kuzidisha', 'Kugawanya', 'Mchanganyiko'],
+      levels: ['Mwanzoni', 'Kimsingi', 'Kati', 'Juu', 'Mtaalamu'],
+      ageRange: 'Kwa watoto wa umri wa miaka 4 hadi 12',
+      subscription: {
+        free: 'Toleo la Bure',
+        freeDesc: 'Maswali 50 • Wiki 1',
+        monthly: 'Kila Mwezi',
+        monthlyPrice: 'TSh 23,000/mwezi',
+        quarterly: 'Miezi 3',
+        quarterlyPrice: 'TSh 62,000 (-10%)',
+        yearly: 'Kila Mwaka',
+        yearlyPrice: 'TSh 193,000 (-30%)',
+        deviceOptions: 'Chagua jukwako',
+        web: 'Toleo la Wavuti',
+        android: 'Android',
+        ios: 'iOS',
+        multiDevice: 'Vifaa vingi',
+        secondDevice: 'Kifaa cha 2 (-50%)',
+        thirdDevice: 'Kifaa cha 3 (-75%)'
       },
-      footer: 'التعلم بمتعة'
+      progress: {
+        correctAnswers: 'Majibu sahihi',
+        requiredToUnlock: 'Inahitajika kufungua',
+        levelUnlocked: 'Kiwango kimefunguliwa',
+        levelLocked: 'Kiwango kimefungwa'
+      },
+      features: {
+        interactive: 'Mazoezi ya maingiliano',
+        progress: 'Kufuatilia maendeleo',
+        rewards: 'Mfumo wa tuzo',
+        multilingual: 'Kiolesura cha lugha nyingi',
+        adaptive: 'Ujifunzaji unaobadilika'
+      }
+    },
+    // Amérique du Sud
+    pt: {
+      title: 'Math4Child',
+      subtitle: 'Aprenda matemática se divertindo!',
+      startLearning: 'Começar a Aprender',
+      operations: ['Adição', 'Subtração', 'Multiplicação', 'Divisão', 'Misto'],
+      levels: ['Iniciante', 'Elementar', 'Intermediário', 'Avançado', 'Especialista'],
+      ageRange: 'Para crianças de 4 a 12 anos',
+      subscription: {
+        free: 'Versão Gratuita',
+        freeDesc: '50 questões • 1 semana',
+        monthly: 'Mensal',
+        monthlyPrice: 'R$ 49,90/mês',
+        quarterly: '3 Meses',
+        quarterlyPrice: 'R$ 134,90 (-10%)',
+        yearly: 'Anual',
+        yearlyPrice: 'R$ 419,90 (-30%)',
+        deviceOptions: 'Escolha sua plataforma',
+        web: 'Versão Web',
+        android: 'Android',
+        ios: 'iOS',
+        multiDevice: 'Multi-dispositivo',
+        secondDevice: '2º dispositivo (-50%)',
+        thirdDevice: '3º dispositivo (-75%)'
+      },
+      progress: {
+        correctAnswers: 'Respostas corretas',
+        requiredToUnlock: 'Necessário para desbloquear',
+        levelUnlocked: 'Nível desbloqueado',
+        levelLocked: 'Nível bloqueado'
+      },
+      features: {
+        interactive: 'Exercícios interativos',
+        progress: 'Acompanhamento do progresso',
+        rewards: 'Sistema de recompensas',
+        multilingual: 'Interface multilíngue',
+        adaptive: 'Aprendizado adaptativo'
+      }
     }
   }
 
@@ -288,7 +391,7 @@ export default function Math4Child() {
     { code: 'th', name: 'ไทย', flag: '🇹🇭', continent: 'Asie' },
     { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳', continent: 'Asie' },
     
-    // Moyen-Orient  
+    // Moyen-Orient
     { code: 'ar', name: 'العربية', flag: '🇸🇦', continent: 'Moyen-Orient' },
     { code: 'fa', name: 'فارسی', flag: '🇮🇷', continent: 'Moyen-Orient' },
     { code: 'tr', name: 'Türkçe', flag: '🇹🇷', continent: 'Moyen-Orient' },
@@ -314,21 +417,6 @@ export default function Math4Child() {
     return acc
   }, {} as Record<string, typeof languages>)
 
-  // Fonction pour gérer la sélection d'opération et ouvrir l'abonnement
-  const handleOperationClick = (operation: string, index: number) => {
-    setSelectedOperation(operation)
-    setShowSubscription(true)
-  }
-
-  // Fonction pour gérer l'abonnement
-  const handleSubscription = (plan: string) => {
-    console.log('Abonnement choisi:', { plan, operation: selectedOperation, platform: selectedPlatform, language: currentLanguage })
-    
-    // Simuler traitement abonnement
-    alert(`✅ Abonnement ${plan} confirmé pour ${t.subscription.subscriptionFor} ${selectedOperation || 'toutes les opérations'} sur ${selectedPlatform}!`)
-    setShowSubscription(false)
-  }
-
   return (
     <div 
       className="min-h-screen" 
@@ -338,7 +426,7 @@ export default function Math4Child() {
         direction: isRTL ? 'rtl' : 'ltr'
       }}
     >
-      {/* Header avec sélecteur de langue */}
+      {/* Header avec sélecteur de langue avancé */}
       <header style={{
         display: 'flex',
         justifyContent: 'space-between',
@@ -354,7 +442,7 @@ export default function Math4Child() {
           </h1>
         </div>
         
-        {/* Sélecteur de langue */}
+        {/* Sélecteur de langue avancé */}
         <div style={{ position: 'relative' }}>
           <button
             onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
@@ -499,7 +587,7 @@ export default function Math4Child() {
           {/* Niveaux avec système de progression */}
           <div style={{ marginBottom: '3rem' }}>
             <h3 style={{ color: 'white', fontSize: '1.5rem', marginBottom: '1.5rem' }}>
-              📊 {t.progressLevels}
+              📊 Niveaux de Progression
             </h3>
             <div style={{
               display: 'grid',
@@ -557,7 +645,7 @@ export default function Math4Child() {
             </div>
           </div>
 
-          {/* 5 Opérations mathématiques - CORRIGES */}
+          {/* 5 Opérations mathématiques */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
@@ -569,7 +657,10 @@ export default function Math4Child() {
               return (
                 <div
                   key={index}
-                  onClick={() => handleOperationClick(operation, index)}
+                  onClick={() => {
+                    setSelectedOperation(operation)
+                    setShowSubscription(true)
+                  }}
                   style={{
                     background: selectedOperation === operation ? 'rgba(102, 126, 234, 0.2)' : 'rgba(255, 255, 255, 0.9)',
                     borderRadius: '15px',
@@ -606,7 +697,7 @@ export default function Math4Child() {
             })}
           </div>
 
-          {/* Modal d'abonnement COMPLET */}
+          {/* Modal d'abonnement complet */}
           {showSubscription && (
             <div style={{
               position: 'fixed',
@@ -628,33 +719,15 @@ export default function Math4Child() {
                 maxWidth: '900px',
                 width: '100%',
                 maxHeight: '90vh',
-                overflow: 'auto',
-                position: 'relative'
+                overflow: 'auto'
               }}>
-                {/* Bouton fermer */}
-                <button 
-                  onClick={() => setShowSubscription(false)}
-                  style={{
-                    position: 'absolute',
-                    top: '1rem',
-                    right: '1rem',
-                    background: 'transparent',
-                    border: 'none',
-                    cursor: 'pointer',
-                    fontSize: '1.5rem',
-                    color: '#666'
-                  }}
-                >
-                  <X size={24} />
-                </button>
-
                 <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
                   <h3 style={{ fontSize: '1.8rem', color: '#333', marginBottom: '1rem' }}>
-                    🎉 {t.subscription.title}
+                    🎉 {t.subscription.deviceOptions}
                   </h3>
                   {selectedOperation && (
                     <p style={{ color: '#666', marginBottom: '1rem' }}>
-                      {t.subscription.subscriptionFor}: <strong>{selectedOperation}</strong>
+                      {currentLanguage === 'fr' ? 'Opération sélectionnée' : 'Selected operation'}: <strong>{selectedOperation}</strong>
                     </p>
                   )}
                 </div>
@@ -665,27 +738,36 @@ export default function Math4Child() {
                     📱 {t.subscription.deviceOptions}
                   </h4>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem' }}>
-                    {[
-                      { key: 'web', icon: Monitor, color: '#667eea', label: t.subscription.web },
-                      { key: 'android', icon: Smartphone, color: '#22c55e', label: t.subscription.android },
-                      { key: 'ios', icon: Tablet, color: '#333', label: t.subscription.ios }
-                    ].map(({key, icon: Icon, color, label}) => (
-                      <div 
-                        key={key}
-                        onClick={() => setSelectedPlatform(key)}
-                        style={{
-                          border: selectedPlatform === key ? `2px solid ${color}` : '2px solid #e0e0e0',
-                          borderRadius: '10px',
-                          padding: '1rem',
-                          textAlign: 'center',
-                          cursor: 'pointer',
-                          background: selectedPlatform === key ? `${color}20` : 'transparent'
-                        }}
-                      >
-                        <Icon size={32} color={color} style={{ marginBottom: '0.5rem' }} />
-                        <div>{label}</div>
-                      </div>
-                    ))}
+                    <div style={{
+                      border: '2px solid #667eea',
+                      borderRadius: '10px',
+                      padding: '1rem',
+                      textAlign: 'center',
+                      cursor: 'pointer'
+                    }}>
+                      <Monitor size={32} color="#667eea" style={{ marginBottom: '0.5rem' }} />
+                      <div>{t.subscription.web}</div>
+                    </div>
+                    <div style={{
+                      border: '2px solid #22c55e',
+                      borderRadius: '10px',
+                      padding: '1rem',
+                      textAlign: 'center',
+                      cursor: 'pointer'
+                    }}>
+                      <Smartphone size={32} color="#22c55e" style={{ marginBottom: '0.5rem' }} />
+                      <div>{t.subscription.android}</div>
+                    </div>
+                    <div style={{
+                      border: '2px solid #333',
+                      borderRadius: '10px',
+                      padding: '1rem',
+                      textAlign: 'center',
+                      cursor: 'pointer'
+                    }}>
+                      <Tablet size={32} color="#333" style={{ marginBottom: '0.5rem' }} />
+                      <div>{t.subscription.ios}</div>
+                    </div>
                   </div>
                 </div>
 
@@ -704,21 +786,18 @@ export default function Math4Child() {
                       {t.subscription.freeDesc}
                     </p>
                     <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#667eea', marginBottom: '1rem' }}>
-                      {currentLanguage === 'fr' ? 'Gratuit' : currentLanguage === 'en' ? 'Free' : currentLanguage === 'es' ? 'Gratis' : currentLanguage === 'zh' ? '免费' : 'مجاني'}
+                      {currentLanguage === 'fr' ? 'Gratuit' : 'Free'}
                     </div>
-                    <button 
-                      onClick={() => handleSubscription(t.subscription.free)}
-                      style={{
-                        background: '#f0f0f0',
-                        color: '#333',
-                        border: 'none',
-                        padding: '0.75rem 1.5rem',
-                        borderRadius: '25px',
-                        cursor: 'pointer',
-                        width: '100%'
-                      }}
-                    >
-                      {t.subscription.startFree}
+                    <button style={{
+                      background: '#f0f0f0',
+                      color: '#333',
+                      border: 'none',
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '25px',
+                      cursor: 'pointer',
+                      width: '100%'
+                    }}>
+                      {currentLanguage === 'fr' ? 'Commencer gratuit' : 'Start free'}
                     </button>
                   </div>
 
@@ -732,24 +811,21 @@ export default function Math4Child() {
                     <Crown size={32} color="#667eea" style={{ marginBottom: '1rem' }} />
                     <h4 style={{ color: '#333', marginBottom: '0.5rem' }}>{t.subscription.monthly}</h4>
                     <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                      {currentLanguage === 'fr' ? 'Questions illimitées' : currentLanguage === 'en' ? 'Unlimited questions' : currentLanguage === 'es' ? 'Preguntas ilimitadas' : currentLanguage === 'zh' ? '无限题目' : 'أسئلة غير محدودة'}
+                      {currentLanguage === 'fr' ? 'Questions illimitées' : 'Unlimited questions'}
                     </p>
                     <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#667eea', marginBottom: '1rem' }}>
                       {t.subscription.monthlyPrice}
                     </div>
-                    <button 
-                      onClick={() => handleSubscription(t.subscription.monthly)}
-                      style={{
-                        background: 'linear-gradient(135deg, #667eea, #764ba2)',
-                        color: 'white',
-                        border: 'none',
-                        padding: '0.75rem 1.5rem',
-                        borderRadius: '25px',
-                        cursor: 'pointer',
-                        width: '100%'
-                      }}
-                    >
-                      {t.subscription.choose}
+                    <button style={{
+                      background: 'linear-gradient(135deg, #667eea, #764ba2)',
+                      color: 'white',
+                      border: 'none',
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '25px',
+                      cursor: 'pointer',
+                      width: '100%'
+                    }}>
+                      {currentLanguage === 'fr' ? 'Choisir' : 'Choose'}
                     </button>
                   </div>
 
@@ -764,24 +840,21 @@ export default function Math4Child() {
                     <Star size={32} color="#22c55e" style={{ marginBottom: '1rem' }} />
                     <h4 style={{ color: '#333', marginBottom: '0.5rem' }}>{t.subscription.quarterly}</h4>
                     <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                      {currentLanguage === 'fr' ? 'Économisez 10%' : currentLanguage === 'en' ? 'Save 10%' : currentLanguage === 'es' ? 'Ahorre 10%' : currentLanguage === 'zh' ? '节省10%' : 'وفر 10%'}
+                      {currentLanguage === 'fr' ? 'Économisez 10%' : 'Save 10%'}
                     </p>
                     <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#22c55e', marginBottom: '1rem' }}>
                       {t.subscription.quarterlyPrice}
                     </div>
-                    <button 
-                      onClick={() => handleSubscription(t.subscription.quarterly)}
-                      style={{
-                        background: 'linear-gradient(135deg, #22c55e, #16a34a)',
-                        color: 'white',
-                        border: 'none',
-                        padding: '0.75rem 1.5rem',
-                        borderRadius: '25px',
-                        cursor: 'pointer',
-                        width: '100%'
-                      }}
-                    >
-                      {t.subscription.bestDeal}
+                    <button style={{
+                      background: 'linear-gradient(135deg, #22c55e, #16a34a)',
+                      color: 'white',
+                      border: 'none',
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '25px',
+                      cursor: 'pointer',
+                      width: '100%'
+                    }}>
+                      {currentLanguage === 'fr' ? 'Meilleure offre' : 'Best deal'}
                     </button>
                   </div>
 
@@ -796,24 +869,21 @@ export default function Math4Child() {
                     <Trophy size={32} color="#ffd700" style={{ marginBottom: '1rem' }} />
                     <h4 style={{ color: '#333', marginBottom: '0.5rem' }}>{t.subscription.yearly}</h4>
                     <p style={{ color: '#666', fontSize: '0.9rem', marginBottom: '1rem' }}>
-                      {currentLanguage === 'fr' ? 'Économisez 30%' : currentLanguage === 'en' ? 'Save 30%' : currentLanguage === 'es' ? 'Ahorre 30%' : currentLanguage === 'zh' ? '节省30%' : 'وفر 30%'}
+                      {currentLanguage === 'fr' ? 'Économisez 30%' : 'Save 30%'}
                     </p>
                     <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#ffd700', marginBottom: '1rem' }}>
                       {t.subscription.yearlyPrice}
                     </div>
-                    <button 
-                      onClick={() => handleSubscription(t.subscription.yearly)}
-                      style={{
-                        background: 'linear-gradient(135deg, #ffd700, #ffa500)',
-                        color: 'white',
-                        border: 'none',
-                        padding: '0.75rem 1.5rem',
-                        borderRadius: '25px',
-                        cursor: 'pointer',
-                        width: '100%'
-                      }}
-                    >
-                      {t.subscription.maxSavings}
+                    <button style={{
+                      background: 'linear-gradient(135deg, #ffd700, #ffa500)',
+                      color: 'white',
+                      border: 'none',
+                      padding: '0.75rem 1.5rem',
+                      borderRadius: '25px',
+                      cursor: 'pointer',
+                      width: '100%'
+                    }}>
+                      {currentLanguage === 'fr' ? 'Maximum d\'économies' : 'Maximum savings'}
                     </button>
                   </div>
                 </div>
@@ -841,7 +911,7 @@ export default function Math4Child() {
                       color: '#666'
                     }}
                   >
-                    {t.subscription.close}
+                    {currentLanguage === 'fr' ? 'Fermer' : 'Close'}
                   </button>
                 </div>
               </div>
@@ -856,14 +926,14 @@ export default function Math4Child() {
             marginBottom: '2rem'
           }}>
             <h3 style={{ fontSize: '1.5rem', color: '#333', marginBottom: '1.5rem' }}>
-              ✨ {t.features.title}
+              ✨ {currentLanguage === 'fr' ? 'Fonctionnalités' : 'Features'}
             </h3>
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
               gap: '1rem'
             }}>
-              {Object.values(t.features).filter(feature => feature !== t.features.title).map((feature, index) => (
+              {Object.values(t.features).map((feature, index) => (
                 <div key={index} style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -888,7 +958,7 @@ export default function Math4Child() {
         marginTop: '3rem'
       }}>
         <p style={{ margin: 0, opacity: 0.8 }}>
-          Math4Child © 2025 - {t.footer}
+          Math4Child © 2025 - {currentLanguage === 'fr' ? 'Apprendre en s\'amusant' : 'Learning while having fun'}
         </p>
         <p style={{ margin: 0, opacity: 0.6, fontSize: '0.9rem' }}>
           www.math4child.com
