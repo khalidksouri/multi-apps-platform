@@ -1,3 +1,78 @@
+#!/bin/bash
+
+# =============================================================================
+# 🚀 MISE À JOUR VERS DROPDOWN AVANCÉ - Math4Child
+# =============================================================================
+
+set -e
+
+# Couleurs
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+print_header() {
+    echo -e "${PURPLE}╔════════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${PURPLE}║${NC}        ${CYAN}🚀 MISE À JOUR VERS DROPDOWN AVANCÉ - Math4Child${NC}           ${PURPLE}║${NC}"
+    echo -e "${PURPLE}║${NC}     ${YELLOW}Recherche + Régions + Scroll + Design Moderne${NC}               ${PURPLE}║${NC}"
+    echo -e "${PURPLE}╚════════════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+}
+
+print_step() { echo -e "${BLUE}▶ $1${NC}"; }
+print_success() { echo -e "${GREEN}✅ $1${NC}"; }
+print_error() { echo -e "${RED}❌ $1${NC}"; }
+print_warning() { echo -e "${YELLOW}⚠️  $1${NC}"; }
+
+# 1. VÉRIFICATION ET NAVIGATION
+check_environment() {
+    print_step "1. Vérification de l'environnement"
+    
+    if [ -d "apps/math4child" ]; then
+        cd apps/math4child
+        print_success "Dans: $(pwd)"
+    elif [ -f "package.json" ] && grep -q "math4child" package.json; then
+        print_success "Déjà dans Math4Child"
+    else
+        print_error "Projet Math4Child non trouvé"
+        exit 1
+    fi
+}
+
+# 2. SAUVEGARDE DE LA VERSION ACTUELLE
+backup_current_version() {
+    print_step "2. Sauvegarde de la version actuelle"
+    
+    if [ -f "src/components/language/LanguageDropdown.tsx" ]; then
+        cp src/components/language/LanguageDropdown.tsx src/components/language/LanguageDropdown.tsx.backup.$(date +%Y%m%d_%H%M%S)
+        print_success "Version actuelle sauvegardée"
+    fi
+}
+
+# 3. ARRÊT DES SERVEURS ET NETTOYAGE
+clean_environment() {
+    print_step "3. Nettoyage de l'environnement"
+    
+    # Arrêter les serveurs
+    pkill -f "next dev" 2>/dev/null || true
+    pkill -f "node.*next" 2>/dev/null || true
+    
+    # Nettoyer les caches
+    rm -rf .next node_modules/.cache
+    npm cache clean --force --silent
+    
+    print_success "Environnement nettoyé"
+}
+
+# 4. REMPLACEMENT PAR LA VERSION AVANCÉE
+install_advanced_version() {
+    print_step "4. Installation de la version avancée"
+    
+    cat > src/components/language/LanguageDropdown.tsx << 'EOF'
 'use client'
 
 import { useState, useRef, useEffect, useMemo } from 'react'
@@ -566,3 +641,167 @@ export default function AdvancedLanguageDropdown() {
     </div>
   )
 }
+EOF
+    
+    print_success "Version avancée installée avec toutes les fonctionnalités"
+}
+
+# 5. TEST DE VALIDATION
+validate_installation() {
+    print_step "5. Validation de l'installation"
+    
+    # Vérifier la présence des fonctionnalités
+    if grep -q "searchTerms" src/components/language/LanguageDropdown.tsx; then
+        print_success "✅ Recherche intelligente"
+    else
+        print_error "❌ Recherche intelligente manquante"
+    fi
+    
+    if grep -q "groupedLanguages" src/components/language/LanguageDropdown.tsx; then
+        print_success "✅ Groupement par région"
+    else
+        print_error "❌ Groupement par région manquant"
+    fi
+    
+    if grep -q "popular" src/components/language/LanguageDropdown.tsx; then
+        print_success "✅ Badges populaires"
+    else
+        print_error "❌ Badges populaires manquants"
+    fi
+    
+    if grep -q "custom-scrollbar" src/components/language/LanguageDropdown.tsx; then
+        print_success "✅ Scroll personnalisé"
+    else
+        print_error "❌ Scroll personnalisé manquant"
+    fi
+    
+    # Compter les lignes
+    lines=$(wc -l < src/components/language/LanguageDropdown.tsx)
+    if [ "$lines" -gt 400 ]; then
+        print_success "✅ Version complète ($lines lignes)"
+    else
+        print_warning "⚠️  Version potentiellement incomplète ($lines lignes)"
+    fi
+}
+
+# 6. CRÉATION D'UN SCRIPT DE TEST
+create_validation_script() {
+    print_step "6. Création du script de validation"
+    
+    mkdir -p scripts
+    
+    cat > scripts/test-advanced-features.sh << 'EOF'
+#!/bin/bash
+
+echo "🧪 TEST DES FONCTIONNALITÉS AVANCÉES"
+echo "===================================="
+
+echo ""
+echo "🔍 Recherche intelligente à tester:"
+echo "• Tapez 'fr' → Trouve Français"
+echo "• Tapez 'eng' ou 'english' → Trouve English" 
+echo "• Tapez 'chin' ou 'chinese' → Trouve 中文"
+echo "• Tapez 'germ' ou 'deutschland' → Trouve Deutsch"
+echo "• Tapez 'arab' ou 'العربية' → Trouve العربية"
+echo ""
+
+echo "🌍 Groupement par région à vérifier:"
+echo "• Section Europe 🇪🇺 avec compteur"
+echo "• Section Asie 🌏 avec compteur"
+echo "• Section Moyen-Orient 🕌 avec compteur"
+echo "• Section Amérique 🌎 avec compteur"
+echo ""
+
+echo "⭐ Badges populaires à voir:"
+echo "• Français - Badge 'Populaire'"
+echo "• English - Badge 'Populaire'"
+echo "• Español - Badge 'Populaire'"
+echo "• Deutsch - Badge 'Populaire'"
+echo "• Italiano - Badge 'Populaire'"
+echo "• Português - Badge 'Populaire'"
+echo ""
+
+echo "📜 Scroll visible à vérifier:"
+echo "• Barre de défilement colorée (bleu/violet/rose)"
+echo "• Hover effect sur la scrollbar"
+echo "• Scroll automatique vers sélection"
+echo ""
+
+echo "⌨️ Navigation clavier:"
+echo "• ↑↓ : Naviguer"
+echo "• Enter : Sélectionner"
+echo "• Escape : Fermer"
+echo "• Home/End : Premier/Dernier"
+echo ""
+
+echo "🎨 Éléments visuels modernes:"
+echo "• Point vert clignotant sur bouton"
+echo "• Badge 'NEW' orange sur bouton"
+echo "• Header avec gradient bleu/violet/rose"
+echo "• Footer avec stats animées"
+echo "• Icônes animées (bounce, pulse, spin)"
+echo ""
+
+echo "✨ Si vous voyez tous ces éléments = VERSION AVANCÉE OK ✨"
+echo "❌ Si certains manquent = Videz le cache navigateur !"
+EOF
+
+    chmod +x scripts/test-advanced-features.sh
+    
+    print_success "Script de validation créé"
+}
+
+# 7. INSTRUCTIONS FINALES
+show_final_instructions() {
+    print_step "7. Instructions finales"
+    
+    echo ""
+    echo -e "${PURPLE}╔════════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${PURPLE}║${NC}              ${GREEN}✅ MISE À JOUR VERS VERSION AVANCÉE TERMINÉE${NC}            ${PURPLE}║${NC}"
+    echo -e "${PURPLE}╚════════════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    
+    echo -e "${GREEN}🎉 NOUVELLES FONCTIONNALITÉS AJOUTÉES :${NC}"
+    echo -e "${CYAN}   🔍 Recherche intelligente avec termes étendus${NC}"
+    echo -e "${CYAN}   🌍 Groupement par région avec icônes animées${NC}"
+    echo -e "${CYAN}   ⭐ Badges populaires avec animations${NC}"
+    echo -e "${CYAN}   📜 Scroll visible avec gradient coloré${NC}"
+    echo -e "${CYAN}   🎨 Design moderne avec animations${NC}"
+    echo -e "${CYAN}   ⌨️ Navigation clavier complète${NC}"
+    echo -e "${CYAN}   📱 Interface responsive optimisée${NC}"
+    echo -e "${CYAN}   🔴 Indicateurs visuels sur le bouton${NC}"
+    echo ""
+    
+    echo -e "${YELLOW}🚨 ÉTAPES OBLIGATOIRES MAINTENANT :${NC}"
+    echo -e "${BLUE}   1. 🔄 Redémarrer: npm run dev${NC}"
+    echo -e "${BLUE}   2. 🧹 Vider cache: Ctrl+Shift+R ou mode incognito${NC}"
+    echo -e "${BLUE}   3. 🧪 Tester: ./scripts/test-advanced-features.sh${NC}"
+    echo ""
+    
+    echo -e "${GREEN}🎯 ÉLÉMENTS À VÉRIFIER VISUELLEMENT :${NC}"
+    echo -e "${CYAN}   • Point vert clignotant + badge 'NEW' sur bouton${NC}"
+    echo -e "${CYAN}   • Barre de recherche avec placeholder détaillé${NC}"
+    echo -e "${CYAN}   • Sections de région avec emojis et compteurs${NC}"
+    echo -e "${CYAN}   • Badges 'Populaire' jaunes/oranges animés${NC}"
+    echo -e "${CYAN}   • Scrollbar colorée (bleu/violet/rose)${NC}"
+    echo -e "${CYAN}   • Header et footer avec gradients${NC}"
+    echo ""
+    
+    echo -e "${PURPLE}⭐ VOTRE DROPDOWN EST MAINTENANT EN VERSION AVANCÉE ! ⭐${NC}"
+}
+
+# FONCTION PRINCIPALE
+main() {
+    print_header
+    
+    check_environment
+    backup_current_version
+    clean_environment
+    install_advanced_version
+    validate_installation
+    create_validation_script
+    show_final_instructions
+}
+
+# Exécution
+main "$@"
