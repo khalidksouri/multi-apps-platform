@@ -1,5 +1,5 @@
 // =============================================================================
-// SYSTÈME DE PAIEMENT OPTIMAL - Math4Child
+// SYSTÈME DE PAIEMENT OPTIMAL - Math4Child (VERSION CORRIGÉE)
 // =============================================================================
 
 export interface OptimalPlan {
@@ -63,7 +63,7 @@ class OptimalPaymentManagerClass {
   }): Promise<CheckoutResponse> {
     
     const provider = getOptimalProvider({
-      platform: (options.platform as any) || 'web',
+      platform: (options.platform as 'web' | 'ios' | 'android') || 'web',
       country: options.country || 'FR',
       amount: options.amount || 699
     })
@@ -76,7 +76,7 @@ class OptimalPaymentManagerClass {
     }
   }
   
-  async handleWebhook(provider: string, payload: any) {
+  async handleWebhook(provider: string, payload: unknown) {
     console.log(`📨 [WEBHOOK] ${provider.toUpperCase()}:`, payload)
     return { success: true }
   }

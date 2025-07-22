@@ -9,7 +9,6 @@
     "start": "next start",
     "lint": "next lint --quiet || true",
     "type-check": "tsc --noEmit || true",
-    "prebuild": "echo 'Skipping prebuild for faster builds'",
     "clean": "rm -rf .next out dist node_modules/.cache"
   },
   "dependencies": {
