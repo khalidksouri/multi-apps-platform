@@ -1,3 +1,11 @@
+#!/bin/bash
+
+# Fix rapide TypeScript - Math4Child
+
+echo "🔧 Correction TypeScript rapide..."
+
+# 1. Corriger le module optimal-payments pour inclure 'success'
+cat > src/lib/optimal-payments.ts << 'EOF'
 // =============================================================================
 // SYSTÈME DE PAIEMENT OPTIMAL - Math4Child (VERSION CORRIGÉE)
 // =============================================================================
@@ -127,3 +135,84 @@ class OptimalPaymentManagerClass {
 
 export const OptimalPaymentManager = new OptimalPaymentManagerClass()
 export default OptimalPaymentManager
+EOF
+
+echo "✅ Module optimal-payments corrigé"
+
+# 2. Corriger l'API route pour utiliser les bons types
+cat > src/app/api/payments/create-checkout/route.ts << 'EOF'
+import { NextRequest, NextResponse } from 'next/server'
+import { OptimalPaymentManager, getOptimalProvider, CheckoutResponse } from '@/lib/optimal-payments'
+
+export async function POST(request: NextRequest) {
+  try {
+    const { planId, country, platform, email, amount, currency } = await request.json()
+    
+    // Déterminer le provider optimal
+    const provider = getOptimalProvider({
+      platform: platform || 'web',
+      country: country || 'FR',
+      amount: amount || 699
+    })
+    
+    console.log(`🎯 [OPTIMAL] Provider sélectionné: ${provider} pour ${country}`)
+    
+    // Créer checkout via provider optimal (maintenant typé correctement)
+    const checkout: CheckoutResponse = await OptimalPaymentManager.createCheckout(planId, {
+      email,
+      country,
+      platform,
+      amount,
+      currency
+    })
+    
+    // Analytics
+    console.log('📊 [OPTIMAL] Checkout créé:', {
+      planId,
+      provider,
+      country,
+      amount: `${amount/100}€`
+    })
+    
+    return NextResponse.json({
+      success: checkout.success,
+      provider: checkout.provider,
+      checkoutUrl: checkout.checkoutUrl,
+      sessionId: checkout.sessionId,
+      advantages: [
+        provider === 'paddle' ? 'TVA automatique EU' : '',
+        provider === 'lemonsqueezy' ? 'Optimisé international' : '',
+        provider === 'revenuecat' ? 'Gestion familiale native' : '',
+        'Fees optimisés',
+        'Conversion maximale'
+      ].filter(Boolean)
+    })
+    
+  } catch (error) {
+    console.error('❌ [OPTIMAL] Erreur checkout:', error)
+    return NextResponse.json(
+      { error: 'Erreur création checkout optimal' },
+      { status: 500 }
+    )
+  }
+}
+EOF
+
+echo "✅ API route corrigée"
+
+# 3. Test du build
+echo "🧪 Test du build..."
+npm run build
+
+if [ $? -eq 0 ]; then
+    echo "🎉 BUILD RÉUSSI !"
+    echo ""
+    echo "✅ Corrections appliquées :"
+    echo "• Interface CheckoutResponse définie"
+    echo "• createCheckout retourne maintenant success: true"
+    echo "• Types TypeScript cohérents"
+    echo ""
+    echo "🚀 Prêt pour déploiement Netlify !"
+else
+    echo "❌ Build encore échoué - vérifiez les erreurs ci-dessus"
+fi
