@@ -1,32 +1,19 @@
 [build]
-  publish = ".next"
+  publish = "out"
   command = "npm run build"
 
-# Redirections pour Next.js App Router
+# Pas besoin de redirections compliquées avec du statique
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-  conditions = {Role = ["admin"]}
 
-[[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/___netlify-handler"
-  status = 200
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
 
-# Alternative : redirection simple vers page principale
-[[redirects]]
-  from = "/*"
-  to = "/404.html"
-  status = 404
-
-# Headers pour Next.js
 [[headers]]
   for = "/_next/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/*.js"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000"
