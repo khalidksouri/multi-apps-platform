@@ -1,0 +1,194 @@
+{
+  "config": {
+    "configFile": "/Users/khalidksouri/Desktop/multi-apps-platform/playwright.config.ts",
+    "rootDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {},
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ],
+      [
+        "junit",
+        {
+          "outputFile": "junit-results.xml"
+        }
+      ],
+      [
+        "line",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 15000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "desktop-chrome",
+        "name": "desktop-chrome",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "desktop-firefox",
+        "name": "desktop-firefox",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "desktop-safari",
+        "name": "desktop-safari",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "mobile-android",
+        "name": "mobile-android",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "mobile-ios",
+        "name": "mobile-ios",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "tablet-ipad",
+        "name": "tablet-ipad",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "rtl-desktop",
+        "name": "rtl-desktop",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/khalidksouri/Desktop/multi-apps-platform/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {},
+        "id": "rtl-mobile",
+        "name": "rtl-mobile",
+        "testDir": "/Users/khalidksouri/Desktop/multi-apps-platform/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "version": "1.48.0",
+    "workers": 8,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [],
+  "errors": [
+    {
+      "message": "Error: Requiring @playwright/test second time, \nFirst:\nError: \n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/index.js:69:33)\n    at Module._compile (node:internal/modules/cjs/loader:1364:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)\n    at Object.i.<computed>.ut._extensions.<computed> [as .js] (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/utilsBundleImpl.js:16:1010)\n    at Module.load (node:internal/modules/cjs/loader:1203:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:1019:12)\n    at Module.require (node:internal/modules/cjs/loader:1231:19)\n    at require (node:internal/modules/helpers:177:18)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/test.js:17:13)\n    at Module._compile (node:internal/modules/cjs/loader:1364:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)\n    at Object.i.<computed>.ut._extensions.<computed> [as .js] (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/utilsBundleImpl.js:16:1010)\n    at Module.load (node:internal/modules/cjs/loader:1203:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:1019:12)\n    at Module.require (node:internal/modules/cjs/loader:1231:19)\n    at require (node:internal/modules/helpers:177:18)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/@playwright/test/index.js:17:18)\n    at Module._compile (node:internal/modules/cjs/loader:1364:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)\n    at Object.i.<computed>.ut._extensions.<computed> [as .js] (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/utilsBundleImpl.js:16:1010)\n    at Module.load (node:internal/modules/cjs/loader:1203:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:1019:12)\n    at Module.require (node:internal/modules/cjs/loader:1231:19)\n    at require (node:internal/modules/helpers:177:18)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/playwright.config.ts:1:1)\n    at Module._compile (node:internal/modules/cjs/loader:1364:14)\n    at Module.f._compile (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/utilsBundleImpl.js:16:994)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)\n    at Object.i.<computed>.ut._extensions.<computed> [as .ts] (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/utilsBundleImpl.js:16:1010)\n    at Module.load (node:internal/modules/cjs/loader:1203:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:1019:12)\n    at Module.require (node:internal/modules/cjs/loader:1231:19)\n    at require (node:internal/modules/helpers:177:18)\n    at requireOrImport (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/transform/transform.js:231:18)\n    at loadUserConfig (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/common/configLoader.js:94:83)\n    at loadConfig (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/common/configLoader.js:105:28)\n    at loadConfigFromFileRestartIfNeeded (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/common/configLoader.js:273:10)\n    at runTests (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/program.js:199:18)\n    at t.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/program.js:54:7)\n\nSecond: ",
+      "stack": "Error: Requiring @playwright/test second time, \nFirst:\nError: \n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/index.js:69:33)\n    at Module._compile (node:internal/modules/cjs/loader:1364:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)\n    at Object.i.<computed>.ut._extensions.<computed> [as .js] (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/utilsBundleImpl.js:16:1010)\n    at Module.load (node:internal/modules/cjs/loader:1203:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:1019:12)\n    at Module.require (node:internal/modules/cjs/loader:1231:19)\n    at require (node:internal/modules/helpers:177:18)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/test.js:17:13)\n    at Module._compile (node:internal/modules/cjs/loader:1364:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)\n    at Object.i.<computed>.ut._extensions.<computed> [as .js] (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/utilsBundleImpl.js:16:1010)\n    at Module.load (node:internal/modules/cjs/loader:1203:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:1019:12)\n    at Module.require (node:internal/modules/cjs/loader:1231:19)\n    at require (node:internal/modules/helpers:177:18)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/@playwright/test/index.js:17:18)\n    at Module._compile (node:internal/modules/cjs/loader:1364:14)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)\n    at Object.i.<computed>.ut._extensions.<computed> [as .js] (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/utilsBundleImpl.js:16:1010)\n    at Module.load (node:internal/modules/cjs/loader:1203:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:1019:12)\n    at Module.require (node:internal/modules/cjs/loader:1231:19)\n    at require (node:internal/modules/helpers:177:18)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/playwright.config.ts:1:1)\n    at Module._compile (node:internal/modules/cjs/loader:1364:14)\n    at Module.f._compile (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/utilsBundleImpl.js:16:994)\n    at Module._extensions..js (node:internal/modules/cjs/loader:1422:10)\n    at Object.i.<computed>.ut._extensions.<computed> [as .ts] (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/utilsBundleImpl.js:16:1010)\n    at Module.load (node:internal/modules/cjs/loader:1203:32)\n    at Function.Module._load (node:internal/modules/cjs/loader:1019:12)\n    at Module.require (node:internal/modules/cjs/loader:1231:19)\n    at require (node:internal/modules/helpers:177:18)\n    at requireOrImport (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/transform/transform.js:231:18)\n    at loadUserConfig (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/common/configLoader.js:94:83)\n    at loadConfig (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/common/configLoader.js:105:28)\n    at loadConfigFromFileRestartIfNeeded (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/common/configLoader.js:273:10)\n    at runTests (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/program.js:199:18)\n    at t.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/playwright/lib/program.js:54:7)\n\nSecond: \n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/node_modules/@playwright/test/index.js:17:18)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/playwright.config.ts:1:1)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/tests/node_modules/playwright/lib/index.js:56:11)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/tests/node_modules/playwright/test.js:17:13)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/tests/node_modules/@playwright/test/index.js:17:18)\n    at Object.<anonymous> (/Users/khalidksouri/Desktop/multi-apps-platform/tests/e2e/paddle-checkout.spec.ts:1:1)",
+      "location": {
+        "file": "/Users/khalidksouri/Desktop/multi-apps-platform/playwright.config.ts",
+        "column": 1,
+        "line": 1
+      },
+      "snippet": "\u001b[90m   at \u001b[39m../playwright.config.ts:1\n\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 1 |\u001b[39m \u001b[36mimport\u001b[39m { defineConfig\u001b[33m,\u001b[39m devices } \u001b[36mfrom\u001b[39m \u001b[32m'@playwright/test'\u001b[39m\u001b[33m;\u001b[39m\n \u001b[90m   |\u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 2 |\u001b[39m\n \u001b[90m 3 |\u001b[39m \u001b[36mexport\u001b[39m \u001b[36mdefault\u001b[39m defineConfig({\n \u001b[90m 4 |\u001b[39m   testDir\u001b[33m:\u001b[39m \u001b[32m'./tests'\u001b[39m\u001b[33m,\u001b[39m\u001b[0m"
+    },
+    {
+      "message": "Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments.",
+      "stack": "Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments."
+    }
+  ],
+  "stats": {
+    "startTime": "2025-07-22T15:17:08.549Z",
+    "duration": 4343.412,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

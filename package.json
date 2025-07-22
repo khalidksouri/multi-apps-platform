@@ -1,45 +1,70 @@
 {
-  "name": "math4child-app",
+  "name": "math4child",
   "version": "2.0.0",
+  "description": "Math4Child.com - App éducative leader avec système de paiement optimal",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "export": "next build && next export",
-    "clean": "rm -rf .next out node_modules/.cache",
+    "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
-    "test:build": "npm run build && echo 'Build successful!'"
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:optimal": "playwright test --project=chromium-optimal",
+    "test:mobile": "playwright test --project=mobile-ios-revenuecat",
+    "test:conversion": "playwright test optimal-system.spec.ts",
+    "clean": "rm -rf .next out dist node_modules/.cache",
+    "test:paddle": "playwright test tests/e2e/paddle-checkout.spec.ts",
+    "test:e2e": "playwright test",
+    "test:basic": "playwright test tests/basic.spec.ts",
+    "test:debug": "playwright test --debug",
+    "playwright:install": "playwright install",
+    "demo:language": "next dev --port 3001",
+    "build:language": "next build",
+    "test:language": "npm run test -- --testPathPattern=language",
+    "test:translation": "playwright test --config=playwright.config.translation.ts",
+    "test:translation:search": "playwright test tests/translation/language-search.spec.ts",
+    "test:translation:all": "./scripts/run-translation-tests.sh",
+    "translation:report": "playwright show-report",
+    "test:translation:quick": "playwright test tests/translation/translation-basic.spec.ts --grep='Français|English|Español'"
   },
   "dependencies": {
-    "@stripe/stripe-js": "^4.10.0",
+    "@lemonsqueezy/lemonsqueezy.js": "2.2.0",
+    "@paddle/paddle-js": "1.2.3",
+    "@revenuecat/purchases-capacitor": "^7.7.1",
+    "@stripe/stripe-js": "4.7.0",
+    "crypto-js": "4.2.0",
+    "date-fns": "3.6.0",
     "lucide-react": "^0.469.0",
-    "next": "15.4.2",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "stripe": "^17.4.0"
+    "next": "14.2.13",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "recharts": "2.12.7",
+    "stripe": "16.12.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.51.0",
-    "@tailwindcss/postcss": "^4.1.11",
-    "@types/node": "^20.17.10",
-    "@types/react": "^18.2.48",
-    "@types/react-dom": "^18.2.18",
-    "@types/stripe": "^8.0.417",
-    "autoprefixer": "^10.4.20",
-    "babel-plugin-react-compiler": "0.0.0-experimental-6067d4e-20241221",
-    "critters": "^0.0.22",
-    "eslint": "^8.56.0",
-    "eslint-config-next": "15.4.2",
-    "jiti": "^1.21.6",
-    "postcss": "^8.4.33",
-    "sass": "^1.70.0",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.7.3"
+    "@capacitor/android": "5.7.8",
+    "@capacitor/cli": "5.7.8",
+    "@capacitor/core": "5.7.8",
+    "@capacitor/ios": "5.7.8",
+    "@playwright/test": "^1.54.1",
+    "@types/crypto-js": "4.2.2",
+    "@types/node": "20.14.8",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "autoprefixer": "10.4.20",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.13",
+    "postcss": "8.4.47",
+    "tailwindcss": "3.4.13",
+    "typescript": "5.4.5"
   },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+  "overrides": {
+    "@capacitor/core": "5.7.8"
+  },
+  "resolutions": {
+    "@capacitor/core": "5.7.8"
   }
 }

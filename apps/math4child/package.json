@@ -1,24 +1,52 @@
 {
-  "name": "math4child-app",
-  "version": "2.1.0",
+  "name": "math4child",
+  "version": "2.0.0",
+  "description": "Math4Child.com - App éducative leader avec système de paiement optimal",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:optimal": "playwright test --project=chromium-optimal",
+    "test:mobile": "playwright test --project=mobile-ios-revenuecat",
+    "test:conversion": "playwright test optimal-system.spec.ts",
+    "clean": "rm -rf .next out dist node_modules/.cache"
   },
   "dependencies": {
-    "next": "15.4.2",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "lucide-react": "0.469.0"
+    "@lemonsqueezy/lemonsqueezy.js": "^2.2.0",
+    "@paddle/paddle-js": "^1.4.2",
+    "@revenuecat/purchases-capacitor": "^7.7.1",
+    "@stripe/stripe-js": "^4.10.0",
+    "@tailwindcss/postcss": "^4.1.11",
+    "crypto-js": "^4.2.0",
+    "date-fns": "^3.6.0",
+    "lucide-react": "^0.469.0",
+    "next": "^14.2.30",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "recharts": "^2.15.4",
+    "stripe": "^16.12.0"
   },
   "devDependencies": {
-    "@types/node": "20.12.0",
-    "@types/react": "18.3.12",
-    "@types/react-dom": "18.3.1",
-    "typescript": "5.4.5",
-    "eslint": "8.57.0",
-    "eslint-config-next": "15.4.2"
+    "@capacitor/android": "^5.7.8",
+    "@capacitor/cli": "^5.7.8",
+    "@capacitor/core": "^5.7.8",
+    "@capacitor/ios": "^5.7.8",
+    "@playwright/test": "^1.54.1",
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "^20.19.9",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
+    "autoprefixer": "^10.4.21",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.30",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.8.3"
   }
 }
