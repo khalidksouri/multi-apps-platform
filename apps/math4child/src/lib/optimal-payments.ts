@@ -1,5 +1,5 @@
 // =============================================================================
-// SYSTÈME DE PAIEMENT OPTIMAL - Math4Child (VERSION CORRIGÉE)
+// SYSTÈME DE PAIEMENT OPTIMAL - Math4Child
 // =============================================================================
 
 export interface OptimalPlan {
@@ -26,10 +26,31 @@ export const OPTIMAL_PLANS: OptimalPlan[] = [
     price: { monthly: 699, annual: 5990 },
     profiles: 5,
     features: [
-      'Questions illimitées', '5 niveaux complets', '5 profils enfants',
-      '30+ langues', 'Mode hors-ligne', 'Statistiques avancées'
+      'Questions illimitées',
+      '5 niveaux complets', 
+      '5 profils enfants',
+      '30+ langues',
+      'Mode hors-ligne',
+      'Statistiques avancées',
+      'Rapports parents',
+      'Support prioritaire'
     ],
     freeTrial: 14,
+    provider: 'paddle'
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    price: { monthly: 499, annual: 3990 },
+    profiles: 2,
+    features: [
+      'Questions illimitées',
+      '5 niveaux',
+      '2 profils',
+      '30+ langues',
+      'Mode hors-ligne'
+    ],
+    freeTrial: 7,
     provider: 'paddle'
   }
 ]
@@ -40,15 +61,23 @@ export function getOptimalProvider(params: {
   amount: number
 }): 'paddle' | 'lemonsqueezy' | 'revenuecat' | 'stripe' {
   
+  // Mobile natif -> RevenueCat
   if (params.platform === 'ios' || params.platform === 'android') {
     return 'revenuecat'
   }
   
+  // EU -> Paddle (TVA automatique)
   const euCountries = ['FR', 'DE', 'IT', 'ES', 'NL', 'BE', 'AT', 'PT', 'IE', 'FI', 'SE', 'DK']
   if (euCountries.includes(params.country)) {
     return 'paddle'
   }
   
+  // International -> LemonSqueezy
+  if (!['US', 'CA', 'GB'].includes(params.country)) {
+    return 'lemonsqueezy'
+  }
+  
+  // Fallback -> Stripe
   return 'stripe'
 }
 
@@ -67,6 +96,8 @@ class OptimalPaymentManagerClass {
       country: options.country || 'FR',
       amount: options.amount || 699
     })
+    
+    console.log(`🎯 [OPTIMAL] Provider sélectionné: ${provider}`)
     
     return {
       success: true,

@@ -8,8 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --quiet || true",
-    "type-check": "tsc --noEmit || true",
-    "clean": "rm -rf .next out dist node_modules/.cache"
+    "type-check": "tsc --noEmit || true"
   },
   "dependencies": {
     "@lemonsqueezy/lemonsqueezy.js": "2.2.0",

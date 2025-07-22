@@ -11,6 +11,8 @@ export async function POST(request: NextRequest) {
       amount: amount || 699
     })
     
+    console.log(`🎯 [OPTIMAL] Provider sélectionné: ${provider} pour ${country}`)
+    
     const checkout: CheckoutResponse = await OptimalPaymentManager.createCheckout(planId, {
       email, country, platform, amount, currency
     })
@@ -19,7 +21,14 @@ export async function POST(request: NextRequest) {
       success: checkout.success,
       provider: checkout.provider,
       checkoutUrl: checkout.checkoutUrl,
-      sessionId: checkout.sessionId
+      sessionId: checkout.sessionId,
+      advantages: [
+        provider === 'paddle' ? 'TVA automatique EU' : '',
+        provider === 'lemonsqueezy' ? 'Optimisé international' : '',
+        provider === 'revenuecat' ? 'Gestion familiale native' : '',
+        'Fees optimisés',
+        'Conversion maximale'
+      ].filter(Boolean)
     })
     
   } catch (error) {

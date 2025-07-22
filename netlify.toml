@@ -1,10 +1,10 @@
 # =============================================================================
-# NETLIFY.TOML MINIMAL ET FONCTIONNEL - MATH4CHILD
+# CONFIGURATION NETLIFY - MATH4CHILD
 # =============================================================================
 
 [build]
   base = "apps/math4child"
-  publish = "apps/math4child/out"
+  publish = "out"
   command = "npm install --legacy-peer-deps --force && npm run build"
 
 [build.environment]
@@ -18,6 +18,16 @@
   NODE_ENV = "production"
   DEFAULT_LANGUAGE = "fr"
   NEXT_PUBLIC_SITE_URL = "https://math4child.netlify.app"
+  
+  # Clés de test pour providers de paiement
+  PADDLE_CLIENT_TOKEN = "test_paddle_token"
+  LEMONSQUEEZY_API_KEY = "test_ls_key"
+  REVENUECAT_API_KEY = "test_rc_key"
+  NEXT_PUBLIC_REVENUECAT_PUBLIC_KEY = "pk_test_rc_public"
+  
+  # Stripe fallback
+  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_stripe_key"
+  STRIPE_SECRET_KEY = "sk_test_stripe_key"
 
 # Variables d'environnement preview
 [context.deploy-preview.environment]
@@ -37,7 +47,7 @@
   to = "/index.html"
   status = 200
 
-# Headers de sécurité essentiels
+# Headers de sécurité
 [[headers]]
   for = "/*"
   [headers.values]
@@ -46,8 +56,13 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
-# Cache pour Next.js
+# Cache pour assets statiques
 [[headers]]
   for = "/_next/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
