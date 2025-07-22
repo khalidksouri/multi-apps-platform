@@ -1,7 +1,7 @@
 'use client'
 
 import { LanguageProvider } from '@/contexts/LanguageContext'
-import LanguageDropdown from '@/components/language/LanguageDropdown'
+import AdvancedLanguageDropdown from '@/components/language/LanguageDropdown'
 
 export default function LanguageDropdownExample() {
   return (
@@ -16,29 +16,16 @@ export default function LanguageDropdownExample() {
               <h1 className="text-white text-xl font-bold">Math4Child</h1>
             </div>
             
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2 text-white/80">
-                <span className="text-sm">👥 100k+ familles</span>
-              </div>
-              <LanguageDropdown />
-            </div>
+            <AdvancedLanguageDropdown />
           </header>
           
           <main className="text-white text-center">
             <h2 className="text-4xl font-bold mb-4">
-              Apprentissage des mathématiques en famille
+              Dropdown de langues avancé
             </h2>
             <p className="text-xl text-white/80 mb-8">
-              L'app éducative préférée des familles du monde entier
+              Testez la recherche, navigation clavier et scroll optimisé !
             </p>
-            
-            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 max-w-md mx-auto">
-              <p className="text-white/90">
-                Testez le dropdown de langues ci-dessus ! 
-                Il devrait maintenant s'afficher correctement 
-                au-dessus de tous les autres éléments.
-              </p>
-            </div>
           </main>
         </div>
       </div>
