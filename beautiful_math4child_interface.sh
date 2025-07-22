@@ -1,3 +1,19 @@
+#!/bin/bash
+set -e
+
+echo "🎨 CRÉATION BELLE INTERFACE MATH4CHILD"
+echo "======================================"
+echo ""
+echo "🎉 SUCCÈS : Netlify fonctionne maintenant !"
+echo "🎯 OBJECTIF : Remplacer par une belle interface"
+echo ""
+
+cd apps/math4child
+
+# ===== 1. BELLE PAGE MATH4CHILD =====
+echo "1️⃣ Création de la belle interface Math4Child..."
+
+cat > app/page.tsx << 'PAGEEOF'
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -279,3 +295,176 @@ export default function Home() {
     </div>
   )
 }
+PAGEEOF
+
+echo "✅ Belle interface Math4Child créée"
+
+# ===== 2. MISE À JOUR LAYOUT =====
+echo "2️⃣ Amélioration du layout..."
+
+cat > app/layout.tsx << 'LAYOUTEOF'
+export const metadata = {
+  title: 'Math4Child - Apprendre les Mathématiques en S\'amusant',
+  description: 'Application éducative interactive pour apprendre les mathématiques. Pour enfants de 4 à 12 ans.',
+  keywords: 'mathématiques, enfants, éducation, apprentissage, calcul',
+  authors: [{ name: 'Math4Child Team' }],
+  viewport: 'width=device-width, initial-scale=1',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="fr">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>" />
+      </head>
+      <body style={{ 
+        margin: 0, 
+        padding: 0, 
+        fontFamily: 'system-ui, -apple-system, BlinkMacSystemFont, sans-serif'
+      }}>
+        {children}
+      </body>
+    </html>
+  )
+}
+LAYOUTEOF
+
+echo "✅ Layout amélioré"
+
+# ===== 3. GLOBALS CSS (INLINE DANS LAYOUT) =====
+echo "3️⃣ Styles CSS optimisés..."
+
+cat > app/globals.css << 'CSSEOF'
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  line-height: 1.6;
+}
+
+button:hover {
+  transition: all 0.2s ease;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    grid-template-columns: 1fr !important;
+  }
+  
+  h2 {
+    font-size: 2rem !important;
+  }
+  
+  .hero {
+    padding: 2rem !important;
+  }
+}
+CSSEOF
+
+# Import CSS dans layout
+cat > app/layout.tsx << 'LAYOUTEOF'
+import './globals.css'
+
+export const metadata = {
+  title: 'Math4Child - Apprendre les Mathématiques en S\'amusant',
+  description: 'Application éducative interactive pour apprendre les mathématiques. Pour enfants de 4 à 12 ans.',
+  keywords: 'mathématiques, enfants, éducation, apprentissage, calcul',
+  authors: [{ name: 'Math4Child Team' }],
+  viewport: 'width=device-width, initial-scale=1',
+}
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html lang="fr">
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>" />
+      </head>
+      <body>
+        {children}
+      </body>
+    </html>
+  )
+}
+LAYOUTEOF
+
+echo "✅ CSS intégré"
+
+# ===== 4. TEST BUILD =====
+echo "4️⃣ Test build avec belle interface..."
+
+rm -rf .next out node_modules package-lock.json
+
+npm install
+
+if npm run build; then
+    echo "✅ Build belle interface réussi"
+    
+    if [ -d "out" ] && [ -f "out/index.html" ]; then
+        echo "✅ Export statique généré"
+        echo "📊 Taille de l'interface :"
+        ls -lh out/index.html
+    else
+        echo "❌ Problème génération"
+        exit 1
+    fi
+else
+    echo "❌ Build échoué"
+    exit 1
+fi
+
+cd ../../
+
+# ===== 5. COMMIT BELLE INTERFACE =====
+echo "5️⃣ Commit belle interface..."
+
+git add .
+git commit -m "🎨 Beautiful Math4Child interface with multilingual support
+
+✨ Features:
+- Gorgeous gradient design
+- Interactive buttons and cards
+- Multilingual FR/EN support  
+- Responsive mobile design
+- Smooth animations
+- Modern UI/UX
+- Educational content for kids 4-12
+
+🚀 Ready for production on math4child.com"
+
+echo ""
+echo "🎨 BELLE INTERFACE CRÉÉE !"
+echo "========================="
+echo ""
+echo "✨ Fonctionnalités :"
+echo "• Interface moderne avec gradients"
+echo "• Bouton changement de langue FR/EN"
+echo "• Animations au survol"
+echo "• Design responsive mobile"
+echo "• Icônes interactives"
+echo "• Contenu adapté aux enfants 4-12 ans"
+echo ""
+echo "🚀 PUSH ET VOIR LE RÉSULTAT :"
+echo "============================"
+echo ""
+echo "git push origin main"
+echo ""
+echo "Puis dans 3-5 minutes :"
+echo "👉 https://math4child.com"
+echo ""
+echo "🎉 Vous devriez voir une magnifique interface !"

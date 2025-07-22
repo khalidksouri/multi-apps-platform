@@ -1,6 +1,11 @@
+import './globals.css'
+
 export const metadata = {
-  title: 'Math4Child - Application Éducative',
-  description: 'Application éducative pour apprendre les mathématiques',
+  title: 'Math4Child - Apprendre les Mathématiques en S\'amusant',
+  description: 'Application éducative interactive pour apprendre les mathématiques. Pour enfants de 4 à 12 ans.',
+  keywords: 'mathématiques, enfants, éducation, apprentissage, calcul',
+  authors: [{ name: 'Math4Child Team' }],
+  viewport: 'width=device-width, initial-scale=1',
 }
 
 export default function RootLayout({
@@ -13,8 +18,9 @@ export default function RootLayout({
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>" />
       </head>
-      <body style={{ margin: 0, padding: 0, backgroundColor: '#ffffff' }}>
+      <body>
         {children}
       </body>
     </html>
