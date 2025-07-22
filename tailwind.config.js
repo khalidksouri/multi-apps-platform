@@ -1,10 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './components/**/*.{js,ts,jsx,tsx,mdx}',
-    './app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extend: {
@@ -21,30 +20,27 @@ module.exports = {
           800: '#075985',
           900: '#0c4a6e',
         },
-        secondary: {
-          50: '#fef7ee',
-          100: '#fdedd7',
-          200: '#fbd7ae',
-          300: '#f8ba7a',
-          400: '#f59444',
-          500: '#f37420',
-          600: '#e45916',
-          700: '#bd4214',
-          800: '#973518',
-          900: '#7a2e16',
+        math: {
+          purple: '#667eea',
+          blue: '#764ba2',
+          gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
         }
       },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'math-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      },
       fontFamily: {
-        'display': ['Inter', 'system-ui', 'sans-serif'],
-        'body': ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+        display: ['Poppins', 'system-ui', 'sans-serif'],
       },
       animation: {
         'bounce-slow': 'bounce 2s infinite',
-        'pulse-slow': 'pulse 3s infinite',
-        'spin-slow': 'spin 3s linear infinite',
+        'pulse-soft': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       }
     },
   },
   plugins: [],
-  darkMode: 'class',
 }

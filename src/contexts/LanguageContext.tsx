@@ -42,8 +42,10 @@ export function LanguageProvider({ children, defaultLanguage = 'fr' }: LanguageP
 
   const setLanguage = (language: Language) => {
     setCurrentLanguage(language)
-    document.documentElement.lang = language.code
-    document.documentElement.dir = language.rtl ? 'rtl' : 'ltr'
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = language.code
+      document.documentElement.dir = language.rtl ? 'rtl' : 'ltr'
+    }
     
     if (typeof window !== 'undefined') {
       localStorage.setItem('preferred-language', language.code)

@@ -1,6 +1,12 @@
 [build]
-  publish = "out"
+  base = "apps/math4child"
+  publish = "apps/math4child/out"
   command = "npm run build"
+
+[build.environment]
+  NODE_ENV = "production"
+  DEFAULT_LANGUAGE = "fr"
+  NETLIFY_SKIP_EDGE_FUNCTIONS_BUNDLING = "true"
 
 [[redirects]]
   from = "/*"
@@ -8,5 +14,13 @@
   status = 200
 
 [context.production.environment]
+  NODE_ENV = "production"
+  DEFAULT_LANGUAGE = "fr"
+
+[context.deploy-preview.environment]
+  NODE_ENV = "production"
+  DEFAULT_LANGUAGE = "fr"
+
+[context.branch-deploy.environment]
   NODE_ENV = "production"
   DEFAULT_LANGUAGE = "fr"

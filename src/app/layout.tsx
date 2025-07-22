@@ -1,24 +1,16 @@
-import { Inter } from 'next/font/google'
 import './globals.css'
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import { LanguageProvider } from '../contexts/LanguageContext'
 
-const inter = Inter({ 
-  subsets: ['latin'],
-  display: 'swap',
-  fallback: ['system-ui', 'arial']
-})
+const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
-  title: 'Math4Child.com - Apprendre les maths en s\'amusant',
-  description: 'Application éducative de mathématiques pour enfants. 195+ langues supportées, 5 niveaux de difficulté.',
-  manifest: '/manifest.json',
-}
-
-// Séparation viewport selon Next.js 15
-export const viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false,
+export const metadata: Metadata = {
+  title: 'Math4Child - Apprendre les maths en famille',
+  description: "L'app éducative n°1 pour apprendre les mathématiques en s'amusant !",
+  keywords: ['mathématiques', 'éducation', 'enfants', 'apprentissage', 'famille'],
+  authors: [{ name: 'Math4Child Team' }],
+  viewport: 'width=device-width, initial-scale=1',
   themeColor: '#667eea',
 }
 
@@ -29,16 +21,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="manifest" href="/manifest.json" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      </head>
-      <body className={`${inter.className} overflow-x-hidden`}>
-        <div id="capacitor-app">
-          {children}
-        </div>
+      <body className={inter.className}>
+        <LanguageProvider>
+          <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+            {children}
+          </div>
+        </LanguageProvider>
       </body>
     </html>
   )

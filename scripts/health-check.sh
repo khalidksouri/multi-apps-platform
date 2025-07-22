@@ -1,26 +1,35 @@
 #!/bin/bash
 
-echo "🏥 Vérification du système de traduction"
-echo "======================================="
+echo "🏥 Vérification de santé Math4Child"
+echo "===================================="
 
-if [ -f "src/components/language/LanguageDropdown.tsx" ]; then
-    echo "✅ Composant LanguageDropdown trouvé"
-else
-    echo "❌ Composant LanguageDropdown manquant"
-fi
+# Vérifications des fichiers essentiels
+checks=(
+    "src/lib/optimal-payments.ts:✅ OptimalPayments"
+    "src/components/language/LanguageDropdown.tsx:✅ LanguageDropdown"
+    "src/contexts/LanguageContext.tsx:✅ LanguageContext"
+    "src/translations/index.ts:✅ Translations"
+    "src/app/layout.tsx:✅ App Layout"
+    "tailwind.config.js:✅ TailwindCSS"
+    "next.config.js:✅ Next.js Config"
+    "netlify.toml:✅ Netlify Config"
+)
 
-if [ -f "src/contexts/LanguageContext.tsx" ]; then
-    echo "✅ Contexte de langue trouvé"
-else
-    echo "❌ Contexte de langue manquant"
-fi
-
-if [ -f "tests/translation/translation-basic.spec.ts" ]; then
-    echo "✅ Tests de base trouvés"
-else
-    echo "❌ Tests de base manquants"
-fi
+for check in "${checks[@]}"; do
+    file="${check%%:*}"
+    message="${check##*:}"
+    
+    if [ -f "$file" ]; then
+        echo "$message trouvé"
+    else
+        echo "❌ $file manquant"
+    fi
+done
 
 echo ""
-echo "🎯 Pour tester: npm run test:translation:quick"
-echo "🌐 Projet Netlify: https://app.netlify.com/projects/prismatic-sherbet-986159"
+echo "🎯 Tests recommandés:"
+echo "  - Build local: npm run build"
+echo "  - Test traduction: npm run test:translation:quick"
+echo ""
+echo "🌐 Déploiement Netlify:"
+echo "  - git add . && git commit -m 'fix: resolve build errors' && git push"

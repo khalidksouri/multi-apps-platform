@@ -6,14 +6,34 @@ export const selectors = {
   appLogo: '[data-testid="app-logo"], .logo, header .calculator',
   appTitle: 'h1:has-text("Math4Child")',
   languageSelector: 'select, [data-testid="language-selector"], .language-selector select',
+  freeQuestionsCounter: '[data-testid="free-questions"], .free-questions',
   
   // Navigation
   subscribeButton: 'button:has-text("Subscribe"), button:has-text("S\'abonner"), .subscribe-btn',
   backButton: 'button:has-text("Back"), button:has-text("Retour"), .back-btn',
   
-  // Tests
+  // Niveaux
+  levelsGrid: '[data-testid="levels"], .levels-grid, .levels',
+  levelCard: (level: string) => `[data-testid="level-${level}"], .level-${level}, [data-level="${level}"]`,
+  progressBar: '.progress, [role="progressbar"], .progress-bar',
+  
+  // Opérations
+  operationsGrid: '[data-testid="operations"], .operations-grid, .operations',
+  operationCard: (op: string) => `[data-testid="operation-${op}"], .operation-${op}, [data-operation="${op}"]`,
+  
+  // Jeu
   gameView: '.game-view, [data-testid="game"], .game-container',
-  feedback: '.feedback, [data-testid="feedback"], .correct, .incorrect'
+  mathProblem: '.problem, [data-testid="problem"], .math-problem',
+  answerInput: 'input[type="text"], input[inputmode="numeric"], .answer-input',
+  validateButton: 'button:has-text("Validate"), button:has-text("Valider"), .validate-btn',
+  nextButton: 'button:has-text("Next"), button:has-text("Suivant"), .next-btn',
+  feedback: '.feedback, [data-testid="feedback"], .correct, .incorrect',
+  gameProgress: '[data-testid="progress"], .progress-counter, .game-progress',
+  
+  // Abonnements
+  subscriptionView: '.subscription-view, [data-testid="subscription"], .subscription',
+  subscriptionTitle: '.subscription-title, h1:has-text("Subscription"), h1:has-text("Abonnement")',
+  planCard: (plan: string) => `[data-testid="plan-${plan}"], .plan-${plan}, [data-plan="${plan}"]`
 }
 
 // Fonction pour attendre et obtenir un élément avec fallbacks
@@ -26,6 +46,7 @@ export async function waitForElement(page: Page, selectors: string[]): Promise<L
       }
     } catch (error) {
       // Continue avec le sélecteur suivant
+      continue
     }
   }
   
@@ -40,7 +61,8 @@ export async function findLanguageSelector(page: Page): Promise<Locator> {
     'select:has(option[value="fr"])',
     'select:has(option[value="en"])',
     '.language-selector select',
-    '[data-testid="language-selector"]'
+    '[data-testid="language-selector"]',
+    'select'  // Fallback générique
   ]
   
   for (const selector of languageSelectors) {
@@ -64,14 +86,35 @@ export async function detectCurrentLanguage(page: Page): Promise<string> {
     'Accueil', 
     'Bienvenue',
     'éducative',
-    'famille'
+    'famille',
+    'mathématiques'
+  ]
+  
+  const englishIndicators = [
+    'English',
+    'Home',
+    'Welcome', 
+    'educational',
+    'family',
+    'mathematics'
   ]
   
   // Vérifier les indicateurs français
   for (const indicator of frenchIndicators) {
     try {
-      if (await page.locator('text=' + indicator).first().isVisible({ timeout: 1000 })) {
+      if (await page.locator(`text=${indicator}`).first().isVisible({ timeout: 1000 })) {
         return 'fr'
+      }
+    } catch (error) {
+      // Continue
+    }
+  }
+  
+  // Vérifier les indicateurs anglais
+  for (const indicator of englishIndicators) {
+    try {
+      if (await page.locator(`text=${indicator}`).first().isVisible({ timeout: 1000 })) {
+        return 'en'
       }
     } catch (error) {
       // Continue
@@ -97,19 +140,50 @@ export async function changeLanguage(page: Page, targetLang: 'fr' | 'en'): Promi
   }
 }
 
-// Fonction pour valider une réponse correcte (REGEX CORRIGEE)
+// Fonction pour valider une réponse correcte avec regex corrigée
 export function validateAnswer(answer: string): boolean {
-  // Regex corrigées pour éviter l'erreur "Nothing to repeat"
+  // Regex corrigée pour éviter l'erreur "Nothing to repeat"
   const correctPatterns = [
     /correct/i,
     /bonne/i,
     /good/i,
-    /\+10/,  // CORRIGE: échappé correctement
+    /\+10/,  // Échappé correctement
     /bravo/i,
     /excellent/i
   ]
   
   return correctPatterns.some(pattern => pattern.test(answer))
+}
+
+// Fonction utilitaire pour les statistiques
+export async function getAppStats(page: Page) {
+  const stats = {
+    questionsAnswered: 0,
+    correctAnswers: 0,
+    currentLevel: 'unknown',
+    currentLanguage: 'unknown'
+  }
+  
+  try {
+    // Détecter la langue
+    stats.currentLanguage = await detectCurrentLanguage(page)
+    
+    // Chercher des statistiques si disponibles
+    const progressElement = page.locator('.progress, [data-testid="progress"]').first()
+    if (await progressElement.isVisible({ timeout: 2000 })) {
+      const progressText = await progressElement.textContent()
+      if (progressText) {
+        const matches = progressText.match(/(\d+)/)
+        if (matches) {
+          stats.questionsAnswered = parseInt(matches[1])
+        }
+      }
+    }
+  } catch (error) {
+    // Les statistiques ne sont pas critiques
+  }
+  
+  return stats
 }
 
 export default {
@@ -118,5 +192,6 @@ export default {
   findLanguageSelector,
   detectCurrentLanguage,
   changeLanguage,
-  validateAnswer
+  validateAnswer,
+  getAppStats
 }

@@ -48,6 +48,20 @@ export const translations: Translations = {
       directTyping: 'Escribe directamente en la lista',
       available: 'disponibles'
     }
+  },
+  de: {
+    home: {
+      title: 'Math4Child',
+      subtitle: 'Die #1 Lern-App für Mathematik in der Familie!',
+      startFree: 'Kostenlos starten',
+      comparePrices: 'Preise vergleichen'
+    },
+    language: {
+      select: 'Sprache auswählen',
+      search: 'Tippen zum Suchen...',
+      directTyping: 'Direkt in die Liste tippen',
+      available: 'verfügbar'
+    }
   }
 }
 

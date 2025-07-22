@@ -35,45 +35,6 @@ export default function LanguageDropdown({
     setFocusedIndex(-1)
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isOpen) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault()
-        setIsOpen(true)
-      }
-      return
-    }
-
-    switch (e.key) {
-      case 'Escape':
-        e.preventDefault()
-        setIsOpen(false)
-        setSearchTerm('')
-        break
-        
-      case 'ArrowDown':
-        e.preventDefault()
-        setFocusedIndex(prev => 
-          prev < filteredLanguages.length - 1 ? prev + 1 : 0
-        )
-        break
-        
-      case 'ArrowUp':
-        e.preventDefault()
-        setFocusedIndex(prev => 
-          prev > 0 ? prev - 1 : filteredLanguages.length - 1
-        )
-        break
-        
-      case 'Enter':
-        e.preventDefault()
-        if (focusedIndex >= 0 && filteredLanguages[focusedIndex]) {
-          handleLanguageSelect(filteredLanguages[focusedIndex])
-        }
-        break
-    }
-  }
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -90,7 +51,6 @@ export default function LanguageDropdown({
     <div className={`relative ${className}`} ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        onKeyDown={handleKeyDown}
         className="w-full bg-white/20 backdrop-blur-sm border border-white/30 rounded-2xl px-4 py-3 flex items-center justify-between text-white hover:bg-white/25 transition-all duration-200 shadow-lg"
         data-testid="language-dropdown-button"
         aria-label={t('language.select')}
@@ -124,7 +84,6 @@ export default function LanguageDropdown({
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                onKeyDown={handleKeyDown}
                 placeholder={t('language.search')}
                 className="w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
               />
