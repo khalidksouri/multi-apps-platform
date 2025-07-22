@@ -1,3 +1,8 @@
+export const metadata = {
+  title: 'Math4Child',
+  description: 'Application éducative pour enfants',
+}
+
 export default function RootLayout({
   children,
 }: {
