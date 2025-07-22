@@ -1,3 +1,104 @@
+#!/bin/bash
+
+# =============================================================================
+# 🔧 CORRECTION COMPLÈTE DU LANGUAGE DROPDOWN - Math4Child
+# =============================================================================
+
+set -e
+
+# Couleurs
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+BLUE='\033[0;34m'
+PURPLE='\033[0;35m'
+CYAN='\033[0;36m'
+NC='\033[0m'
+
+print_header() {
+    echo -e "${PURPLE}╔════════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${PURPLE}║${NC}           ${CYAN}🔧 CORRECTION DROPDOWN LANGUAGE - Math4Child${NC}              ${PURPLE}║${NC}"
+    echo -e "${PURPLE}║${NC}       ${YELLOW}Toutes fonctionnalités + Intégration + Cache Fix${NC}           ${PURPLE}║${NC}"
+    echo -e "${PURPLE}╚════════════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+}
+
+print_step() { echo -e "${BLUE}▶ $1${NC}"; }
+print_success() { echo -e "${GREEN}✅ $1${NC}"; }
+print_error() { echo -e "${RED}❌ $1${NC}"; }
+print_warning() { echo -e "${YELLOW}⚠️  $1${NC}"; }
+
+# 1. NAVIGATION ET VÉRIFICATION
+check_environment() {
+    print_step "1. Vérification de l'environnement"
+    
+    if [ -d "apps/math4child" ]; then
+        cd apps/math4child
+        print_success "Dans: $(pwd)"
+    elif [ -f "package.json" ] && grep -q "math4child" package.json; then
+        print_success "Déjà dans Math4Child"
+    else
+        print_error "Projet Math4Child non trouvé"
+        exit 1
+    fi
+    
+    # Arrêter tous les processus Next.js
+    pkill -f "next dev" 2>/dev/null || true
+    pkill -f "node.*next" 2>/dev/null || true
+    print_success "Serveurs arrêtés"
+}
+
+# 2. SUPPRESSION COMPLÈTE DES CACHES
+clear_all_caches() {
+    print_step "2. Suppression complète des caches"
+    
+    rm -rf .next
+    rm -rf node_modules/.cache
+    rm -rf .swc
+    rm -rf out
+    rm -rf dist
+    rm -rf build
+    npm cache clean --force
+    
+    print_success "Tous les caches supprimés"
+}
+
+# 3. SAUVEGARDE ET CRÉATION DES DOSSIERS
+setup_directories() {
+    print_step "3. Préparation des dossiers"
+    
+    # Sauvegarde si le fichier existe
+    if [ -f "src/components/language/LanguageDropdown.tsx" ]; then
+        cp src/components/language/LanguageDropdown.tsx src/components/language/LanguageDropdown.tsx.backup.$(date +%Y%m%d_%H%M%S)
+        print_success "Ancienne version sauvegardée"
+    fi
+    
+    mkdir -p src/components/language
+    mkdir -p src/contexts
+    mkdir -p src/hooks
+    mkdir -p src/types
+    mkdir -p src/examples
+    
+    print_success "Structure créée"
+}
+
+# 4. INSTALLATION DES DÉPENDANCES
+install_dependencies() {
+    print_step "4. Vérification des dépendances"
+    
+    if ! npm list lucide-react > /dev/null 2>&1; then
+        print_warning "Installation de lucide-react..."
+        npm install lucide-react --legacy-peer-deps --silent
+    fi
+    
+    print_success "Dépendances vérifiées"
+}
+
+# 5. CRÉATION DU COMPOSANT COMPLET AVEC TOUTES LES FONCTIONNALITÉS
+create_complete_component() {
+    print_step "5. Création du composant complet avec toutes les fonctionnalités"
+    
+    cat > src/components/language/LanguageDropdown.tsx << 'EOF'
 'use client'
 
 import { useState, useRef, useEffect, useMemo } from 'react'
@@ -524,3 +625,393 @@ export default function AdvancedLanguageDropdown() {
     </div>
   )
 }
+EOF
+    
+    print_success "Composant complet créé avec toutes les fonctionnalités"
+}
+
+# 6. MISE À JOUR DU CONTEXTE
+update_context() {
+    print_step "6. Mise à jour du contexte de langue"
+    
+    cat > src/contexts/LanguageContext.tsx << 'EOF'
+'use client'
+
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+
+interface LanguageContextType {
+  currentLanguage: string
+  setLanguage: (lang: string) => void
+  t: (key: string) => string
+}
+
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
+
+const translations: Record<string, Record<string, string>> = {
+  fr: { 
+    'welcome': 'Bienvenue', 
+    'select_language': 'Choisir une langue',
+    'math_learning': 'Apprentissage des mathématiques',
+    'families_trust': '100k+ familles nous font confiance'
+  },
+  en: { 
+    'welcome': 'Welcome', 
+    'select_language': 'Choose a language',
+    'math_learning': 'Math learning',
+    'families_trust': '100k+ families trust us'
+  },
+  es: { 
+    'welcome': 'Bienvenido', 
+    'select_language': 'Elegir idioma',
+    'math_learning': 'Aprendizaje matemático',
+    'families_trust': '100k+ familias confían en nosotros'
+  },
+  de: { 
+    'welcome': 'Willkommen', 
+    'select_language': 'Sprache wählen',
+    'math_learning': 'Mathematik lernen',
+    'families_trust': '100k+ Familien vertrauen uns'
+  },
+  it: { 
+    'welcome': 'Benvenuto', 
+    'select_language': 'Scegli lingua',
+    'math_learning': 'Apprendimento matematico',
+    'families_trust': '100k+ famiglie si fidano di noi'
+  },
+  pt: { 
+    'welcome': 'Bem-vindo', 
+    'select_language': 'Escolher idioma',
+    'math_learning': 'Aprendizagem matemática',
+    'families_trust': '100k+ famílias confiam em nós'
+  },
+}
+
+interface LanguageProviderProps {
+  children: ReactNode
+}
+
+export function LanguageProvider({ children }: LanguageProviderProps) {
+  const [currentLanguage, setCurrentLanguage] = useState('fr')
+
+  useEffect(() => {
+    // Charger la langue sauvegardée
+    const savedLanguage = localStorage.getItem('math4child-language')
+    if (savedLanguage && translations[savedLanguage]) {
+      setCurrentLanguage(savedLanguage)
+    } else {
+      // Détecter la langue du navigateur
+      const browserLang = navigator.language.split('-')[0]
+      if (translations[browserLang]) {
+        setCurrentLanguage(browserLang)
+      }
+    }
+  }, [])
+
+  const setLanguage = (lang: string) => {
+    setCurrentLanguage(lang)
+    localStorage.setItem('math4child-language', lang)
+    
+    // Log pour debug
+    console.log('🌍 Langue changée vers:', lang)
+    
+    // Feedback haptic
+    if ('vibrate' in navigator) {
+      navigator.vibrate(50)
+    }
+  }
+
+  const t = (key: string): string => {
+    return translations[currentLanguage]?.[key] || translations['en']?.[key] || key
+  }
+
+  return (
+    <LanguageContext.Provider value={{ currentLanguage, setLanguage, t }}>
+      {children}
+    </LanguageContext.Provider>
+  )
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext)
+  if (context === undefined) {
+    throw new Error('useLanguage must be used within a LanguageProvider')
+  }
+  return context
+}
+EOF
+    
+    print_success "Contexte mis à jour avec debug logs"
+}
+
+# 7. INTÉGRATION DANS LE LAYOUT PRINCIPAL
+integrate_in_layout() {
+    print_step "7. Intégration dans le layout principal"
+    
+    # Vérifier et mettre à jour le layout
+    if [ -f "src/app/layout.tsx" ]; then
+        print_warning "Mise à jour du layout existant..."
+        
+        # Créer une sauvegarde
+        cp src/app/layout.tsx src/app/layout.tsx.backup.$(date +%Y%m%d_%H%M%S)
+        
+        # Ajouter l'import du provider si pas déjà présent
+        if ! grep -q "LanguageProvider" src/app/layout.tsx; then
+            sed -i.bak '1i\
+import { LanguageProvider } from "@/contexts/LanguageContext"
+' src/app/layout.tsx
+            
+            print_success "Import LanguageProvider ajouté au layout"
+        fi
+    fi
+    
+    # Créer une page d'exemple
+    cat > src/examples/LanguageDropdownDemo.tsx << 'EOF'
+'use client'
+
+import { LanguageProvider, useLanguage } from '@/contexts/LanguageContext'
+import AdvancedLanguageDropdown from '@/components/language/LanguageDropdown'
+import { Globe, Users, Star } from 'lucide-react'
+
+function DemoContent() {
+  const { currentLanguage, t } = useLanguage()
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600">
+      {/* Header avec dropdown intégré */}
+      <header className="p-6">
+        <div className="max-w-6xl mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
+              <span className="text-white font-bold text-lg">M4C</span>
+            </div>
+            <div>
+              <h1 className="text-white text-xl font-bold">Math4Child</h1>
+              <p className="text-white/70 text-sm">
+                {t('math_learning')} • Langue: {currentLanguage.toUpperCase()}
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-2 text-white/80 bg-white/10 px-3 py-2 rounded-lg backdrop-blur-sm">
+              <Users className="w-4 h-4" />
+              <span className="text-sm">{t('families_trust')}</span>
+            </div>
+            {/* 🌟 NOUVEAU DROPDOWN INTÉGRÉ */}
+            <AdvancedLanguageDropdown />
+          </div>
+        </div>
+      </header>
+
+      {/* Contenu principal */}
+      <main className="px-6 pb-12">
+        <div className="max-w-4xl mx-auto text-center">
+          <div className="mb-8">
+            <h2 className="text-4xl md:text-6xl font-bold text-white mb-4">
+              {t('welcome')} !
+            </h2>
+            <p className="text-xl text-white/80 mb-8">
+              🌟 Nouveau dropdown avec recherche intelligente, groupement par région et scroll visible !
+            </p>
+          </div>
+
+          {/* Fonctionnalités */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+              <Globe className="w-8 h-8 text-white mx-auto mb-3" />
+              <div className="text-2xl font-bold text-white mb-2">20+ langues</div>
+              <div className="text-white/80">Avec recherche intelligente</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+              <Star className="w-8 h-8 text-white mx-auto mb-3" />
+              <div className="text-2xl font-bold text-white mb-2">Scroll visible</div>
+              <div className="text-white/80">Barre de défilement stylisée</div>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 border border-white/20">
+              <Users className="w-8 h-8 text-white mx-auto mb-3" />
+              <div className="text-2xl font-bold text-white mb-2">
+                {currentLanguage.toUpperCase()}
+              </div>
+              <div className="text-white/80">Langue actuelle</div>
+            </div>
+          </div>
+
+          {/* Instructions */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
+            <h3 className="text-2xl font-bold text-white mb-6">
+              🎮 Testez maintenant !
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+              <div className="space-y-3">
+                <h4 className="font-semibold text-white text-lg">🔍 Recherche intelligente :</h4>
+                <ul className="text-white/80 space-y-2">
+                  <li>• Tapez "fr" → Français</li>
+                  <li>• Tapez "eng" → English</li>
+                  <li>• Tapez "chinese" → 中文</li>
+                  <li>• Tapez "арабский" → العربية</li>
+                </ul>
+              </div>
+              
+              <div className="space-y-3">
+                <h4 className="font-semibold text-white text-lg">⌨️ Navigation clavier :</h4>
+                <ul className="text-white/80 space-y-2">
+                  <li>• ↑↓ : Naviguer dans la liste</li>
+                  <li>• Enter : Sélectionner</li>
+                  <li>• Escape : Fermer</li>
+                  <li>• Home/End : Premier/Dernier</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  )
+}
+
+export default function LanguageDropdownDemo() {
+  return (
+    <LanguageProvider>
+      <DemoContent />
+    </LanguageProvider>
+  )
+}
+EOF
+    
+    print_success "Page de démonstration créée"
+}
+
+# 8. CRÉATION D'UN SCRIPT DE TEST
+create_test_script() {
+    print_step "8. Création d'un script de test"
+    
+    mkdir -p scripts
+    
+    cat > scripts/test-dropdown-fix.sh << 'EOF'
+#!/bin/bash
+
+echo "🧪 TEST DU DROPDOWN CORRIGÉ"
+echo "=========================="
+
+# Vérifier les fichiers créés
+files=(
+    "src/components/language/LanguageDropdown.tsx"
+    "src/contexts/LanguageContext.tsx" 
+    "src/examples/LanguageDropdownDemo.tsx"
+)
+
+for file in "${files[@]}"; do
+    if [ -f "$file" ]; then
+        echo "✅ $file"
+        lines=$(wc -l < "$file")
+        echo "   └── $lines lignes"
+    else
+        echo "❌ $file manquant"
+    fi
+done
+
+echo ""
+echo "🔍 Vérification des fonctionnalités:"
+
+if grep -q "groupedLanguages" src/components/language/LanguageDropdown.tsx; then
+    echo "✅ Groupement par région"
+else
+    echo "❌ Groupement par région manquant"
+fi
+
+if grep -q "searchTerms" src/components/language/LanguageDropdown.tsx; then
+    echo "✅ Recherche intelligente"
+else
+    echo "❌ Recherche intelligente manquante"
+fi
+
+if grep -q "scrollbar" src/components/language/LanguageDropdown.tsx; then
+    echo "✅ Scroll visible et stylisé"
+else
+    echo "❌ Scroll visible manquant"
+fi
+
+if grep -q "Populaire" src/components/language/LanguageDropdown.tsx; then
+    echo "✅ Badges populaires"
+else
+    echo "❌ Badges populaires manquants"
+fi
+
+echo ""
+echo "📦 Dépendances:"
+npm list lucide-react > /dev/null 2>&1 && echo "✅ lucide-react" || echo "❌ lucide-react manquant"
+
+echo ""
+echo "🎯 Nouvelles fonctionnalités testables:"
+echo "• 🔍 Recherche étendue avec termes multiples"
+echo "• 🌍 Groupement par région avec icônes"
+echo "• ⭐ Langues populaires avec badges"
+echo "• 📜 Scroll visible avec style gradient"
+echo "• ⌨️ Navigation clavier complète"
+echo "• 📱 Interface responsive améliorée"
+echo "• 🎨 Design moderne avec gradients"
+echo ""
+echo "🚀 Pour tester: npm run dev puis aller sur la page"
+EOF
+
+    chmod +x scripts/test-dropdown-fix.sh
+    
+    print_success "Script de test créé"
+}
+
+# 9. INSTRUCTIONS FINALES
+show_completion_summary() {
+    print_step "9. Résumé final"
+    
+    echo ""
+    echo -e "${PURPLE}╔════════════════════════════════════════════════════════════════════════╗${NC}"
+    echo -e "${PURPLE}║${NC}                ${GREEN}✅ CORRECTION COMPLÈTE TERMINÉE${NC}                    ${PURPLE}║${NC}"
+    echo -e "${PURPLE}╚════════════════════════════════════════════════════════════════════════╝${NC}"
+    echo ""
+    
+    echo -e "${GREEN}🎉 NOUVELLES FONCTIONNALITÉS AJOUTÉES :${NC}"
+    echo -e "${CYAN}   ✅ Groupement par région avec icônes${NC}"
+    echo -e "${CYAN}   ✅ Recherche intelligente étendue${NC}"
+    echo -e "${CYAN}   ✅ Scroll visible et stylisé${NC}"
+    echo -e "${CYAN}   ✅ Badges populaires animés${NC}"
+    echo -e "${CYAN}   ✅ Navigation clavier complète${NC}"
+    echo -e "${CYAN}   ✅ Interface moderne avec gradients${NC}"
+    echo -e "${CYAN}   ✅ Responsive design amélioré${NC}"
+    echo -e "${CYAN}   ✅ Feedback haptic mobile${NC}"
+    echo ""
+    
+    echo -e "${YELLOW}🎮 CONTRÔLES DE TEST :${NC}"
+    echo -e "${BLUE}   • Recherche: 'fr', 'english', '中文', 'арабский'${NC}"
+    echo -e "${BLUE}   • Clavier: ↑↓ Enter Escape Home End${NC}"
+    echo -e "${BLUE}   • Scroll: Barre visible avec gradient${NC}"
+    echo -e "${BLUE}   • Régions: Europe, Asie, Moyen-Orient${NC}"
+    echo ""
+    
+    echo -e "${GREEN}🚀 ÉTAPES SUIVANTES :${NC}"
+    echo -e "${BLUE}   1. Redémarrez: npm run dev${NC}"
+    echo -e "${BLUE}   2. Videz le cache navigateur: Ctrl+Shift+R${NC}"
+    echo -e "${BLUE}   3. Testez: ./scripts/test-dropdown-fix.sh${NC}"
+    echo -e "${BLUE}   4. Page demo: /examples/LanguageDropdownDemo${NC}"
+    echo ""
+    
+    echo -e "${PURPLE}⭐ DROPDOWN LANGUAGE CORRIGÉ ET AMÉLIORÉ ! ⭐${NC}"
+}
+
+# FONCTION PRINCIPALE
+main() {
+    print_header
+    
+    check_environment
+    clear_all_caches
+    setup_directories
+    install_dependencies
+    create_complete_component
+    update_context
+    integrate_in_layout
+    create_test_script
+    show_completion_summary
+}
+
+# Exécution
+main "$@"

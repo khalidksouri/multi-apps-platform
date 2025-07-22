@@ -10,27 +10,42 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
-// Dictionnaire de traductions basique
 const translations: Record<string, Record<string, string>> = {
-  fr: {
-    'select_language': 'Sélectionner une langue',
-    'families_count': '100k+ familles',
-    'welcome': 'Bienvenue',
+  fr: { 
+    'welcome': 'Bienvenue', 
+    'select_language': 'Choisir une langue',
+    'math_learning': 'Apprentissage des mathématiques',
+    'families_trust': '100k+ familles nous font confiance'
   },
-  en: {
-    'select_language': 'Select a language',
-    'families_count': '100k+ families',
-    'welcome': 'Welcome',
+  en: { 
+    'welcome': 'Welcome', 
+    'select_language': 'Choose a language',
+    'math_learning': 'Math learning',
+    'families_trust': '100k+ families trust us'
   },
-  es: {
-    'select_language': 'Seleccionar idioma',
-    'families_count': '100k+ familias',
-    'welcome': 'Bienvenido',
+  es: { 
+    'welcome': 'Bienvenido', 
+    'select_language': 'Elegir idioma',
+    'math_learning': 'Aprendizaje matemático',
+    'families_trust': '100k+ familias confían en nosotros'
   },
-  de: {
-    'select_language': 'Sprache auswählen',
-    'families_count': '100k+ Familien',
-    'welcome': 'Willkommen',
+  de: { 
+    'welcome': 'Willkommen', 
+    'select_language': 'Sprache wählen',
+    'math_learning': 'Mathematik lernen',
+    'families_trust': '100k+ Familien vertrauen uns'
+  },
+  it: { 
+    'welcome': 'Benvenuto', 
+    'select_language': 'Scegli lingua',
+    'math_learning': 'Apprendimento matematico',
+    'families_trust': '100k+ famiglie si fidano di noi'
+  },
+  pt: { 
+    'welcome': 'Bem-vindo', 
+    'select_language': 'Escolher idioma',
+    'math_learning': 'Aprendizagem matemática',
+    'families_trust': '100k+ famílias confiam em nós'
   },
 }
 
@@ -41,21 +56,35 @@ interface LanguageProviderProps {
 export function LanguageProvider({ children }: LanguageProviderProps) {
   const [currentLanguage, setCurrentLanguage] = useState('fr')
 
-  // Charger la langue sauvegardée
   useEffect(() => {
+    // Charger la langue sauvegardée
     const savedLanguage = localStorage.getItem('math4child-language')
     if (savedLanguage && translations[savedLanguage]) {
       setCurrentLanguage(savedLanguage)
+    } else {
+      // Détecter la langue du navigateur
+      const browserLang = navigator.language.split('-')[0]
+      if (translations[browserLang]) {
+        setCurrentLanguage(browserLang)
+      }
     }
   }, [])
 
   const setLanguage = (lang: string) => {
     setCurrentLanguage(lang)
     localStorage.setItem('math4child-language', lang)
+    
+    // Log pour debug
+    console.log('🌍 Langue changée vers:', lang)
+    
+    // Feedback haptic
+    if ('vibrate' in navigator) {
+      navigator.vibrate(50)
+    }
   }
 
   const t = (key: string): string => {
-    return translations[currentLanguage]?.[key] || key
+    return translations[currentLanguage]?.[key] || translations['en']?.[key] || key
   }
 
   return (
