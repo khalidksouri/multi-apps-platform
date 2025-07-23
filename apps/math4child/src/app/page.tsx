@@ -5,105 +5,174 @@ import { useState } from 'react'
 export default function HomePage() {
   const [lang, setLang] = useState('fr')
 
-  const content = {
-    fr: {
-      title: 'Math4Child',
-      subtitle: 'Apprendre les mathématiques en s\'amusant',
-      start: 'Commencer',
-      about: 'À propos'
-    },
-    en: {
-      title: 'Math4Child', 
-      subtitle: 'Learn mathematics while having fun',
-      start: 'Start',
-      about: 'About'
-    },
-    es: {
-      title: 'Math4Child',
-      subtitle: 'Aprende matemáticas divirtiéndote', 
-      start: 'Empezar',
-      about: 'Acerca de'
-    }
+  const texts = {
+    fr: { title: 'Math4Child', subtitle: 'Apprendre les mathématiques en s\'amusant' },
+    en: { title: 'Math4Child', subtitle: 'Learn mathematics while having fun' },
+    es: { title: 'Math4Child', subtitle: 'Aprende matemáticas divirtiéndote' }
   }
 
-  const t = content[lang] || content.fr
+  const t = texts[lang] || texts.fr
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700">
-      <div className="container mx-auto px-4 py-8">
+    <div style={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      padding: '2rem'
+    }}>
+      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         
-        {/* Header simple */}
-        <header className="flex justify-between items-center mb-12">
-          <h1 className="text-white text-3xl font-bold">{t.title}</h1>
+        {/* Header */}
+        <header style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          marginBottom: '3rem'
+        }}>
+          <h1 style={{ color: 'white', fontSize: '2rem', fontWeight: 'bold' }}>
+            {t.title}
+          </h1>
           
-          {/* Sélecteur de langue simple */}
-          <div className="flex space-x-2">
+          {/* Language Selector */}
+          <div style={{ display: 'flex', gap: '0.5rem' }}>
             <button 
               onClick={() => setLang('fr')}
-              className={`px-3 py-1 rounded ${lang === 'fr' ? 'bg-white text-blue-600' : 'bg-blue-500 text-white'}`}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: lang === 'fr' ? 'white' : '#3b82f6',
+                color: lang === 'fr' ? '#2563eb' : 'white',
+                border: 'none',
+                borderRadius: '0.5rem',
+                cursor: 'pointer',
+                fontWeight: '500'
+              }}
             >
               🇫🇷 FR
             </button>
             <button 
               onClick={() => setLang('en')}
-              className={`px-3 py-1 rounded ${lang === 'en' ? 'bg-white text-blue-600' : 'bg-blue-500 text-white'}`}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: lang === 'en' ? 'white' : '#3b82f6',
+                color: lang === 'en' ? '#2563eb' : 'white',
+                border: 'none',
+                borderRadius: '0.5rem',
+                cursor: 'pointer',
+                fontWeight: '500'
+              }}
             >
               🇺🇸 EN
             </button>
             <button 
               onClick={() => setLang('es')}
-              className={`px-3 py-1 rounded ${lang === 'es' ? 'bg-white text-blue-600' : 'bg-blue-500 text-white'}`}
+              style={{
+                padding: '0.5rem 1rem',
+                backgroundColor: lang === 'es' ? 'white' : '#3b82f6',
+                color: lang === 'es' ? '#2563eb' : 'white',
+                border: 'none',
+                borderRadius: '0.5rem',
+                cursor: 'pointer',
+                fontWeight: '500'
+              }}
             >
               🇪🇸 ES
             </button>
           </div>
         </header>
 
-        {/* Contenu principal */}
-        <div className="text-center py-16">
-          <h2 className="text-white text-5xl font-bold mb-6">
+        {/* Main Content */}
+        <main style={{ textAlign: 'center', padding: '4rem 0' }}>
+          <h2 style={{ 
+            color: 'white', 
+            fontSize: '3rem', 
+            fontWeight: 'bold',
+            marginBottom: '2rem',
+            lineHeight: '1.2'
+          }}>
             {t.subtitle}
           </h2>
           
-          <p className="text-blue-100 text-xl mb-12 max-w-2xl mx-auto">
-            Une application éducative moderne pour apprendre les mathématiques avec plaisir.
+          <p style={{ 
+            color: '#dbeafe', 
+            fontSize: '1.25rem',
+            marginBottom: '3rem',
+            maxWidth: '600px',
+            margin: '0 auto 3rem auto'
+          }}>
+            Une application éducative moderne pour apprendre les mathématiques avec plaisir et efficacité.
           </p>
           
-          <div className="space-x-4">
-            <button className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50">
-              {t.start}
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <button style={{
+              backgroundColor: 'white',
+              color: '#2563eb',
+              padding: '1rem 2rem',
+              border: 'none',
+              borderRadius: '0.5rem',
+              fontSize: '1.1rem',
+              fontWeight: '600',
+              cursor: 'pointer'
+            }}>
+              Commencer gratuitement
             </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600">
-              {t.about}
+            <button style={{
+              backgroundColor: 'transparent',
+              color: 'white',
+              padding: '1rem 2rem',
+              border: '2px solid white',
+              borderRadius: '0.5rem',
+              fontSize: '1.1rem',
+              fontWeight: '600',
+              cursor: 'pointer'
+            }}>
+              En savoir plus
             </button>
           </div>
-        </div>
+        </main>
 
-        {/* Fonctionnalités */}
-        <div className="grid md:grid-cols-3 gap-8 mt-16">
-          <div className="text-center">
-            <div className="text-6xl mb-4">🧮</div>
-            <h3 className="text-white text-xl font-bold mb-2">Mathématiques</h3>
-            <p className="text-blue-100">Exercices adaptés</p>
+        {/* Features */}
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+          gap: '2rem',
+          marginTop: '4rem'
+        }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🧮</div>
+            <h3 style={{ color: 'white', fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+              Mathématiques
+            </h3>
+            <p style={{ color: '#dbeafe' }}>Exercices adaptés à chaque niveau</p>
           </div>
-          <div className="text-center">
-            <div className="text-6xl mb-4">🎮</div>
-            <h3 className="text-white text-xl font-bold mb-2">Ludique</h3>
-            <p className="text-blue-100">Apprendre en jouant</p>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🎮</div>
+            <h3 style={{ color: 'white', fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+              Ludique
+            </h3>
+            <p style={{ color: '#dbeafe' }}>Apprendre en s'amusant</p>
           </div>
-          <div className="text-center">
-            <div className="text-6xl mb-4">💳</div>
-            <h3 className="text-white text-xl font-bold mb-2">Paiement</h3>
-            <p className="text-blue-100">Système sécurisé</p>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>💳</div>
+            <h3 style={{ color: 'white', fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>
+              Paiement Sécurisé
+            </h3>
+            <p style={{ color: '#dbeafe' }}>Système multi-provider</p>
           </div>
         </div>
 
         {/* Footer */}
-        <footer className="mt-16 text-center text-blue-100">
-          <p>© 2024 Math4Child - Application éducative</p>
-          <p className="mt-2">✅ Déployé avec succès sur Netlify</p>
+        <footer style={{ 
+          textAlign: 'center', 
+          marginTop: '4rem', 
+          color: '#dbeafe',
+          borderTop: '1px solid rgba(255,255,255,0.2)',
+          paddingTop: '2rem'
+        }}>
+          <p>© 2024 Math4Child - Application éducative moderne</p>
+          <p style={{ marginTop: '0.5rem', color: '#10b981' }}>
+            ✅ Déployé avec succès sur Netlify !
+          </p>
         </footer>
       </div>
-    </main>
+    </div>
   )
 }
