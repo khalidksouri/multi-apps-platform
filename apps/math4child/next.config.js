@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const path = require('path')
+
 const nextConfig = {
   // Configuration pour export statique (Netlify)
   output: "export",
@@ -26,14 +28,22 @@ const nextConfig = {
     // Resolver pour les paths @/*
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@': require('path').resolve(__dirname, 'src'),
+      '@': path.resolve(__dirname, 'src'),
     }
+    
+    // Configuration CSS améliorée
+    config.module.rules.forEach((rule) => {
+      if (rule.test && rule.test.toString().includes('css')) {
+        rule.sideEffects = false
+      }
+    })
     
     // Ignorer les warnings non critiques
     config.ignoreWarnings = [
       { module: /node_modules/ }, 
       { file: /backup/ },
       /Critical dependency/,
+      /Module not found.*\.css$/,
     ]
     
     // Optimisations pour la production
@@ -48,6 +58,12 @@ const nextConfig = {
               name: 'vendors',
               chunks: 'all',
             },
+            styles: {
+              name: 'styles',
+              test: /\.css$/,
+              chunks: 'all',
+              enforce: true,
+            },
           },
         },
       }
@@ -56,10 +72,9 @@ const nextConfig = {
     return config
   },
   
-  // Variables d'environnement publiques
-  env: {
-    NEXT_PUBLIC_BUILD_TIME: new Date().toISOString(),
-    NEXT_PUBLIC_BUILD_VERSION: '2.0.0',
+  // Configuration expérimentale pour CSS
+  experimental: {
+    optimizeCss: false,
   },
 }
 
