@@ -26,7 +26,6 @@ const SUPPORTED_LANGUAGES: Language[] = [
   { code: 'ar', name: 'العربية', nativeName: 'العربية', direction: 'rtl' },
 ]
 
-// Traductions de base
 const TRANSLATIONS: Record<string, Record<string, string>> = {
   fr: {
     'language.search': 'Rechercher une langue...',
@@ -64,18 +63,15 @@ interface LanguageProviderProps {
 export function LanguageProvider({ children, defaultLanguage = 'fr' }: LanguageProviderProps) {
   const [currentLanguage, setCurrentLanguage] = useState(defaultLanguage)
 
-  // Fonction de traduction simple
   const t = (key: string, fallback?: string): string => {
     const translations = TRANSLATIONS[currentLanguage] || TRANSLATIONS.fr
     return translations[key] || fallback || key
   }
 
-  // Fonction pour changer de langue
   const changeLanguage = (language: string) => {
     if (SUPPORTED_LANGUAGES.some(lang => lang.code === language)) {
       setCurrentLanguage(language)
       
-      // Stocker la préférence (avec vérification)
       if (typeof window !== 'undefined' && window.localStorage) {
         try {
           localStorage.setItem('preferred-language', language)
@@ -86,7 +82,6 @@ export function LanguageProvider({ children, defaultLanguage = 'fr' }: LanguageP
     }
   }
 
-  // Charger la langue préférée au démarrage
   useEffect(() => {
     if (typeof window !== 'undefined' && window.localStorage) {
       try {

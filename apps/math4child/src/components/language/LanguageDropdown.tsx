@@ -40,10 +40,8 @@ export default function LanguageDropdown({
   const dropdownRef = useRef<HTMLDivElement>(null)
   const searchInputRef = useRef<HTMLInputElement>(null)
 
-  // Trouve la langue actuelle
   const currentLang = EXTENDED_LANGUAGES.find(lang => lang.code === currentLanguage) || EXTENDED_LANGUAGES[0]
 
-  // Filtrage des langues
   useEffect(() => {
     if (!searchTerm.trim()) {
       setFilteredLanguages(EXTENDED_LANGUAGES)
@@ -63,7 +61,6 @@ export default function LanguageDropdown({
     setFilteredLanguages(filtered)
   }, [searchTerm])
 
-  // Fermer le dropdown si clic à l'extérieur
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -76,7 +73,6 @@ export default function LanguageDropdown({
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Focus automatique sur la recherche
   useEffect(() => {
     if (isOpen && showSearch && searchInputRef.current) {
       setTimeout(() => {
@@ -85,13 +81,11 @@ export default function LanguageDropdown({
     }
   }, [isOpen, showSearch])
 
-  // Gestion de la sélection de langue
   const handleLanguageSelect = (language: LanguageOption) => {
     changeLanguage(language.code)
     setIsOpen(false)
     setSearchTerm('')
     
-    // Dispatch custom event pour tests
     if (typeof window !== 'undefined') {
       window.dispatchEvent(new CustomEvent('languageChanged', { 
         detail: { language: language.code, name: language.name }
@@ -99,7 +93,6 @@ export default function LanguageDropdown({
     }
   }
 
-  // Gestion des touches clavier
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === 'Escape') {
       setIsOpen(false)
@@ -111,7 +104,6 @@ export default function LanguageDropdown({
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
-      {/* Bouton principal */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
@@ -130,13 +122,11 @@ export default function LanguageDropdown({
         />
       </button>
 
-      {/* Dropdown */}
       {isOpen && (
         <div 
           className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
           style={{ maxHeight }}
         >
-          {/* Barre de recherche */}
           {showSearch && (
             <div className="p-3 border-b border-gray-200">
               <div className="relative">
@@ -155,7 +145,6 @@ export default function LanguageDropdown({
             </div>
           )}
 
-          {/* Liste des langues */}
           <div className="max-h-60 overflow-y-auto">
             {filteredLanguages.length > 0 ? (
               filteredLanguages.map((language) => (

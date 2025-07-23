@@ -9,7 +9,6 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
         <header className="flex justify-between items-center mb-12">
           <div className="flex items-center space-x-3">
             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
@@ -22,15 +21,13 @@ export default function Home() {
           <LanguageDropdown className="w-64" />
         </header>
         
-        {/* Hero Section */}
         <div className="text-center py-16">
           <h2 className="text-white text-5xl font-bold mb-6">
             {t('home.subtitle', 'Apprendre les mathématiques en s\'amusant')}
           </h2>
           
           <p className="text-blue-100 text-xl mb-12 max-w-2xl mx-auto">
-            Une application éducative moderne avec un système de paiement optimisé 
-            et support multilingue complet.
+            Une application éducative moderne avec un système de paiement optimisé.
           </p>
           
           <div className="space-x-4">
@@ -43,35 +40,27 @@ export default function Home() {
           </div>
         </div>
         
-        {/* Features */}
         <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
             <h3 className="text-xl font-semibold mb-3">🎯 Apprentissage ciblé</h3>
             <p className="text-blue-100">
-              Exercices adaptés au niveau de chaque enfant pour un apprentissage optimal.
+              Exercices adaptés au niveau de chaque enfant.
             </p>
           </div>
           
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
             <h3 className="text-xl font-semibold mb-3">🌍 Multilingue</h3>
             <p className="text-blue-100">
-              Interface disponible en plusieurs langues pour une accessibilité maximale.
+              Interface disponible en plusieurs langues.
             </p>
           </div>
           
           <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
             <h3 className="text-xl font-semibold mb-3">💳 Paiements flexibles</h3>
             <p className="text-blue-100">
-              Système de paiement optimisé avec plusieurs options disponibles.
+              Système de paiement optimisé.
             </p>
           </div>
-        </div>
-        
-        {/* Status Info */}
-        <div className="mt-16 text-center text-white/80">
-          <p className="text-sm">
-            Build version: 2.0.0 | Current language: {currentLanguage}
-          </p>
         </div>
       </div>
     </main>

@@ -7,10 +7,8 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Math4Child - Apprendre les mathématiques en s\'amusant',
-  description: 'Application éducative moderne pour l\'apprentissage des mathématiques avec système de paiement optimisé',
-  keywords: 'mathématiques, éducation, enfants, apprentissage, math, education',
-  authors: [{ name: 'Math4Child Team' }],
-  viewport: 'width=device-width, initial-scale=1',
+  description: 'Application éducative moderne pour l\'apprentissage des mathématiques',
+  keywords: 'mathématiques, éducation, enfants, apprentissage',
 }
 
 export default function RootLayout({
