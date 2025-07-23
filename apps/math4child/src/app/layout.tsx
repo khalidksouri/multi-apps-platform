@@ -1,6 +1,5 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { LanguageProvider } from '@/contexts/LanguageContext'
 
 export const metadata: Metadata = {
   title: 'Math4Child - Apprendre les mathématiques en s\'amusant',
@@ -15,9 +14,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
-        <LanguageProvider defaultLanguage="fr">
-          {children}
-        </LanguageProvider>
+        {children}
       </body>
     </html>
   )
