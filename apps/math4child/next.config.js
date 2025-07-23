@@ -14,35 +14,20 @@ const nextConfig = {
     ignoreDuringBuilds: true 
   },
   
-  // DÉSACTIVATION COMPLÈTE du CSS processing
-  webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Supprimer TOUS les loaders CSS de webpack
-    config.module.rules = config.module.rules.map(rule => {
-      if (rule.oneOf) {
-        rule.oneOf = rule.oneOf.filter(oneOfRule => {
-          // Éliminer les règles qui traitent les .css
-          if (oneOfRule.test && oneOfRule.test.toString().includes('css')) {
-            return false
-          }
-          return true
-        })
-      }
-      return rule
-    })
-    
-    // Ajouter une règle pour ignorer complètement les .css
+  // Configuration pour App Router uniquement
+  experimental: {
+    appDir: true,
+  },
+  
+  // DÉSACTIVER complètement CSS processing
+  webpack: (config, { isServer }) => {
+    // Ignorer les fichiers CSS complètement
     config.module.rules.push({
       test: /\.css$/,
       loader: 'ignore-loader'
     })
     
     return config
-  },
-  
-  // Expérimental pour forcer l'absence de PostCSS
-  experimental: {
-    // Désactiver tout processing CSS
-    cssChunking: false,
   }
 }
 

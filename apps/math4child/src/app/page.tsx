@@ -81,6 +81,16 @@ export default function HomePage() {
                   fontSize: '0.9rem',
                   transition: 'all 0.15s ease'
                 }}
+                onMouseEnter={(e) => {
+                  if (lang !== language) {
+                    e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.9)'
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (lang !== language) {
+                    e.currentTarget.style.backgroundColor = 'rgba(59, 130, 246, 0.8)'
+                  }
+                }}
               >
                 {language === 'fr' && '🇫🇷 FR'}
                 {language === 'en' && '🇺🇸 EN'}
@@ -97,7 +107,8 @@ export default function HomePage() {
             fontSize: 'clamp(2rem, 6vw, 4rem)', 
             fontWeight: 'bold',
             marginBottom: '2rem',
-            lineHeight: '1.2'
+            lineHeight: '1.2',
+            margin: '0 0 2rem 0'
           }}>
             {t.subtitle}
           </h2>
@@ -128,7 +139,8 @@ export default function HomePage() {
               fontSize: '1.1rem',
               fontWeight: '600',
               cursor: 'pointer',
-              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)'
+              boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+              transition: 'all 0.15s ease'
             }}>
               {t.start}
             </button>
@@ -140,7 +152,8 @@ export default function HomePage() {
               borderRadius: '0.75rem',
               fontSize: '1.1rem',
               fontWeight: '600',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              transition: 'all 0.15s ease'
             }}>
               {t.about}
             </button>
@@ -155,27 +168,33 @@ export default function HomePage() {
           marginTop: '4rem'
         }}>
           {[
-            { icon: '🧮', title: 'Mathématiques', desc: 'Exercices adaptés' },
-            { icon: '🎮', title: 'Ludique', desc: 'Apprendre en jouant' },
-            { icon: '💳', title: 'Paiement', desc: 'Système sécurisé' }
+            { icon: '🧮', title: 'Mathématiques', desc: 'Exercices adaptés à chaque niveau' },
+            { icon: '🎮', title: 'Ludique', desc: 'Apprendre en s\'amusant' },
+            { icon: '💳', title: 'Paiement Sécurisé', desc: 'Système multi-provider' }
           ].map((feature, index) => (
             <div key={index} style={{ 
               textAlign: 'center',
               padding: '2rem',
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
               borderRadius: '1rem',
-              backdropFilter: 'blur(10px)'
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
             }}>
               <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>{feature.icon}</div>
               <h3 style={{ 
                 color: 'white', 
                 fontSize: '1.5rem', 
                 fontWeight: 'bold', 
-                marginBottom: '0.75rem'
+                marginBottom: '0.75rem',
+                margin: '0 0 0.75rem 0'
               }}>
                 {feature.title}
               </h3>
-              <p style={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+              <p style={{ 
+                color: 'rgba(255, 255, 255, 0.8)',
+                fontSize: '1rem',
+                lineHeight: '1.5'
+              }}>
                 {feature.desc}
               </p>
             </div>
@@ -190,9 +209,15 @@ export default function HomePage() {
           borderTop: '1px solid rgba(255,255,255,0.2)',
           color: 'rgba(255, 255, 255, 0.8)'
         }}>
-          <p>© 2024 Math4Child - Application éducative</p>
-          <p style={{ marginTop: '0.5rem', color: '#10b981', fontWeight: '600' }}>
-            ✅ Déployé avec succès sur Netlify !
+          <p style={{ marginBottom: '0.5rem' }}>
+            © 2024 Math4Child - Application éducative moderne
+          </p>
+          <p style={{ 
+            color: '#10b981', 
+            fontWeight: '600',
+            fontSize: '1.1rem'
+          }}>
+            ✅ Site en ligne avec succès sur Netlify !
           </p>
         </footer>
       </div>
