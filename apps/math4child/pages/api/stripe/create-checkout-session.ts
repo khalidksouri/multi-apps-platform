@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2023-10-16',
+  apiVersion: '2024-06-20',
 })
 
 export default async function handler(
@@ -17,25 +17,14 @@ export default async function handler(
     const { priceId, mode = 'subscription' } = req.body
 
     const session = await stripe.checkout.sessions.create({
-      mode: mode,
-      line_items: [
-        {
-          price: priceId,
-          quantity: 1,
-        },
-      ],
+      mode: mode as 'payment' | 'subscription',
+      line_items: [{ price: priceId, quantity: 1 }],
       success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/pricing`,
-      automatic_tax: { enabled: true },
-      billing_address_collection: 'required',
-      metadata: {
-        app: 'math4child',
-        environment: process.env.NODE_ENV || 'development'
-      }
+      metadata: { app: 'math4child', environment: process.env.NODE_ENV || 'development' }
     })
 
     res.status(200).json({ sessionId: session.id, url: session.url })
-
   } catch (error) {
     console.error('Erreur création session Stripe:', error)
     res.status(500).json({ 

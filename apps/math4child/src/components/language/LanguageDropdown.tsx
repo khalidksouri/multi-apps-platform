@@ -1,90 +1,79 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
+import { ChevronDown, Globe, Search } from 'lucide-react'
 import { useLanguage } from '../../contexts/LanguageContext'
-import { ChevronDown, Globe, Search, X } from 'lucide-react'
 
-interface Language {
+interface LanguageOption {
   code: string
   name: string
   nativeName: string
   flag: string
-  region: string
-  popular?: boolean
-  searchTerms: string[]
+  keywords?: string[]
 }
 
-const languages: Language[] = [
-  // Europe
-  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷', region: 'Europe', popular: true, searchTerms: ['french', 'français', 'france', 'fr'] },
-  { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧', region: 'Europe', popular: true, searchTerms: ['english', 'anglais', 'en', 'gb', 'uk'] },
-  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸', region: 'Europe', popular: true, searchTerms: ['spanish', 'español', 'espagnol', 'es'] },
-  { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪', region: 'Europe', popular: true, searchTerms: ['german', 'deutsch', 'allemand', 'de'] },
-  { code: 'it', name: 'Italian', nativeName: 'Italiano', flag: '🇮🇹', region: 'Europe', popular: true, searchTerms: ['italian', 'italiano', 'italien', 'it'] },
-  { code: 'pt', name: 'Portuguese', nativeName: 'Português', flag: '🇵🇹', region: 'Europe', popular: true, searchTerms: ['portuguese', 'português', 'portugais', 'pt'] },
-  { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺', region: 'Europe', popular: true, searchTerms: ['russian', 'русский', 'russe', 'ru'] },
-  { code: 'nl', name: 'Dutch', nativeName: 'Nederlands', flag: '🇳🇱', region: 'Europe', searchTerms: ['dutch', 'nederlands', 'néerlandais', 'nl'] },
-  { code: 'pl', name: 'Polish', nativeName: 'Polski', flag: '🇵🇱', region: 'Europe', searchTerms: ['polish', 'polski', 'polonais', 'pl'] },
-  { code: 'sv', name: 'Swedish', nativeName: 'Svenska', flag: '🇸🇪', region: 'Europe', searchTerms: ['swedish', 'svenska', 'suédois', 'sv'] },
-  { code: 'no', name: 'Norwegian', nativeName: 'Norsk', flag: '🇳🇴', region: 'Europe', searchTerms: ['norwegian', 'norsk', 'norvégien', 'no'] },
-  { code: 'da', name: 'Danish', nativeName: 'Dansk', flag: '🇩🇰', region: 'Europe', searchTerms: ['danish', 'dansk', 'danois', 'da'] },
-  
-  // Autres régions déjà existantes
-  { code: 'ja', name: 'Japanese', nativeName: '日本語', flag: '🇯🇵', region: 'Asia', popular: true, searchTerms: ['japanese', '日本語', 'japonais', 'ja'] },
-  { code: 'zh', name: 'Chinese', nativeName: '中文', flag: '🇨🇳', region: 'Asia', popular: true, searchTerms: ['chinese', '中文', 'chinois', 'zh'] },
-  { code: 'ko', name: 'Korean', nativeName: '한국어', flag: '🇰🇷', region: 'Asia', searchTerms: ['korean', '한국어', 'coréen', 'ko'] },
-  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦', region: 'Middle East', popular: true, searchTerms: ['arabic', 'العربية', 'arabe', 'ar'] },
-  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', flag: '🇮🇳', region: 'Asia', searchTerms: ['hindi', 'हिन्दी', 'hindi', 'hi'] },
+interface LanguageDropdownProps {
+  className?: string
+  showSearch?: boolean
+  maxHeight?: string
+}
+
+const EXTENDED_LANGUAGES: LanguageOption[] = [
+  { code: 'fr', name: 'Français', nativeName: 'Français', flag: '🇫🇷', keywords: ['french', 'france'] },
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸', keywords: ['english', 'usa', 'america'] },
+  { code: 'es', name: 'Español', nativeName: 'Español', flag: '🇪🇸', keywords: ['spanish', 'spain', 'espanol'] },
+  { code: 'de', name: 'Deutsch', nativeName: 'Deutsch', flag: '🇩🇪', keywords: ['german', 'germany', 'allemand'] },
+  { code: 'it', name: 'Italiano', nativeName: 'Italiano', flag: '🇮🇹', keywords: ['italian', 'italy', 'italien'] },
+  { code: 'pt', name: 'Português', nativeName: 'Português', flag: '🇵🇹', keywords: ['portuguese', 'portugal', 'brasil'] },
+  { code: 'ru', name: 'Русский', nativeName: 'Русский', flag: '🇷🇺', keywords: ['russian', 'russia', 'russe'] },
+  { code: 'zh', name: '中文', nativeName: '中文简体', flag: '🇨🇳', keywords: ['chinese', 'china', 'chinois'] },
+  { code: 'ja', name: '日本語', nativeName: '日本語', flag: '🇯🇵', keywords: ['japanese', 'japan', 'japonais'] },
+  { code: 'ar', name: 'العربية', nativeName: 'العربية', flag: '🇸🇦', keywords: ['arabic', 'arab', 'arabe'] },
+  { code: 'hi', name: 'हिन्दी', nativeName: 'हिन्दी', flag: '🇮🇳', keywords: ['hindi', 'india', 'indien'] },
+  { code: 'ko', name: '한국어', nativeName: '한국어', flag: '🇰🇷', keywords: ['korean', 'korea', 'coreen'] }
 ]
 
-const groupLanguagesByRegion = (langs: Language[]) => {
-  const grouped = langs.reduce((acc, lang) => {
-    if (!acc[lang.region]) acc[lang.region] = []
-    acc[lang.region].push(lang)
-    return acc
-  }, {} as Record<string, Language[]>)
-  
-  return Object.entries(grouped).sort(([a], [b]) => {
-    const order = ['Europe', 'Asia', 'Middle East', 'Americas', 'Africa', 'Oceania']
-    return order.indexOf(a) - order.indexOf(b)
-  })
-}
-
-export default function AdvancedLanguageDropdown() {
-  const { currentLanguage, setLanguage, t } = useLanguage()
+export default function LanguageDropdown({ 
+  className = '', 
+  showSearch = true, 
+  maxHeight = '300px' 
+}: LanguageDropdownProps) {
+  const { currentLanguage, changeLanguage, t } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const [focusedIndex, setFocusedIndex] = useState(-1)
+  const [filteredLanguages, setFilteredLanguages] = useState(EXTENDED_LANGUAGES)
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const searchRef = useRef<HTMLInputElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
 
-  const currentLang = languages.find(lang => lang.code === currentLanguage) || languages[0]
-  
-  // Filtrer les langues selon la recherche
-  const filteredLanguages = languages.filter(lang => 
-    searchTerm === '' || 
-    lang.searchTerms.some(term => 
-      term.toLowerCase().includes(searchTerm.toLowerCase())
-    ) ||
-    lang.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    lang.nativeName.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  // Trouve la langue actuelle
+  const currentLang = EXTENDED_LANGUAGES.find(lang => lang.code === currentLanguage) || EXTENDED_LANGUAGES[0]
 
-  const groupedLanguages = groupLanguagesByRegion(filteredLanguages)
-  const flatLanguages = groupedLanguages.flatMap(([, langs]) => langs)
-
+  // Filtrage des langues
   useEffect(() => {
-    if (isOpen && searchRef.current) {
-      searchRef.current.focus()
+    if (!searchTerm.trim()) {
+      setFilteredLanguages(EXTENDED_LANGUAGES)
+      return
     }
-  }, [isOpen])
 
+    const filtered = EXTENDED_LANGUAGES.filter(lang => {
+      const searchLower = searchTerm.toLowerCase()
+      return (
+        lang.name.toLowerCase().includes(searchLower) ||
+        lang.nativeName.toLowerCase().includes(searchLower) ||
+        lang.code.toLowerCase().includes(searchLower) ||
+        (lang.keywords && lang.keywords.some(keyword => keyword.includes(searchLower)))
+      )
+    })
+    
+    setFilteredLanguages(filtered)
+  }, [searchTerm])
+
+  // Fermer le dropdown si clic à l'extérieur
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false)
         setSearchTerm('')
-        setFocusedIndex(-1)
       }
     }
 
@@ -92,211 +81,122 @@ export default function AdvancedLanguageDropdown() {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isOpen) return
+  // Focus automatique sur la recherche
+  useEffect(() => {
+    if (isOpen && showSearch && searchInputRef.current) {
+      setTimeout(() => {
+        searchInputRef.current?.focus()
+      }, 100)
+    }
+  }, [isOpen, showSearch])
 
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault()
-        setFocusedIndex(prev => (prev < flatLanguages.length - 1 ? prev + 1 : 0))
-        break
-      case 'ArrowUp':
-        e.preventDefault()
-        setFocusedIndex(prev => (prev > 0 ? prev - 1 : flatLanguages.length - 1))
-        break
-      case 'Enter':
-        e.preventDefault()
-        if (focusedIndex >= 0 && flatLanguages[focusedIndex]) {
-          handleLanguageSelect(flatLanguages[focusedIndex].code)
-        }
-        break
-      case 'Escape':
-        setIsOpen(false)
-        setSearchTerm('')
-        setFocusedIndex(-1)
-        break
+  // Gestion de la sélection de langue
+  const handleLanguageSelect = (language: LanguageOption) => {
+    changeLanguage(language.code)
+    setIsOpen(false)
+    setSearchTerm('')
+    
+    // Dispatch custom event pour tests
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('languageChanged', { 
+        detail: { language: language.code, name: language.name }
+      }))
     }
   }
 
-  const handleLanguageSelect = (langCode: string) => {
-    setLanguage(langCode)
-    setIsOpen(false)
-    setSearchTerm('')
-    setFocusedIndex(-1)
+  // Gestion des touches clavier
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Escape') {
+      setIsOpen(false)
+      setSearchTerm('')
+    } else if (event.key === 'Enter' && filteredLanguages.length === 1) {
+      handleLanguageSelect(filteredLanguages[0])
+    }
   }
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className={`relative ${className}`} ref={dropdownRef}>
       {/* Bouton principal */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        onKeyDown={handleKeyDown}
-        className="flex items-center space-x-2 px-4 py-2.5 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group relative overflow-hidden"
-        aria-haspopup="listbox"
+        className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
         aria-expanded={isOpen}
+        aria-haspopup="listbox"
+        data-testid="language-selector"
       >
-        {/* Animation de fond au hover */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        
-        {/* Indicateur de statut */}
-        <div className="absolute top-1 right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-        
-        <div className="relative flex items-center space-x-2">
-          <Globe className="w-4 h-4 text-blue-600" />
-          <span className="text-xl" role="img" aria-label={currentLang.name}>{currentLang.flag}</span>
-          <span className="font-medium text-gray-700">{currentLang.nativeName}</span>
-          <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
-        </div>
+        <Globe size={16} className="text-gray-500" />
+        <span className="text-lg">{currentLang.flag}</span>
+        <span className="text-sm font-medium text-gray-700">
+          {currentLang.name}
+        </span>
+        <ChevronDown 
+          size={16} 
+          className={`text-gray-500 transform transition-transform ${isOpen ? 'rotate-180' : ''}`}
+        />
       </button>
 
       {/* Dropdown */}
       {isOpen && (
-        <div className="absolute top-full mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden">
-          {/* En-tête avec recherche */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold text-lg">{t('new_advanced_dropdown')}</h3>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-1 hover:bg-white/20 rounded-lg transition-colors"
-              >
-                <X className="w-4 h-4" />
-              </button>
+        <div 
+          className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
+          style={{ maxHeight }}
+        >
+          {/* Barre de recherche */}
+          {showSearch && (
+            <div className="p-3 border-b border-gray-200">
+              <div className="relative">
+                <Search size={16} className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder={t('language.search', 'Rechercher une langue...')}
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  data-testid="language-search"
+                />
+              </div>
             </div>
-            
-            <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-blue-200" />
-              <input
-                ref={searchRef}
-                type="text"
-                value={searchTerm}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value)
-                  setFocusedIndex(-1)
-                }}
-                onKeyDown={handleKeyDown}
-                placeholder={t('ultra_intelligent_search')}
-                className="w-full pl-10 pr-4 py-2 bg-white/20 border border-white/30 rounded-lg placeholder-blue-200 text-white focus:outline-none focus:ring-2 focus:ring-white/50"
-              />
-            </div>
-            
-            {filteredLanguages.length > 0 && (
-              <p className="text-xs text-blue-100 mt-2">
-                <strong>{filteredLanguages.length}</strong> {filteredLanguages.length === 1 ? t('language_found') : t('languages_found')}
-                {searchTerm && <span> {t('for_search')} "<strong>{searchTerm}</strong>"</span>}
-              </p>
-            )}
-          </div>
+          )}
 
           {/* Liste des langues */}
-          <div className="max-h-96 overflow-y-auto custom-scrollbar">
-            {filteredLanguages.length === 0 ? (
-              <div className="p-6 text-center text-gray-500">
-                <Globe className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-                <p className="font-medium">{t('no_language_found')}</p>
-                <p className="text-sm mt-1">{t('try_search')}</p>
-              </div>
-            ) : (
-              groupedLanguages.map(([region, langs]) => (
-                <div key={region} className="border-b border-gray-100 last:border-b-0">
-                  <div className="sticky top-0 bg-gray-50/90 backdrop-blur-sm px-4 py-2 border-b border-gray-200">
-                    <h4 className="font-semibold text-sm text-gray-600 flex items-center">
-                      <span className="mr-2">
-                        {region === 'Europe' && '🇪🇺'}
-                        {region === 'Asia' && '🌏'}
-                        {region === 'Middle East' && '🕌'}
-                        {region === 'Americas' && '🌎'}
-                        {region === 'Africa' && '🌍'}
-                        {region === 'Oceania' && '🏝️'}
-                      </span>
-                      {region}
-                      <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
-                        {langs.length}
-                      </span>
-                    </h4>
+          <div className="max-h-60 overflow-y-auto">
+            {filteredLanguages.length > 0 ? (
+              filteredLanguages.map((language) => (
+                <button
+                  key={language.code}
+                  onClick={() => handleLanguageSelect(language)}
+                  className={`w-full flex items-center space-x-3 px-4 py-3 text-left hover:bg-blue-50 focus:bg-blue-50 focus:outline-none transition-colors ${
+                    currentLanguage === language.code 
+                      ? 'bg-blue-100 text-blue-700 font-medium' 
+                      : 'text-gray-700'
+                  }`}
+                  data-testid={`language-${language.code}`}
+                >
+                  <span className="text-xl">{language.flag}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="text-sm font-medium truncate">
+                      {language.name}
+                    </div>
+                    <div className="text-xs text-gray-500 truncate">
+                      {language.nativeName}
+                    </div>
                   </div>
-                  
-                  {langs.map((lang, index) => {
-                    const globalIndex = flatLanguages.indexOf(lang)
-                    const isSelected = lang.code === currentLanguage
-                    const isFocused = globalIndex === focusedIndex
-                    
-                    return (
-                      <button
-                        key={lang.code}
-                        onClick={() => handleLanguageSelect(lang.code)}
-                        className={`w-full px-4 py-3 flex items-center space-x-3 hover:bg-blue-50 transition-all duration-200 group ${
-                          isSelected ? 'bg-blue-100 border-r-4 border-blue-500' : ''
-                        } ${
-                          isFocused ? 'bg-blue-50 ring-2 ring-blue-200' : ''
-                        }`}
-                        role="option"
-                        aria-selected={isSelected}
-                      >
-                        <span className="text-2xl" role="img" aria-label={lang.name}>
-                          {lang.flag}
-                        </span>
-                        
-                        <div className="flex-1 text-left">
-                          <div className="flex items-center space-x-2">
-                            <span className="font-medium text-gray-900">
-                              {lang.nativeName}
-                            </span>
-                            {lang.popular && (
-                              <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs px-2 py-0.5 rounded-full font-medium">
-                                ⭐ Populaire
-                              </span>
-                            )}
-                            {isSelected && (
-                              <span className="bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full font-medium">
-                                {t('current')}
-                              </span>
-                            )}
-                          </div>
-                          <span className="text-sm text-gray-500">{lang.name}</span>
-                        </div>
-                        
-                        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                          <ChevronDown className="w-4 h-4 text-blue-500 rotate-[-90deg]" />
-                        </div>
-                      </button>
-                    )
-                  })}
-                </div>
+                  {currentLanguage === language.code && (
+                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  )}
+                </button>
               ))
+            ) : (
+              <div className="px-4 py-8 text-center text-gray-500">
+                <Globe size={24} className="mx-auto mb-2 opacity-50" />
+                <p className="text-sm">{t('language.noResults', 'Aucune langue trouvée')}</p>
+              </div>
             )}
-          </div>
-
-          {/* Footer */}
-          <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-3 border-t border-gray-200">
-            <div className="flex items-center justify-between text-xs text-gray-500">
-              <span>{t('new_version_2024')}</span>
-              <span className="flex items-center space-x-1">
-                <Globe className="w-3 h-3" />
-                <span>{languages.length} langues</span>
-              </span>
-            </div>
           </div>
         </div>
       )}
-
-      {/* Styles pour la scrollbar personnalisée */}
-      <style jsx>{`
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: #f1f5f9;
-          border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(180deg, #3b82f6, #1d4ed8);
-          border-radius: 3px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(180deg, #1d4ed8, #1e40af);
-        }
-      `}</style>
     </div>
   )
 }

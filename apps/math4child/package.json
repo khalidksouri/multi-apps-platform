@@ -8,7 +8,11 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint --quiet || true",
-    "type-check": "tsc --noEmit || true"
+    "type-check": "tsc --noEmit || true",
+    "build:netlify": "next build && next export",
+    "lint:quiet": "next lint --quiet || true",
+    "type-check:safe": "tsc --noEmit || true",
+    "clean:all": "rm -rf .next out dist node_modules/.cache backup*"
   },
   "dependencies": {
     "@lemonsqueezy/lemonsqueezy.js": "2.2.0",
@@ -18,11 +22,12 @@
     "crypto-js": "4.2.0",
     "date-fns": "3.6.0",
     "lucide-react": "0.469.0",
-    "next": "14.2.13",
+    "next": "^14.2.30",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "recharts": "2.12.7",
-    "stripe": "^16.12.0"
+    "stripe": "^16.12.0",
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@capacitor/android": "5.7.8",
@@ -32,8 +37,8 @@
     "@playwright/test": "^1.54.1",
     "@types/crypto-js": "4.2.2",
     "@types/node": "20.14.8",
-    "@types/react": "18.3.12",
-    "@types/react-dom": "18.3.1",
+    "@types/react": "^18.3.23",
+    "@types/react-dom": "^18.3.7",
     "autoprefixer": "10.4.20",
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.13",
