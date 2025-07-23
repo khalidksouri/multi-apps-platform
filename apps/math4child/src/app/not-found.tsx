@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function NotFound() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center">
@@ -9,7 +7,7 @@ export default function NotFound() {
         <p className="text-blue-100 mb-8">La page que vous cherchez n'existe pas.</p>
         <a 
           href="/"
-          className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+          className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50"
         >
           Retour à l'accueil
         </a>

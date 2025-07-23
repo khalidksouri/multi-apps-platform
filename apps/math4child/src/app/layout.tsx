@@ -1,9 +1,8 @@
-import type { Metadata } from 'next'
 import './globals.css'
 
-export const metadata: Metadata = {
-  title: 'Math4Child - Apprendre les mathématiques en s\'amusant',
-  description: 'Application éducative moderne pour l\'apprentissage des mathématiques avec système de paiement optimisé',
+export const metadata = {
+  title: 'Math4Child - Apprendre les mathématiques',
+  description: 'Application éducative pour apprendre les mathématiques en s\'amusant',
 }
 
 export default function RootLayout({
@@ -14,7 +13,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
-        {children}
+        <div id="__next">
+          {children}
+        </div>
       </body>
     </html>
   )
