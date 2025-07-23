@@ -1,22 +1,29 @@
 [build]
+  base = "/opt/build/repo/apps/math4child"
   publish = "out"
-  command = "npm run build"
+  command = "npm install && npm run build"
 
 [build.environment]
   NODE_VERSION = "18"
   NPM_VERSION = "9"
-  NODE_ENV = "production"
+  NODE_ENV = "development"
   NEXT_TELEMETRY_DISABLED = "1"
 
 # Configuration par contexte
 [context.production]
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
+  [context.production.environment]
+    NODE_ENV = "development"
 
 [context.deploy-preview]
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
+  [context.deploy-preview.environment]
+    NODE_ENV = "development"
 
 [context.branch-deploy]
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
+  [context.branch-deploy.environment]
+    NODE_ENV = "development"
 
 # Redirections SPA
 [[redirects]]
@@ -37,8 +44,3 @@
   for = "/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
-
-# Variables d'environnement (à configurer dans l'interface Netlify)
-# NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
-# STRIPE_SECRET_KEY
-# NEXT_PUBLIC_BASE_URL
