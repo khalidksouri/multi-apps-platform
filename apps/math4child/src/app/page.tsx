@@ -4,7 +4,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 import LanguageDropdown from '@/components/language/LanguageDropdown'
 
 export default function Home() {
-  const { currentLanguage, t } = useLanguage()
+  const { t } = useLanguage()
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700">
@@ -37,29 +37,6 @@ export default function Home() {
             <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
               {t('home.comparePrices', 'Voir les prix')}
             </button>
-          </div>
-        </div>
-        
-        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
-            <h3 className="text-xl font-semibold mb-3">🎯 Apprentissage ciblé</h3>
-            <p className="text-blue-100">
-              Exercices adaptés au niveau de chaque enfant.
-            </p>
-          </div>
-          
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
-            <h3 className="text-xl font-semibold mb-3">🌍 Multilingue</h3>
-            <p className="text-blue-100">
-              Interface disponible en plusieurs langues.
-            </p>
-          </div>
-          
-          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
-            <h3 className="text-xl font-semibold mb-3">💳 Paiements flexibles</h3>
-            <p className="text-blue-100">
-              Système de paiement optimisé.
-            </p>
           </div>
         </div>
       </div>

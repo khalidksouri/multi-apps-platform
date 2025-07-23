@@ -26,26 +26,8 @@
     "paths": {
       "@/*": [
         "./src/*"
-      ],
-      "@/components/*": [
-        "./src/components/*"
-      ],
-      "@/contexts/*": [
-        "./src/contexts/*"
-      ],
-      "@/lib/*": [
-        "./src/lib/*"
-      ],
-      "@/app/*": [
-        "./src/app/*"
       ]
     },
-    "forceConsistentCasingInFileNames": true,
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": false,
-    "noImplicitReturns": false,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
     "strictNullChecks": true
   },
   "include": [
@@ -55,11 +37,6 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    ".next",
-    "out",
-    "dist",
-    "backup*",
-    "*.backup"
+    "node_modules"
   ]
 }

@@ -34,7 +34,6 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   return NextResponse.json({
     message: 'Payment endpoint is working',
-    providers: ['stripe', 'paddle', 'lemonsqueezy', 'revenuecat'],
     success: true
   })
 }
