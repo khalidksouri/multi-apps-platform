@@ -9,29 +9,14 @@ const nextConfig = {
   },
   
   reactStrictMode: true,
+  
   typescript: { 
     ignoreBuildErrors: false 
   },
+  
   eslint: { 
     ignoreDuringBuilds: true 
-  },
-  
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'tailwindcss': false,
-      'autoprefixer': false,
-      'postcss': false,
-    }
-    
-    config.ignoreWarnings = [
-      { module: /node_modules/ },
-      /postcss/,
-      /tailwindcss/,
-    ]
-    
-    return config
-  },
+  }
 }
 
 module.exports = nextConfig
