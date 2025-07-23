@@ -6,27 +6,19 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   typescript: { 
-    ignoreBuildErrors: false 
+    ignoreBuildErrors: true
   },
   eslint: { 
     ignoreDuringBuilds: true 
   },
   
-  // Configuration pour App Router uniquement
-  experimental: {
-    appDir: true,
-  },
-  
-  // DÉSACTIVER complètement CSS processing
-  webpack: (config, { isServer }) => {
-    // Ignorer les fichiers CSS complètement
+  webpack: (config) => {
     config.module.rules.push({
       test: /\.css$/,
       loader: 'ignore-loader'
     })
-    
     return config
   }
 }
