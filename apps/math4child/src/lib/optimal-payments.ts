@@ -1,3 +1,13 @@
+// SYSTÈME DE PAIEMENT OPTIMAL - Math4Child
+// Timestamp: 1753298748
+
+export interface CheckoutResponse {
+  success: boolean
+  provider: string
+  checkoutUrl: string
+  sessionId: string
+}
+
 export interface PaymentProvider {
   name: string
   isAvailable: boolean
@@ -21,48 +31,54 @@ export interface PaymentResponse {
   error?: string
 }
 
+export function getOptimalProvider(params: {
+  platform: 'web' | 'ios' | 'android'
+  country: string
+  amount: number
+}): 'paddle' | 'lemonsqueezy' | 'revenuecat' | 'stripe' {
+  if (params.platform === 'ios' || params.platform === 'android') {
+    return 'revenuecat'
+  }
+  const euCountries = ['FR', 'DE', 'IT', 'ES']
+  if (euCountries.includes(params.country)) {
+    return 'paddle'
+  }
+  return 'stripe'
+}
+
+// Classe avec timestamp 1753298748
 export class OptimalPayments {
   private providers: PaymentProvider[] = [
-    { name: 'stripe', isAvailable: true, priority: 1 },
-    { name: 'paddle', isAvailable: true, priority: 2 },
-    { name: 'lemonsqueezy', isAvailable: true, priority: 3 }
+    { name: 'stripe', isAvailable: true, priority: 1 }
   ]
 
-  getOptimalProvider(): PaymentProvider {
-    return this.providers
-      .filter(p => p.isAvailable)
-      .sort((a, b) => a.priority - b.priority)[0] || this.providers[0]
-  }
-
   async createPaymentIntent(intent: PaymentIntent): Promise<PaymentResponse> {
-    try {
-      const provider = intent.provider ? 
-        this.providers.find(p => p.name === intent.provider) || this.getOptimalProvider() :
-        this.getOptimalProvider()
-      
-      return {
-        provider: provider.name,
-        checkoutUrl: `https://checkout.${provider.name}.com/test`,
-        amount: intent.amount,
-        currency: intent.currency,
-        success: true,
-      }
-    } catch (error) {
-      return {
-        provider: 'error',
-        amount: intent.amount,
-        currency: intent.currency,
-        success: false,
-        error: error instanceof Error ? error.message : 'Unknown error'
-      }
+    return {
+      provider: 'stripe',
+      checkoutUrl: 'https://stripe.com/checkout',
+      amount: intent.amount,
+      currency: intent.currency,
+      success: true
     }
   }
 
-  async handleWebhook(provider: string, payload: unknown) {
-    console.log(`Webhook ${provider}:`, payload)
+  // Méthode createCheckout - Timestamp: 1753298748
+  async createCheckout(planId: string, options: any): Promise<CheckoutResponse> {
+    return {
+      success: true,
+      provider: 'stripe',
+      checkoutUrl: 'https://stripe.com/checkout/' + planId,
+      sessionId: 'session_' + Date.now()
+    }
+  }
+
+  // Méthode handleWebhook - Timestamp: 1753298748
+  async handleWebhook(provider: string, payload: unknown): Promise<{ success: boolean; provider: string }> {
+    console.log('Webhook received:', provider, payload)
     return { success: true, provider }
   }
 }
 
+// Export avec timestamp 1753298748
 export const optimalPayments = new OptimalPayments()
 export default optimalPayments
