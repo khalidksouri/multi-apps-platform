@@ -1,41 +1,54 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { OptimalPaymentManager, getOptimalProvider, CheckoutResponse } from '@/lib/optimal-payments'
+import { optimalPayments } from '@/lib/optimal-payments'
 
 export async function POST(request: NextRequest) {
   try {
-    const { planId, country, platform, email, amount, currency } = await request.json()
-    
-    const provider = getOptimalProvider({
-      platform: platform || 'web',
-      country: country || 'FR',
-      amount: amount || 699
+    const body = await request.json()
+    const { amount, currency = 'EUR', provider, metadata } = body
+
+    // Validation
+    if (!amount || amount <= 0) {
+      return NextResponse.json(
+        { error: 'Invalid amount', success: false },
+        { status: 400 }
+      )
+    }
+
+    // Créer l'intention de paiement
+    const paymentResponse = await optimalPayments.createPaymentIntent({
+      amount,
+      currency,
+      provider,
+      metadata,
     })
-    
-    console.log(`🎯 [OPTIMAL] Provider sélectionné: ${provider} pour ${country}`)
-    
-    const checkout: CheckoutResponse = await OptimalPaymentManager.createCheckout(planId, {
-      email, country, platform, amount, currency
-    })
-    
-    return NextResponse.json({
-      success: checkout.success,
-      provider: checkout.provider,
-      checkoutUrl: checkout.checkoutUrl,
-      sessionId: checkout.sessionId,
-      advantages: [
-        provider === 'paddle' ? 'TVA automatique EU' : '',
-        provider === 'lemonsqueezy' ? 'Optimisé international' : '',
-        provider === 'revenuecat' ? 'Gestion familiale native' : '',
-        'Fees optimisés',
-        'Conversion maximale'
-      ].filter(Boolean)
-    })
+
+    if (!paymentResponse.success) {
+      return NextResponse.json(
+        { error: paymentResponse.error || 'Payment creation failed', success: false },
+        { status: 500 }
+      )
+    }
+
+    return NextResponse.json(paymentResponse)
     
   } catch (error) {
-    console.error('❌ [OPTIMAL] Erreur checkout:', error)
+    console.error('Payment creation error:', error)
     return NextResponse.json(
-      { error: 'Erreur création checkout optimal' },
+      { 
+        error: 'Internal server error', 
+        success: false,
+        message: error instanceof Error ? error.message : 'Unknown error'
+      },
       { status: 500 }
     )
   }
+}
+
+// Méthode GET pour les tests
+export async function GET() {
+  return NextResponse.json({
+    message: 'Payment endpoint is working',
+    providers: ['stripe', 'paddle', 'lemonsqueezy', 'revenuecat'],
+    success: true
+  })
 }

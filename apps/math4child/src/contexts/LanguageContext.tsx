@@ -2,56 +2,55 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
-export interface LanguageContextType {
-  currentLanguage: string
-  isRTL: boolean
-  t: (key: string, fallback?: string) => string
-  changeLanguage: (language: string) => void
-  availableLanguages: Array<{
-    code: string
-    name: string
-    nativeName: string
-    flag: string
-  }>
-}
-
-interface Language {
+export interface Language {
   code: string
   name: string
   nativeName: string
-  flag: string
-  rtl?: boolean
+  direction: 'ltr' | 'rtl'
+}
+
+interface LanguageContextType {
+  currentLanguage: string
+  changeLanguage: (language: string) => void
+  t: (key: string, fallback?: string) => string
+  availableLanguages: Language[]
 }
 
 const SUPPORTED_LANGUAGES: Language[] = [
-  { code: 'fr', name: 'Français', nativeName: 'Français', flag: '🇫🇷' },
-  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
-  { code: 'es', name: 'Español', nativeName: 'Español', flag: '🇪🇸' },
-  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦', rtl: true },
-  { code: 'zh', name: 'Chinese', nativeName: '中文', flag: '🇨🇳' },
-  { code: 'de', name: 'Deutsch', nativeName: 'Deutsch', flag: '🇩🇪' }
+  { code: 'fr', name: 'Français', nativeName: 'Français', direction: 'ltr' },
+  { code: 'en', name: 'English', nativeName: 'English', direction: 'ltr' },
+  { code: 'es', name: 'Español', nativeName: 'Español', direction: 'ltr' },
+  { code: 'de', name: 'Deutsch', nativeName: 'Deutsch', direction: 'ltr' },
+  { code: 'it', name: 'Italiano', nativeName: 'Italiano', direction: 'ltr' },
+  { code: 'pt', name: 'Português', nativeName: 'Português', direction: 'ltr' },
+  { code: 'ar', name: 'العربية', nativeName: 'العربية', direction: 'rtl' },
 ]
 
-const RTL_LANGUAGES = ['ar', 'he', 'fa', 'ur']
-
+// Traductions de base
 const TRANSLATIONS: Record<string, Record<string, string>> = {
   fr: {
-    'game.start': 'Commencer le jeu',
-    'game.score': 'Score',
-    'nav.home': 'Accueil',
-    'common.loading': 'Chargement...'
+    'language.search': 'Rechercher une langue...',
+    'language.noResults': 'Aucune langue trouvée',
+    'home.title': 'Math4Child',
+    'home.subtitle': 'Apprendre les mathématiques en s\'amusant',
+    'home.startFree': 'Commencer gratuitement',
+    'home.comparePrices': 'Voir les prix',
   },
   en: {
-    'game.start': 'Start Game',
-    'game.score': 'Score',
-    'nav.home': 'Home',
-    'common.loading': 'Loading...'
+    'language.search': 'Search language...',
+    'language.noResults': 'No language found',
+    'home.title': 'Math4Child',
+    'home.subtitle': 'Learn mathematics while having fun',
+    'home.startFree': 'Start for free',
+    'home.comparePrices': 'Compare prices',
   },
   es: {
-    'game.start': 'Empezar Juego',
-    'game.score': 'Puntuación',
-    'nav.home': 'Inicio',
-    'common.loading': 'Cargando...'
+    'language.search': 'Buscar idioma...',
+    'language.noResults': 'Ningún idioma encontrado',
+    'home.title': 'Math4Child',
+    'home.subtitle': 'Aprende matemáticas divirtiéndote',
+    'home.startFree': 'Empezar gratis',
+    'home.comparePrices': 'Comparar precios',
   }
 }
 
@@ -65,43 +64,47 @@ interface LanguageProviderProps {
 export function LanguageProvider({ children, defaultLanguage = 'fr' }: LanguageProviderProps) {
   const [currentLanguage, setCurrentLanguage] = useState(defaultLanguage)
 
-  const isRTL = RTL_LANGUAGES.includes(currentLanguage)
-
+  // Fonction de traduction simple
   const t = (key: string, fallback?: string): string => {
-    const translations = TRANSLATIONS[currentLanguage] || TRANSLATIONS['fr']
+    const translations = TRANSLATIONS[currentLanguage] || TRANSLATIONS.fr
     return translations[key] || fallback || key
   }
 
+  // Fonction pour changer de langue
   const changeLanguage = (language: string) => {
-    if (SUPPORTED_LANGUAGES.find(lang => lang.code === language)) {
+    if (SUPPORTED_LANGUAGES.some(lang => lang.code === language)) {
       setCurrentLanguage(language)
       
-      if (typeof document !== 'undefined') {
-        document.documentElement.lang = language
-        document.documentElement.dir = RTL_LANGUAGES.includes(language) ? 'rtl' : 'ltr'
-      }
-      
-      if (typeof localStorage !== 'undefined') {
-        localStorage.setItem('math4child-language', language)
+      // Stocker la préférence (avec vérification)
+      if (typeof window !== 'undefined' && window.localStorage) {
+        try {
+          localStorage.setItem('preferred-language', language)
+        } catch (e) {
+          // Ignore localStorage errors
+        }
       }
     }
   }
 
+  // Charger la langue préférée au démarrage
   useEffect(() => {
-    if (typeof localStorage !== 'undefined') {
-      const savedLanguage = localStorage.getItem('math4child-language')
-      if (savedLanguage && SUPPORTED_LANGUAGES.find(lang => lang.code === savedLanguage)) {
-        changeLanguage(savedLanguage)
+    if (typeof window !== 'undefined' && window.localStorage) {
+      try {
+        const savedLanguage = localStorage.getItem('preferred-language')
+        if (savedLanguage && SUPPORTED_LANGUAGES.some(lang => lang.code === savedLanguage)) {
+          setCurrentLanguage(savedLanguage)
+        }
+      } catch (e) {
+        // Ignore localStorage errors
       }
     }
   }, [])
 
   const value: LanguageContextType = {
     currentLanguage,
-    isRTL,
-    t,
     changeLanguage,
-    availableLanguages: SUPPORTED_LANGUAGES
+    t,
+    availableLanguages: SUPPORTED_LANGUAGES,
   }
 
   return (
@@ -118,5 +121,3 @@ export function useLanguage(): LanguageContextType {
   }
   return context
 }
-
-export default LanguageContext

@@ -25,7 +25,12 @@ const EXTENDED_LANGUAGES: LanguageOption[] = [
   { code: 'de', name: 'Deutsch', nativeName: 'Deutsch', flag: '🇩🇪', keywords: ['german', 'germany', 'allemand'] },
   { code: 'it', name: 'Italiano', nativeName: 'Italiano', flag: '🇮🇹', keywords: ['italian', 'italy', 'italien'] },
   { code: 'pt', name: 'Português', nativeName: 'Português', flag: '🇵🇹', keywords: ['portuguese', 'portugal', 'brasil'] },
+  { code: 'ru', name: 'Русский', nativeName: 'Русский', flag: '🇷🇺', keywords: ['russian', 'russia', 'russe'] },
+  { code: 'zh', name: '中文', nativeName: '中文简体', flag: '🇨🇳', keywords: ['chinese', 'china', 'chinois'] },
+  { code: 'ja', name: '日本語', nativeName: '日本語', flag: '🇯🇵', keywords: ['japanese', 'japan', 'japonais'] },
   { code: 'ar', name: 'العربية', nativeName: 'العربية', flag: '🇸🇦', keywords: ['arabic', 'arab', 'arabe'] },
+  { code: 'hi', name: 'हिन्दी', nativeName: 'हिन्दी', flag: '🇮🇳', keywords: ['hindi', 'india', 'indien'] },
+  { code: 'ko', name: '한국어', nativeName: '한국어', flag: '🇰🇷', keywords: ['korean', 'korea', 'coreen'] }
 ]
 
 export default function LanguageDropdown({ 

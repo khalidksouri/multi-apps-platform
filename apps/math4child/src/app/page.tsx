@@ -1,212 +1,79 @@
 'use client'
 
-import { LanguageProvider, useLanguage } from '@/contexts/LanguageContext'
-import AdvancedLanguageDropdown from '@/components/language/LanguageDropdown'
-import { useEffect } from 'react'
+import { useLanguage } from '@/contexts/LanguageContext'
+import LanguageDropdown from '@/components/language/LanguageDropdown'
 
-function PageContent() {
-  const { t, currentLanguage } = useLanguage()
-
-  useEffect(() => {
-    console.log('🔥 PAGE SIMPLE MONTÉE (fix_app_name_translations état)')
-    console.log('🌍 Langue actuelle:', currentLanguage)
-    console.log('📱 Nom app:', t('app_name'))
-  }, [currentLanguage])
-
-  const handleSubscriptionClick = (plan: string) => {
-    console.log('🔥 Clic sur abonnement:', plan)
-    alert(`Clic sur le plan: ${plan}`)
-  }
+export default function Home() {
+  const { currentLanguage, t } = useLanguage()
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600">
-      {/* Header avec dropdown intégré */}
-      <header className="p-6">
-        <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
-              <span className="text-white font-bold text-lg">M4C</span>
+    <main className="min-h-screen bg-gradient-to-br from-blue-600 to-purple-700">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <header className="flex justify-between items-center mb-12">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
+              <span className="text-blue-600 font-bold text-lg">M4C</span>
             </div>
-            <div>
-              <h1 className="text-white text-xl font-bold">{t('app_name')}</h1>
-              <p className="text-white/70 text-sm">{t('website')} • {t('world_leader')}</p>
-            </div>
+            <h1 className="text-white text-2xl font-bold">
+              {t('home.title', 'Math4Child')}
+            </h1>
           </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-2 text-white/80 bg-white/10 px-3 py-2 rounded-lg backdrop-blur-sm">
-              <span className="text-sm">👥 {t('families_trust')}</span>
-            </div>
-            
-            <AdvancedLanguageDropdown />
-          </div>
-        </div>
-      </header>
-
-      {/* Contenu principal */}
-      <main className="px-6 pb-12">
-        <div className="max-w-4xl mx-auto text-center">
-          
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-full mb-6">
-            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            📱 {t('app_educative')}
-          </div>
-
-          {/* Titre principal */}
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-            {t('main_title')}
+          <LanguageDropdown className="w-64" />
+        </header>
+        
+        {/* Hero Section */}
+        <div className="text-center py-16">
+          <h2 className="text-white text-5xl font-bold mb-6">
+            {t('home.subtitle', 'Apprendre les mathématiques en s\'amusant')}
           </h2>
-
-          <p className="text-2xl text-white mb-4">
-            {t('main_subtitle')}
+          
+          <p className="text-blue-100 text-xl mb-12 max-w-2xl mx-auto">
+            Une application éducative moderne avec un système de paiement optimisé 
+            et support multilingue complet.
           </p>
-
-          <p className="text-xl text-green-300 mb-12">
-            {t('join_families')}
-          </p>
-
-          {/* Boutons d'action */}
-          <div className="flex gap-6 justify-center mb-16">
-            <button 
-              onClick={() => handleSubscriptionClick('gratuit')}
-              className="bg-green-500 hover:bg-green-600 transition-colors duration-200 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg flex items-center gap-2"
-            >
-              🎁 {t('start_free')} 
-              <span className="bg-green-400 text-green-900 px-2 py-1 rounded text-sm font-bold">{t('trial_14d')}</span>
+          
+          <div className="space-x-4">
+            <button className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+              {t('home.startFree', 'Commencer gratuitement')}
             </button>
-            
-            <button 
-              onClick={() => handleSubscriptionClick('compare')}
-              className="bg-purple-500 hover:bg-purple-600 transition-colors duration-200 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg"
-            >
-              📊 {t('compare_prices')}
+            <button className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+              {t('home.comparePrices', 'Voir les prix')}
             </button>
-          </div>
-
-          {/* Plans d'abonnement */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
-            
-            {/* Plan Gratuit */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h3 className="text-white text-xl font-bold mb-4">{t('plan_free')}</h3>
-              <ul className="text-white/80 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('community_support')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('offline_limited')}
-                </li>
-              </ul>
-              <button 
-                onClick={() => handleSubscriptionClick('gratuit')}
-                className="w-full bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200"
-              >
-                {t('start_free_btn')}
-              </button>
-            </div>
-
-            {/* Plan 14j */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h3 className="text-white text-xl font-bold mb-4">{t('plan_trial_14')}</h3>
-              <ul className="text-white/80 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('unlimited_questions')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('complete_levels')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('child_profiles_5')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('languages_30_complete')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('offline_total')}
-                </li>
-              </ul>
-              <button 
-                onClick={() => handleSubscriptionClick('14j-trial')}
-                className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200"
-              >
-                {t('free_trial_14')}
-              </button>
-            </div>
-
-            {/* Plan 7j */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h3 className="text-white text-xl font-bold mb-4">{t('plan_trial_7')}</h3>
-              <ul className="text-white/80 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('unlimited_questions')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('complete_levels')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('child_profiles_2')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('languages_30')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('offline_mode')}
-                </li>
-              </ul>
-              <button 
-                onClick={() => handleSubscriptionClick('7j-trial')}
-                className="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200"
-              >
-                {t('free_trial_7')}
-              </button>
-            </div>
-
-            {/* Plan Famille */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h3 className="text-white text-xl font-bold mb-4">{t('plan_family')}</h3>
-              <ul className="text-white/80 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('family_plan_all')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('student_profiles_30')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('teacher_dashboard')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('homework_assignment')}
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('detailed_reports')}
-                </li>
-              </ul>
-              <button 
-                onClick={() => handleSubscriptionClick('30j-trial')}
-                className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200"
-              >
-                {t('free_trial_30')}
-              </button>
-            </div>
-          </div>
-
-          {/* Debug info */}
-          <div className="mt-12 bg-black/20 rounded-lg p-4 text-white/80 text-sm">
-            <p>🔥 Debug: Langue actuelle = {currentLanguage}</p>
-            <p>📱 Nom app = {t('app_name')}</p>
-            <p>🌍 État = fix_app_name_translations.sh (SANS RTL)</p>
           </div>
         </div>
-      </main>
-    </div>
-  )
-}
-
-export default function HomePage() {
-  return (
-    <LanguageProvider>
-      <PageContent />
-    </LanguageProvider>
+        
+        {/* Features */}
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
+            <h3 className="text-xl font-semibold mb-3">🎯 Apprentissage ciblé</h3>
+            <p className="text-blue-100">
+              Exercices adaptés au niveau de chaque enfant pour un apprentissage optimal.
+            </p>
+          </div>
+          
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
+            <h3 className="text-xl font-semibold mb-3">🌍 Multilingue</h3>
+            <p className="text-blue-100">
+              Interface disponible en plusieurs langues pour une accessibilité maximale.
+            </p>
+          </div>
+          
+          <div className="bg-white/10 backdrop-blur-sm rounded-lg p-6 text-white">
+            <h3 className="text-xl font-semibold mb-3">💳 Paiements flexibles</h3>
+            <p className="text-blue-100">
+              Système de paiement optimisé avec plusieurs options disponibles.
+            </p>
+          </div>
+        </div>
+        
+        {/* Status Info */}
+        <div className="mt-16 text-center text-white/80">
+          <p className="text-sm">
+            Build version: 2.0.0 | Current language: {currentLanguage}
+          </p>
+        </div>
+      </div>
+    </main>
   )
 }
