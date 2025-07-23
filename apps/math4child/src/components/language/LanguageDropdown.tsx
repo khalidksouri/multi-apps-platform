@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import { ChevronDown, Globe } from 'lucide-react'
 import { useLanguage } from '../../contexts/LanguageContext'
 
 interface LanguageDropdownProps {
@@ -31,10 +30,9 @@ export default function LanguageDropdown({ className = '' }: LanguageDropdownPro
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center space-x-2 px-4 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
       >
-        <Globe size={16} className="text-gray-500" />
         <span className="text-lg">{currentLang.flag}</span>
         <span className="text-sm font-medium text-gray-700">{currentLang.name}</span>
-        <ChevronDown size={16} className={`text-gray-500 transform transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+        <span className="text-sm">▼</span>
       </button>
 
       {isOpen && (

@@ -1,5 +1,4 @@
 // SYSTÈME DE PAIEMENT OPTIMAL - Math4Child
-// Timestamp: 1753298748
 
 export interface CheckoutResponse {
   success: boolean
@@ -46,7 +45,6 @@ export function getOptimalProvider(params: {
   return 'stripe'
 }
 
-// Classe avec timestamp 1753298748
 export class OptimalPayments {
   private providers: PaymentProvider[] = [
     { name: 'stripe', isAvailable: true, priority: 1 }
@@ -62,7 +60,6 @@ export class OptimalPayments {
     }
   }
 
-  // Méthode createCheckout - Timestamp: 1753298748
   async createCheckout(planId: string, options: any): Promise<CheckoutResponse> {
     return {
       success: true,
@@ -72,13 +69,11 @@ export class OptimalPayments {
     }
   }
 
-  // Méthode handleWebhook - Timestamp: 1753298748
   async handleWebhook(provider: string, payload: unknown): Promise<{ success: boolean; provider: string }> {
     console.log('Webhook received:', provider, payload)
     return { success: true, provider }
   }
 }
 
-// Export avec timestamp 1753298748
 export const optimalPayments = new OptimalPayments()
 export default optimalPayments
