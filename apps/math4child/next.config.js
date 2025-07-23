@@ -16,6 +16,11 @@ const nextConfig = {
   
   eslint: { 
     ignoreDuringBuilds: true 
+  },
+  
+  // Éviter les problèmes de prerendering
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
   }
 }
 
