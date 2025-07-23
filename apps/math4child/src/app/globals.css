@@ -1,4 +1,4 @@
-/* Math4Child - CSS Pur Sans TailwindCSS */
+/* Math4Child - CSS Pur Sans Framework CSS */
 
 /* Reset de base */
 * {
@@ -18,13 +18,14 @@ body {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-/* Utilitaires de layout */
+/* Container */
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 1rem;
 }
 
+/* Flexbox utilities */
 .flex {
   display: flex;
 }
@@ -65,7 +66,7 @@ body {
   }
 }
 
-/* Texte */
+/* Typography */
 .text-center {
   text-align: center;
 }
@@ -125,13 +126,17 @@ body {
   font-weight: 500;
 }
 
-/* Tailles */
+/* Sizing */
 .w-10 {
   width: 2.5rem;
 }
 
 .h-10 {
   height: 2.5rem;
+}
+
+.w-full {
+  width: 100%;
 }
 
 .min-h-screen {
@@ -147,7 +152,7 @@ body {
   margin-right: auto;
 }
 
-/* Espacement */
+/* Spacing */
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -211,7 +216,7 @@ body {
   margin-top: 0.25rem;
 }
 
-/* Couleurs de fond */
+/* Background colors */
 .bg-white {
   background-color: white;
 }
@@ -228,7 +233,7 @@ body {
   background-color: #f9fafb;
 }
 
-/* Bordures */
+/* Borders */
 .border {
   border: 1px solid #d1d5db;
 }
@@ -274,19 +279,18 @@ body {
   z-index: 50;
 }
 
-/* Ombres */
+/* Effects */
 .shadow-lg {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-/* Transitions */
 .transition-colors {
   transition-property: color, background-color, border-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 
-/* Hover effects */
+/* Hover states */
 .hover\:bg-gray-50:hover {
   background-color: #f9fafb;
 }
@@ -303,7 +307,7 @@ body {
   color: #2563eb;
 }
 
-/* Boutons */
+/* Button styles */
 button {
   cursor: pointer;
   border: none;
@@ -314,11 +318,6 @@ button {
 button:focus {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
-}
-
-/* Width full pour les éléments qui en ont besoin */
-.w-full {
-  width: 100%;
 }
 
 /* Responsive design */
@@ -347,7 +346,33 @@ button:focus {
   }
 }
 
-/* Animation du dropdown */
+/* Math4Child specific styles */
+.math-card {
+  background-color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  border: 1px solid #e5e7eb;
+}
+
+.math-button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 200ms ease;
+}
+
+.math-button-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.math-button-primary:hover {
+  background-color: #1d4ed8;
+  transform: scale(0.95);
+}
+
+/* Dropdown animation */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -361,4 +386,27 @@ button:focus {
 
 .dropdown-enter {
   animation: fadeIn 0.2s ease-out;
+}
+
+/* RTL Support */
+[dir="rtl"] {
+  text-align: right;
+}
+
+[dir="rtl"] .math-card {
+  direction: rtl;
+}
+
+/* Math4Child animations */
+@keyframes bounce-soft {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-bounce-soft {
+  animation: bounce-soft 2s infinite;
 }
