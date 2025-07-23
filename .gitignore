@@ -22,6 +22,10 @@ out/
 logs/
 *.log
 
+# scripts sh
+scripts/
+*.sh
+
 # Coverage
 coverage/
 

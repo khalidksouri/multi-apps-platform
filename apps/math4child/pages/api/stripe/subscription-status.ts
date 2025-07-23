@@ -1,0 +1,41 @@
+import { NextApiRequest, NextApiResponse } from 'next'
+import Stripe from 'stripe'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2023-10-16',
+})
+
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
+  if (req.method !== 'GET') {
+    return res.status(405).json({ message: 'Method not allowed' })
+  }
+
+  try {
+    const { customerId } = req.query
+
+    if (!customerId) {
+      return res.status(400).json({ error: 'Customer ID requis' })
+    }
+
+    const subscriptions = await stripe.subscriptions.list({
+      customer: customerId as string,
+      status: 'active',
+      limit: 10,
+    })
+
+    res.status(200).json({
+      subscriptions: subscriptions.data,
+      hasActiveSubscription: subscriptions.data.length > 0
+    })
+
+  } catch (error) {
+    console.error('Erreur récupération abonnement:', error)
+    res.status(500).json({ 
+      error: 'Erreur lors de la récupération',
+      details: error instanceof Error ? error.message : 'Erreur inconnue'
+    })
+  }
+}

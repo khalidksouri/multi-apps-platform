@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useRef, useEffect, useMemo } from 'react'
-import { ChevronDown, Globe, Search, X, Check, Star, MapPin, Sparkles } from 'lucide-react'
-import { useLanguage } from '@/contexts/LanguageContext'
+import { useState, useRef, useEffect } from 'react'
+import { useLanguage } from '../../contexts/LanguageContext'
+import { ChevronDown, Globe, Search, X } from 'lucide-react'
 
 interface Language {
   code: string
@@ -11,517 +11,290 @@ interface Language {
   flag: string
   region: string
   popular?: boolean
-  searchTerms?: string[]
+  searchTerms: string[]
 }
 
-const LANGUAGES: Language[] = [
-  // ⭐ LANGUES POPULAIRES
-  { 
-    code: 'fr', 
-    name: 'Français', 
-    nativeName: 'Français', 
-    flag: '🇫🇷', 
-    region: 'Europe', 
-    popular: true,
-    searchTerms: ['french', 'france', 'francais']
-  },
-  { 
-    code: 'en', 
-    name: 'English', 
-    nativeName: 'English', 
-    flag: '🇺🇸', 
-    region: 'Amérique', 
-    popular: true,
-    searchTerms: ['anglais', 'english', 'usa', 'america']
-  },
-  { 
-    code: 'es', 
-    name: 'Español', 
-    nativeName: 'Español', 
-    flag: '🇪🇸', 
-    region: 'Europe', 
-    popular: true,
-    searchTerms: ['spanish', 'spain', 'espagne', 'espagnol']
-  },
-  { 
-    code: 'de', 
-    name: 'Deutsch', 
-    nativeName: 'Deutsch', 
-    flag: '🇩🇪', 
-    region: 'Europe', 
-    popular: true,
-    searchTerms: ['german', 'germany', 'allemand', 'allemagne']
-  },
-  { 
-    code: 'it', 
-    name: 'Italiano', 
-    nativeName: 'Italiano', 
-    flag: '🇮🇹', 
-    region: 'Europe', 
-    popular: true,
-    searchTerms: ['italian', 'italy', 'italien', 'italie']
-  },
-  { 
-    code: 'pt', 
-    name: 'Português', 
-    nativeName: 'Português', 
-    flag: '🇵🇹', 
-    region: 'Europe', 
-    popular: true,
-    searchTerms: ['portuguese', 'portugal', 'portugais', 'brasil']
-  },
+const languages: Language[] = [
+  // Europe
+  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷', region: 'Europe', popular: true, searchTerms: ['french', 'français', 'france', 'fr'] },
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧', region: 'Europe', popular: true, searchTerms: ['english', 'anglais', 'en', 'gb', 'uk'] },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸', region: 'Europe', popular: true, searchTerms: ['spanish', 'español', 'espagnol', 'es'] },
+  { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪', region: 'Europe', popular: true, searchTerms: ['german', 'deutsch', 'allemand', 'de'] },
+  { code: 'it', name: 'Italian', nativeName: 'Italiano', flag: '🇮🇹', region: 'Europe', popular: true, searchTerms: ['italian', 'italiano', 'italien', 'it'] },
+  { code: 'pt', name: 'Portuguese', nativeName: 'Português', flag: '🇵🇹', region: 'Europe', popular: true, searchTerms: ['portuguese', 'português', 'portugais', 'pt'] },
+  { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺', region: 'Europe', popular: true, searchTerms: ['russian', 'русский', 'russe', 'ru'] },
+  { code: 'nl', name: 'Dutch', nativeName: 'Nederlands', flag: '🇳🇱', region: 'Europe', searchTerms: ['dutch', 'nederlands', 'néerlandais', 'nl'] },
+  { code: 'pl', name: 'Polish', nativeName: 'Polski', flag: '🇵🇱', region: 'Europe', searchTerms: ['polish', 'polski', 'polonais', 'pl'] },
+  { code: 'sv', name: 'Swedish', nativeName: 'Svenska', flag: '🇸🇪', region: 'Europe', searchTerms: ['swedish', 'svenska', 'suédois', 'sv'] },
+  { code: 'no', name: 'Norwegian', nativeName: 'Norsk', flag: '🇳🇴', region: 'Europe', searchTerms: ['norwegian', 'norsk', 'norvégien', 'no'] },
+  { code: 'da', name: 'Danish', nativeName: 'Dansk', flag: '🇩🇰', region: 'Europe', searchTerms: ['danish', 'dansk', 'danois', 'da'] },
   
-  // 🌍 EUROPE
-  { code: 'ru', name: 'Русский', nativeName: 'Русский', flag: '🇷🇺', region: 'Europe', searchTerms: ['russian', 'russia', 'russe'] },
-  { code: 'pl', name: 'Polski', nativeName: 'Polski', flag: '🇵🇱', region: 'Europe', searchTerms: ['polish', 'poland', 'polonais'] },
-  { code: 'nl', name: 'Nederlands', nativeName: 'Nederlands', flag: '🇳🇱', region: 'Europe', searchTerms: ['dutch', 'netherlands', 'neerlandais'] },
-  { code: 'sv', name: 'Svenska', nativeName: 'Svenska', flag: '🇸🇪', region: 'Europe', searchTerms: ['swedish', 'sweden', 'suedois'] },
-  { code: 'no', name: 'Norsk', nativeName: 'Norsk', flag: '🇳🇴', region: 'Europe', searchTerms: ['norwegian', 'norway', 'norvegien'] },
-  { code: 'da', name: 'Dansk', nativeName: 'Dansk', flag: '🇩🇰', region: 'Europe', searchTerms: ['danish', 'denmark', 'danois'] },
-  { code: 'fi', name: 'Suomi', nativeName: 'Suomi', flag: '🇫🇮', region: 'Europe', searchTerms: ['finnish', 'finland', 'finlandais'] },
-  { code: 'tr', name: 'Türkçe', nativeName: 'Türkçe', flag: '🇹🇷', region: 'Europe', searchTerms: ['turkish', 'turkey', 'turc'] },
-  { code: 'uk', name: 'Українська', nativeName: 'Українська', flag: '🇺🇦', region: 'Europe', searchTerms: ['ukrainian', 'ukraine', 'ukrainien'] },
-  
-  // 🌏 ASIE
-  { code: 'zh', name: '中文 (简体)', nativeName: '中文', flag: '🇨🇳', region: 'Asie', searchTerms: ['chinese', 'china', 'chinois', 'mandarin'] },
-  { code: 'ja', name: '日本語', nativeName: '日本語', flag: '🇯🇵', region: 'Asie', searchTerms: ['japanese', 'japan', 'japonais'] },
-  { code: 'ko', name: '한국어', nativeName: '한국어', flag: '🇰🇷', region: 'Asie', searchTerms: ['korean', 'korea', 'coreen'] },
-  { code: 'hi', name: 'हिन्दी', nativeName: 'हिन्दी', flag: '🇮🇳', region: 'Asie', searchTerms: ['hindi', 'india', 'indien'] },
-  { code: 'th', name: 'ไทย', nativeName: 'ไทย', flag: '🇹🇭', region: 'Asie', searchTerms: ['thai', 'thailand', 'thailandais'] },
-  { code: 'vi', name: 'Tiếng Việt', nativeName: 'Tiếng Việt', flag: '🇻🇳', region: 'Asie', searchTerms: ['vietnamese', 'vietnam', 'vietnamien'] },
-  { code: 'id', name: 'Indonesia', nativeName: 'Bahasa Indonesia', flag: '🇮🇩', region: 'Asie', searchTerms: ['indonesian', 'indonesia', 'indonesien'] },
-  
-  // 🕌 MOYEN-ORIENT
-  { code: 'ar', name: 'العربية', nativeName: 'العربية', flag: '🇸🇦', region: 'Moyen-Orient', searchTerms: ['arabic', 'arab', 'arabe'] },
-  { code: 'he', name: 'עברית', nativeName: 'עברית', flag: '🇮🇱', region: 'Moyen-Orient', searchTerms: ['hebrew', 'israel', 'hebreu'] },
-  { code: 'fa', name: 'فارسی', nativeName: 'فارسی', flag: '🇮🇷', region: 'Moyen-Orient', searchTerms: ['persian', 'farsi', 'iran'] },
+  // Autres régions déjà existantes
+  { code: 'ja', name: 'Japanese', nativeName: '日本語', flag: '🇯🇵', region: 'Asia', popular: true, searchTerms: ['japanese', '日本語', 'japonais', 'ja'] },
+  { code: 'zh', name: 'Chinese', nativeName: '中文', flag: '🇨🇳', region: 'Asia', popular: true, searchTerms: ['chinese', '中文', 'chinois', 'zh'] },
+  { code: 'ko', name: 'Korean', nativeName: '한국어', flag: '🇰🇷', region: 'Asia', searchTerms: ['korean', '한국어', 'coréen', 'ko'] },
+  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦', region: 'Middle East', popular: true, searchTerms: ['arabic', 'العربية', 'arabe', 'ar'] },
+  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', flag: '🇮🇳', region: 'Asia', searchTerms: ['hindi', 'हिन्दी', 'hindi', 'hi'] },
 ]
 
+const groupLanguagesByRegion = (langs: Language[]) => {
+  const grouped = langs.reduce((acc, lang) => {
+    if (!acc[lang.region]) acc[lang.region] = []
+    acc[lang.region].push(lang)
+    return acc
+  }, {} as Record<string, Language[]>)
+  
+  return Object.entries(grouped).sort(([a], [b]) => {
+    const order = ['Europe', 'Asia', 'Middle East', 'Americas', 'Africa', 'Oceania']
+    return order.indexOf(a) - order.indexOf(b)
+  })
+}
+
 export default function AdvancedLanguageDropdown() {
-  const { currentLanguage, setLanguage } = useLanguage()
+  const { currentLanguage, setLanguage, t } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedIndex, setSelectedIndex] = useState(-1)
-  
+  const [focusedIndex, setFocusedIndex] = useState(-1)
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const searchInputRef = useRef<HTMLInputElement>(null)
-  const listRef = useRef<HTMLDivElement>(null)
-  const itemRefs = useRef<(HTMLButtonElement | null)[]>([])
+  const searchRef = useRef<HTMLInputElement>(null)
 
-  // 🔍 FILTRAGE INTELLIGENT
-  const filteredLanguages = useMemo(() => {
-    if (!searchTerm.trim()) return LANGUAGES
-    
-    const searchLower = searchTerm.toLowerCase().trim()
-    
-    let filtered = LANGUAGES.filter(lang => {
-      const nameMatch = lang.name.toLowerCase().includes(searchLower)
-      const nativeMatch = lang.nativeName.toLowerCase().includes(searchLower)
-      const codeMatch = lang.code.toLowerCase().includes(searchLower)
-      const termsMatch = lang.searchTerms?.some(term => 
-        term.toLowerCase().includes(searchLower)
-      )
-      
-      return nameMatch || nativeMatch || codeMatch || termsMatch
-    })
-    
-    return filtered.sort((a, b) => {
-      if (a.popular && !b.popular) return -1
-      if (!a.popular && b.popular) return 1
-      
-      const aStartsWith = a.name.toLowerCase().startsWith(searchLower)
-      const bStartsWith = b.name.toLowerCase().startsWith(searchLower)
-      if (aStartsWith && !bStartsWith) return -1
-      if (!aStartsWith && bStartsWith) return 1
-      
-      return a.name.localeCompare(b.name)
-    })
-  }, [searchTerm])
+  const currentLang = languages.find(lang => lang.code === currentLanguage) || languages[0]
+  
+  // Filtrer les langues selon la recherche
+  const filteredLanguages = languages.filter(lang => 
+    searchTerm === '' || 
+    lang.searchTerms.some(term => 
+      term.toLowerCase().includes(searchTerm.toLowerCase())
+    ) ||
+    lang.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    lang.nativeName.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
-  // 🌍 GROUPEMENT PAR RÉGION
-  const groupedLanguages = useMemo(() => {
-    const groups: { [region: string]: Language[] } = {}
-    
-    filteredLanguages.forEach(lang => {
-      if (!groups[lang.region]) {
-        groups[lang.region] = []
-      }
-      groups[lang.region].push(lang)
-    })
-    
-    const regionOrder = ['Europe', 'Amérique', 'Asie', 'Moyen-Orient', 'Afrique', 'Océanie']
-    const sortedGroups: { [region: string]: Language[] } = {}
-    
-    regionOrder.forEach(region => {
-      if (groups[region]) {
-        sortedGroups[region] = groups[region]
-      }
-    })
-    
-    Object.keys(groups).forEach(region => {
-      if (!sortedGroups[region]) {
-        sortedGroups[region] = groups[region]
-      }
-    })
-    
-    return sortedGroups
-  }, [filteredLanguages])
+  const groupedLanguages = groupLanguagesByRegion(filteredLanguages)
+  const flatLanguages = groupedLanguages.flatMap(([, langs]) => langs)
 
-  const closeDropdown = () => {
+  useEffect(() => {
+    if (isOpen && searchRef.current) {
+      searchRef.current.focus()
+    }
+  }, [isOpen])
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+        setSearchTerm('')
+        setFocusedIndex(-1)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!isOpen) return
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        setFocusedIndex(prev => (prev < flatLanguages.length - 1 ? prev + 1 : 0))
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        setFocusedIndex(prev => (prev > 0 ? prev - 1 : flatLanguages.length - 1))
+        break
+      case 'Enter':
+        e.preventDefault()
+        if (focusedIndex >= 0 && flatLanguages[focusedIndex]) {
+          handleLanguageSelect(flatLanguages[focusedIndex].code)
+        }
+        break
+      case 'Escape':
+        setIsOpen(false)
+        setSearchTerm('')
+        setFocusedIndex(-1)
+        break
+    }
+  }
+
+  const handleLanguageSelect = (langCode: string) => {
+    setLanguage(langCode)
     setIsOpen(false)
     setSearchTerm('')
-    setSelectedIndex(-1)
-  }
-
-  // 👆 GESTION DU CLIC EXTÉRIEUR
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        closeDropdown()
-      }
-    }
-
-    if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-      document.body.style.overflow = 'unset'
-    }
-  }, [isOpen])
-
-  // 🔍 FOCUS AUTOMATIQUE SUR LA RECHERCHE
-  useEffect(() => {
-    if (isOpen && searchInputRef.current) {
-      setTimeout(() => searchInputRef.current?.focus(), 100)
-    }
-  }, [isOpen])
-
-  // ⌨️ NAVIGATION CLAVIER COMPLÈTE
-  useEffect(() => {
-    function handleKeyDown(event: KeyboardEvent) {
-      if (!isOpen) return
-
-      switch (event.key) {
-        case 'Escape':
-          closeDropdown()
-          buttonRef.current?.focus()
-          break
-        
-        case 'ArrowDown':
-          event.preventDefault()
-          setSelectedIndex(prev => {
-            const newIndex = prev < filteredLanguages.length - 1 ? prev + 1 : 0
-            scrollToItem(newIndex)
-            return newIndex
-          })
-          break
-        
-        case 'ArrowUp':
-          event.preventDefault()
-          setSelectedIndex(prev => {
-            const newIndex = prev > 0 ? prev - 1 : filteredLanguages.length - 1
-            scrollToItem(newIndex)
-            return newIndex
-          })
-          break
-        
-        case 'Enter':
-          event.preventDefault()
-          if (selectedIndex >= 0 && filteredLanguages[selectedIndex]) {
-            handleLanguageSelect(filteredLanguages[selectedIndex])
-          }
-          break
-        
-        case 'Home':
-          event.preventDefault()
-          setSelectedIndex(0)
-          scrollToItem(0)
-          break
-        
-        case 'End':
-          event.preventDefault()
-          const lastIndex = filteredLanguages.length - 1
-          setSelectedIndex(lastIndex)
-          scrollToItem(lastIndex)
-          break
-      }
-    }
-
-    if (isOpen) {
-      document.addEventListener('keydown', handleKeyDown)
-    }
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-    }
-  }, [isOpen, selectedIndex, filteredLanguages])
-
-  // 📜 SCROLL AUTOMATIQUE
-  const scrollToItem = (index: number) => {
-    if (itemRefs.current[index]) {
-      itemRefs.current[index]?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-      })
-    }
-  }
-
-  const currentLang = LANGUAGES.find(lang => lang.code === currentLanguage) || LANGUAGES[0]
-
-  const handleLanguageSelect = (language: Language) => {
-    setLanguage(language.code)
-    closeDropdown()
-    
-    if ('vibrate' in navigator) {
-      navigator.vibrate(50)
-    }
-  }
-
-  const clearSearch = () => {
-    setSearchTerm('')
-    setSelectedIndex(-1)
-    searchInputRef.current?.focus()
-  }
-
-  const getRegionIcon = (region: string) => {
-    const icons = {
-      'Europe': '🇪🇺',
-      'Amérique': '🌎',
-      'Asie': '🌏',
-      'Moyen-Orient': '🕌',
-      'Afrique': '🌍',
-      'Océanie': '🏝️'
-    }
-    return icons[region as keyof typeof icons] || '🌐'
+    setFocusedIndex(-1)
   }
 
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* 🎯 BOUTON TRIGGER AVEC INDICATEURS */}
+      {/* Bouton principal */}
       <button
-        ref={buttonRef}
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 bg-white/20 hover:bg-white/30 rounded-lg transition-all duration-200 text-white backdrop-blur-sm border border-white/20 focus:outline-none focus:ring-2 focus:ring-white/50 relative group"
-        aria-expanded={isOpen}
+        onKeyDown={handleKeyDown}
+        className="flex items-center space-x-2 px-4 py-2.5 bg-white/90 backdrop-blur-sm border border-gray-200 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 group relative overflow-hidden"
         aria-haspopup="listbox"
-        aria-label={`Langue actuelle: ${currentLang.name}. Cliquer pour changer`}
+        aria-expanded={isOpen}
       >
-        <span className="text-lg">{currentLang.flag}</span>
-        <span className="font-medium hidden sm:inline">{currentLang.name}</span>
-        <span className="font-medium sm:hidden">{currentLang.code.toUpperCase()}</span>
-        <ChevronDown 
-          className={`w-4 h-4 transition-transform duration-200 ${
-            isOpen ? 'rotate-180' : ''
-          }`} 
-        />
+        {/* Animation de fond au hover */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         
-        {/* 🔴 INDICATEUR VISUEL NOUVEAU */}
-        <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-green-400 to-blue-500 rounded-full animate-pulse shadow-lg">
-          <div className="absolute inset-0 bg-white rounded-full animate-ping opacity-40"></div>
-        </div>
+        {/* Indicateur de statut */}
+        <div className="absolute top-1 right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
         
-        {/* ⭐ BADGE NOUVEAU */}
-        <div className="absolute -top-2 -left-2 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs px-1.5 py-0.5 rounded-full font-bold animate-bounce">
-          NEW
+        <div className="relative flex items-center space-x-2">
+          <Globe className="w-4 h-4 text-blue-600" />
+          <span className="text-xl" role="img" aria-label={currentLang.name}>{currentLang.flag}</span>
+          <span className="font-medium text-gray-700">{currentLang.nativeName}</span>
+          <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
         </div>
       </button>
 
-      {/* 🌫️ OVERLAY */}
+      {/* Dropdown */}
       {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40"
-          onClick={closeDropdown}
-        />
-      )}
-
-      {/* 📱 DROPDOWN MENU AVANCÉ */}
-      {isOpen && (
-        <div className="fixed inset-x-4 top-4 bottom-4 z-50 md:absolute md:inset-x-auto md:top-full md:left-0 md:translate-y-2 md:w-96 md:max-h-[600px] md:bottom-auto">
-          <div className="bg-white rounded-xl shadow-2xl border border-gray-200 overflow-hidden h-full flex flex-col backdrop-blur-lg">
+        <div className="absolute top-full mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden">
+          {/* En-tête avec recherche */}
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="font-bold text-lg">{t('new_advanced_dropdown')}</h3>
+              <button
+                onClick={() => setIsOpen(false)}
+                className="p-1 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
             
-            {/* 🎨 HEADER AVEC GRADIENT */}
-            <div className="px-4 py-3 bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border-b border-gray-200">
-              <div className="flex items-center gap-2 text-gray-700 mb-3">
-                <div className="flex items-center gap-2">
-                  <Globe className="w-5 h-5 text-blue-600" />
-                  <Sparkles className="w-4 h-4 text-yellow-500 animate-pulse" />
-                </div>
-                <h3 className="font-semibold text-blue-900 flex items-center gap-2">
-                  🌟 Dropdown Avancé
-                  <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-                    v2.0
-                  </span>
-                </h3>
-                <button
-                  onClick={closeDropdown}
-                  className="ml-auto p-1 hover:bg-gray-200 rounded-full transition-colors"
-                  aria-label="Fermer"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-              
-              {/* 🔍 BARRE DE RECHERCHE */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-blue-500 animate-pulse" />
-                <input
-                  ref={searchInputRef}
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => {
-                    setSearchTerm(e.target.value)
-                    setSelectedIndex(-1)
-                  }}
-                  placeholder="🔍 Recherche intelligente: 'fr', 'english', '中文', 'العربية'..."
-                  className="w-full pl-10 pr-10 py-3 border-2 border-blue-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white shadow-sm placeholder-gray-500"
-                />
-                {searchTerm && (
-                  <button
-                    onClick={clearSearch}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 hover:bg-blue-100 rounded-full transition-colors"
-                    aria-label="Effacer"
-                  >
-                    <X className="w-3 h-3 text-blue-500" />
-                  </button>
-                )}
-              </div>
-              
-              {/* 📊 COMPTEUR */}
-              <div className="mt-2 text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded flex items-center gap-1">
-                <MapPin className="w-3 h-3" />
-                <span className="font-semibold">
-                  {filteredLanguages.length} langue{filteredLanguages.length !== 1 ? 's' : ''} trouvée{filteredLanguages.length !== 1 ? 's' : ''}
-                </span>
-                {searchTerm && (
-                  <span className="text-blue-800">
-                    pour "{searchTerm}"
-                  </span>
-                )}
-              </div>
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-blue-200" />
+              <input
+                ref={searchRef}
+                type="text"
+                value={searchTerm}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value)
+                  setFocusedIndex(-1)
+                }}
+                onKeyDown={handleKeyDown}
+                placeholder={t('ultra_intelligent_search')}
+                className="w-full pl-10 pr-4 py-2 bg-white/20 border border-white/30 rounded-lg placeholder-blue-200 text-white focus:outline-none focus:ring-2 focus:ring-white/50"
+              />
             </div>
+            
+            {filteredLanguages.length > 0 && (
+              <p className="text-xs text-blue-100 mt-2">
+                <strong>{filteredLanguages.length}</strong> {filteredLanguages.length === 1 ? t('language_found') : t('languages_found')}
+                {searchTerm && <span> {t('for_search')} "<strong>{searchTerm}</strong>"</span>}
+              </p>
+            )}
+          </div>
 
-            {/* 📜 LISTE AVEC GROUPEMENT ET SCROLL VISIBLE */}
-            <div 
-              ref={listRef}
-              className="flex-1 overflow-y-auto custom-scrollbar"
-            >
-              {Object.keys(groupedLanguages).length === 0 ? (
-                <div className="p-6 text-center text-gray-500">
-                  <Search className="w-12 h-12 mx-auto mb-3 text-gray-300" />
-                  <p className="font-semibold">Aucune langue trouvée</p>
-                  <p className="text-sm">Essayez: "français", "english", "中文"</p>
-                </div>
-              ) : (
-                Object.entries(groupedLanguages).map(([region, languages]) => (
-                  <div key={region} className="mb-2">
-                    {/* 🌍 EN-TÊTE DE RÉGION */}
-                    {!searchTerm && (
-                      <div className="px-4 py-3 bg-gradient-to-r from-gray-100 to-gray-50 text-sm font-bold text-gray-700 uppercase tracking-wide sticky top-0 z-10 border-l-4 border-blue-500 flex items-center gap-2">
-                        <span className="text-lg">{getRegionIcon(region)}</span>
-                        <span className="flex-1">{region}</span>
-                        <span className="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded-full">
-                          {languages.length}
-                        </span>
-                      </div>
-                    )}
-                    
-                    {/* 🌐 LISTE DES LANGUES */}
-                    {languages.map((language) => {
-                      const flatIndex = filteredLanguages.indexOf(language)
-                      const isSelected = flatIndex === selectedIndex
-                      const isCurrent = language.code === currentLanguage
-                      
-                      return (
-                        <button
-                          key={language.code}
-                          ref={(el) => {
-                            itemRefs.current[flatIndex] = el
-                          }}
-                          onClick={() => handleLanguageSelect(language)}
-                          className={`w-full px-4 py-4 text-left transition-all duration-200 flex items-center gap-3 group ${
-                            isCurrent 
-                              ? 'bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 border-l-4 border-blue-500 shadow-md' 
-                              : isSelected
-                              ? 'bg-gradient-to-r from-blue-50 via-purple-50 to-pink-50 border-l-4 border-blue-300'
-                              : 'border-l-4 border-transparent hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 hover:border-l-4 hover:border-gray-300'
-                          }`}
-                          role="option"
-                          aria-selected={isCurrent}
-                        >
-                          <span className="text-2xl flex-shrink-0 group-hover:scale-110 transition-transform duration-200">
-                            {language.flag}
-                          </span>
-                          <div className="flex-1 min-w-0">
-                            <div className={`font-medium ${isCurrent ? 'text-blue-900' : 'text-gray-900'} flex items-center gap-2`}>
-                              {language.name}
-                              {language.popular && (
-                                <span className="inline-flex items-center gap-1 text-xs bg-gradient-to-r from-yellow-100 to-orange-200 text-orange-800 px-2 py-1 rounded-full font-semibold border border-orange-300 animate-pulse">
-                                  <Star className="w-3 h-3" />
-                                  Populaire
-                                </span>
-                              )}
-                            </div>
-                            <div className={`text-sm truncate ${isCurrent ? 'text-blue-700' : 'text-gray-500'}`}>
-                              {language.nativeName}
-                            </div>
-                          </div>
-                          {isCurrent && (
-                            <div className="flex items-center gap-1">
-                              <Check className="w-5 h-5 text-blue-500" />
-                              <span className="text-xs bg-blue-500 text-white px-2 py-1 rounded-full">
-                                Actuelle
-                              </span>
-                            </div>
-                          )}
-                        </button>
-                      )
-                    })}
+          {/* Liste des langues */}
+          <div className="max-h-96 overflow-y-auto custom-scrollbar">
+            {filteredLanguages.length === 0 ? (
+              <div className="p-6 text-center text-gray-500">
+                <Globe className="w-12 h-12 mx-auto mb-3 text-gray-300" />
+                <p className="font-medium">{t('no_language_found')}</p>
+                <p className="text-sm mt-1">{t('try_search')}</p>
+              </div>
+            ) : (
+              groupedLanguages.map(([region, langs]) => (
+                <div key={region} className="border-b border-gray-100 last:border-b-0">
+                  <div className="sticky top-0 bg-gray-50/90 backdrop-blur-sm px-4 py-2 border-b border-gray-200">
+                    <h4 className="font-semibold text-sm text-gray-600 flex items-center">
+                      <span className="mr-2">
+                        {region === 'Europe' && '🇪🇺'}
+                        {region === 'Asia' && '🌏'}
+                        {region === 'Middle East' && '🕌'}
+                        {region === 'Americas' && '🌎'}
+                        {region === 'Africa' && '🌍'}
+                        {region === 'Oceania' && '🏝️'}
+                      </span>
+                      {region}
+                      <span className="ml-2 bg-blue-100 text-blue-600 text-xs px-2 py-0.5 rounded-full">
+                        {langs.length}
+                      </span>
+                    </h4>
                   </div>
-                ))
-              )}
-            </div>
+                  
+                  {langs.map((lang, index) => {
+                    const globalIndex = flatLanguages.indexOf(lang)
+                    const isSelected = lang.code === currentLanguage
+                    const isFocused = globalIndex === focusedIndex
+                    
+                    return (
+                      <button
+                        key={lang.code}
+                        onClick={() => handleLanguageSelect(lang.code)}
+                        className={`w-full px-4 py-3 flex items-center space-x-3 hover:bg-blue-50 transition-all duration-200 group ${
+                          isSelected ? 'bg-blue-100 border-r-4 border-blue-500' : ''
+                        } ${
+                          isFocused ? 'bg-blue-50 ring-2 ring-blue-200' : ''
+                        }`}
+                        role="option"
+                        aria-selected={isSelected}
+                      >
+                        <span className="text-2xl" role="img" aria-label={lang.name}>
+                          {lang.flag}
+                        </span>
+                        
+                        <div className="flex-1 text-left">
+                          <div className="flex items-center space-x-2">
+                            <span className="font-medium text-gray-900">
+                              {lang.nativeName}
+                            </span>
+                            {lang.popular && (
+                              <span className="bg-gradient-to-r from-yellow-400 to-orange-400 text-white text-xs px-2 py-0.5 rounded-full font-medium">
+                                ⭐ Populaire
+                              </span>
+                            )}
+                            {isSelected && (
+                              <span className="bg-blue-500 text-white text-xs px-2 py-0.5 rounded-full font-medium">
+                                {t('current')}
+                              </span>
+                            )}
+                          </div>
+                          <span className="text-sm text-gray-500">{lang.name}</span>
+                        </div>
+                        
+                        <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                          <ChevronDown className="w-4 h-4 text-blue-500 rotate-[-90deg]" />
+                        </div>
+                      </button>
+                    )
+                  })}
+                </div>
+              ))
+            )}
+          </div>
 
-            {/* 🎯 FOOTER */}
-            <div className="px-4 py-3 bg-gradient-to-r from-green-50 to-blue-50 border-t border-gray-200">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-green-700 font-semibold flex items-center gap-1">
-                  <Sparkles className="w-3 h-3" />
-                  Version Avancée
-                </span>
-                <span className="text-blue-600">
-                  🌟 {filteredLanguages.length} langues • 100k+ familles
-                </span>
-              </div>
+          {/* Footer */}
+          <div className="bg-gradient-to-r from-gray-50 to-blue-50 p-3 border-t border-gray-200">
+            <div className="flex items-center justify-between text-xs text-gray-500">
+              <span>{t('new_version_2024')}</span>
+              <span className="flex items-center space-x-1">
+                <Globe className="w-3 h-3" />
+                <span>{languages.length} langues</span>
+              </span>
             </div>
           </div>
         </div>
       )}
 
-      {/* 🎨 STYLES CSS SCROLLBAR */}
+      {/* Styles pour la scrollbar personnalisée */}
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
         }
-        
         .custom-scrollbar::-webkit-scrollbar-track {
-          background: linear-gradient(135deg, #e2e8f0, #f1f5f9);
-          border-radius: 4px;
+          background: #f1f5f9;
+          border-radius: 3px;
         }
-        
         .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: linear-gradient(135deg, #3b82f6, #8b5cf6, #ec4899);
-          border-radius: 4px;
-          box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+          background: linear-gradient(180deg, #3b82f6, #1d4ed8);
+          border-radius: 3px;
         }
-        
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: linear-gradient(135deg, #2563eb, #7c3aed, #db2777);
+          background: linear-gradient(180deg, #1d4ed8, #1e40af);
         }
       `}</style>
     </div>

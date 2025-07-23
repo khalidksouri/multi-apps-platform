@@ -5,13 +5,11 @@ import AdvancedLanguageDropdown from '@/components/language/LanguageDropdown'
 import { useEffect } from 'react'
 
 function PageContent() {
-  const { t, currentLanguage } = useLanguage()
+  const { t } = useLanguage()
 
   useEffect(() => {
-    console.log('🔥 PAGE SIMPLE MONTÉE (fix_app_name_translations état)')
-    console.log('🌍 Langue actuelle:', currentLanguage)
-    console.log('📱 Nom app:', t('app_name'))
-  }, [currentLanguage])
+    console.log('🔥 PAGE PRINCIPALE MONTÉE AVEC DROPDOWN !')
+  }, [])
 
   const handleSubscriptionClick = (plan: string) => {
     console.log('🔥 Clic sur abonnement:', plan)
@@ -28,17 +26,20 @@ function PageContent() {
               <span className="text-white font-bold text-lg">M4C</span>
             </div>
             <div>
-              <h1 className="text-white text-xl font-bold">{t('app_name')}</h1>
-              <p className="text-white/70 text-sm">{t('website')} • {t('world_leader')}</p>
+              <h1 className="text-white text-xl font-bold">Matemática4Crianças</h1>
+              <p className="text-white/70 text-sm">www.math4child.com • Leader mondial</p>
             </div>
           </div>
           
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2 text-white/80 bg-white/10 px-3 py-2 rounded-lg backdrop-blur-sm">
-              <span className="text-sm">👥 {t('families_trust')}</span>
+              <span className="text-sm">👥 100k+ familles</span>
             </div>
             
-            <AdvancedLanguageDropdown />
+            {/* 🔥 DROPDOWN INTÉGRÉ AVEC DEBUG */}
+            <div className="relative">
+              <AdvancedLanguageDropdown />
+            </div>
           </div>
         </div>
       </header>
@@ -50,30 +51,30 @@ function PageContent() {
           {/* Badge */}
           <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-full mb-6">
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            📱 {t('app_educative')}
+            📱 App éducative #1 en France
           </div>
 
           {/* Titre principal */}
           <h2 className="text-4xl md:text-6xl font-bold text-white mb-6 bg-gradient-to-r from-white to-purple-200 bg-clip-text text-transparent">
-            {t('main_title')}
+            Matemática4Crianças
           </h2>
 
           <p className="text-2xl text-white mb-4">
-            {t('main_subtitle')}
+            O app educativo #1 para aprender matemática em família
           </p>
 
           <p className="text-xl text-green-300 mb-12">
-            {t('join_families')}
+            Junte-se a mais de 100.000 famílias que já estão aprendendo!
           </p>
 
-          {/* Boutons d'action */}
+          {/* Boutons d'action AVEC HANDLERS DE DEBUG */}
           <div className="flex gap-6 justify-center mb-16">
             <button 
               onClick={() => handleSubscriptionClick('gratuit')}
               className="bg-green-500 hover:bg-green-600 transition-colors duration-200 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg flex items-center gap-2"
             >
               🎁 {t('start_free')} 
-              <span className="bg-green-400 text-green-900 px-2 py-1 rounded text-sm font-bold">{t('trial_14d')}</span>
+              <span className="bg-green-400 text-green-900 px-2 py-1 rounded text-sm font-bold">14j gratuit</span>
             </button>
             
             <button 
@@ -84,118 +85,118 @@ function PageContent() {
             </button>
           </div>
 
-          {/* Plans d'abonnement */}
+          {/* Plans d'abonnement AVEC HANDLERS DE DEBUG */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
             
             {/* Plan Gratuit */}
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h3 className="text-white text-xl font-bold mb-4">{t('plan_free')}</h3>
+              <h3 className="text-white text-xl font-bold mb-4">Gratuit</h3>
               <ul className="text-white/80 space-y-2 mb-6">
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('community_support')}
+                  <span className="text-green-400">✓</span> Support communautaire
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('offline_limited')}
+                  <span className="text-green-400">✓</span> Mode hors-ligne limité
                 </li>
               </ul>
               <button 
-                onClick={() => handleSubscriptionClick('gratuit')}
+                onClick={() => handleSubscriptionClick('gratuit-start')}
                 className="w-full bg-gray-500 hover:bg-gray-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200"
               >
-                {t('start_free_btn')}
+                Commencer gratuitement
               </button>
             </div>
 
             {/* Plan 14j */}
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h3 className="text-white text-xl font-bold mb-4">{t('plan_trial_14')}</h3>
+              <h3 className="text-white text-xl font-bold mb-4">Essai 14j</h3>
               <ul className="text-white/80 space-y-2 mb-6">
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('unlimited_questions')}
+                  <span className="text-green-400">✓</span> Questions illimitées
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('complete_levels')}
+                  <span className="text-green-400">✓</span> 5 niveaux complets
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('child_profiles_5')}
+                  <span className="text-green-400">✓</span> 5 profils enfants
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('languages_30_complete')}
+                  <span className="text-green-400">✓</span> 30+ langues complètes
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('offline_total')}
+                  <span className="text-green-400">✓</span> Mode hors-ligne total
                 </li>
               </ul>
               <button 
                 onClick={() => handleSubscriptionClick('14j-trial')}
                 className="w-full bg-blue-500 hover:bg-blue-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200"
               >
-                {t('free_trial_14')}
+                Essai 14j gratuit
               </button>
             </div>
 
             {/* Plan 7j */}
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h3 className="text-white text-xl font-bold mb-4">{t('plan_trial_7')}</h3>
+              <h3 className="text-white text-xl font-bold mb-4">Essai 7j</h3>
               <ul className="text-white/80 space-y-2 mb-6">
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('unlimited_questions')}
+                  <span className="text-green-400">✓</span> Questions illimitées
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('complete_levels')}
+                  <span className="text-green-400">✓</span> 5 niveaux complets
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('child_profiles_2')}
+                  <span className="text-green-400">✓</span> 2 profils
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('languages_30')}
+                  <span className="text-green-400">✓</span> 30+ langues
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('offline_mode')}
+                  <span className="text-green-400">✓</span> Mode hors-ligne
                 </li>
               </ul>
               <button 
                 onClick={() => handleSubscriptionClick('7j-trial')}
                 className="w-full bg-purple-500 hover:bg-purple-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200"
               >
-                {t('free_trial_7')}
+                Essai 7j gratuit
               </button>
             </div>
 
             {/* Plan Famille */}
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <h3 className="text-white text-xl font-bold mb-4">{t('plan_family')}</h3>
+              <h3 className="text-white text-xl font-bold mb-4">Plan Famille</h3>
               <ul className="text-white/80 space-y-2 mb-6">
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('family_plan_all')}
+                  <span className="text-green-400">✓</span> Tout du plan Famille
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('student_profiles_30')}
+                  <span className="text-green-400">✓</span> 30 profils élèves
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('teacher_dashboard')}
+                  <span className="text-green-400">✓</span> Tableau de bord enseignant
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('homework_assignment')}
+                  <span className="text-green-400">✓</span> Assignation de devoirs
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-green-400">✓</span> {t('detailed_reports')}
+                  <span className="text-green-400">✓</span> Rapports de classe détaillés
                 </li>
               </ul>
               <button 
                 onClick={() => handleSubscriptionClick('30j-trial')}
                 className="w-full bg-green-500 hover:bg-green-600 text-white py-3 rounded-lg font-semibold transition-colors duration-200"
               >
-                {t('free_trial_30')}
+                Essai 30j gratuit  
               </button>
             </div>
           </div>
 
           {/* Debug info */}
           <div className="mt-12 bg-black/20 rounded-lg p-4 text-white/80 text-sm">
-            <p>🔥 Debug: Langue actuelle = {currentLanguage}</p>
-            <p>📱 Nom app = {t('app_name')}</p>
-            <p>🌍 État = fix_app_name_translations.sh (SANS RTL)</p>
+            <p>🔥 Debug: Si vous voyez ce message, l'intégration fonctionne !</p>
+            <p>📱 Cliquez sur les boutons pour tester les handlers</p>
+            <p>🌍 Testez le dropdown de langue en haut à droite</p>
           </div>
         </div>
       </main>
@@ -204,6 +205,10 @@ function PageContent() {
 }
 
 export default function HomePage() {
+  useEffect(() => {
+    console.log('🔥 HOME PAGE AVEC PROVIDER MONTÉE !')
+  }, [])
+
   return (
     <LanguageProvider>
       <PageContent />

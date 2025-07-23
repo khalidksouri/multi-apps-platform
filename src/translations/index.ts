@@ -72,7 +72,7 @@ export function getTranslation(
   fallbackLanguage = 'en'
 ): string {
   const keys = key.split('.')
-  let current: any = translations[language]
+  let current: unknown = translations[language]
   
   for (const k of keys) {
     current = current?.[k]

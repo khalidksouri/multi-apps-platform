@@ -5,13 +5,13 @@ import AdvancedLanguageDropdown from '@/components/language/LanguageDropdown'
 import { useEffect } from 'react'
 
 function PageContent() {
-  const { t, currentLanguage } = useLanguage()
+  const { t, currentLanguage, isRTL } = useLanguage()
 
   useEffect(() => {
-    console.log('🔥 PAGE SIMPLE MONTÉE (fix_app_name_translations état)')
+    console.log('🔥 PAGE AVEC RTL MONTÉE !')
     console.log('🌍 Langue actuelle:', currentLanguage)
-    console.log('📱 Nom app:', t('app_name'))
-  }, [currentLanguage])
+    console.log('📱 RTL activé:', isRTL)
+  }, [currentLanguage, isRTL])
 
   const handleSubscriptionClick = (plan: string) => {
     console.log('🔥 Clic sur abonnement:', plan)
@@ -19,11 +19,11 @@ function PageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600">
+    <div className={`min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 ${isRTL ? 'text-right' : 'text-left'}`}>
       {/* Header avec dropdown intégré */}
       <header className="p-6">
         <div className="max-w-6xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-3">
+          <div className={`flex items-center gap-3 ${isRTL ? 'flex-row-reverse' : ''}`}>
             <div className="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-sm">
               <span className="text-white font-bold text-lg">M4C</span>
             </div>
@@ -33,8 +33,8 @@ function PageContent() {
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-2 text-white/80 bg-white/10 px-3 py-2 rounded-lg backdrop-blur-sm">
+          <div className={`flex items-center gap-4 ${isRTL ? 'flex-row-reverse' : ''}`}>
+            <div className={`hidden md:flex items-center gap-2 text-white/80 bg-white/10 px-3 py-2 rounded-lg backdrop-blur-sm ${isRTL ? 'flex-row-reverse' : ''}`}>
               <span className="text-sm">👥 {t('families_trust')}</span>
             </div>
             
@@ -48,7 +48,7 @@ function PageContent() {
         <div className="max-w-4xl mx-auto text-center">
           
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-full mb-6">
+          <div className={`inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-2 rounded-full mb-6 ${isRTL ? 'flex-row-reverse' : ''}`}>
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
             📱 {t('app_educative')}
           </div>
@@ -66,11 +66,11 @@ function PageContent() {
             {t('join_families')}
           </p>
 
-          {/* Boutons d'action */}
-          <div className="flex gap-6 justify-center mb-16">
+          {/* Boutons d'action avec support RTL */}
+          <div className={`flex gap-6 justify-center mb-16 ${isRTL ? 'flex-row-reverse' : ''}`}>
             <button 
               onClick={() => handleSubscriptionClick('gratuit')}
-              className="bg-green-500 hover:bg-green-600 transition-colors duration-200 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg flex items-center gap-2"
+              className={`bg-green-500 hover:bg-green-600 transition-colors duration-200 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}
             >
               🎁 {t('start_free')} 
               <span className="bg-green-400 text-green-900 px-2 py-1 rounded text-sm font-bold">{t('trial_14d')}</span>
@@ -84,17 +84,17 @@ function PageContent() {
             </button>
           </div>
 
-          {/* Plans d'abonnement */}
+          {/* Plans d'abonnement avec support RTL */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6 max-w-6xl mx-auto">
             
             {/* Plan Gratuit */}
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <h3 className="text-white text-xl font-bold mb-4">{t('plan_free')}</h3>
               <ul className="text-white/80 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('community_support')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('offline_limited')}
                 </li>
               </ul>
@@ -110,19 +110,19 @@ function PageContent() {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <h3 className="text-white text-xl font-bold mb-4">{t('plan_trial_14')}</h3>
               <ul className="text-white/80 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('unlimited_questions')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('complete_levels')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('child_profiles_5')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('languages_30_complete')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('offline_total')}
                 </li>
               </ul>
@@ -138,19 +138,19 @@ function PageContent() {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <h3 className="text-white text-xl font-bold mb-4">{t('plan_trial_7')}</h3>
               <ul className="text-white/80 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('unlimited_questions')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('complete_levels')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('child_profiles_2')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('languages_30')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('offline_mode')}
                 </li>
               </ul>
@@ -166,19 +166,19 @@ function PageContent() {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
               <h3 className="text-white text-xl font-bold mb-4">{t('plan_family')}</h3>
               <ul className="text-white/80 space-y-2 mb-6">
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('family_plan_all')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('student_profiles_30')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('teacher_dashboard')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('homework_assignment')}
                 </li>
-                <li className="flex items-center gap-2">
+                <li className={`flex items-center gap-2 ${isRTL ? 'flex-row-reverse' : ''}`}>
                   <span className="text-green-400">✓</span> {t('detailed_reports')}
                 </li>
               </ul>
@@ -194,8 +194,8 @@ function PageContent() {
           {/* Debug info */}
           <div className="mt-12 bg-black/20 rounded-lg p-4 text-white/80 text-sm">
             <p>🔥 Debug: Langue actuelle = {currentLanguage}</p>
-            <p>📱 Nom app = {t('app_name')}</p>
-            <p>🌍 État = fix_app_name_translations.sh (SANS RTL)</p>
+            <p>📱 RTL activé = {isRTL ? 'OUI' : 'NON'}</p>
+            <p>🌍 Direction de la page = {isRTL ? 'Droite vers Gauche' : 'Gauche vers Droite'}</p>
           </div>
         </div>
       </main>
