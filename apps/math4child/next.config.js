@@ -12,6 +12,11 @@ const nextConfig = {
   },
   eslint: { 
     ignoreDuringBuilds: true 
+  },
+  // Pas de configuration PostCSS
+  experimental: {
+    // Désactiver tout processing CSS automatique
+    forceSwcTransforms: false,
   }
 }
 
