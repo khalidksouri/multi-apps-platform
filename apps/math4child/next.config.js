@@ -23,6 +23,12 @@ const nextConfig = {
   
   // Configuration webpack optimisée
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
+    // Resolver pour les paths @/*
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': require('path').resolve(__dirname, 'src'),
+    }
+    
     // Ignorer les warnings non critiques
     config.ignoreWarnings = [
       { module: /node_modules/ }, 
@@ -55,11 +61,6 @@ const nextConfig = {
     NEXT_PUBLIC_BUILD_TIME: new Date().toISOString(),
     NEXT_PUBLIC_BUILD_VERSION: '2.0.0',
   },
-  
-  // Désactiver le serveur de développement en production
-  ...(process.env.NODE_ENV === 'production' && {
-    assetPrefix: undefined,
-  }),
 }
 
 module.exports = nextConfig

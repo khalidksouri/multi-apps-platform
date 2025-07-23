@@ -1,43 +1,58 @@
-// Types globaux pour Math4Child
+// Global type declarations for Math4Child
 
-interface NetworkInformation {
-  downlink: number
-  effectiveType: string
-  rtt: number
-  saveData: boolean
-}
-
-interface Navigator {
-  connection?: NetworkInformation
-  mozConnection?: NetworkInformation
-  webkitConnection?: NetworkInformation
-}
-
-interface Window {
-  Capacitor?: {
-    platform: 'web' | 'ios' | 'android'
+declare module '@/contexts/LanguageContext' {
+  export interface Language {
+    code: string;
+    name: string;
+    nativeName: string;
+    direction: 'ltr' | 'rtl';
   }
+  
+  export interface LanguageContextType {
+    currentLanguage: string;
+    changeLanguage: (language: string) => void;
+    t: (key: string, fallback?: string) => string;
+    availableLanguages: Language[];
+  }
+  
+  export function LanguageProvider({ children, defaultLanguage }: {
+    children: React.ReactNode;
+    defaultLanguage?: string;
+  }): JSX.Element;
+  
+  export function useLanguage(): LanguageContextType;
 }
 
-// Types pour les providers de paiement
-export interface PaymentCheckoutResponse {
-  success: boolean
-  provider: string
-  checkoutUrl?: string
-  sessionId?: string
-  packageId?: string
-  offering?: string
-}
-
-// Types pour la robustesse
-export interface ErrorSeverity {
-  critical: string
-  high: string
-  medium: string
-  low: string
-}
-
-// Types IndexedDB
-interface IDBIndex {
-  getAll(query?: IDBValidKey | IDBKeyRange | boolean | null): IDBRequest<any[]>
+declare module '@/lib/optimal-payments' {
+  export interface PaymentProvider {
+    name: string;
+    isAvailable: boolean;
+    priority: number;
+  }
+  
+  export interface PaymentIntent {
+    amount: number;
+    currency: string;
+    provider?: string;
+    metadata?: Record<string, string>;
+  }
+  
+  export interface PaymentResponse {
+    provider: string;
+    clientSecret?: string;
+    checkoutUrl?: string;
+    productId?: string;
+    amount: number;
+    currency: string;
+    success: boolean;
+    error?: string;
+  }
+  
+  export class OptimalPayments {
+    getOptimalProvider(): PaymentProvider;
+    createPaymentIntent(intent: PaymentIntent): Promise<PaymentResponse>;
+  }
+  
+  export const optimalPayments: OptimalPayments;
+  export default optimalPayments;
 }

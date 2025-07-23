@@ -1,10 +1,7 @@
 {
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "es6"
-    ],
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "es6"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -23,17 +20,18 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/*": [
-        "./src/*"
-      ]
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/contexts/*": ["./src/contexts/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/app/*": ["./src/app/*"]
     },
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": false,
     "noImplicitReturns": false,
     "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "strictNullChecks": true
+    "noUnusedParameters": false
   },
   "include": [
     "next-env.d.ts",
