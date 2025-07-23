@@ -1,13 +1,11 @@
 /** @type {import('next').NextConfig} */
-const path = require('path')
-
 const nextConfig = {
-  // Configuration pour export statique (Netlify)
+  // Export statique pour Netlify
   output: "export",
   trailingSlash: true,
   distDir: 'out',
   
-  // Configuration des images pour export statique
+  // Images non optimisées pour export statique
   images: {
     unoptimized: true,
     domains: ['localhost'],
@@ -23,22 +21,49 @@ const nextConfig = {
     ignoreDuringBuilds: true 
   },
   
-  // Configuration webpack optimisée SANS TailwindCSS
+  // FORCER L'IGNORANCE DE POSTCSS
+  experimental: {
+    // Désactiver PostCSS complètement
+    css: false,
+  },
+  
+  // Configuration webpack pour bypasser PostCSS
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Resolver pour les paths @/*
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': path.resolve(__dirname, 'src'),
-    }
+    // Supprimer tous les loaders CSS qui utilisent PostCSS
+    config.module.rules.forEach((rule) => {
+      if (rule.test && rule.test.toString().includes('css')) {
+        // Remplacer par un simple css-loader sans PostCSS
+        rule.use = [
+          'style-loader',
+          'css-loader'
+        ]
+      }
+    })
     
-    // Ignorer les warnings non critiques
+    // Ignorer les warnings et les tentatives de résolution PostCSS
     config.ignoreWarnings = [
-      { module: /node_modules/ }, 
+      { module: /node_modules/ },
       { file: /backup/ },
       /Critical dependency/,
+      /postcss/,
+      /tailwindcss/,
     ]
     
+    // Empêcher la résolution de TailwindCSS
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'tailwindcss': false,
+      'autoprefixer': false,
+      'postcss': false,
+    }
+    
     return config
+  },
+  
+  // Variables d'environnement
+  env: {
+    NEXT_PUBLIC_BUILD_TIME: new Date().toISOString(),
+    NEXT_PUBLIC_BUILD_VERSION: '2.0.0',
   },
 }
 

@@ -1,16 +1,14 @@
 {
   "name": "math4child",
   "version": "2.0.0",
-  "description": "Math4Child.com - App éducative leader avec système de paiement optimal",
+  "description": "Math4Child.com - App éducative avec système de paiement optimal",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint --quiet || true",
-    "type-check": "tsc --noEmit || true",
-    "preview": "next build && next start",
-    "clean": "rm -rf .next out dist node_modules/.cache backup*"
+    "type-check": "tsc --noEmit || true"
   },
   "dependencies": {
     "@lemonsqueezy/lemonsqueezy.js": "2.2.0",
@@ -27,7 +25,6 @@
     "stripe": "^16.12.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.54.1",
     "@types/crypto-js": "4.2.2",
     "@types/node": "20.14.8",
     "@types/react": "^18.3.23",
