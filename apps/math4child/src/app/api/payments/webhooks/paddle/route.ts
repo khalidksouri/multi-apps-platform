@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { optimalPayments } from '@/lib/optimal-payments'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    console.log('Paddle webhook received:', body)
+    await optimalPayments.handleWebhook('paddle', body)
     return NextResponse.json({ received: true, success: true })
   } catch (error) {
     console.error('Paddle webhook error:', error)

@@ -1,10 +1,6 @@
-/* Math4Child - CSS Ultra-Simple */
+/* Math4Child - CSS Ultra-Simple pour Netlify */
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
   font-family: system-ui, -apple-system, sans-serif;
@@ -17,7 +13,7 @@ body {
   min-height: 100vh;
 }
 
-/* Utilitaires de base */
+/* Utilitaires essentiels */
 .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
 .flex { display: flex; }
 .items-center { align-items: center; }
@@ -26,8 +22,12 @@ body {
 .text-white { color: white; }
 .text-blue-600 { color: #2563eb; }
 .text-blue-100 { color: #dbeafe; }
+.text-blue-700 { color: #1d4ed8; }
+.text-gray-500 { color: #6b7280; }
+.text-gray-700 { color: #374151; }
 .bg-white { background-color: white; }
 .bg-blue-50 { background-color: #eff6ff; }
+.bg-blue-100 { background-color: #dbeafe; }
 .border { border: 1px solid #d1d5db; }
 .border-2 { border: 2px solid; }
 .border-white { border-color: white; }
@@ -68,11 +68,10 @@ body {
 .right-0 { right: 0; }
 .z-50 { z-index: 50; }
 .transition-colors { transition: color 0.15s, background-color 0.15s, border-color 0.15s; }
+.transform { transform: translateX(var(--tw-translate-x)) translateY(var(--tw-translate-y)) rotate(var(--tw-rotate)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
+.transition-transform { transition: transform 0.15s; }
+.rotate-180 { --tw-rotate: 180deg; }
 .hover\:bg-gray-50:hover { background-color: #f9fafb; }
 .hover\:bg-blue-50:hover { background-color: #eff6ff; }
 .hover\:bg-white:hover { background-color: white; }
 .hover\:text-blue-600:hover { color: #2563eb; }
-.bg-blue-100 { background-color: #dbeafe; }
-.text-blue-700 { color: #1d4ed8; }
-.text-gray-500 { color: #6b7280; }
-.text-gray-700 { color: #374151; }

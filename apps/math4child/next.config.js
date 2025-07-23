@@ -17,7 +17,6 @@ const nextConfig = {
   },
   
   webpack: (config) => {
-    // Empêcher la résolution de TailwindCSS
     config.resolve.alias = {
       ...config.resolve.alias,
       'tailwindcss': false,

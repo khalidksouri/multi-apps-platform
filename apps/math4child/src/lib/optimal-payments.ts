@@ -57,6 +57,11 @@ export class OptimalPayments {
       }
     }
   }
+
+  async handleWebhook(provider: string, payload: unknown) {
+    console.log(`Webhook ${provider}:`, payload)
+    return { success: true, provider }
+  }
 }
 
 export const optimalPayments = new OptimalPayments()
