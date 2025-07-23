@@ -2,13 +2,29 @@
 
 import { useState } from 'react'
 
-export default function HomePage() {
-  const [lang, setLang] = useState('fr')
+type Language = 'fr' | 'en' | 'es'
 
-  const texts = {
-    fr: { title: 'Math4Child', subtitle: 'Apprendre les mathématiques en s\'amusant' },
-    en: { title: 'Math4Child', subtitle: 'Learn mathematics while having fun' },
-    es: { title: 'Math4Child', subtitle: 'Aprende matemáticas divirtiéndote' }
+interface Texts {
+  title: string
+  subtitle: string
+}
+
+export default function HomePage() {
+  const [lang, setLang] = useState<Language>('fr')
+
+  const texts: Record<Language, Texts> = {
+    fr: { 
+      title: 'Math4Child', 
+      subtitle: 'Apprendre les mathématiques en s\'amusant' 
+    },
+    en: { 
+      title: 'Math4Child', 
+      subtitle: 'Learn mathematics while having fun' 
+    },
+    es: { 
+      title: 'Math4Child', 
+      subtitle: 'Aprende matemáticas divirtiéndote' 
+    }
   }
 
   const t = texts[lang] || texts.fr
