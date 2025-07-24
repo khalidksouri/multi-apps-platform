@@ -51,3 +51,15 @@ test-results/
 /out/
 /dist/
 /.next/
+
+# Tests Playwright (ne pas déployer)
+/tests/
+playwright-report/
+test-results/
+*.spec.ts
+*.test.ts
+
+# Build artifacts
+/out/
+/dist/
+/.next/
