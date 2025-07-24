@@ -1,7 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // PAS de static export - mode SPA
+  // Retour au static export pour SPA
+  output: "export",
   trailingSlash: true,
+  distDir: 'out',
+  
+  // Images non optimisées
+  images: {
+    unoptimized: true,
+  },
   
   // Configuration simplifiée
   reactStrictMode: false,
