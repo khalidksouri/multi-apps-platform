@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
+  // PAS de static export - mode SPA
   trailingSlash: true,
-  distDir: 'out',
-  images: {
-    unoptimized: true,
-  },
+  
+  // Configuration simplifiée
   reactStrictMode: false,
+  swcMinify: false,
+  
   typescript: { 
     ignoreBuildErrors: true
   },
@@ -14,6 +14,7 @@ const nextConfig = {
     ignoreDuringBuilds: true 
   },
   
+  // Désactiver CSS processing
   webpack: (config) => {
     config.module.rules.push({
       test: /\.css$/,
