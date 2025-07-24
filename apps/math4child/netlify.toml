@@ -1,6 +1,6 @@
 [build]
   publish = ".next"
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
@@ -9,13 +9,13 @@
 
 # Configuration par contexte
 [context.production]
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
 
 [context.deploy-preview]
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
 
 [context.branch-deploy]
-  command = "npm ci && npm run build"
+  command = "npm install && npm run build"
 
 # Redirections SPA
 [[redirects]]
