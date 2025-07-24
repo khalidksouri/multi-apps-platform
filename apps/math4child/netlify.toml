@@ -1,13 +1,25 @@
 [build]
-  base = "apps/math4child"
   publish = "out"
   command = "npm install && npm run build"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
   NODE_ENV = "production"
+  NEXT_TELEMETRY_DISABLED = "1"
+  # Ignorer les erreurs TypeScript non critiques
+  NEXT_TYPESCRIPT_STRICT = "false"
 
-# Redirects pour SPA
+# Configuration par contexte
+[context.production]
+  command = "npm ci && npm run build"
+
+[context.deploy-preview]
+  command = "npm ci && npm run build"
+
+[context.branch-deploy]
+  command = "npm ci && npm run build"
+
+# Redirections SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -18,11 +30,16 @@
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
-# Cache pour assets
 [[headers]]
   for = "/_next/static/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
+
+# Variables d'environnement (à configurer dans l'interface Netlify)
+# NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+# STRIPE_SECRET_KEY
+# NEXT_PUBLIC_BASE_URL

@@ -28,7 +28,11 @@
     "test:watch": "playwright test --watch",
     "test:trace": "playwright test --trace=on",
     "test:video": "playwright test --video=on",
-    "test:screenshot": "playwright test --screenshot=on"
+    "test:screenshot": "playwright test --screenshot=on",
+    "build:safe": "next build",
+    "build:netlify": "./scripts/netlify-build.sh",
+    "build:check": "tsc --noEmit --skipLibCheck",
+    "build:prod": "NODE_ENV=production next build"
   },
   "dependencies": {
     "@types/node": "20.14.8",

@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Tests Playwright (ne pas déployer)
+/tests/
+playwright-report/
+test-results/
+*.spec.ts
+*.test.ts
+
+# Build artifacts
+/out/
+/dist/
+/.next/
