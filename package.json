@@ -23,7 +23,15 @@
     "lint:quiet": "next lint --quiet || true",
     "dev:clean": "rm -rf .next && npm run dev",
     "clean:all": "rm -rf .next out dist node_modules/.cache backup",
-    "type-check:safe": "tsc --noEmit || true"
+    "type-check:safe": "tsc --noEmit || true",
+    "test:translation": "playwright test --config=playwright.config.translation.ts",
+    "test:translation:ui": "playwright test --config=playwright.config.translation.ts --ui",
+    "test:translation:debug": "playwright test --config=playwright.config.translation.ts --debug",
+    "test:translation:headed": "playwright test --config=playwright.config.translation.ts --headed",
+    "test:translation:report": "playwright show-report playwright-report/translation",
+    "watch:translations": "node scripts/translation-watcher.js",
+    "translation:setup": "chmod +x scripts/setup-translation-tests.sh && scripts/setup-translation-tests.sh",
+    "translation:run-all": "npm run test:translation && npm run test:translation:report"
   },
   "dependencies": {
     "@stripe/stripe-js": "4.7.0",
@@ -37,19 +45,23 @@
     "stripe": "16.12.0"
   },
   "devDependencies": {
-    "@playwright/test": "1.48.0",
+    "@playwright/test": "^1.48.0",
+    "@types/chokidar": "^1.7.5",
     "@types/crypto-js": "4.2.2",
-    "@types/node": "20.14.8",
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.14.8",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
     "autoprefixer": "10.4.20",
+    "chokidar": "^4.0.3",
     "eslint": "8.57.0",
     "eslint-config-next": "14.2.30",
+    "fs-extra": "^11.3.0",
     "postcss": "8.4.47",
     "tailwindcss": "3.4.13",
-    "typescript": "5.4.5"
+    "typescript": "^5.4.5"
   },
   "engines": {
     "node": ">=18.0.0",

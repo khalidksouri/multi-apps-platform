@@ -18,7 +18,7 @@ const translations: Record<string, Record<string, string>> = {
     'families': 'Rejoignez plus de 100.000 familles qui apprennent déjà !',
     'start_free': 'Commencer gratuitement',
     'compare_prices': 'Comparer les prix',
-    'badge': 'App éducative #1',
+    'badge': 'App éducative #1 en France',
     'plan_free': 'Gratuit',
     'plan_trial_14': 'Essai 14j',
     'plan_trial_7': 'Essai 7j',
@@ -35,7 +35,7 @@ const translations: Record<string, Record<string, string>> = {
     'families': 'Join over 100,000 families already learning!',
     'start_free': 'Start for free',
     'compare_prices': 'Compare prices',
-    'badge': '#1 educational app',
+    'badge': '#1 educational app in France',
     'plan_free': 'Free',
     'plan_trial_14': '14-day Trial',
     'plan_trial_7': '7-day Trial',
@@ -52,7 +52,7 @@ const translations: Record<string, Record<string, string>> = {
     'families': '¡Únete a más de 100,000 familias que ya están aprendiendo!',
     'start_free': 'Comenzar gratis',
     'compare_prices': 'Comparar precios',
-    'badge': 'App educativa #1',
+    'badge': 'App educativa #1 en Francia',
     'plan_free': 'Gratis',
     'plan_trial_14': 'Prueba 14d',
     'plan_trial_7': 'Prueba 7d',
@@ -86,7 +86,7 @@ const translations: Record<string, Record<string, string>> = {
     'families': 'انضم إلى أكثر من 100,000 عائلة تتعلم بالفعل!',
     'start_free': 'ابدأ مجاناً',
     'compare_prices': 'قارن الأسعار',
-    'badge': 'التطبيق التعليمي #1',
+    'badge': 'التطبيق التعليمي #1 في فرنسا',
     'plan_free': 'مجاني',
     'plan_trial_14': 'تجربة 14 يوم',
     'plan_trial_7': 'تجربة 7 أيام',
@@ -126,5 +126,5 @@ export function useLanguage() {
   if (!context) {
     throw new Error('useLanguage must be used within a LanguageProvider')
   }
-  return contextt
+  return context
 }

@@ -393,7 +393,7 @@ export default function Math4ChildOptimal(): JSX.Element {
           <div className="mb-12">
             <div className="inline-flex items-center space-x-2 bg-green-500/20 rounded-full px-4 py-2 mb-6 text-green-300">
               <TrendingUp size={16} />
-              <span className="text-sm font-medium">App éducative #1 en France</span>
+              <span className="text-sm font-medium">App éducative #1</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-yellow-300 via-pink-300 to-blue-300 bg-clip-text text-transparent animate-pulse">

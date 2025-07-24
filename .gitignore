@@ -53,3 +53,14 @@ tmp/
 
 # Backup
 *.backup
+
+# Tests de traduction
+test-results/
+playwright-report/
+/blob-report/
+/playwright/.cache/
+temp/
+*.log
+screenshots/
+videos/
+traces/
