@@ -49,6 +49,7 @@
     "npm": ">=9.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.54.1"
+    "@playwright/test": "^1.54.1",
+    "critters": "^0.0.20"
   }
 }
