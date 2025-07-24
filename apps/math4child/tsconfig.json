@@ -29,12 +29,6 @@
     ".next/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules",
-    "tests/**/*",
-    "**/*.spec.ts",
-    "**/*.test.ts",
-    ".next",
-    "out",
-    "dist"
+    "node_modules"
   ]
 }

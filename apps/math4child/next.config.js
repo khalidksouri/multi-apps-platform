@@ -1,37 +1,59 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configuration basique sans PostCSS
+  // Configuration ultra basique
   reactStrictMode: true,
   poweredByHeader: false,
   
-  // Images optimisées
+  // Images basiques
   images: {
-    domains: ['localhost', 'math4child.netlify.app'],
+    domains: ['localhost'],
     dangerouslyAllowSVG: false,
   },
   
-  // TypeScript et ESLint allégés
+  // TypeScript minimal
   typescript: {
     ignoreBuildErrors: false,
   },
   
+  // PAS d'ESLint
   eslint: {
-    // Ignorer ESLint durant le build
     ignoreDuringBuilds: true,
   },
   
-  // Configuration webpack pour ignorer PostCSS
+  // Configuration webpack qui FORCE l'ignorance de PostCSS
   webpack: (config, { dev, isServer }) => {
-    // Ignorer les warnings non critiques
+    // Ignorer tous les warnings CSS
     config.ignoreWarnings = [
       { module: /node_modules/ },
       { file: /backup/ },
+      /tailwind/,
+      /postcss/,
+      /autoprefixer/,
     ]
+    
+    // Modifier la config CSS pour éviter PostCSS
+    config.module.rules.forEach((rule) => {
+      if (rule.test && rule.test.toString().includes('css')) {
+        if (rule.oneOf) {
+          rule.oneOf.forEach((oneOfRule) => {
+            if (oneOfRule.use && Array.isArray(oneOfRule.use)) {
+              oneOfRule.use = oneOfRule.use.filter((use) => {
+                if (typeof use === 'object' && use.loader) {
+                  // Garder seulement css-loader, pas postcss-loader
+                  return !use.loader.includes('postcss-loader')
+                }
+                return true
+              })
+            }
+          })
+        }
+      }
+    })
     
     return config
   },
   
-  // Headers de sécurité (sans PostCSS)
+  // Headers de sécurité simples
   async headers() {
     return [
       {
@@ -45,22 +67,7 @@ const nextConfig = {
             key: 'X-Content-Type-Options', 
             value: 'nosniff',
           },
-          {
-            key: 'Referrer-Policy',
-            value: 'strict-origin-when-cross-origin',
-          },
         ],
-      },
-    ]
-  },
-  
-  // Redirections
-  async redirects() {
-    return [
-      {
-        source: '/home',
-        destination: '/',
-        permanent: true,
       },
     ]
   },
