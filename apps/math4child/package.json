@@ -1,12 +1,13 @@
 {
   "name": "math4child",
-  "version": "2.0.0",
-  "description": "Math4Child - Application éducative",
+  "version": "3.0.0",
+  "description": "Math4Child - Application éducative multilingue avec design professionnel",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "next": "14.2.30",
@@ -16,7 +17,7 @@
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
     "@types/node": "20.14.8",
-    "ignore-loader": "0.1.2"
+    "lucide-react": "0.263.1"
   },
   "engines": {
     "node": ">=18.0.0",

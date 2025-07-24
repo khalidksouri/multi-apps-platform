@@ -1,738 +1,439 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { ChevronDown, Globe, Users, Calculator } from 'lucide-react'
 
-export default function HomePage() {
-  const [lang, setLang] = useState('fr')
+// Données complètes des langues - ARABE EN TÊTE
+const LANGUAGES = [
+  // Arabe en première position
+  { code: 'ar', name: 'العربية', flag: '🇸🇦', region: 'asia', popular: true, searchTerms: ['العربية', 'arabic', 'arabe'], rtl: true },
+  
+  // Langues européennes
+  { code: 'fr', name: 'Français', flag: '🇫🇷', region: 'europe', popular: true, searchTerms: ['français', 'french', 'france'] },
+  { code: 'en', name: 'English', flag: '🇺🇸', region: 'world', popular: true, searchTerms: ['english', 'anglais', 'usa', 'uk'] },
+  { code: 'es', name: 'Español', flag: '🇪🇸', region: 'europe', popular: true, searchTerms: ['español', 'spanish', 'espagnol'] },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪', region: 'europe', popular: true, searchTerms: ['deutsch', 'german', 'allemand'] },
+  { code: 'it', name: 'Italiano', flag: '🇮🇹', region: 'europe', searchTerms: ['italiano', 'italian', 'italien'] },
+  { code: 'pt', name: 'Português', flag: '🇵🇹', region: 'europe', searchTerms: ['português', 'portuguese', 'portugais'] },
+  { code: 'nl', name: 'Nederlands', flag: '🇳🇱', region: 'europe', searchTerms: ['nederlands', 'dutch', 'néerlandais'] },
+  { code: 'ru', name: 'Русский', flag: '🇷🇺', region: 'europe', searchTerms: ['русский', 'russian', 'russe'] },
+  { code: 'tr', name: 'Türkçe', flag: '🇹🇷', region: 'europe', searchTerms: ['türkçe', 'turkish', 'turc'] },
+  
+  // Langues asiatiques
+  { code: 'zh', name: '中文', flag: '🇨🇳', region: 'asia', popular: true, searchTerms: ['中文', 'chinese', 'chinois', 'mandarin'] },
+  { code: 'ja', name: '日本語', flag: '🇯🇵', region: 'asia', popular: true, searchTerms: ['日本語', 'japanese', 'japonais'] },
+  { code: 'ko', name: '한국어', flag: '🇰🇷', region: 'asia', searchTerms: ['한국어', 'korean', 'coréen'] },
+  { code: 'hi', name: 'हिन्दी', flag: '🇮🇳', region: 'asia', searchTerms: ['हिन्दी', 'hindi', 'inde'] },
+  { code: 'th', name: 'ไทย', flag: '🇹🇭', region: 'asia', searchTerms: ['ไทย', 'thai', 'thaï'] },
+  { code: 'he', name: 'עברית', flag: '🇮🇱', region: 'asia', searchTerms: ['עברית', 'hebrew', 'hébreu'], rtl: true },
+  
+  // Amériques
+  { code: 'pt-br', name: 'Português (BR)', flag: '🇧🇷', region: 'americas', popular: true, searchTerms: ['português', 'brazilian', 'brésil'] }
+]
+
+const REGION_ICONS = {
+  europe: '🇪🇺',
+  asia: '🌏', 
+  americas: '🌎',
+  world: '🌍'
+}
+
+const REGION_NAMES = {
+  europe: { fr: 'Europe', en: 'Europe', es: 'Europa', de: 'Europa', ar: 'أوروبا', zh: '欧洲', ja: 'ヨーロッパ' },
+  asia: { fr: 'Asie', en: 'Asia', es: 'Asia', de: 'Asien', ar: 'آسيا', zh: '亚洲', ja: 'アジア' },
+  americas: { fr: 'Amériques', en: 'Americas', es: 'Américas', de: 'Amerika', ar: 'الأمريكتين', zh: '美洲', ja: 'アメリカ' },
+  world: { fr: 'International', en: 'International', es: 'Internacional', de: 'International', ar: 'دولي', zh: '国际', ja: '国際' }
+}
+
+// Traductions de l'interface
+const getUITexts = (lang: string) => {
+  const uiTexts: Record<string, any> = {
+    fr: {
+      searchPlaceholder: 'Rechercher une langue...',
+      noResults: 'Aucune langue trouvée',
+      families: '100k+ familles',
+      appNumber1: 'App éducative #1 en France',
+      joinFamilies: 'Rejoignez plus de 100,000 familles qui apprennent déjà !',
+      daysFree: 'j gratuit',
+      popularSectionTitle: 'Populaires'
+    },
+    en: {
+      searchPlaceholder: 'Search a language...',
+      noResults: 'No language found',
+      families: '100k+ families',
+      appNumber1: '#1 educational app in France',
+      joinFamilies: 'Join over 100,000 families already learning!',
+      daysFree: 'd free',
+      popularSectionTitle: 'Popular'
+    },
+    ar: {
+      searchPlaceholder: 'البحث عن لغة...',
+      noResults: 'لم يتم العثور على لغة',
+      families: '100k+ عائلة',
+      appNumber1: 'التطبيق التعليمي #1 في فرنسا',
+      joinFamilies: 'انضم إلى أكثر من 100,000 عائلة تتعلم بالفعل!',
+      daysFree: 'ي مجاني',
+      popularSectionTitle: 'شائع'
+    },
+    zh: {
+      searchPlaceholder: '搜索语言...',
+      noResults: '未找到语言',
+      families: '10万+ 家庭',
+      appNumber1: '法国排名第一的教育应用',
+      joinFamilies: '加入超过100,000个正在学习的家庭!',
+      daysFree: '天免费',
+      popularSectionTitle: '热门'
+    }
+  }
+  
+  return uiTexts[lang] || uiTexts.fr
+}
+
+interface Texts {
+  title: string
+  subtitle: string
+  description: string
+  startFree: string
+  comparePrices: string
+  whyLeader: string
+  plans: {
+    title: string
+    subtitle: string
+  }
+  guarantees: {
+    title: string
+  }
+}
+
+export default function Math4ChildApp() {
+  const [currentLang, setCurrentLang] = useState('fr')
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  if (!mounted) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-      }}>
-        <div style={{ 
-          color: 'white', 
-          fontSize: '1.5rem',
-          textAlign: 'center'
-        }}>
-          <div style={{
-            width: '50px',
-            height: '50px',
-            border: '3px solid rgba(255,255,255,0.3)',
-            borderRadius: '50%',
-            borderTopColor: 'white',
-            animation: 'spin 1s linear infinite',
-            margin: '0 auto 20px'
-          }}></div>
-          Chargement de Math4Child...
-        </div>
-      </div>
-    )
-  }
-
-  const texts = {
-    fr: { 
-      title: 'Math4Child', 
-      subtitle: 'Apprendre les mathématiques en s\'amusant',
-      description: 'Une application éducative moderne pour apprendre les mathématiques avec plaisir et efficacité.',
-      start: 'Commencer gratuitement',
-      about: 'En savoir plus',
-      pricing_title: 'Choisissez votre plan',
-      pricing_subtitle: 'Plans compétitifs avec essai gratuit - Annulation facile',
-      features: {
-        math: { title: 'Mathématiques', desc: 'Exercices adaptés à chaque niveau' },
-        fun: { title: 'Ludique', desc: 'Apprendre en s\'amusant' },
-        payment: { title: 'Paiement Sécurisé', desc: 'Système multi-provider' },
-        progress: { title: 'Suivi de progrès', desc: 'Statistiques détaillées et rapports' },
-        multilang: { title: 'Multilingue', desc: 'Support de 195+ langues' },
-        offline: { title: 'Mode hors ligne', desc: 'Accès sans connexion internet' }
-      },
+  const texts: Record<string, Texts> = {
+    fr: {
+      title: 'Math4Enfants',
+      subtitle: 'Math4Enfants',
+      description: "L'app éducative n°1 pour apprendre les maths en famille !",
+      startFree: 'Commencer gratuitement',
+      comparePrices: 'Comparer les prix',
+      whyLeader: 'Pourquoi Math4Child est-il leader ?',
       plans: {
-        free: { name: 'Gratuit', price: '0€', period: '/mois', features: ['Support communautaire', 'Mode hors ligne limité', 'Exercices de base'] },
-        trial7: { name: 'Essai 7 jours', price: 'Gratuit', period: '', features: ['Questions illimitées', 'Tous les niveaux', 'Support prioritaire'] },
-        trial14: { name: 'Essai 14 jours', price: 'Gratuit', period: '', features: ['Questions illimitées', 'Tous les niveaux', 'Statistiques avancées'] },
-        premium: { name: 'Premium', price: '9,99€', period: '/mois', features: ['Accès complet', 'Support prioritaire', 'Nouvelles fonctionnalités'] }
+        title: 'Plans Optimaux',
+        subtitle: 'Plus compétitif que toute la concurrence'
       },
       guarantees: {
-        secure: { title: 'Paiement sécurisé', desc: 'Chiffrement SSL 256-bit' },
-        cancel: { title: 'Annulation facile', desc: 'Résiliez à tout moment' },
-        satisfaction: { title: 'Satisfaction garantie', desc: '30 jours satisfait ou remboursé' }
+        title: 'Garanties Math4Child'
       }
     },
-    en: { 
-      title: 'Math4Child', 
-      subtitle: 'Learn mathematics while having fun',
-      description: 'A modern educational application to learn mathematics with pleasure and efficiency.',
-      start: 'Start for free',
-      about: 'Learn more',
-      pricing_title: 'Choose your plan',
-      pricing_subtitle: 'Competitive plans with free trial - Easy cancellation',
-      features: {
-        math: { title: 'Mathematics', desc: 'Exercises adapted to each level' },
-        fun: { title: 'Fun Learning', desc: 'Learn while having fun' },
-        payment: { title: 'Secure Payment', desc: 'Multi-provider system' },
-        progress: { title: 'Progress Tracking', desc: 'Detailed statistics and reports' },
-        multilang: { title: 'Multilingual', desc: 'Support for 195+ languages' },
-        offline: { title: 'Offline Mode', desc: 'Access without internet connection' }
-      },
+    en: {
+      title: 'Math4Child',
+      subtitle: 'Math4Child',
+      description: "#1 educational app to learn math as a family!",
+      startFree: 'Start for free',
+      comparePrices: 'Compare prices',
+      whyLeader: 'Why is Math4Child the leader?',
       plans: {
-        free: { name: 'Free', price: '€0', period: '/month', features: ['Community support', 'Limited offline mode', 'Basic exercises'] },
-        trial7: { name: '7-day Trial', price: 'Free', period: '', features: ['Unlimited questions', 'All levels', 'Priority support'] },
-        trial14: { name: '14-day Trial', price: 'Free', period: '', features: ['Unlimited questions', 'All levels', 'Advanced statistics'] },
-        premium: { name: 'Premium', price: '€9.99', period: '/month', features: ['Full access', 'Priority support', 'New features first'] }
+        title: 'Optimal Plans',
+        subtitle: 'More competitive than all competitors'
       },
       guarantees: {
-        secure: { title: 'Secure Payment', desc: '256-bit SSL encryption' },
-        cancel: { title: 'Easy Cancellation', desc: 'Cancel anytime' },
-        satisfaction: { title: 'Satisfaction Guaranteed', desc: '30-day money back guarantee' }
+        title: 'Math4Child Guarantees'
       }
     },
-    es: { 
-      title: 'Math4Child', 
-      subtitle: 'Aprende matemáticas divirtiéndote',
-      description: 'Una aplicación educativa moderna para aprender matemáticas con placer y eficiencia.',
-      start: 'Empezar gratis',
-      about: 'Saber más',
-      pricing_title: 'Elige tu plan',
-      pricing_subtitle: 'Planes competitivos con prueba gratuita - Cancelación fácil',
-      features: {
-        math: { title: 'Matemáticas', desc: 'Ejercicios adaptados a cada nivel' },
-        fun: { title: 'Lúdico', desc: 'Aprender divirtiéndose' },
-        payment: { title: 'Pago Seguro', desc: 'Sistema multi-proveedor' },
-        progress: { title: 'Seguimiento', desc: 'Estadísticas detalladas e informes' },
-        multilang: { title: 'Multiidioma', desc: 'Soporte para 195+ idiomas' },
-        offline: { title: 'Modo sin conexión', desc: 'Acceso sin conexión a internet' }
-      },
+    ar: {
+      title: 'Math4أطفال',
+      subtitle: 'Math4أطفال',
+      description: "التطبيق التعليمي #1 لتعلم الرياضيات مع العائلة!",
+      startFree: 'ابدأ مجاناً',
+      comparePrices: 'قارن الأسعار',
+      whyLeader: 'لماذا Math4Child هو الرائد؟',
       plans: {
-        free: { name: 'Gratis', price: '0€', period: '/mes', features: ['Soporte comunitario', 'Modo sin conexión limitado', 'Ejercicios básicos'] },
-        trial7: { name: 'Prueba 7 días', price: 'Gratis', period: '', features: ['Preguntas ilimitadas', 'Todos los niveles', 'Soporte prioritario'] },
-        trial14: { name: 'Prueba 14 días', price: 'Gratis', period: '', features: ['Preguntas ilimitadas', 'Todos los niveles', 'Estadísticas avanzadas'] },
-        premium: { name: 'Premium', price: '9,99€', period: '/mes', features: ['Acceso completo', 'Soporte prioritario', 'Nuevas funciones primero'] }
+        title: 'الخطط المثلى',
+        subtitle: 'أكثر تنافسية من جميع المنافسين'
       },
       guarantees: {
-        secure: { title: 'Pago Seguro', desc: 'Cifrado SSL de 256 bits' },
-        cancel: { title: 'Cancelación Fácil', desc: 'Cancela en cualquier momento' },
-        satisfaction: { title: 'Satisfacción Garantizada', desc: 'Garantía de devolución de 30 días' }
+        title: 'ضمانات Math4Child'
+      }
+    },
+    zh: {
+      title: 'Math4儿童',
+      subtitle: 'Math4儿童',
+      description: "与家人一起学习数学的#1教育应用!",
+      startFree: '免费开始',
+      comparePrices: '比较价格',
+      whyLeader: '为什么Math4Child是领导者？',
+      plans: {
+        title: '最优计划',
+        subtitle: '比所有竞争对手更具竞争力'
+      },
+      guarantees: {
+        title: 'Math4Child保证'
       }
     }
   }
 
-  const t = texts[lang as keyof typeof texts] || texts.fr
+  const t = texts[currentLang] || texts.fr
+  const ui = getUITexts(currentLang)
 
-  const languageOptions = [
-    { code: 'fr', flag: '🇫🇷', name: 'FR' },
-    { code: 'en', flag: '🇺🇸', name: 'EN' },  
-    { code: 'es', flag: '🇪🇸', name: 'ES' }
-  ]
+  // Fonction de recherche
+  const filteredLanguages = LANGUAGES.filter(lang => {
+    if (!searchTerm) return true
+    const search = searchTerm.toLowerCase()
+    return (
+      lang.name.toLowerCase().includes(search) ||
+      lang.code.toLowerCase().includes(search) ||
+      lang.searchTerms.some(term => term.toLowerCase().includes(search))
+    )
+  })
 
-  const handleSubscription = (plan: string) => {
-    console.log(`Selected plan: ${plan}`)
-    // Logique de paiement ici
+  // Grouper par région
+  const groupedLanguages = filteredLanguages.reduce((acc, lang) => {
+    if (!acc[lang.region]) acc[lang.region] = []
+    acc[lang.region].push(lang)
+    return acc
+  }, {} as Record<string, any[]>)
+
+  // Langues populaires
+  const popularLanguages = filteredLanguages.filter(lang => lang.popular)
+
+  const currentLanguage = LANGUAGES.find(lang => lang.code === currentLang) || LANGUAGES[0]
+
+  if (!mounted) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 flex items-center justify-center">
+        <div className="text-white text-xl font-semibold">Chargement de Math4Child...</div>
+      </div>
+    )
   }
 
   return (
-    <>
-      <style jsx>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideInFromTop {
-          from { opacity: 0; transform: translateY(-30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideInFromBottom {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(-10px); }
-          50% { transform: translateY(10px); }
-        }
-      `}</style>
-
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-        lineHeight: '1.6'
-      }}>
-        {/* Header */}
-        <header style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          padding: '2rem',
-          maxWidth: '1200px',
-          margin: '0 auto',
-          flexWrap: 'wrap',
-          gap: '2rem',
-          animation: 'slideInFromTop 0.6s ease-out'
-        }}>
-          <h1 style={{ 
-            color: 'white', 
-            fontSize: 'clamp(2rem, 5vw, 3rem)', 
-            fontWeight: '800',
-            margin: 0,
-            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-            letterSpacing: '-0.02em'
-          }}>
-            {t.title}
-          </h1>
-          
-          {/* Sélecteur de langue glassmorphism */}
-          <div style={{ 
-            display: 'flex', 
-            gap: '0.5rem',
-            background: 'rgba(255, 255, 255, 0.1)',
-            padding: '0.5rem',
-            borderRadius: '1rem',
-            backdropFilter: 'blur(10px)',
-            border: '1px solid rgba(255, 255, 255, 0.2)',
-            boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
-          }}>
-            {languageOptions.map((option) => (
-              <button 
-                key={option.code}
-                onClick={() => setLang(option.code)}
-                style={{
-                  padding: '0.75rem 1.25rem',
-                  background: lang === option.code 
-                    ? 'linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%)' 
-                    : 'transparent',
-                  color: lang === option.code ? '#4f46e5' : 'white',
-                  border: 'none',
-                  borderRadius: '0.75rem',
-                  cursor: 'pointer',
-                  fontWeight: '600',
-                  fontSize: '0.95rem',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  boxShadow: lang === option.code 
-                    ? '0 4px 12px rgba(0,0,0,0.15)' 
-                    : 'none',
-                  transform: lang === option.code ? 'translateY(-1px)' : 'none'
-                }}
-                onMouseEnter={(e) => {
-                  if (lang !== option.code) {
-                    e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
-                    e.currentTarget.style.transform = 'translateY(-1px)'
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (lang !== option.code) {
-                    e.currentTarget.style.background = 'transparent'
-                    e.currentTarget.style.transform = 'none'
-                  }
-                }}
-              >
-                <span style={{ fontSize: '1.1em' }}>{option.flag}</span>
-                {option.name}
-              </button>
-            ))}
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600">
+      {/* Header */}
+      <header className="p-6">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
+              <Calculator className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-white text-2xl font-bold">{t.title}</h1>
+              <p className="text-white/70 text-sm">www.math4child.com • Leader mondial</p>
+            </div>
           </div>
-        </header>
-
-        <div style={{ padding: '0 2rem' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+          
+          <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-2 text-white/80 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm">
+              <Users className="w-4 h-4" />
+              <span className="text-sm font-medium">{ui.families}</span>
+            </div>
             
-            {/* Hero Section */}
-            <main style={{ 
-              textAlign: 'center', 
-              padding: '2rem 0 4rem',
-              animation: 'slideInFromBottom 0.8s ease-out 0.2s both'
-            }}>
-              <h2 style={{ 
-                color: 'white', 
-                fontSize: 'clamp(2.5rem, 8vw, 5rem)', 
-                fontWeight: '700',
-                marginBottom: '2rem',
-                lineHeight: '1.1',
-                textShadow: '0 4px 8px rgba(0,0,0,0.3)',
-                letterSpacing: '-0.02em'
-              }}>
-                {t.subtitle}
-              </h2>
-              
-              <p style={{ 
-                color: 'rgba(255, 255, 255, 0.95)', 
-                fontSize: 'clamp(1.1rem, 3vw, 1.4rem)',
-                marginBottom: '3rem',
-                maxWidth: '700px',
-                margin: '0 auto 3rem auto',
-                lineHeight: '1.7',
-                textShadow: '0 2px 4px rgba(0,0,0,0.2)'
-              }}>
-                {t.description}
-              </p>
-              
-              {/* Boutons CTA */}
-              <div style={{ 
-                display: 'flex', 
-                gap: '1.5rem', 
-                justifyContent: 'center', 
-                flexWrap: 'wrap',
-                marginBottom: '4rem'
-              }}>
-                <button 
-                  onClick={() => handleSubscription('free')}
-                  style={{
-                    background: 'linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%)',
-                    color: '#4f46e5',
-                    padding: '1.25rem 3rem',
-                    border: 'none',
-                    borderRadius: '1rem',
-                    fontSize: '1.1rem',
-                    fontWeight: '600',
-                    cursor: 'pointer',
-                    boxShadow: '0 8px 24px rgba(0, 0, 0, 0.15)',
-                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '0.5rem'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = 'translateY(-2px)'
-                    e.currentTarget.style.boxShadow = '0 12px 32px rgba(0, 0, 0, 0.2)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = 'translateY(0)'
-                    e.currentTarget.style.boxShadow = '0 8px 24px rgba(0, 0, 0, 0.15)'
-                  }}
-                >
-                  <span>🎁</span>
-                  {t.start}
-                </button>
-                
-                <button style={{
-                  background: 'rgba(255, 255, 255, 0.1)',
-                  color: 'white',
-                  padding: '1.25rem 3rem',
-                  border: '2px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '1rem',
-                  fontSize: '1.1rem',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  backdropFilter: 'blur(10px)',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.2)'
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)'
-                  e.currentTarget.style.transform = 'translateY(-2px)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)'
-                  e.currentTarget.style.transform = 'translateY(0)'
-                }}>
-                  {t.about}
-                </button>
-              </div>
-            </main>
+            {/* Dropdown de langues */}
+            <div className="relative">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="flex items-center gap-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-xl text-white font-medium transition-all duration-200 backdrop-blur-sm border border-white/20"
+              >
+                <span className="text-lg">{currentLanguage.flag}</span>
+                <span>{currentLanguage.name}</span>
+                <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+              </button>
 
-            {/* Section Pricing */}
-            <section style={{ 
-              marginBottom: '6rem',
-              animation: 'fadeIn 1s ease-out 0.4s both'
-            }}>
-              <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                <h3 style={{
-                  color: 'white',
-                  fontSize: 'clamp(2rem, 5vw, 3rem)',
-                  fontWeight: '700',
-                  marginBottom: '1rem',
-                  textShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                }}>
-                  {t.pricing_title}
-                </h3>
-                <p style={{
-                  color: 'rgba(255, 255, 255, 0.9)',
-                  fontSize: '1.2rem',
-                  maxWidth: '600px',
-                  margin: '0 auto'
-                }}>
-                  {t.pricing_subtitle}
-                </p>
-              </div>
+              {isDropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden">
+                  {/* Recherche */}
+                  <div className="p-4 border-b border-gray-100">
+                    <div className="relative">
+                      <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <input
+                        type="text"
+                        placeholder={ui.searchPlaceholder}
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                      />
+                    </div>
+                  </div>
 
-              {/* Plans de pricing */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                gap: '2rem',
-                marginBottom: '4rem'
-              }}>
-                {Object.entries(t.plans).map(([planKey, plan], index) => (
-                  <div
-                    key={planKey}
-                    style={{
-                      background: planKey === 'premium' 
-                        ? 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%)'
-                        : 'rgba(255, 255, 255, 0.1)',
-                      borderRadius: '1.5rem',
-                      padding: '2.5rem 2rem',
-                      backdropFilter: 'blur(15px)',
-                      border: planKey === 'premium' 
-                        ? '2px solid rgba(255, 215, 0, 0.3)'
-                        : '1px solid rgba(255, 255, 255, 0.2)',
-                      boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-                      position: 'relative',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      cursor: 'pointer',
-                      textAlign: 'center',
-                      color: 'white',
-                      animation: `slideInFromBottom 0.8s ease-out ${0.5 + index * 0.1}s both`
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-8px)'
-                      e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.15)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)'
-                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.1)'
-                    }}
-                  >
-                    {planKey === 'premium' && (
-                      <div style={{
-                        position: 'absolute',
-                        top: '-10px',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        background: 'linear-gradient(45deg, #FFD700, #FFA500)',
-                        color: '#333',
-                        padding: '0.5rem 1rem',
-                        borderRadius: '1rem',
-                        fontSize: '0.8rem',
-                        fontWeight: '700',
-                        boxShadow: '0 4px 12px rgba(255, 215, 0, 0.3)'
-                      }}>
-                        ⭐ POPULAIRE
+                  {/* Contenu scrollable */}
+                  <div className="max-h-80 overflow-y-auto">
+                    {/* Langues populaires - SANS LE MOT "Populaire" */}
+                    {popularLanguages.length > 0 && !searchTerm && (
+                      <div className="p-3">
+                        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                          ⭐ {ui.popularSectionTitle}
+                        </h3>
+                        {popularLanguages.map((language) => (
+                          <button
+                            key={`popular-${language.code}`}
+                            onClick={() => {
+                              setCurrentLang(language.code)
+                              setIsDropdownOpen(false)
+                              setSearchTerm('')
+                            }}
+                            className={`w-full flex items-center gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors group ${
+                              currentLang === language.code ? 'bg-purple-100 text-purple-700' : 'text-gray-700'
+                            } ${language.rtl ? 'flex-row-reverse text-right' : ''}`}
+                            dir={language.rtl ? 'rtl' : 'ltr'}
+                          >
+                            <span className="text-xl">{language.flag}</span>
+                            <span className="font-medium">{language.name}</span>
+                          </button>
+                        ))}
                       </div>
                     )}
-                    
-                    <h4 style={{
-                      fontSize: '1.5rem',
-                      fontWeight: '700',
-                      marginBottom: '1rem',
-                      textShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                    }}>
-                      {plan.name}
-                    </h4>
-                    
-                    <div style={{ marginBottom: '2rem' }}>
-                      <span style={{
-                        fontSize: '2.5rem',
-                        fontWeight: '800',
-                        textShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                      }}>
-                        {plan.price}
-                      </span>
-                      <span style={{
-                        fontSize: '1rem',
-                        opacity: 0.8
-                      }}>
-                        {plan.period}
-                      </span>
-                    </div>
-                    
-                    <ul style={{
-                      listStyle: 'none',
-                      padding: 0,
-                      marginBottom: '2rem',
-                      textAlign: 'left'
-                    }}>
-                      {plan.features.map((feature, i) => (
-                        <li key={i} style={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem',
-                          marginBottom: '0.75rem',
-                          fontSize: '0.95rem'
-                        }}>
-                          <span style={{ color: '#10b981', fontSize: '1.2em' }}>✓</span>
-                          {feature}
-                        </li>
-                      ))}
-                    </ul>
-                    
-                    <button
-                      onClick={() => handleSubscription(planKey)}
-                      style={{
-                        width: '100%',
-                        padding: '1rem',
-                        background: planKey === 'premium'
-                          ? 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'
-                          : planKey.includes('trial')
-                          ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-                          : 'rgba(255, 255, 255, 0.2)',
-                        color: 'white',
-                        border: 'none',
-                        borderRadius: '0.75rem',
-                        fontSize: '1rem',
-                        fontWeight: '600',
-                        cursor: 'pointer',
-                        transition: 'all 0.3s ease',
-                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-2px)'
-                        e.currentTarget.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)'
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)'
-                        e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.1)'
-                      }}
-                    >
-                      {planKey.includes('trial') ? 'Essai gratuit' : planKey === 'free' ? 'Commencer' : 'Choisir Premium'}
-                    </button>
+
+                    {/* Langues groupées par région */}
+                    {Object.entries(groupedLanguages).map(([region, languages]) => (
+                      <div key={region} className="p-3 border-t border-gray-100 first:border-t-0">
+                        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                          <span>{REGION_ICONS[region as keyof typeof REGION_ICONS]}</span>
+                          {REGION_NAMES[region as keyof typeof REGION_NAMES][currentLang as keyof typeof REGION_NAMES.europe] || REGION_NAMES[region as keyof typeof REGION_NAMES].fr}
+                        </h3>
+                        {languages.map((language: any) => (
+                          <button
+                            key={language.code}
+                            onClick={() => {
+                              setCurrentLang(language.code)
+                              setIsDropdownOpen(false)
+                              setSearchTerm('')
+                            }}
+                            className={`w-full flex items-center gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors group ${
+                              currentLang === language.code ? 'bg-purple-100 text-purple-700' : 'text-gray-700'
+                            } ${language.rtl ? 'flex-row-reverse text-right' : ''}`}
+                            dir={language.rtl ? 'rtl' : 'ltr'}
+                          >
+                            <span className="text-xl">{language.flag}</span>
+                            <span className="font-medium">{language.name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    ))}
+
+                    {filteredLanguages.length === 0 && (
+                      <div className="p-4 text-center text-gray-500">
+                        {ui.noResults}
+                      </div>
+                    )}
                   </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Features complètes */}
-            <section style={{ 
-              marginBottom: '6rem',
-              animation: 'slideInFromBottom 1s ease-out 0.6s both'
-            }}>
-              <div style={{
-                textAlign: 'center',
-                marginBottom: '3rem'
-              }}>
-                <h3 style={{
-                  color: 'white',
-                  fontSize: 'clamp(2rem, 5vw, 3rem)',
-                  fontWeight: '700',
-                  marginBottom: '1rem',
-                  textShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                }}>
-                  Fonctionnalités complètes
-                </h3>
-              </div>
-
-              <div style={{ 
-                display: 'grid', 
-                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
-                gap: '2rem'
-              }}>
-                {Object.values(t.features).map((feature, index) => (
-                  <div 
-                    key={index} 
-                    style={{ 
-                      textAlign: 'center',
-                      padding: '3rem 2rem',
-                      background: 'rgba(255, 255, 255, 0.1)',
-                      borderRadius: '1.5rem',
-                      backdropFilter: 'blur(15px)',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-                      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                      cursor: 'pointer',
-                      color: 'white',
-                      animation: `slideInFromBottom 0.8s ease-out ${0.7 + index * 0.1}s both`
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)'
-                      e.currentTarget.style.boxShadow = '0 16px 48px rgba(0,0,0,0.15)'
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.1)'
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
-                    }}
-                  >
-                    <div style={{ 
-                      fontSize: '4rem', 
-                      marginBottom: '1.5rem',
-                      filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))',
-                      animation: 'float 3s ease-in-out infinite'
-                    }}>
-                      {index === 0 && '🧮'}
-                      {index === 1 && '🎮'}
-                      {index === 2 && '💳'}
-                      {index === 3 && '📊'}
-                      {index === 4 && '🌍'}
-                      {index === 5 && '📱'}
-                    </div>
-                    <h4 style={{ 
-                      fontSize: '1.5rem', 
-                      fontWeight: '700', 
-                      marginBottom: '1rem',
-                      textShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                    }}>
-                      {feature.title}
-                    </h4>
-                    <p style={{ 
-                      color: 'rgba(255, 255, 255, 0.9)',
-                      fontSize: '1.1rem',
-                      lineHeight: '1.6'
-                    }}>
-                      {feature.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Garanties */}
-            <section style={{
-              marginBottom: '4rem',
-              animation: 'fadeIn 1.2s ease-out 0.8s both'
-            }}>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-                gap: '2rem',
-                textAlign: 'center'
-              }}>
-                {Object.values(t.guarantees).map((guarantee, index) => (
-                  <div key={index} style={{
-                    color: 'rgba(255, 255, 255, 0.9)',
-                    padding: '2rem'
-                  }}>
-                    <div style={{ 
-                      fontSize: '3rem', 
-                      marginBottom: '1rem',
-                      filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))'
-                    }}>
-                      {index === 0 && '🔒'}
-                      {index === 1 && '↩️'}
-                      {index === 2 && '✨'}
-                    </div>
-                    <h4 style={{ 
-                      fontWeight: '600', 
-                      marginBottom: '0.5rem',
-                      fontSize: '1.2rem',
-                      textShadow: '0 1px 2px rgba(0,0,0,0.3)'
-                    }}>
-                      {guarantee.title}
-                    </h4>
-                    <p style={{ fontSize: '0.95rem', opacity: 0.8 }}>
-                      {guarantee.desc}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Footer complet */}
-            <footer style={{ 
-              textAlign: 'center', 
-              paddingTop: '3rem',
-              borderTop: '1px solid rgba(255,255,255,0.2)',
-              color: 'rgba(255, 255, 255, 0.9)',
-              animation: 'fadeIn 1.4s ease-out 1s both'
-            }}>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                gap: '2rem',
-                marginBottom: '2rem',
-                textAlign: 'left'
-              }}>
-                <div>
-                  <h5 style={{ 
-                    fontWeight: '600', 
-                    marginBottom: '1rem',
-                    color: 'white',
-                    fontSize: '1.1rem'
-                  }}>
-                    Math4Child
-                  </h5>
-                  <p style={{ fontSize: '0.9rem', opacity: 0.8, lineHeight: '1.6' }}>
-                    L'application éducative qui rend l'apprentissage des mathématiques amusant et efficace pour tous les enfants.
-                  </p>
                 </div>
-                <div>
-                  <h5 style={{ 
-                    fontWeight: '600', 
-                    marginBottom: '1rem',
-                    color: 'white',
-                    fontSize: '1.1rem'
-                  }}>
-                    Support
-                  </h5>
-                  <ul style={{ 
-                    listStyle: 'none', 
-                    padding: 0,
-                    fontSize: '0.9rem',
-                    opacity: 0.8,
-                    lineHeight: '2'
-                  }}>
-                    <li><a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Centre d'aide</a></li>
-                    <li><a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Nous contacter</a></li>
-                    <li><a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>FAQ</a></li>
-                  </ul>
-                </div>
-                <div>
-                  <h5 style={{ 
-                    fontWeight: '600', 
-                    marginBottom: '1rem',
-                    color: 'white',
-                    fontSize: '1.1rem'
-                  }}>
-                    Légal
-                  </h5>
-                  <ul style={{ 
-                    listStyle: 'none', 
-                    padding: 0,
-                    fontSize: '0.9rem',
-                    opacity: 0.8,
-                    lineHeight: '2'
-                  }}>
-                    <li><a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Conditions d'utilisation</a></li>
-                    <li><a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Politique de confidentialité</a></li>
-                    <li><a href="#" style={{ color: 'inherit', textDecoration: 'none' }}>Cookies</a></li>
-                  </ul>
-                </div>
-              </div>
-              
-              <div style={{ 
-                borderTop: '1px solid rgba(255,255,255,0.1)',
-                paddingTop: '2rem',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                flexWrap: 'wrap',
-                gap: '1rem'
-              }}>
-                <p style={{ 
-                  fontSize: '0.9rem',
-                  margin: 0
-                }}>
-                  © 2024 Math4Child - Application éducative moderne
-                </p>
-                <p style={{ 
-                  color: '#10b981', 
-                  fontWeight: '600',
-                  fontSize: '1rem',
-                  textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-                  margin: 0
-                }}>
-                  ✅ Déployé avec succès sur Netlify !
-                </p>
-              </div>
-            </footer>
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </header>
+
+      {/* Hero Section */}
+      <main className="px-6 pb-12">
+        <div className="max-w-7xl mx-auto" dir={currentLanguage.rtl ? 'rtl' : 'ltr'}>
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-100 px-4 py-2 rounded-full mb-8">
+              <span className="text-sm font-medium">📊 {ui.appNumber1}</span>
+            </div>
+            
+            <h2 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
+              {t.subtitle}
+            </h2>
+            
+            <p className="text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
+              {t.description}
+            </p>
+            
+            <p className="text-xl text-white/80 mb-12">
+              {ui.joinFamilies}
+            </p>
+            
+            <div className="flex gap-6 justify-center flex-wrap">
+              <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-2">
+                🎁 {t.startFree}
+                <span className="bg-white/20 px-2 py-1 rounded-lg text-sm">14{ui.daysFree}</span>
+              </button>
+              <button className="bg-white/20 hover:bg-white/30 border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 backdrop-blur-sm flex items-center gap-2">
+                📊 {t.comparePrices}
+              </button>
+            </div>
+          </div>
+
+          {/* Section Pourquoi leader */}
+          <div className="mb-16">
+            <h3 className="text-white text-3xl font-bold text-center mb-12">{t.whyLeader}</h3>
+            
+            <div className="grid md:grid-cols-4 gap-6">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
+                <div className="text-4xl mb-4">💰</div>
+                <h4 className="text-white font-bold text-lg mb-2">Prix le plus compétitif</h4>
+                <p className="text-white/80 text-sm">40% moins cher que la concurrence</p>
+                <p className="text-emerald-300 font-semibold mt-2">6.99€/mois vs 8.95€+</p>
+              </div>
+              
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
+                <div className="text-4xl mb-4">👨‍👩‍👧‍👦</div>
+                <h4 className="text-white font-bold text-lg mb-2">Gestion familiale avancée</h4>
+                <p className="text-white/80 text-sm">5 profils avec synchronisation cloud</p>
+                <p className="text-emerald-300 font-semibold mt-2">5 profils vs 3 max</p>
+              </div>
+              
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
+                <div className="text-4xl mb-4">📱</div>
+                <h4 className="text-white font-bold text-lg mb-2">Mode hors-ligne</h4>
+                <p className="text-white/80 text-sm">Apprentissage partout</p>
+                <p className="text-emerald-300 font-semibold mt-2">100% hors-ligne</p>
+              </div>
+              
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
+                <div className="text-4xl mb-4">📊</div>
+                <h4 className="text-white font-bold text-lg mb-2">Analytics</h4>
+                <p className="text-white/80 text-sm">Rapports automatiques</p>
+                <p className="text-yellow-300 font-semibold mt-2">Rapports parents</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Message de succès du déploiement */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 text-center">
+            <h3 className="text-white text-2xl font-bold mb-4 flex items-center justify-center gap-3">
+              🚀 Application Math4Child Déployée avec Succès !
+            </h3>
+            
+            <div className="grid md:grid-cols-3 gap-8 text-white/90">
+              <div>
+                <div className="text-3xl mb-3">🌍</div>
+                <h4 className="font-bold mb-2">Multilingue</h4>
+                <p className="text-sm">Support de 17+ langues avec interface RTL</p>
+              </div>
+              
+              <div>
+                <div className="text-3xl mb-3">🎨</div>
+                <h4 className="font-bold mb-2">Design Professionnel</h4>
+                <p className="text-sm">Interface moderne avec glassmorphism</p>
+              </div>
+              
+              <div>
+                <div className="text-3xl mb-3">⚡</div>
+                <h4 className="font-bold mb-2">Performance Optimale</h4>
+                <p className="text-sm">Build statique Next.js optimisé</p>
+              </div>
+            </div>
+            
+            <p className="text-emerald-300 font-semibold text-lg mt-6">
+              ✅ Prêt pour le déploiement sur Netlify !
+            </p>
+          </div>
+        </div>
+      </main>
+
+      {/* Fermer le dropdown si on clique ailleurs */}
+      {isDropdownOpen && (
+        <div 
+          className="fixed inset-0 z-40" 
+          onClick={() => setIsDropdownOpen(false)}
+        />
+      )}
+    </div>
   )
 }

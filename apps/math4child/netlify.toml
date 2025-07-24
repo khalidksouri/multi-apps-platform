@@ -7,7 +7,7 @@
   NODE_VERSION = "18.17.0"
   NODE_ENV = "production"
 
-# Redirection SPA pour static export
+# Redirects pour SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -21,7 +21,7 @@
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
 
-# Cache pour assets statiques
+# Cache pour assets
 [[headers]]
   for = "/_next/static/*"
   [headers.values]

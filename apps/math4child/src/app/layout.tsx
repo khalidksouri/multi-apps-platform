@@ -1,11 +1,11 @@
 export const metadata = {
-  title: 'Math4Child - Apprendre les mathématiques en s\'amusant',
-  description: 'Application éducative moderne pour apprendre les mathématiques avec plaisir et efficacité. Exercices adaptés, apprentissage ludique, paiement sécurisé.',
-  keywords: 'mathématiques, éducation, enfants, apprentissage, exercices, ludique, math4child',
+  title: 'Math4Child - Application Éducative Multilingue',
+  description: 'Application éducative professionnelle pour apprendre les mathématiques en famille. Support de 20+ langues avec interface RTL.',
+  keywords: 'mathématiques, éducation, enfants, multilingue, famille, apprentissage',
   authors: [{ name: 'Math4Child Team' }],
   openGraph: {
-    title: 'Math4Child - Application éducative',
-    description: 'Apprendre les mathématiques en s\'amusant',
+    title: 'Math4Child - Application Éducative',
+    description: 'Apprendre les mathématiques en famille avec support multilingue',
     type: 'website',
   },
   viewport: 'width=device-width, initial-scale=1',
@@ -21,26 +21,28 @@ export default function RootLayout({
     <html lang="fr">
       <head>
         <meta charSet="utf-8" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <style dangerouslySetInnerHTML={{
           __html: `
-            * {
+            *, *::before, *::after {
               box-sizing: border-box;
               margin: 0;
               padding: 0;
             }
             
-            html {
-              scroll-behavior: smooth;
-            }
-            
-            body {
-              margin: 0;
-              padding: 0;
-              font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            html, body {
+              font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+              line-height: 1.6;
+              color: #333;
               -webkit-font-smoothing: antialiased;
               -moz-osx-font-smoothing: grayscale;
+            }
+            
+            button {
+              font-family: inherit;
+              cursor: pointer;
+              border: none;
+              background: none;
+              transition: all 0.2s ease;
             }
             
             button:focus {
@@ -48,15 +50,31 @@ export default function RootLayout({
               outline-offset: 2px;
             }
             
+            /* Scrollbar personnalisé */
+            *::-webkit-scrollbar {
+              width: 8px;
+            }
+            
+            *::-webkit-scrollbar-track {
+              background: #f1f5f9;
+              border-radius: 4px;
+            }
+            
+            *::-webkit-scrollbar-thumb {
+              background: #cbd5e1;
+              border-radius: 4px;
+              transition: background 0.2s ease;
+            }
+            
+            *::-webkit-scrollbar-thumb:hover {
+              background: #94a3b8;
+            }
+            
             @media (prefers-reduced-motion: reduce) {
               *, *::before, *::after {
                 animation-duration: 0.01ms !important;
                 animation-iteration-count: 1 !important;
                 transition-duration: 0.01ms !important;
-              }
-              
-              html {
-                scroll-behavior: auto;
               }
             }
           `
