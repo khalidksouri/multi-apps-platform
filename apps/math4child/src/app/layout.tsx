@@ -1,11 +1,11 @@
 export const metadata = {
-  title: 'Math4Child - Application Éducative Multilingue',
-  description: 'Application éducative professionnelle pour apprendre les mathématiques en famille. Support de 20+ langues avec interface RTL.',
-  keywords: 'mathématiques, éducation, enfants, multilingue, famille, apprentissage',
+  title: 'Math4Child - Application Éducative Magnifique',
+  description: 'Application éducative avec design professionnel pour apprendre les mathématiques en famille. Interface multilingue avec support RTL.',
+  keywords: 'mathématiques, éducation, enfants, multilingue, famille, apprentissage, gradient, design',
   authors: [{ name: 'Math4Child Team' }],
   openGraph: {
-    title: 'Math4Child - Application Éducative',
-    description: 'Apprendre les mathématiques en famille avec support multilingue',
+    title: 'Math4Child - Design Magnifique',
+    description: 'Application éducative avec le plus beau design',
     type: 'website',
   },
   viewport: 'width=device-width, initial-scale=1',
@@ -23,7 +23,7 @@ export default function RootLayout({
         <meta charSet="utf-8" />
         <style dangerouslySetInnerHTML={{
           __html: `
-            *, *::before, *::after {
+            * {
               box-sizing: border-box;
               margin: 0;
               padding: 0;
@@ -40,34 +40,12 @@ export default function RootLayout({
             button {
               font-family: inherit;
               cursor: pointer;
-              border: none;
-              background: none;
               transition: all 0.2s ease;
             }
             
             button:focus {
               outline: 2px solid rgba(255, 255, 255, 0.5);
               outline-offset: 2px;
-            }
-            
-            /* Scrollbar personnalisé */
-            *::-webkit-scrollbar {
-              width: 8px;
-            }
-            
-            *::-webkit-scrollbar-track {
-              background: #f1f5f9;
-              border-radius: 4px;
-            }
-            
-            *::-webkit-scrollbar-thumb {
-              background: #cbd5e1;
-              border-radius: 4px;
-              transition: background 0.2s ease;
-            }
-            
-            *::-webkit-scrollbar-thumb:hover {
-              background: #94a3b8;
             }
             
             @media (prefers-reduced-motion: reduce) {

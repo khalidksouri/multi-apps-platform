@@ -1,108 +1,30 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { ChevronDown, Globe, Users, Calculator } from 'lucide-react'
 
-// Données complètes des langues - ARABE EN TÊTE
+// DONNÉES COMPLÈTES DES LANGUES - ARABE EN TÊTE
 const LANGUAGES = [
-  // Arabe en première position
-  { code: 'ar', name: 'العربية', flag: '🇸🇦', region: 'asia', popular: true, searchTerms: ['العربية', 'arabic', 'arabe'], rtl: true },
-  
-  // Langues européennes
-  { code: 'fr', name: 'Français', flag: '🇫🇷', region: 'europe', popular: true, searchTerms: ['français', 'french', 'france'] },
-  { code: 'en', name: 'English', flag: '🇺🇸', region: 'world', popular: true, searchTerms: ['english', 'anglais', 'usa', 'uk'] },
-  { code: 'es', name: 'Español', flag: '🇪🇸', region: 'europe', popular: true, searchTerms: ['español', 'spanish', 'espagnol'] },
-  { code: 'de', name: 'Deutsch', flag: '🇩🇪', region: 'europe', popular: true, searchTerms: ['deutsch', 'german', 'allemand'] },
-  { code: 'it', name: 'Italiano', flag: '🇮🇹', region: 'europe', searchTerms: ['italiano', 'italian', 'italien'] },
-  { code: 'pt', name: 'Português', flag: '🇵🇹', region: 'europe', searchTerms: ['português', 'portuguese', 'portugais'] },
-  { code: 'nl', name: 'Nederlands', flag: '🇳🇱', region: 'europe', searchTerms: ['nederlands', 'dutch', 'néerlandais'] },
-  { code: 'ru', name: 'Русский', flag: '🇷🇺', region: 'europe', searchTerms: ['русский', 'russian', 'russe'] },
-  { code: 'tr', name: 'Türkçe', flag: '🇹🇷', region: 'europe', searchTerms: ['türkçe', 'turkish', 'turc'] },
-  
-  // Langues asiatiques
-  { code: 'zh', name: '中文', flag: '🇨🇳', region: 'asia', popular: true, searchTerms: ['中文', 'chinese', 'chinois', 'mandarin'] },
-  { code: 'ja', name: '日本語', flag: '🇯🇵', region: 'asia', popular: true, searchTerms: ['日本語', 'japanese', 'japonais'] },
-  { code: 'ko', name: '한국어', flag: '🇰🇷', region: 'asia', searchTerms: ['한국어', 'korean', 'coréen'] },
-  { code: 'hi', name: 'हिन्दी', flag: '🇮🇳', region: 'asia', searchTerms: ['हिन्दी', 'hindi', 'inde'] },
-  { code: 'th', name: 'ไทย', flag: '🇹🇭', region: 'asia', searchTerms: ['ไทย', 'thai', 'thaï'] },
-  { code: 'he', name: 'עברית', flag: '🇮🇱', region: 'asia', searchTerms: ['עברית', 'hebrew', 'hébreu'], rtl: true },
-  
-  // Amériques
-  { code: 'pt-br', name: 'Português (BR)', flag: '🇧🇷', region: 'americas', popular: true, searchTerms: ['português', 'brazilian', 'brésil'] }
+  { code: 'ar', name: 'العربية', flag: '🇸🇦', region: 'asia', popular: true, rtl: true },
+  { code: 'fr', name: 'Français', flag: '🇫🇷', region: 'europe', popular: true },
+  { code: 'en', name: 'English', flag: '🇺🇸', region: 'world', popular: true },
+  { code: 'es', name: 'Español', flag: '🇪🇸', region: 'europe', popular: true },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪', region: 'europe', popular: true },
+  { code: 'it', name: 'Italiano', flag: '🇮🇹', region: 'europe' },
+  { code: 'pt', name: 'Português', flag: '🇵🇹', region: 'europe' },
+  { code: 'zh', name: '中文', flag: '🇨🇳', region: 'asia', popular: true },
+  { code: 'ja', name: '日本語', flag: '🇯🇵', region: 'asia', popular: true },
+  { code: 'ko', name: '한국어', flag: '🇰🇷', region: 'asia' },
+  { code: 'hi', name: 'हिन्दी', flag: '🇮🇳', region: 'asia' },
+  { code: 'ru', name: 'Русский', flag: '🇷🇺', region: 'europe' },
+  { code: 'pt-br', name: 'Português (BR)', flag: '🇧🇷', region: 'americas', popular: true }
 ]
 
-const REGION_ICONS = {
-  europe: '🇪🇺',
-  asia: '🌏', 
-  americas: '🌎',
-  world: '🌍'
-}
-
+const REGION_ICONS = { europe: '🇪🇺', asia: '🌏', americas: '🌎', world: '🌍' }
 const REGION_NAMES = {
   europe: { fr: 'Europe', en: 'Europe', es: 'Europa', de: 'Europa', ar: 'أوروبا', zh: '欧洲', ja: 'ヨーロッパ' },
   asia: { fr: 'Asie', en: 'Asia', es: 'Asia', de: 'Asien', ar: 'آسيا', zh: '亚洲', ja: 'アジア' },
   americas: { fr: 'Amériques', en: 'Americas', es: 'Américas', de: 'Amerika', ar: 'الأمريكتين', zh: '美洲', ja: 'アメリカ' },
   world: { fr: 'International', en: 'International', es: 'Internacional', de: 'International', ar: 'دولي', zh: '国际', ja: '国際' }
-}
-
-// Traductions de l'interface
-const getUITexts = (lang: string) => {
-  const uiTexts: Record<string, any> = {
-    fr: {
-      searchPlaceholder: 'Rechercher une langue...',
-      noResults: 'Aucune langue trouvée',
-      families: '100k+ familles',
-      appNumber1: 'App éducative #1 en France',
-      joinFamilies: 'Rejoignez plus de 100,000 familles qui apprennent déjà !',
-      daysFree: 'j gratuit',
-      popularSectionTitle: 'Populaires'
-    },
-    en: {
-      searchPlaceholder: 'Search a language...',
-      noResults: 'No language found',
-      families: '100k+ families',
-      appNumber1: '#1 educational app in France',
-      joinFamilies: 'Join over 100,000 families already learning!',
-      daysFree: 'd free',
-      popularSectionTitle: 'Popular'
-    },
-    ar: {
-      searchPlaceholder: 'البحث عن لغة...',
-      noResults: 'لم يتم العثور على لغة',
-      families: '100k+ عائلة',
-      appNumber1: 'التطبيق التعليمي #1 في فرنسا',
-      joinFamilies: 'انضم إلى أكثر من 100,000 عائلة تتعلم بالفعل!',
-      daysFree: 'ي مجاني',
-      popularSectionTitle: 'شائع'
-    },
-    zh: {
-      searchPlaceholder: '搜索语言...',
-      noResults: '未找到语言',
-      families: '10万+ 家庭',
-      appNumber1: '法国排名第一的教育应用',
-      joinFamilies: '加入超过100,000个正在学习的家庭!',
-      daysFree: '天免费',
-      popularSectionTitle: '热门'
-    }
-  }
-  
-  return uiTexts[lang] || uiTexts.fr
-}
-
-interface Texts {
-  title: string
-  subtitle: string
-  description: string
-  startFree: string
-  comparePrices: string
-  whyLeader: string
-  plans: {
-    title: string
-    subtitle: string
-  }
-  guarantees: {
-    title: string
-  }
 }
 
 export default function Math4ChildApp() {
@@ -115,7 +37,7 @@ export default function Math4ChildApp() {
     setMounted(true)
   }, [])
 
-  const texts: Record<string, Texts> = {
+  const texts: Record<string, any> = {
     fr: {
       title: 'Math4Enfants',
       subtitle: 'Math4Enfants',
@@ -123,13 +45,12 @@ export default function Math4ChildApp() {
       startFree: 'Commencer gratuitement',
       comparePrices: 'Comparer les prix',
       whyLeader: 'Pourquoi Math4Child est-il leader ?',
-      plans: {
-        title: 'Plans Optimaux',
-        subtitle: 'Plus compétitif que toute la concurrence'
-      },
-      guarantees: {
-        title: 'Garanties Math4Child'
-      }
+      familiesCount: '100k+ familles',
+      appBadge: 'App éducative #1 en France',
+      joinMessage: 'Rejoignez plus de 100,000 familles qui apprennent déjà !',
+      searchPlaceholder: 'Rechercher une langue...',
+      noResults: 'Aucune langue trouvée',
+      daysFree: 'j gratuit'
     },
     en: {
       title: 'Math4Child',
@@ -138,13 +59,12 @@ export default function Math4ChildApp() {
       startFree: 'Start for free',
       comparePrices: 'Compare prices',
       whyLeader: 'Why is Math4Child the leader?',
-      plans: {
-        title: 'Optimal Plans',
-        subtitle: 'More competitive than all competitors'
-      },
-      guarantees: {
-        title: 'Math4Child Guarantees'
-      }
+      familiesCount: '100k+ families',
+      appBadge: '#1 educational app in France',
+      joinMessage: 'Join over 100,000 families already learning!',
+      searchPlaceholder: 'Search a language...',
+      noResults: 'No language found',
+      daysFree: 'd free'
     },
     ar: {
       title: 'Math4أطفال',
@@ -153,13 +73,12 @@ export default function Math4ChildApp() {
       startFree: 'ابدأ مجاناً',
       comparePrices: 'قارن الأسعار',
       whyLeader: 'لماذا Math4Child هو الرائد؟',
-      plans: {
-        title: 'الخطط المثلى',
-        subtitle: 'أكثر تنافسية من جميع المنافسين'
-      },
-      guarantees: {
-        title: 'ضمانات Math4Child'
-      }
+      familiesCount: '100k+ عائلة',
+      appBadge: 'التطبيق التعليمي #1 في فرنسا',
+      joinMessage: 'انضم إلى أكثر من 100,000 عائلة تتعلم بالفعل!',
+      searchPlaceholder: 'البحث عن لغة...',
+      noResults: 'لم يتم العثور على لغة',
+      daysFree: 'ي مجاني'
     },
     zh: {
       title: 'Math4儿童',
@@ -168,28 +87,23 @@ export default function Math4ChildApp() {
       startFree: '免费开始',
       comparePrices: '比较价格',
       whyLeader: '为什么Math4Child是领导者？',
-      plans: {
-        title: '最优计划',
-        subtitle: '比所有竞争对手更具竞争力'
-      },
-      guarantees: {
-        title: 'Math4Child保证'
-      }
+      familiesCount: '10万+ 家庭',
+      appBadge: '法国排名第一的教育应用',
+      joinMessage: '加入超过100,000个正在学习的家庭!',
+      searchPlaceholder: '搜索语言...',
+      noResults: '未找到语言',
+      daysFree: '天免费'
     }
   }
 
   const t = texts[currentLang] || texts.fr
-  const ui = getUITexts(currentLang)
+  const currentLanguage = LANGUAGES.find(lang => lang.code === currentLang) || LANGUAGES[1]
 
   // Fonction de recherche
   const filteredLanguages = LANGUAGES.filter(lang => {
     if (!searchTerm) return true
     const search = searchTerm.toLowerCase()
-    return (
-      lang.name.toLowerCase().includes(search) ||
-      lang.code.toLowerCase().includes(search) ||
-      lang.searchTerms.some(term => term.toLowerCase().includes(search))
-    )
+    return lang.name.toLowerCase().includes(search) || lang.code.toLowerCase().includes(search)
   })
 
   // Grouper par région
@@ -202,71 +116,252 @@ export default function Math4ChildApp() {
   // Langues populaires
   const popularLanguages = filteredLanguages.filter(lang => lang.popular)
 
-  const currentLanguage = LANGUAGES.find(lang => lang.code === currentLang) || LANGUAGES[0]
-
   if (!mounted) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600 flex items-center justify-center">
-        <div className="text-white text-xl font-semibold">Chargement de Math4Child...</div>
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
+      }}>
+        <div style={{ 
+          color: 'white', 
+          fontSize: '1.5rem',
+          textAlign: 'center'
+        }}>
+          <div style={{
+            width: '50px',
+            height: '50px',
+            border: '3px solid rgba(255,255,255,0.3)',
+            borderRadius: '50%',
+            borderTopColor: 'white',
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 20px'
+          }}></div>
+          Chargement de Math4Child...
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-purple-700 to-pink-600">
-      {/* Header */}
-      <header className="p-6">
-        <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 bg-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
-              <Calculator className="w-6 h-6 text-white" />
+    <>
+      <style jsx>{`
+        @keyframes spin {
+          to { transform: rotate(360deg); }
+        }
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInFromTop {
+          from { opacity: 0; transform: translateY(-30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInFromBottom {
+          from { opacity: 0; transform: translateY(30px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(-10px); }
+          50% { transform: translateY(10px); }
+        }
+
+        /* Scrollbar personnalisé */
+        .dropdown-scroll::-webkit-scrollbar {
+          width: 8px;
+        }
+        .dropdown-scroll::-webkit-scrollbar-track {
+          background: #f1f5f9;
+          border-radius: 4px;
+        }
+        .dropdown-scroll::-webkit-scrollbar-thumb {
+          background: #cbd5e1;
+          border-radius: 4px;
+          transition: background 0.2s ease;
+        }
+        .dropdown-scroll::-webkit-scrollbar-thumb:hover {
+          background: #94a3b8;
+        }
+      `}</style>
+
+      <div style={{
+        minHeight: '100vh',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+        lineHeight: '1.6'
+      }}>
+        {/* Header Magnifique */}
+        <header style={{ 
+          display: 'flex', 
+          justifyContent: 'space-between', 
+          alignItems: 'center',
+          padding: '2rem',
+          maxWidth: '1200px',
+          margin: '0 auto',
+          flexWrap: 'wrap',
+          gap: '2rem',
+          animation: 'slideInFromTop 0.6s ease-out'
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{
+              width: '60px',
+              height: '60px',
+              background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 100%)',
+              borderRadius: '16px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              boxShadow: '0 8px 24px rgba(255, 107, 53, 0.3)',
+              animation: 'float 3s ease-in-out infinite'
+            }}>
+              <span style={{ fontSize: '28px' }}>🧮</span>
             </div>
             <div>
-              <h1 className="text-white text-2xl font-bold">{t.title}</h1>
-              <p className="text-white/70 text-sm">www.math4child.com • Leader mondial</p>
+              <h1 style={{ 
+                color: 'white', 
+                fontSize: 'clamp(2rem, 5vw, 3rem)', 
+                fontWeight: '800',
+                margin: 0,
+                textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                letterSpacing: '-0.02em'
+              }}>
+                {t.title}
+              </h1>
+              <p style={{ 
+                color: 'rgba(255, 255, 255, 0.8)', 
+                fontSize: '0.9rem',
+                margin: 0
+              }}>
+                www.math4child.com • Leader mondial
+              </p>
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-2 text-white/80 bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm">
-              <Users className="w-4 h-4" />
-              <span className="text-sm font-medium">{ui.families}</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem',
+              background: 'rgba(255, 255, 255, 0.1)',
+              padding: '0.75rem 1rem',
+              borderRadius: '1rem',
+              backdropFilter: 'blur(10px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              color: 'rgba(255, 255, 255, 0.9)',
+              fontSize: '0.9rem',
+              fontWeight: '500'
+            }}>
+              <span>👥</span>
+              {t.familiesCount}
             </div>
             
-            {/* Dropdown de langues */}
-            <div className="relative">
+            {/* Dropdown de langues MAGNIFIQUE */}
+            <div style={{ position: 'relative' }}>
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center gap-2 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-xl text-white font-medium transition-all duration-200 backdrop-blur-sm border border-white/20"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  padding: '0.75rem 1.25rem',
+                  borderRadius: '1rem',
+                  backdropFilter: 'blur(15px)',
+                  border: '1px solid rgba(255, 255, 255, 0.25)',
+                  boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                  cursor: 'pointer',
+                  fontWeight: '600',
+                  fontSize: '0.95rem',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  color: 'white'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)'
+                  e.currentTarget.style.transform = 'translateY(-1px)'
+                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.15)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.1)'
+                }}
               >
-                <span className="text-lg">{currentLanguage.flag}</span>
+                <span style={{ fontSize: '1.2em' }}>{currentLanguage.flag}</span>
                 <span>{currentLanguage.name}</span>
-                <ChevronDown className={`w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                <span style={{ 
+                  transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s ease'
+                }}>▼</span>
               </button>
 
               {isDropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden">
+                <div style={{
+                  position: 'absolute',
+                  top: '100%',
+                  right: 0,
+                  marginTop: '0.5rem',
+                  width: '320px',
+                  background: 'white',
+                  borderRadius: '1.5rem',
+                  boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
+                  border: '1px solid rgba(255,255,255,0.2)',
+                  zIndex: 50,
+                  overflow: 'hidden',
+                  animation: 'fadeIn 0.3s ease-out'
+                }}>
                   {/* Recherche */}
-                  <div className="p-4 border-b border-gray-100">
-                    <div className="relative">
-                      <Globe className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <div style={{ padding: '1rem', borderBottom: '1px solid #f1f5f9' }}>
+                    <div style={{ position: 'relative' }}>
                       <input
                         type="text"
-                        placeholder={ui.searchPlaceholder}
+                        placeholder={t.searchPlaceholder}
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none"
+                        style={{
+                          width: '100%',
+                          padding: '0.75rem 1rem 0.75rem 2.5rem',
+                          border: '2px solid #e5e7eb',
+                          borderRadius: '0.75rem',
+                          fontSize: '0.9rem',
+                          outline: 'none',
+                          transition: 'border-color 0.2s ease'
+                        }}
+                        onFocus={(e) => e.currentTarget.style.borderColor = '#8b5cf6'}
+                        onBlur={(e) => e.currentTarget.style.borderColor = '#e5e7eb'}
                       />
+                      <span style={{
+                        position: 'absolute',
+                        left: '0.75rem',
+                        top: '50%',
+                        transform: 'translateY(-50%)',
+                        fontSize: '1.1rem'
+                      }}>🔍</span>
                     </div>
                   </div>
 
                   {/* Contenu scrollable */}
-                  <div className="max-h-80 overflow-y-auto">
-                    {/* Langues populaires - SANS LE MOT "Populaire" */}
+                  <div className="dropdown-scroll" style={{ 
+                    maxHeight: '300px', 
+                    overflowY: 'auto'
+                  }}>
+                    {/* Langues populaires - SANS BADGES */}
                     {popularLanguages.length > 0 && !searchTerm && (
-                      <div className="p-3">
-                        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
-                          ⭐ {ui.popularSectionTitle}
+                      <div style={{ padding: '1rem' }}>
+                        <h3 style={{
+                          fontSize: '0.75rem',
+                          fontWeight: '600',
+                          color: '#6b7280',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          marginBottom: '0.75rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem'
+                        }}>
+                          ⭐ Populaires
                         </h3>
                         {popularLanguages.map((language) => (
                           <button
@@ -276,13 +371,37 @@ export default function Math4ChildApp() {
                               setIsDropdownOpen(false)
                               setSearchTerm('')
                             }}
-                            className={`w-full flex items-center gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors group ${
-                              currentLang === language.code ? 'bg-purple-100 text-purple-700' : 'text-gray-700'
-                            } ${language.rtl ? 'flex-row-reverse text-right' : ''}`}
-                            dir={language.rtl ? 'rtl' : 'ltr'}
+                            style={{
+                              width: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.75rem',
+                              padding: '0.75rem',
+                              borderRadius: '0.5rem',
+                              background: 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              fontSize: '0.9rem',
+                              fontWeight: '500',
+                              color: currentLang === language.code ? '#8b5cf6' : '#374151',
+                              backgroundColor: currentLang === language.code ? '#f3f4f6' : 'transparent',
+                              transition: 'all 0.2s ease',
+                              flexDirection: language.rtl ? 'row-reverse' : 'row',
+                              textAlign: language.rtl ? 'right' : 'left'
+                            }}
+                            onMouseEnter={(e) => {
+                              if (currentLang !== language.code) {
+                                e.currentTarget.style.backgroundColor = '#f9fafb'
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (currentLang !== language.code) {
+                                e.currentTarget.style.backgroundColor = 'transparent'
+                              }
+                            }}
                           >
-                            <span className="text-xl">{language.flag}</span>
-                            <span className="font-medium">{language.name}</span>
+                            <span style={{ fontSize: '1.2em' }}>{language.flag}</span>
+                            <span>{language.name}</span>
                           </button>
                         ))}
                       </div>
@@ -290,8 +409,21 @@ export default function Math4ChildApp() {
 
                     {/* Langues groupées par région */}
                     {Object.entries(groupedLanguages).map(([region, languages]) => (
-                      <div key={region} className="p-3 border-t border-gray-100 first:border-t-0">
-                        <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-2">
+                      <div key={region} style={{ 
+                        padding: '1rem',
+                        borderTop: '1px solid #f1f5f9'
+                      }}>
+                        <h3 style={{
+                          fontSize: '0.75rem',
+                          fontWeight: '600',
+                          color: '#6b7280',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          marginBottom: '0.75rem',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem'
+                        }}>
                           <span>{REGION_ICONS[region as keyof typeof REGION_ICONS]}</span>
                           {REGION_NAMES[region as keyof typeof REGION_NAMES][currentLang as keyof typeof REGION_NAMES.europe] || REGION_NAMES[region as keyof typeof REGION_NAMES].fr}
                         </h3>
@@ -303,21 +435,50 @@ export default function Math4ChildApp() {
                               setIsDropdownOpen(false)
                               setSearchTerm('')
                             }}
-                            className={`w-full flex items-center gap-3 p-3 rounded-lg hover:bg-purple-50 transition-colors group ${
-                              currentLang === language.code ? 'bg-purple-100 text-purple-700' : 'text-gray-700'
-                            } ${language.rtl ? 'flex-row-reverse text-right' : ''}`}
-                            dir={language.rtl ? 'rtl' : 'ltr'}
+                            style={{
+                              width: '100%',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.75rem',
+                              padding: '0.75rem',
+                              borderRadius: '0.5rem',
+                              background: 'transparent',
+                              border: 'none',
+                              cursor: 'pointer',
+                              fontSize: '0.9rem',
+                              fontWeight: '500',
+                              color: currentLang === language.code ? '#8b5cf6' : '#374151',
+                              backgroundColor: currentLang === language.code ? '#f3f4f6' : 'transparent',
+                              transition: 'all 0.2s ease',
+                              flexDirection: language.rtl ? 'row-reverse' : 'row',
+                              textAlign: language.rtl ? 'right' : 'left'
+                            }}
+                            onMouseEnter={(e) => {
+                              if (currentLang !== language.code) {
+                                e.currentTarget.style.backgroundColor = '#f9fafb'
+                              }
+                            }}
+                            onMouseLeave={(e) => {
+                              if (currentLang !== language.code) {
+                                e.currentTarget.style.backgroundColor = 'transparent'
+                              }
+                            }}
                           >
-                            <span className="text-xl">{language.flag}</span>
-                            <span className="font-medium">{language.name}</span>
+                            <span style={{ fontSize: '1.2em' }}>{language.flag}</span>
+                            <span>{language.name}</span>
                           </button>
                         ))}
                       </div>
                     ))}
 
                     {filteredLanguages.length === 0 && (
-                      <div className="p-4 text-center text-gray-500">
-                        {ui.noResults}
+                      <div style={{ 
+                        padding: '2rem', 
+                        textAlign: 'center', 
+                        color: '#6b7280',
+                        fontSize: '0.9rem'
+                      }}>
+                        {t.noResults}
                       </div>
                     )}
                   </div>
@@ -325,115 +486,320 @@ export default function Math4ChildApp() {
               )}
             </div>
           </div>
+        </header>
+
+        <div style={{ padding: '0 2rem' }}>
+          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+            
+            {/* Hero Section MAGNIFIQUE */}
+            <main style={{ 
+              textAlign: 'center', 
+              padding: '2rem 0 4rem',
+              animation: 'slideInFromBottom 0.8s ease-out 0.2s both'
+            }}>
+              <div style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                background: 'rgba(16, 185, 129, 0.2)',
+                color: 'rgba(255, 255, 255, 0.95)',
+                padding: '0.75rem 1.5rem',
+                borderRadius: '2rem',
+                marginBottom: '2rem',
+                backdropFilter: 'blur(10px)',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                fontSize: '0.9rem',
+                fontWeight: '600'
+              }}>
+                <span>📊</span>
+                {t.appBadge}
+              </div>
+              
+              <h2 style={{ 
+                color: 'white', 
+                fontSize: 'clamp(2.5rem, 8vw, 6rem)', 
+                fontWeight: '800',
+                marginBottom: '2rem',
+                lineHeight: '1.1',
+                textShadow: '0 4px 8px rgba(0,0,0,0.3)',
+                letterSpacing: '-0.02em',
+                background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>
+                {t.subtitle}
+              </h2>
+              
+              <p style={{ 
+                color: 'rgba(255, 255, 255, 0.95)', 
+                fontSize: 'clamp(1.2rem, 3vw, 1.8rem)',
+                marginBottom: '1.5rem',
+                maxWidth: '700px',
+                margin: '0 auto 1.5rem auto',
+                lineHeight: '1.6',
+                textShadow: '0 2px 4px rgba(0,0,0,0.2)',
+                fontWeight: '500'
+              }}>
+                {t.description}
+              </p>
+
+              <p style={{ 
+                color: 'rgba(255, 255, 255, 0.85)', 
+                fontSize: 'clamp(1rem, 2.5vw, 1.3rem)',
+                marginBottom: '3rem',
+                maxWidth: '600px',
+                margin: '0 auto 3rem auto',
+                lineHeight: '1.6'
+              }}>
+                {t.joinMessage}
+              </p>
+              
+              {/* Boutons CTA MAGNIFIQUES */}
+              <div style={{ 
+                display: 'flex', 
+                gap: '1.5rem', 
+                justifyContent: 'center', 
+                flexWrap: 'wrap',
+                marginBottom: '4rem'
+              }}>
+                <button style={{
+                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                  color: 'white',
+                  padding: '1.25rem 2.5rem',
+                  border: 'none',
+                  borderRadius: '1.25rem',
+                  fontSize: '1.1rem',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  boxShadow: '0 10px 30px rgba(16, 185, 129, 0.4)',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  textTransform: 'none'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'
+                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(16, 185, 129, 0.5)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(16, 185, 129, 0.4)'
+                }}>
+                  <span style={{ fontSize: '1.3em' }}>🎁</span>
+                  {t.startFree}
+                  <span style={{
+                    background: 'rgba(255, 255, 255, 0.25)',
+                    padding: '0.3rem 0.6rem',
+                    borderRadius: '0.5rem',
+                    fontSize: '0.85rem',
+                    fontWeight: '600'
+                  }}>14{t.daysFree}</span>
+                </button>
+                
+                <button style={{
+                  background: 'rgba(255, 255, 255, 0.15)',
+                  color: 'white',
+                  padding: '1.25rem 2.5rem',
+                  border: '2px solid rgba(255, 255, 255, 0.3)',
+                  borderRadius: '1.25rem',
+                  fontSize: '1.1rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  backdropFilter: 'blur(15px)',
+                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.75rem',
+                  textTransform: 'none'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)'
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)'
+                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
+                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)'
+                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                }}>
+                  <span style={{ fontSize: '1.3em' }}>📊</span>
+                  {t.comparePrices}
+                </button>
+              </div>
+            </main>
+
+            {/* Section Pourquoi leader */}
+            <section style={{ 
+              marginBottom: '6rem',
+              animation: 'fadeIn 1s ease-out 0.4s both'
+            }}>
+              <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
+                <h3 style={{
+                  color: 'white',
+                  fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+                  fontWeight: '700',
+                  marginBottom: '1rem',
+                  textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                }}>
+                  {t.whyLeader}
+                </h3>
+              </div>
+
+              {/* Features cards MAGNIFIQUES */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                gap: '2rem',
+                marginBottom: '4rem'
+              }}>
+                {[
+                  { icon: '💰', title: 'Prix le plus compétitif', desc: '40% moins cher que la concurrence', stat: '6.99€/mois vs 8.95€+' },
+                  { icon: '👨‍👩‍👧‍👦', title: 'Gestion familiale avancée', desc: '5 profils avec synchronisation cloud', stat: '5 profils vs 3 max' },
+                  { icon: '📱', title: 'Mode hors-ligne', desc: 'Apprentissage partout', stat: '100% hors-ligne' },
+                  { icon: '📊', title: 'Analytics', desc: 'Rapports automatiques', stat: 'Rapports parents' }
+                ].map((feature, index) => (
+                  <div 
+                    key={index} 
+                    style={{ 
+                      textAlign: 'center',
+                      padding: '2.5rem 2rem',
+                      background: 'rgba(255, 255, 255, 0.1)',
+                      borderRadius: '1.5rem',
+                      backdropFilter: 'blur(15px)',
+                      border: '1px solid rgba(255, 255, 255, 0.2)',
+                      boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+                      cursor: 'pointer',
+                      color: 'white',
+                      animation: `slideInFromBottom 0.8s ease-out ${0.5 + index * 0.1}s both`
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'
+                      e.currentTarget.style.boxShadow = '0 20px 50px rgba(0,0,0,0.2)'
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0) scale(1)'
+                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.1)'
+                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
+                    }}
+                  >
+                    <div style={{ 
+                      fontSize: '4rem', 
+                      marginBottom: '1.5rem',
+                      filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))',
+                      animation: 'float 3s ease-in-out infinite'
+                    }}>
+                      {feature.icon}
+                    </div>
+                    <h4 style={{ 
+                      fontSize: '1.4rem', 
+                      fontWeight: '700', 
+                      marginBottom: '0.75rem',
+                      textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                    }}>
+                      {feature.title}
+                    </h4>
+                    <p style={{ 
+                      color: 'rgba(255, 255, 255, 0.9)',
+                      fontSize: '1rem',
+                      lineHeight: '1.6',
+                      marginBottom: '1rem'
+                    }}>
+                      {feature.desc}
+                    </p>
+                    <p style={{
+                      color: feature.stat.includes('Rapports') ? '#fbbf24' : '#10b981',
+                      fontWeight: '600',
+                      fontSize: '0.9rem',
+                      textShadow: '0 1px 2px rgba(0,0,0,0.3)'
+                    }}>
+                      {feature.stat}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            {/* Message de succès MAGNIFIQUE */}
+            <div style={{
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '2rem',
+              padding: '3rem 2rem',
+              backdropFilter: 'blur(15px)',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
+              textAlign: 'center',
+              animation: 'fadeIn 1.2s ease-out 0.8s both'
+            }}>
+              <h3 style={{
+                color: 'white',
+                fontSize: '2rem',
+                fontWeight: '700',
+                marginBottom: '2rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '1rem',
+                textShadow: '0 2px 4px rgba(0,0,0,0.3)'
+              }}>
+                🚀 Application Math4Child Déployée avec Succès !
+              </h3>
+              
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+                gap: '2rem',
+                marginBottom: '2rem',
+                color: 'rgba(255, 255, 255, 0.9)'
+              }}>
+                <div>
+                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌍</div>
+                  <h4 style={{ fontWeight: '600', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Multilingue</h4>
+                  <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>Support de 13+ langues avec interface RTL</p>
+                </div>
+                
+                <div>
+                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎨</div>
+                  <h4 style={{ fontWeight: '600', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Design Professionnel</h4>
+                  <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>Interface moderne avec glassmorphism</p>
+                </div>
+                
+                <div>
+                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚡</div>
+                  <h4 style={{ fontWeight: '600', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Performance Optimale</h4>
+                  <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>Build statique Next.js optimisé</p>
+                </div>
+              </div>
+              
+              <p style={{
+                color: '#10b981',
+                fontWeight: '700',
+                fontSize: '1.3rem',
+                textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                marginTop: '1rem'
+              }}>
+                ✅ Design Magnifique Restauré sur Netlify !
+              </p>
+            </div>
+
+          </div>
         </div>
-      </header>
 
-      {/* Hero Section */}
-      <main className="px-6 pb-12">
-        <div className="max-w-7xl mx-auto" dir={currentLanguage.rtl ? 'rtl' : 'ltr'}>
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-emerald-500/20 text-emerald-100 px-4 py-2 rounded-full mb-8">
-              <span className="text-sm font-medium">📊 {ui.appNumber1}</span>
-            </div>
-            
-            <h2 className="text-6xl md:text-8xl font-bold text-white mb-6 leading-tight">
-              {t.subtitle}
-            </h2>
-            
-            <p className="text-2xl text-white/90 mb-8 max-w-3xl mx-auto">
-              {t.description}
-            </p>
-            
-            <p className="text-xl text-white/80 mb-12">
-              {ui.joinFamilies}
-            </p>
-            
-            <div className="flex gap-6 justify-center flex-wrap">
-              <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-2">
-                🎁 {t.startFree}
-                <span className="bg-white/20 px-2 py-1 rounded-lg text-sm">14{ui.daysFree}</span>
-              </button>
-              <button className="bg-white/20 hover:bg-white/30 border-2 border-white/30 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-200 backdrop-blur-sm flex items-center gap-2">
-                📊 {t.comparePrices}
-              </button>
-            </div>
-          </div>
-
-          {/* Section Pourquoi leader */}
-          <div className="mb-16">
-            <h3 className="text-white text-3xl font-bold text-center mb-12">{t.whyLeader}</h3>
-            
-            <div className="grid md:grid-cols-4 gap-6">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
-                <div className="text-4xl mb-4">💰</div>
-                <h4 className="text-white font-bold text-lg mb-2">Prix le plus compétitif</h4>
-                <p className="text-white/80 text-sm">40% moins cher que la concurrence</p>
-                <p className="text-emerald-300 font-semibold mt-2">6.99€/mois vs 8.95€+</p>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
-                <div className="text-4xl mb-4">👨‍👩‍👧‍👦</div>
-                <h4 className="text-white font-bold text-lg mb-2">Gestion familiale avancée</h4>
-                <p className="text-white/80 text-sm">5 profils avec synchronisation cloud</p>
-                <p className="text-emerald-300 font-semibold mt-2">5 profils vs 3 max</p>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
-                <div className="text-4xl mb-4">📱</div>
-                <h4 className="text-white font-bold text-lg mb-2">Mode hors-ligne</h4>
-                <p className="text-white/80 text-sm">Apprentissage partout</p>
-                <p className="text-emerald-300 font-semibold mt-2">100% hors-ligne</p>
-              </div>
-              
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 text-center border border-white/20">
-                <div className="text-4xl mb-4">📊</div>
-                <h4 className="text-white font-bold text-lg mb-2">Analytics</h4>
-                <p className="text-white/80 text-sm">Rapports automatiques</p>
-                <p className="text-yellow-300 font-semibold mt-2">Rapports parents</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Message de succès du déploiement */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20 text-center">
-            <h3 className="text-white text-2xl font-bold mb-4 flex items-center justify-center gap-3">
-              🚀 Application Math4Child Déployée avec Succès !
-            </h3>
-            
-            <div className="grid md:grid-cols-3 gap-8 text-white/90">
-              <div>
-                <div className="text-3xl mb-3">🌍</div>
-                <h4 className="font-bold mb-2">Multilingue</h4>
-                <p className="text-sm">Support de 17+ langues avec interface RTL</p>
-              </div>
-              
-              <div>
-                <div className="text-3xl mb-3">🎨</div>
-                <h4 className="font-bold mb-2">Design Professionnel</h4>
-                <p className="text-sm">Interface moderne avec glassmorphism</p>
-              </div>
-              
-              <div>
-                <div className="text-3xl mb-3">⚡</div>
-                <h4 className="font-bold mb-2">Performance Optimale</h4>
-                <p className="text-sm">Build statique Next.js optimisé</p>
-              </div>
-            </div>
-            
-            <p className="text-emerald-300 font-semibold text-lg mt-6">
-              ✅ Prêt pour le déploiement sur Netlify !
-            </p>
-          </div>
-        </div>
-      </main>
-
-      {/* Fermer le dropdown si on clique ailleurs */}
-      {isDropdownOpen && (
-        <div 
-          className="fixed inset-0 z-40" 
-          onClick={() => setIsDropdownOpen(false)}
-        />
-      )}
-    </div>
+        {/* Fermer le dropdown si on clique ailleurs */}
+        {isDropdownOpen && (
+          <div 
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 40
+            }}
+            onClick={() => setIsDropdownOpen(false)}
+          />
+        )}
+      </div>
+    </>
   )
 }
