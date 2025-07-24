@@ -1,7 +1,7 @@
 {
-  "name": "math4child",
-  "version": "3.1.0",
-  "description": "Math4Child - Application éducative avec design magnifique",
+  "name": "math4child-corrected",
+  "version": "4.0.0",
+  "description": "Math4Child - Application corrigée avec 2 entrées arabe, traductions parfaites et plans optimaux",
   "private": true,
   "scripts": {
     "dev": "next dev",
