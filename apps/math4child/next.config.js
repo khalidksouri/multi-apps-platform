@@ -1,9 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // PAS d'export pour éviter les erreurs de redirections/headers
-  // output: 'export', // ❌ Retiré car cause des problèmes
-  
-  // Configuration basique
+  // Configuration basique sans PostCSS
   reactStrictMode: true,
   poweredByHeader: false,
   
@@ -19,16 +16,22 @@ const nextConfig = {
   },
   
   eslint: {
-    // Ignorer ESLint car il n'est pas installé
+    // Ignorer ESLint durant le build
     ignoreDuringBuilds: true,
   },
   
-  // PAS d'experimental optimizeCss (cause l'erreur critters)
-  // experimental: {
-  //   optimizeCss: true, // ❌ Retiré car cause l'erreur critters
-  // },
+  // Configuration webpack pour ignorer PostCSS
+  webpack: (config, { dev, isServer }) => {
+    // Ignorer les warnings non critiques
+    config.ignoreWarnings = [
+      { module: /node_modules/ },
+      { file: /backup/ },
+    ]
+    
+    return config
+  },
   
-  // Headers de sécurité (fonctionnent sans export)
+  // Headers de sécurité (sans PostCSS)
   async headers() {
     return [
       {
@@ -51,7 +54,7 @@ const nextConfig = {
     ]
   },
   
-  // Redirections (fonctionnent sans export)
+  // Redirections
   async redirects() {
     return [
       {
@@ -60,17 +63,6 @@ const nextConfig = {
         permanent: true,
       },
     ]
-  },
-  
-  // Configuration webpack pour ignorer les warnings
-  webpack: (config, { dev, isServer }) => {
-    // Ignorer les warnings non critiques
-    config.ignoreWarnings = [
-      { module: /node_modules/ },
-      { file: /backup/ },
-    ]
-    
-    return config
   },
 }
 
