@@ -1,130 +1,229 @@
-// Forced update: 1753300816
-// =============================================================================
-// SYSTÈME DE PAIEMENT OPTIMAL - Math4Child (VERSION CORRIGÉE)
-// =============================================================================
+/**
+ * 💰 Système de Paiements Optimal - Math4Child
+ * Sélection automatique du meilleur provider selon le contexte
+ */
 
-export interface OptimalPlan {
-  id: string
-  name: string
-  price: { monthly: number; annual: number }
-  profiles: number
+interface PaymentProvider {
+  name: 'stripe' | 'paddle' | 'lemonsqueezy' | 'revenuecat'
+  priority: number
+  supportedCountries: string[]
+  supportedPlatforms: ('web' | 'ios' | 'android')[]
+  fees: {
+    percentage: number
+    fixed: number
+    currency: string
+  }
   features: string[]
-  freeTrial: number
-  provider: 'paddle' | 'lemonsqueezy' | 'revenuecat' | 'stripe'
 }
 
-export interface CheckoutResponse {
-  success: boolean
-  provider: string
-  checkoutUrl: string
-  sessionId: string
-}
-
-export const OPTIMAL_PLANS: OptimalPlan[] = [
+const PAYMENT_PROVIDERS: PaymentProvider[] = [
   {
-    id: 'family',
-    name: 'Famille',
-    price: { monthly: 699, annual: 5990 },
-    profiles: 5,
-    features: [
-      'Questions illimitées', '5 niveaux complets', '5 profils enfants',
-      '30+ langues', 'Mode hors-ligne', 'Statistiques avancées',
-      'Rapports parents', 'Support prioritaire', 'Sync cloud'
-    ],
-    freeTrial: 14,
-    provider: 'paddle'
+    name: 'paddle',
+    priority: 1,
+    supportedCountries: ['FR', 'DE', 'IT', 'ES', 'GB', 'NL', 'BE', 'AT'],
+    supportedPlatforms: ['web', 'ios', 'android'],
+    fees: { percentage: 0.05, fixed: 0, currency: 'EUR' },
+    features: ['tax_handling', 'global_compliance', 'subscription_management']
+  },
+  {
+    name: 'revenuecat',
+    priority: 2,
+    supportedCountries: ['*'], // Global
+    supportedPlatforms: ['ios', 'android'],
+    fees: { percentage: 0.01, fixed: 0, currency: 'USD' },
+    features: ['in_app_purchases', 'subscription_analytics', 'cross_platform']
+  },
+  {
+    name: 'stripe',
+    priority: 3,
+    supportedCountries: ['US', 'CA', 'AU', 'JP', 'KR', 'SG', 'HK'],
+    supportedPlatforms: ['web'],
+    fees: { percentage: 0.029, fixed: 0.30, currency: 'USD' },
+    features: ['advanced_fraud', 'recurring_billing', 'marketplace']
+  },
+  {
+    name: 'lemonsqueezy',
+    priority: 4,
+    supportedCountries: ['*'], // Global fallback
+    supportedPlatforms: ['web'],
+    fees: { percentage: 0.05, fixed: 0, currency: 'USD' },
+    features: ['simple_integration', 'tax_inclusive', 'global_reach']
   }
 ]
 
-// Configuration providers
-export const PAYMENT_CONFIG = {
-  paddle: {
-    environment: process.env.NODE_ENV === 'production' ? 'production' : 'sandbox',
-    clientToken: process.env.PADDLE_CLIENT_TOKEN || ''
-  },
-  lemonsqueezy: {
-    apiKey: process.env.LEMONSQUEEZY_API_KEY || '',
-    storeId: process.env.LEMONSQUEEZY_STORE_ID || ''
-  },
-  revenuecat: {
-    apiKey: process.env.REVENUECAT_API_KEY || '',
-    publicKey: process.env.NEXT_PUBLIC_REVENUECAT_PUBLIC_KEY || ''
-  },
-  stripe: {
-    publishableKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '',
-    secretKey: process.env.STRIPE_SECRET_KEY || ''
-  }
-}
-
-// Fonction pour déterminer le provider optimal
-export function getOptimalProvider(params: {
-  platform: 'web' | 'ios' | 'android'
-  country: string
+interface CheckoutOptions {
+  email?: string
+  country?: string
+  platform?: 'web' | 'ios' | 'android'
   amount: number
-}): 'paddle' | 'lemonsqueezy' | 'revenuecat' | 'stripe' {
-  
-  // Mobile natif -> RevenueCat
-  if (params.platform === 'ios' || params.platform === 'android') {
-    return 'revenuecat'
-  }
-  
-  // EU -> Paddle (TVA automatique)
-  const euCountries = ['FR', 'DE', 'IT', 'ES', 'NL', 'BE', 'AT', 'PT', 'IE', 'FI', 'SE', 'DK']
-  if (euCountries.includes(params.country)) {
-    return 'paddle'
-  }
-  
-  // International -> LemonSqueezy  
-  if (!['US', 'CA', 'GB'].includes(params.country)) {
-    return 'lemonsqueezy'
-  }
-  
-  // Fallback -> Stripe
-  return 'stripe'
+  currency?: string
+  planId: string
+  userId?: string
+  metadata?: Record<string, any>
 }
 
-// OptimalPaymentManager principal
-class OptimalPaymentManagerClass {
+interface CheckoutSession {
+  id: string
+  provider: string
+  checkoutUrl: string
+  amount: number
+  currency: string
+  country: string
+  platform: string
+  expiresAt: Date
+  metadata: Record<string, any>
+}
+
+class OptimalPaymentManager {
   
-  async createCheckout(planId: string, options: {
-    email?: string
-    country?: string
-    platform?: string
-    amount?: number
-    currency?: string
-  }): Promise<CheckoutResponse> {
-    const provider = getOptimalProvider({
-      platform: options.platform as any || 'web',
-      country: options.country || 'FR',
-      amount: options.amount || 699
+  /**
+   * Sélectionne le provider optimal selon les critères
+   */
+  getOptimalProvider(options: CheckoutOptions): PaymentProvider {
+    const { country = 'FR', platform = 'web', amount = 699 } = options
+    
+    // Filtrer les providers selon les critères
+    const availableProviders = PAYMENT_PROVIDERS.filter(provider => {
+      const countrySupported = provider.supportedCountries.includes(country) || 
+                              provider.supportedCountries.includes('*')
+      const platformSupported = provider.supportedPlatforms.includes(platform)
+      
+      return countrySupported && platformSupported
     })
     
-    console.log(`🎯 [OPTIMAL] Provider sélectionné: ${provider}`)
+    // Si mobile iOS/Android, privilégier RevenueCat
+    if (platform !== 'web') {
+      const revenueCat = availableProviders.find(p => p.name === 'revenuecat')
+      if (revenueCat) return revenueCat
+    }
     
-    // Retourner un objet conforme à CheckoutResponse
-    return {
-      success: true,
-      provider,
-      checkoutUrl: `https://${provider}.example.com/checkout/${planId}`,
-      sessionId: `${provider}_${Date.now()}`
+    // Sinon, retourner le provider avec la plus haute priorité
+    return availableProviders.sort((a, b) => a.priority - b.priority)[0] || PAYMENT_PROVIDERS[3]
+  }
+  
+  /**
+   * Calcule les frais pour un montant donné
+   */
+  calculateFees(provider: PaymentProvider, amount: number): number {
+    return (amount * provider.fees.percentage) + provider.fees.fixed
+  }
+  
+  /**
+   * Crée une session de checkout optimale
+   */
+  async createCheckout(options: CheckoutOptions): Promise<CheckoutSession> {
+    const provider = this.getOptimalProvider(options)
+    const fees = this.calculateFees(provider, options.amount)
+    
+    console.log(`🎯 [OPTIMAL] Provider sélectionné: ${provider.name}`)
+    console.log(`💰 [OPTIMAL] Frais calculés: ${fees}€`)
+    
+    // Simulation - En production, remplacer par vraies API calls
+    const session: CheckoutSession = {
+      id: this.generateCheckoutId(),
+      provider: provider.name,
+      checkoutUrl: this.generateCheckoutUrl(provider.name, options.planId),
+      amount: options.amount,
+      currency: options.currency || 'EUR',
+      country: options.country || 'FR',
+      platform: options.platform || 'web',
+      expiresAt: new Date(Date.now() + 30 * 60 * 1000), // 30 minutes
+      metadata: {
+        userId: options.userId,
+        fees,
+        selectedFeatures: provider.features,
+        ...options.metadata
+      }
+    }
+    
+    return session
+  }
+  
+  /**
+   * Gère les webhooks des différents providers
+   */
+  async handleWebhook(provider: string, payload: any): Promise<{ success: boolean; data?: any }> {
+    console.log(`📨 [WEBHOOK] ${provider.toUpperCase()}:`, payload)
+    
+    try {
+      switch (provider) {
+        case 'paddle':
+          return await this.handlePaddleWebhook(payload)
+        case 'stripe':
+          return await this.handleStripeWebhook(payload)
+        case 'lemonsqueezy':
+          return await this.handleLemonSqueezyWebhook(payload)
+        case 'revenuecat':
+          return await this.handleRevenueCatWebhook(payload)
+        default:
+          throw new Error(`Provider non supporté: ${provider}`)
+      }
+    } catch (error) {
+      console.error(`❌ [WEBHOOK] Erreur ${provider}:`, error)
+      return { success: false }
     }
   }
   
-  async handleWebhook(provider: string, payload: any) {
-    console.log(`📨 [WEBHOOK] ${provider.toUpperCase()}:`, payload)
-    
-    // Logique webhook selon le provider
-    if (provider === 'paddle') {
-      // Traitement webhook Paddle
-    } else if (provider === 'lemonsqueezy') {
-      // Traitement webhook LemonSqueezy  
-    } else if (provider === 'stripe') {
-      // Traitement webhook Stripe
+  private async handlePaddleWebhook(payload: any) {
+    // Logique webhook Paddle
+    return { success: true, provider: 'paddle', data: payload }
+  }
+  
+  private async handleStripeWebhook(payload: any) {
+    // Logique webhook Stripe
+    return { success: true, provider: 'stripe', data: payload }
+  }
+  
+  private async handleLemonSqueezyWebhook(payload: any) {
+    // Logique webhook LemonSqueezy
+    return { success: true, provider: 'lemonsqueezy', data: payload }
+  }
+  
+  private async handleRevenueCatWebhook(payload: any) {
+    // Logique webhook RevenueCat
+    return { success: true, provider: 'revenuecat', data: payload }
+  }
+  
+  private generateCheckoutId(): string {
+    return `checkout_${Date.now()}_${Math.random().toString(36).substring(2, 15)}`
+  }
+  
+  private generateCheckoutUrl(provider: string, planId: string): string {
+    const baseUrls = {
+      paddle: 'https://checkout.paddle.com',
+      stripe: 'https://checkout.stripe.com',
+      lemonsqueezy: 'https://checkout.lemonsqueezy.com',
+      revenuecat: 'https://api.revenuecat.com'
     }
     
-    return { success: true }
+    return `${baseUrls[provider as keyof typeof baseUrls]}/checkout/${planId}`
+  }
+  
+  /**
+   * Analyse des performances des providers
+   */
+  getProviderAnalytics() {
+    return {
+      providers: PAYMENT_PROVIDERS.map(p => ({
+        name: p.name,
+        priority: p.priority,
+        countries: p.supportedCountries.length,
+        platforms: p.supportedPlatforms.length,
+        avgFees: p.fees.percentage * 100 + '%'
+      })),
+      recommendations: {
+        web_europe: 'paddle',
+        mobile_global: 'revenuecat',
+        web_usa: 'stripe',
+        fallback: 'lemonsqueezy'
+      }
+    }
   }
 }
 
-export const OptimalPaymentManager = new OptimalPaymentManagerClass()
-export default OptimalPaymentManager
+// Instance singleton
+export const optimalPayments = new OptimalPaymentManager()
+export default optimalPayments
+
+// Types export
+export type { PaymentProvider, CheckoutOptions, CheckoutSession }

@@ -1,21 +1,41 @@
 import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
+import { LanguageProvider } from '@/contexts/LanguageContext'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Math4Child - Application Éducative',
-  description: 'Application éducative de mathématiques pour enfants avec jeux interactifs et suivi des progrès',
-  keywords: ['mathématiques', 'enfants', 'éducation', 'jeux', 'apprentissage'],
-  authors: [{ name: 'Math4Child Team' }],
-  creator: 'Math4Child',
-  publisher: 'Math4Child',
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-    },
+  title: 'Math4Child - App éducative pour apprendre les maths',
+  description: 'L\'application éducative n°1 pour apprendre les mathématiques en famille. Plus de 195 langues supportées.',
+  keywords: 'mathématiques, éducation, enfants, famille, apprentissage, jeux éducatifs',
+  authors: [{ name: 'GOTEST', url: 'https://math4child.com' }],
+  creator: 'GOTEST',
+  publisher: 'GOTEST',
+  robots: 'index, follow',
+  openGraph: {
+    title: 'Math4Child - App éducative pour apprendre les maths',
+    description: 'L\'application éducative n°1 pour apprendre les mathématiques en famille.',
+    url: 'https://math4child.com',
+    siteName: 'Math4Child',
+    locale: 'fr_FR',
+    type: 'website',
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Math4Child - App éducative pour apprendre les maths',
+    description: 'L\'application éducative n°1 pour apprendre les mathématiques en famille.',
+  },
+  icons: {
+    icon: '/favicon.ico',
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/manifest.json',
+  other: {
+    'apple-mobile-web-app-capable': 'yes',
+    'apple-mobile-web-app-status-bar-style': 'default',
+    'apple-mobile-web-app-title': 'Math4Child',
+  }
 }
 
 export default function RootLayout({
@@ -25,13 +45,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <head>
-        <link rel="icon" href="/favicon.ico" />
-      </head>
-      <body className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
-        <div className="math4child-container">
+      <body className={inter.className}>
+        <LanguageProvider>
           {children}
-        </div>
+        </LanguageProvider>
       </body>
     </html>
   )

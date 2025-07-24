@@ -1,24 +1,63 @@
 {
-  "name": "Math4Child - Apprendre les maths",
   "short_name": "Math4Child",
-  "description": "Application éducative de mathématiques pour enfants",
-  "start_url": "/",
-  "display": "standalone",
-  "background_color": "#667eea",
-  "theme_color": "#667eea",
-  "orientation": "portrait-primary",
+  "name": "Math4Child - Apprendre les maths en famille",
+  "description": "L'application éducative n°1 pour apprendre les mathématiques en s'amusant. 195+ langues supportées, progression adaptative, mode famille.",
   "icons": [
     {
-      "src": "/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
     },
     {
-      "src": "/icon-512.png",
+      "src": "icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512.png",
+      "type": "image/png", 
       "sizes": "512x512",
-      "type": "image/png"
+      "purpose": "any maskable"
     }
   ],
-  "categories": ["education", "kids", "games"],
-  "lang": "fr-FR"
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#667eea",
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "categories": ["education", "games", "kids"],
+  "lang": "fr",
+  "scope": "/",
+  "prefer_related_applications": false,
+  "shortcuts": [
+    {
+      "name": "Nouveau Jeu",
+      "short_name": "Jouer",
+      "description": "Commencer un nouveau jeu de mathématiques",
+      "url": "/game",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Progrès",
+      "short_name": "Stats",
+      "description": "Voir mes statistiques et progrès",
+      "url": "/progress",
+      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "screenshot-mobile.png",
+      "type": "image/png",
+      "sizes": "390x844",
+      "form_factor": "narrow"
+    },
+    {
+      "src": "screenshot-desktop.png", 
+      "type": "image/png",
+      "sizes": "1920x1080",
+      "form_factor": "wide"
+    }
+  ]
 }

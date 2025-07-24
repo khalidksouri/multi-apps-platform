@@ -10,35 +10,23 @@ module.exports = {
       colors: {
         primary: {
           50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0ea5e9',
+          500: '#0ea5e9', 
           600: '#0284c7',
           700: '#0369a1',
-          800: '#075985',
-          900: '#0c4a6e',
         },
         math: {
-          purple: '#667eea',
-          blue: '#764ba2',
-          gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          correct: '#10b981',
+          incorrect: '#ef4444',
+          warning: '#f59e0b',
         }
-      },
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'math-gradient': 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
-        display: ['Poppins', 'system-ui', 'sans-serif'],
+        mono: ['Fira Code', 'Consolas', 'monospace'],
       },
       animation: {
-        'bounce-slow': 'bounce 2s infinite',
-        'pulse-soft': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+        'bounce-soft': 'bounce 1s ease-in-out infinite',
+        'pulse-slow': 'pulse 3s ease-in-out infinite',
       }
     },
   },

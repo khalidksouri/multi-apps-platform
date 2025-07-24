@@ -1,121 +1,84 @@
 'use client'
 
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+
+interface Language {
+  code: string
+  name: string
+  nativeName: string
+  flag: string
+  rtl?: boolean
+}
 
 interface LanguageContextType {
-  currentLanguage: string
-  setLanguage: (lang: string) => void
-  t: (key: string) => string
+  currentLanguage: Language
+  setLanguage: (code: string) => void
+  isRTL: boolean
+  availableLanguages: Language[]
 }
+
+const DEFAULT_LANGUAGE: Language = {
+  code: 'fr',
+  name: 'French',
+  nativeName: 'Français',
+  flag: '🇫🇷'
+}
+
+const AVAILABLE_LANGUAGES: Language[] = [
+  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷' },
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
+  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸' },
+  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦', rtl: true },
+  { code: 'he', name: 'Hebrew', nativeName: 'עברית', flag: '🇮🇱', rtl: true },
+  // ... autres langues
+]
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
-// TRADUCTIONS MINIMALES MAIS COMPLÈTES
-const translations: Record<string, Record<string, string>> = {
-  fr: {
-    'title': 'Mathématiques pour Enfants',
-    'subtitle': "L'app éducative #1 pour apprendre les mathématiques en famille",
-    'families': 'Rejoignez plus de 100.000 familles qui apprennent déjà !',
-    'start_free': 'Commencer gratuitement',
-    'compare_prices': 'Comparer les prix',
-    'badge': 'App éducative #1',
-    'plan_free': 'Gratuit',
-    'plan_trial_14': 'Essai 14j',
-    'plan_trial_7': 'Essai 7j',
-    'plan_family': 'Plan Famille',
-    'community_support': 'Support communautaire',
-    'offline_limited': 'Mode hors-ligne limité',
-    'unlimited_questions': 'Questions illimitées',
-    'complete_levels': '5 niveaux complets',
-    'trial_14d': '14j gratuit'
-  },
-  en: {
-    'title': 'Math for Children',
-    'subtitle': 'The #1 educational app to learn mathematics as a family',
-    'families': 'Join over 100,000 families already learning!',
-    'start_free': 'Start for free',
-    'compare_prices': 'Compare prices',
-    'badge': '#1 educational app',
-    'plan_free': 'Free',
-    'plan_trial_14': '14-day Trial',
-    'plan_trial_7': '7-day Trial',
-    'plan_family': 'Family Plan',
-    'community_support': 'Community support',
-    'offline_limited': 'Limited offline mode',
-    'unlimited_questions': 'Unlimited questions',
-    'complete_levels': '5 complete levels',
-    'trial_14d': '14d free'
-  },
-  es: {
-    'title': 'Matemáticas para Niños',
-    'subtitle': 'La app educativa #1 para aprender matemáticas en familia',
-    'families': '¡Únete a más de 100,000 familias que ya están aprendiendo!',
-    'start_free': 'Comenzar gratis',
-    'compare_prices': 'Comparar precios',
-    'badge': 'App educativa #1',
-    'plan_free': 'Gratis',
-    'plan_trial_14': 'Prueba 14d',
-    'plan_trial_7': 'Prueba 7d',
-    'plan_family': 'Plan Familiar',
-    'community_support': 'Soporte comunitario',
-    'offline_limited': 'Modo sin conexión limitado',
-    'unlimited_questions': 'Preguntas ilimitadas',
-    'complete_levels': '5 niveles completos',
-    'trial_14d': '14d gratis'
-  },
-  zh: {
-    'title': '儿童数学',
-    'subtitle': '家庭学习数学的#1教育应用',
-    'families': '加入已经在学习的100,000+家庭！',
-    'start_free': '免费开始',
-    'compare_prices': '比较价格',
-    'badge': '法国#1教育应用',
-    'plan_free': '免费',
-    'plan_trial_14': '14天试用',
-    'plan_trial_7': '7天试用',
-    'plan_family': '家庭计划',
-    'community_support': '社区支持',
-    'offline_limited': '有限离线模式',
-    'unlimited_questions': '无限问题',
-    'complete_levels': '5个完整级别',
-    'trial_14d': '14天免费'
-  },
-  ar: {
-    'title': 'الرياضيات للأطفال',
-    'subtitle': 'التطبيق التعليمي #1 لتعلم الرياضيات في العائلة',
-    'families': 'انضم إلى أكثر من 100,000 عائلة تتعلم بالفعل!',
-    'start_free': 'ابدأ مجاناً',
-    'compare_prices': 'قارن الأسعار',
-    'badge': 'التطبيق التعليمي #1',
-    'plan_free': 'مجاني',
-    'plan_trial_14': 'تجربة 14 يوم',
-    'plan_trial_7': 'تجربة 7 أيام',
-    'plan_family': 'خطة العائلة',
-    'community_support': 'دعم المجتمع',
-    'offline_limited': 'وضع عدم الاتصال محدود',
-    'unlimited_questions': 'أسئلة غير محدودة',
-    'complete_levels': '5 مستويات كاملة',
-    'trial_14d': '14 يوم مجاني'
-  }
-}
-
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [currentLanguage, setCurrentLanguage] = useState('fr')
+  const [currentLanguage, setCurrentLanguage] = useState<Language>(DEFAULT_LANGUAGE)
 
-  const setLanguage = (lang: string) => {
-    console.log('🌍 CHANGEMENT DE LANGUE VERS:', lang)
-    setCurrentLanguage(lang)
-    localStorage.setItem('math4child-language', lang)
+  // Charger la langue depuis localStorage au démarrage
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const savedLanguageCode = localStorage.getItem('math4child_language')
+      if (savedLanguageCode) {
+        const savedLanguage = AVAILABLE_LANGUAGES.find(lang => lang.code === savedLanguageCode)
+        if (savedLanguage) {
+          setCurrentLanguage(savedLanguage)
+        }
+      }
+    }
+  }, [])
+
+  // Sauvegarder la langue dans localStorage
+  const setLanguage = (code: string) => {
+    const language = AVAILABLE_LANGUAGES.find(lang => lang.code === code)
+    if (language) {
+      setCurrentLanguage(language)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('math4child_language', code)
+      }
+    }
   }
 
-  const t = (key: string): string => {
-    const translation = translations[currentLanguage]?.[key] || translations['en']?.[key] || key
-    console.log(`🔤 Traduction ${currentLanguage}.${key} = "${translation}"`)
-    return translation
-  }
+  const isRTL = currentLanguage.rtl || false
+
+  // Appliquer la direction RTL au document
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.dir = isRTL ? 'rtl' : 'ltr'
+      document.documentElement.lang = currentLanguage.code
+    }
+  }, [isRTL, currentLanguage.code])
 
   return (
-    <LanguageContext.Provider value={{ currentLanguage, setLanguage, t }}>
+    <LanguageContext.Provider value={{
+      currentLanguage,
+      setLanguage,
+      isRTL,
+      availableLanguages: AVAILABLE_LANGUAGES
+    }}>
       {children}
     </LanguageContext.Provider>
   )
@@ -123,8 +86,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
 export function useLanguage() {
   const context = useContext(LanguageContext)
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useLanguage must be used within a LanguageProvider')
   }
-  return contextt
+  return context
 }

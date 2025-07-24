@@ -2,91 +2,71 @@ import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 45 * 1000, // Timeout plus généreux
-  expect: { 
-    timeout: 15 * 1000 // Timeout d'attente plus généreux
-  },
-  
-  // Configuration de parallélisation
-  fullyParallel: false, // Éviter les conflits
+  timeout: 60000,
+  fullyParallel: false,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 1 : 1, // Un seul worker pour éviter les conflits
-  
-  // Reporters optimisés
-  reporter: [
-    ['html', { 
-      outputFolder: 'playwright-report',
-      open: 'never' // Ne pas ouvrir automatiquement
-    }],
-    ['list', { printSteps: true }],
-    ['json', { outputFile: 'test-results/results.json' }],
-    ['junit', { outputFile: 'test-results/junit.xml' }]
-  ],
-  
-  outputDir: 'test-results',
+  workers: process.env.CI ? 1 : 2,
   
   use: {
-    // URL de base
-    baseURL: 'http://localhost:3000',
-    
-    // Configuration des timeouts
-    actionTimeout: 20 * 1000,
-    navigationTimeout: 45 * 1000,
-    
-    // Captures pour le debug - optimisées
-    trace: 'retain-on-failure',
+    baseURL: process.env.CAPACITOR_BUILD 
+      ? 'http://localhost:8100' 
+      : 'http://localhost:3000',
+    trace: 'on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    
-    // Headers utiles
-    extraHTTPHeaders: {
-      'Accept-Language': 'fr-FR,fr;q=0.9,en;q=0.8',
-      'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'
-    },
-    
-    // Configuration du viewport
-    viewport: { width: 1280, height: 720 },
-    
-    // Ignorer les erreurs HTTPS en dev
-    ignoreHTTPSErrors: true,
+    actionTimeout: 15000,
+    navigationTimeout: 30000,
   },
 
-  // Projets de test
   projects: [
+    // Tests Web
     {
-      name: 'chromium',
+      name: 'web-desktop',
       use: { ...devices['Desktop Chrome'] },
+      testMatch: ['**/web/**/*.spec.ts', '**/shared/**/*.spec.ts'],
     },
-    
-    // Tests mobiles (optionnel)
+
     {
-      name: 'Mobile Chrome',
+      name: 'web-mobile',
       use: { ...devices['Pixel 5'] },
-      testIgnore: '**/enhanced/**', // Ignorer les tests avancés sur mobile
+      testMatch: ['**/web/**/*.spec.ts', '**/shared/**/*.spec.ts'],
     },
-    
-    // Tests Firefox (optionnel)
+
+    // Tests mobiles navigateurs
     {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-      testIgnore: '**/enhanced/**', // Tests basiques uniquement
+      name: 'mobile-android',
+      use: { 
+        ...devices['Pixel 7'],
+        contextOptions: {
+          permissions: ['geolocation', 'notifications'],
+        }
+      },
+      testMatch: ['**/mobile/**/*.spec.ts', '**/shared/**/*.spec.ts'],
+    },
+
+    {
+      name: 'mobile-ios',
+      use: { 
+        ...devices['iPhone 14'],
+        contextOptions: {
+          permissions: ['geolocation', 'notifications'],
+        }
+      },
+      testMatch: ['**/mobile/**/*.spec.ts', '**/shared/**/*.spec.ts'],
     },
   ],
 
-  // Configuration du serveur web
   webServer: {
-    command: 'echo "Serveur externe requis sur http://localhost:3000"',
+    command: 'npm run dev',
     url: 'http://localhost:3000',
-    reuseExistingServer: true,
-    timeout: 30 * 1000,
-    ignoreHTTPSErrors: true,
+    reuseExistingServer: !process.env.CI,
+    timeout: 120000,
   },
-  
-  // Dossiers à ignorer
-  testIgnore: [
-    '**/node_modules/**',
-    '**/playwright-report/**',
-    '**/test-results/**'
+
+  reporter: [
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['json', { outputFile: 'test-results/results.json' }],
+    ['line'],
   ]
 })

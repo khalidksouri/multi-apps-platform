@@ -2,17 +2,29 @@
 const nextConfig = {
   reactStrictMode: true,
   
-  // Configuration TypeScript et ESLint allégée
+  // Export statique pour déploiements Capacitor
+  output: process.env.CAPACITOR_BUILD ? 'export' : undefined,
+  assetPrefix: process.env.CAPACITOR_BUILD ? './' : undefined,
+  trailingSlash: process.env.CAPACITOR_BUILD ? true : false,
+  
+  // Configuration TypeScript et ESLint stricte
   typescript: {
     ignoreBuildErrors: false,
   },
   
   eslint: {
-    // Ignorer ESLint durant le build pour éviter les blocages
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false, // Mode strict pour qualité
   },
   
-  // Headers de sécurité
+  // Configuration des images
+  images: {
+    unoptimized: process.env.CAPACITOR_BUILD ? true : false,
+    domains: ['localhost', 'math4child.com'],
+    dangerouslyAllowSVG: false,
+    formats: ['image/webp', 'image/avif'],
+  },
+  
+  // Headers de sécurité renforcés
   async headers() {
     return [
       {
@@ -30,26 +42,84 @@ const nextConfig = {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
           },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=()',
+          },
         ],
       },
     ]
   },
   
-  // Configuration des images
-  images: {
-    domains: ['localhost'],
-    dangerouslyAllowSVG: false,
-  },
+  // Optimisations performance
+  swcMinify: true,
+  poweredByHeader: false,
+  compress: true,
+  generateEtags: false,
   
-  // Configuration webpack pour ignorer les warnings
+  // Configuration webpack avancée
   webpack: (config, { buildId, dev, isServer, defaultLoaders, webpack }) => {
-    // Ignorer les warnings non critiques
-    config.ignoreWarnings = [
-      { module: /node_modules/ },
-      { file: /backup/ },
-    ]
+    // Fallbacks pour environnement Capacitor
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+        crypto: false,
+        stream: false,
+        url: false,
+        zlib: false,
+        http: false,
+        https: false,
+        assert: false,
+        os: false,
+        path: false,
+      }
+    }
+    
+    // Optimisations bundle
+    config.optimization = {
+      ...config.optimization,
+      splitChunks: {
+        chunks: 'all',
+        minSize: 20000,
+        maxSize: 250000,
+        cacheGroups: {
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+          vendor: {
+            test: /[\\/]node_modules[\\/]/,
+            name: 'vendors',
+            priority: -10,
+            chunks: 'all',
+          },
+        },
+      },
+    }
     
     return config
+  },
+  
+  // Variables d'environnement
+  env: {
+    NEXT_PUBLIC_APP_NAME: 'Math4Child',
+    NEXT_PUBLIC_APP_VERSION: '2.0.0',
+    NEXT_PUBLIC_COMPANY: 'GOTEST',
+    NEXT_PUBLIC_SIRET: '53958712100028',
+  },
+  
+  // Configuration expérimentale
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'recharts'],
+    typedRoutes: false,
   },
 }
 

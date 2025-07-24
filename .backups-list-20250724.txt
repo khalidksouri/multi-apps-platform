@@ -1,4 +1,0 @@
-src/contexts/LanguageContext.tsx.backup-1753369215
-src/components/LanguageDemo.tsx.backup-1753369216
-src/app/page.tsx.backup-1753369216
-src/app/page.tsx.broken-backup.backup-1753369216

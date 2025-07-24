@@ -63,3 +63,24 @@ test-results/
 /out/
 /dist/
 /.next/
+# Documentation temporaire
+*TRANSFORMATION*.md
+*COMPLETE*.md
+*DEPLOYMENT*GUIDE*.md
+*TRANSLATION*TESTS*README*.md
+backup_configs_*/
+backup_md_*/
+*.backup-*
+/tmp/*math4child*
+# Build et cache
+.next/
+out/
+dist/
+build/
+# Mobile
+android/
+ios/
+capacitor.config.ts.backup*
+# Logs
+*.log
+logs/

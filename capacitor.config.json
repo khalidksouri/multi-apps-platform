@@ -5,7 +5,8 @@
   "bundledWebRuntime": false,
   "server": {
     "androidScheme": "https",
-    "iosScheme": "https"
+    "iosScheme": "https",
+    "hostname": "math4child.app"
   },
   "plugins": {
     "SplashScreen": {
@@ -21,25 +22,48 @@
     },
     "StatusBar": {
       "backgroundColor": "#667eea",
-      "style": "light"
+      "style": "light",
+      "overlay": false
     },
     "App": {
       "name": "Math4Child",
-      "description": "Application éducative de mathématiques - GOTEST"
+      "description": "Application éducative de mathématiques - GOTEST",
+      "version": "2.0.0"
     },
     "Keyboard": {
       "resize": "body",
       "style": "dark",
       "resizeOnFullScreen": true
+    },
+    "Device": {
+      "name": "Math4Child Device Info"
+    },
+    "Haptics": {},
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_icon_config_sample",
+      "iconColor": "#667eea"
     }
   },
   "android": {
     "allowMixedContent": true,
     "captureInput": true,
-    "webContentsDebuggingEnabled": true
+    "webContentsDebuggingEnabled": true,
+    "loggingBehavior": "debug",
+    "buildOptions": {
+      "keystorePath": "",
+      "keystorePassword": "",
+      "keystoreAlias": "",
+      "keystoreAliasPassword": "",
+      "releaseType": "APK"
+    }
   },
   "ios": {
     "scheme": "Math4Child",
-    "contentInset": "automatic"
+    "contentInset": "automatic",
+    "scrollEnabled": true,
+    "buildOptions": {
+      "developmentTeam": "",
+      "packageType": "development"
+    }
   }
 }
