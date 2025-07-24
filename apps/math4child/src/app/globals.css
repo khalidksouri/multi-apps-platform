@@ -1,28 +1,30 @@
-/* 
-   Math4Child - CSS Global 100% Vanilla
-   Aucun processing, aucune dépendance
-*/
+/* TailwindCSS directives - obligatoires pour Next.js mais avec config vide */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-/* Reset universel */
+/* Notre CSS vanilla qui prend le dessus */
+/* Reset universel qui override Tailwind */
 *, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 html {
-  line-height: 1.15;
-  -webkit-text-size-adjust: 100%;
+  line-height: 1.15 !important;
+  -webkit-text-size-adjust: 100% !important;
 }
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
-  color: #333;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  min-height: 100vh !important;
+  color: #333 !important;
 }
 
 /* Variables CSS natives */
@@ -40,182 +42,184 @@ body {
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
-/* Éléments de base */
+/* Reset des éléments de base */
 h1, h2, h3, h4, h5, h6 {
-  margin: 0 0 1rem 0;
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--text);
+  margin: 0 0 1rem 0 !important;
+  padding: 0 !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+  color: var(--text) !important;
 }
 
-h1 { font-size: 2.25rem; }
-h2 { font-size: 1.875rem; }
-h3 { font-size: 1.5rem; }
+h1 { font-size: 2.25rem !important; }
+h2 { font-size: 1.875rem !important; }
+h3 { font-size: 1.5rem !important; }
 
 p {
-  margin: 0 0 1rem 0;
-  color: var(--text-light);
+  margin: 0 0 1rem 0 !important;
+  padding: 0 !important;
+  color: var(--text-light) !important;
 }
 
 a {
-  color: var(--primary);
-  text-decoration: none;
+  color: var(--primary) !important;
+  text-decoration: none !important;
 }
 
 a:hover {
-  text-decoration: underline;
+  text-decoration: underline !important;
 }
 
-/* Utilitaires de layout */
+/* Utilitaires de layout - avec !important pour override Tailwind */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+  padding: 0 1rem !important;
 }
 
 .flex {
-  display: flex;
+  display: flex !important;
 }
 
 .flex-col {
-  flex-direction: column;
+  flex-direction: column !important;
 }
 
 .items-center {
-  align-items: center;
+  align-items: center !important;
 }
 
 .justify-center {
-  justify-content: center;
+  justify-content: center !important;
 }
 
 .text-center {
-  text-align: center;
+  text-align: center !important;
 }
 
 .min-h-screen {
-  min-height: 100vh;
+  min-height: 100vh !important;
 }
 
-/* Espacements */
-.p-4 { padding: 1rem; }
-.p-6 { padding: 1.5rem; }
-.p-8 { padding: 2rem; }
+/* Espacements avec !important */
+.p-4 { padding: 1rem !important; }
+.p-6 { padding: 1.5rem !important; }
+.p-8 { padding: 2rem !important; }
 
-.m-4 { margin: 1rem; }
-.mb-4 { margin-bottom: 1rem; }
-.mb-6 { margin-bottom: 1.5rem; }
-.mb-8 { margin-bottom: 2rem; }
+.m-4 { margin: 1rem !important; }
+.mb-4 { margin-bottom: 1rem !important; }
+.mb-6 { margin-bottom: 1.5rem !important; }
+.mb-8 { margin-bottom: 2rem !important; }
 
-.mt-4 { margin-top: 1rem; }
-.mt-6 { margin-top: 1.5rem; }
-.mt-8 { margin-top: 2rem; }
+.mt-4 { margin-top: 1rem !important; }
+.mt-6 { margin-top: 1.5rem !important; }
+.mt-8 { margin-top: 2rem !important; }
 
-/* Boutons */
+/* Boutons avec !important */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.75rem 1.5rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 0.75rem 1.5rem !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  text-decoration: none !important;
 }
 
 .btn-primary {
-  background-color: var(--primary);
-  color: white;
+  background-color: var(--primary) !important;
+  color: white !important;
 }
 
 .btn-primary:hover {
-  background-color: #2563eb;
-  transform: translateY(-1px);
+  background-color: #2563eb !important;
+  transform: translateY(-1px) !important;
 }
 
 .btn-secondary {
-  background-color: var(--secondary);
-  color: white;
+  background-color: var(--secondary) !important;
+  color: white !important;
 }
 
 .btn-secondary:hover {
-  background-color: #059669;
+  background-color: #059669 !important;
 }
 
-/* Cards */
+/* Cards avec !important */
 .card {
-  background: var(--bg);
-  border-radius: 0.75rem;
-  box-shadow: var(--shadow);
-  padding: 1.5rem;
-  margin-bottom: 1rem;
+  background: var(--bg) !important;
+  border-radius: 0.75rem !important;
+  box-shadow: var(--shadow) !important;
+  padding: 1.5rem !important;
+  margin-bottom: 1rem !important;
 }
 
-/* Couleurs utilitaires */
-.bg-white { background-color: #ffffff; }
-.bg-gray-50 { background-color: #f9fafb; }
-.bg-blue-50 { background-color: #eff6ff; }
+/* Couleurs utilitaires avec !important */
+.bg-white { background-color: #ffffff !important; }
+.bg-gray-50 { background-color: #f9fafb !important; }
+.bg-blue-50 { background-color: #eff6ff !important; }
 
-.text-gray-600 { color: #4b5563; }
-.text-gray-900 { color: #111827; }
-.text-blue-600 { color: #2563eb; }
-.text-white { color: #ffffff; }
+.text-gray-600 { color: #4b5563 !important; }
+.text-gray-900 { color: #111827 !important; }
+.text-blue-600 { color: #2563eb !important; }
+.text-white { color: #ffffff !important; }
 
-/* Dimensions */
-.w-full { width: 100%; }
-.w-16 { width: 4rem; }
-.h-16 { height: 4rem; }
-.max-w-md { max-width: 28rem; }
+/* Dimensions avec !important */
+.w-full { width: 100% !important; }
+.w-16 { width: 4rem !important; }
+.h-16 { height: 4rem !important; }
+.max-w-md { max-width: 28rem !important; }
 
-/* Border radius */
-.rounded { border-radius: 0.25rem; }
-.rounded-lg { border-radius: 0.5rem; }
-.rounded-full { border-radius: 50%; }
+/* Border radius avec !important */
+.rounded { border-radius: 0.25rem !important; }
+.rounded-lg { border-radius: 0.5rem !important; }
+.rounded-full { border-radius: 50% !important; }
 
-/* Math4Child spécifique */
+/* Math4Child spécifique avec !important */
 .math4child-hero {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  padding: 4rem 0;
-  text-align: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  color: white !important;
+  padding: 4rem 0 !important;
+  text-align: center !important;
 }
 
 .math4child-hero h1 {
-  color: white;
-  font-size: 3rem;
-  margin-bottom: 1rem;
+  color: white !important;
+  font-size: 3rem !important;
+  margin-bottom: 1rem !important;
 }
 
 .math4child-hero p {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.9) !important;
+  font-size: 1.25rem !important;
+  margin-bottom: 2rem !important;
 }
 
 .math-problem {
-  font-size: 2rem;
-  font-weight: bold;
-  margin: 1rem 0;
-  color: var(--primary);
-  text-align: center;
+  font-size: 2rem !important;
+  font-weight: bold !important;
+  margin: 1rem 0 !important;
+  color: var(--primary) !important;
+  text-align: center !important;
 }
 
 .math-input {
-  font-size: 1.5rem;
-  padding: 0.75rem;
-  border: 2px solid var(--border);
-  border-radius: 0.5rem;
-  text-align: center;
-  max-width: 150px;
+  font-size: 1.5rem !important;
+  padding: 0.75rem !important;
+  border: 2px solid var(--border) !important;
+  border-radius: 0.5rem !important;
+  text-align: center !important;
+  max-width: 150px !important;
 }
 
 .math-input:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none !important;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
 }
 
 /* Animations simples */
@@ -231,34 +235,34 @@ a:hover {
 }
 
 .fade-in {
-  animation: fadeIn 0.3s ease-out;
+  animation: fadeIn 0.3s ease-out !important;
 }
 
-/* Responsive simple */
+/* Responsive avec !important */
 @media (max-width: 768px) {
   .container {
-    padding: 0 0.5rem;
+    padding: 0 0.5rem !important;
   }
   
-  h1 { font-size: 1.875rem; }
+  h1 { font-size: 1.875rem !important; }
   
   .math4child-hero h1 {
-    font-size: 2rem;
+    font-size: 2rem !important;
   }
   
   .card {
-    padding: 1rem;
+    padding: 1rem !important;
   }
 }
 
 @media (max-width: 480px) {
-  h1 { font-size: 1.5rem; }
+  h1 { font-size: 1.5rem !important; }
   
   .math4child-hero {
-    padding: 2rem 0;
+    padding: 2rem 0 !important;
   }
   
   .math4child-hero h1 {
-    font-size: 1.75rem;
+    font-size: 1.75rem !important;
   }
 }
