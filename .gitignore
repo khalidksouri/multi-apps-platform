@@ -1,33 +1,45 @@
 # Dependencies
 node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+test-results/
+playwright-report/
+blob-report/
+
+# Next.js
+.next/
+out/
+
+# Production
+build/
+dist/
+dist-*/
+
+# Misc
+.DS_Store
+*.tsbuildinfo
+
+# Debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
 
-# Production
-.next/
-dist/
-build/
-out/
+# Local env files
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Environment
-.env
-.env*.local
+# Vercel
+.vercel/
 
-# Database
-*.db
-*.sqlite
-
-# Logs
-logs/
-*.log
-
-# scripts sh
-scripts/
-*.sh
-
-# Coverage
-coverage/
+# Capacitor (toutes les apps sont maintenant hybrides)
+android/
+ios/
 
 # IDE
 .vscode/
@@ -35,32 +47,87 @@ coverage/
 *.swp
 *.swo
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Docker
-docker-compose.override.yml
-
-# Test results
-test-results/
-playwright-report/
-
-# Cache
-.cache/
-temp/
-tmp/
-
-# Backup
-*.backup
-
-# Tests de traduction
-test-results/
-playwright-report/
-/blob-report/
-/playwright/.cache/
-temp/
+# Logs et fichiers temporaires
+logs/
 *.log
-screenshots/
-videos/
-traces/
+*.tmp
+*.temp
+temp_*
+backup_*
+*backup*
+*.bak
+
+# Documentation temporaire (fichiers md redondants)
+*TRANSFORMATION*.md
+*COMPLETE*.md
+*DEPLOYMENT*.md
+*GUIDE*.md
+*STATUS*.md
+*BUILD*.md
+*CAPACITOR*.md
+*MOBILE*.md
+*TRANSLATION*.md
+*TESTS*.md
+*VALIDATION*.md
+*FINAL*.md
+*QUICK*.md
+*PADDLE*.md
+*I18N*.md
+*TESTING*.md
+*DEPLOY*.md
+*CLEANUP*.md
+*REPORT*.md
+*INSTRUCTIONS*.md
+*IMPROVEMENTS*.md
+*SECURITY*.md
+*LAUNCHER*.md
+*LANGUAGE*.md
+
+# Scripts temporaires
+scripts/
+fix_*.sh
+cleanup_*.sh
+unified_*.sh
+math4child_*.sh
+radical_*.sh
+translation_*.sh
+complete_*.sh
+
+# Configurations temporaires
+package.json.pre-*
+package.json.ultra-*
+package.json.backup
+tsconfig.*.json
+playwright.config.*.ts
+.eslintrc.*.json
+corrected-badges*.json
+temp_scripts.json
+app_js_updated.js
+badge-replacements.txt
+jest.config.js
+cucumber.config.js
+vite.config.js
+junit-results.xml
+test-results.json
+Makefile
+nginx.conf
+netlify.toml
+
+# Dossiers temporaires
+backups/
+reports/
+test-debug/
+_tests_/
+.temp_excluded/
+prisma/
+
+# Fichiers de déploiement temporaires
+deployment_*.log
+test-france-removal*
+ultimate-backup*
+pre-scripts-backup*
+ultra-complete-backup*
+
+# Applications supprimées
+postmath/
+math4child-optimal/

@@ -7,9 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
-      animation: {
-        'pulse-soft': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      colors: {
+        'math-orange': '#F97316',
+        'math-blue': '#3B82F6',
+        'math-purple': '#8B5CF6',
+        'math-green': '#10B981'
       },
+      fontFamily: {
+        sans: ['Inter', 'sans-serif']
+      }
     },
   },
   plugins: [],
