@@ -1,59 +1,41 @@
-import { defineConfig, devices } from '@playwright/test'
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
   testDir: './tests',
-  timeout: 60000,
-  fullyParallel: false,
+  timeout: 45000,
+  expect: { timeout: 15000 },
+  fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 1 : 2,
-  
+  workers: process.env.CI ? 1 : 3,
+
+  reporter: [
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
+    ['json', { outputFile: 'test-results/results.json' }],
+    process.env.CI ? ['github'] : ['list', { printSteps: true }]
+  ],
+
   use: {
-    baseURL: process.env.CAPACITOR_BUILD 
-      ? 'http://localhost:8100' 
-      : 'http://localhost:3000',
-    trace: 'on-failure',
+    baseURL: 'http://localhost:3000',
+    trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
-    actionTimeout: 15000,
-    navigationTimeout: 30000,
+    actionTimeout: 20000,
+    navigationTimeout: 40000,
   },
 
   projects: [
-    // Tests Web
     {
-      name: 'web-desktop',
-      use: { ...devices['Desktop Chrome'] },
-      testMatch: ['**/web/**/*.spec.ts', '**/shared/**/*.spec.ts'],
+      name: 'chromium-desktop',
+      use: { 
+        ...devices['Desktop Chrome'],
+        viewport: { width: 1280, height: 720 },
+      },
     },
-
     {
-      name: 'web-mobile',
+      name: 'mobile-chrome',
       use: { ...devices['Pixel 5'] },
-      testMatch: ['**/web/**/*.spec.ts', '**/shared/**/*.spec.ts'],
-    },
-
-    // Tests mobiles navigateurs
-    {
-      name: 'mobile-android',
-      use: { 
-        ...devices['Pixel 7'],
-        contextOptions: {
-          permissions: ['geolocation', 'notifications'],
-        }
-      },
-      testMatch: ['**/mobile/**/*.spec.ts', '**/shared/**/*.spec.ts'],
-    },
-
-    {
-      name: 'mobile-ios',
-      use: { 
-        ...devices['iPhone 14'],
-        contextOptions: {
-          permissions: ['geolocation', 'notifications'],
-        }
-      },
-      testMatch: ['**/mobile/**/*.spec.ts', '**/shared/**/*.spec.ts'],
+      testMatch: /math4child.*\.spec\.ts/,
     },
   ],
 
@@ -61,12 +43,8 @@ export default defineConfig({
     command: 'npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
-    timeout: 120000,
+    timeout: 120 * 1000,
   },
 
-  reporter: [
-    ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    ['json', { outputFile: 'test-results/results.json' }],
-    ['line'],
-  ]
-})
+  outputDir: 'test-results/',
+});

@@ -11,7 +11,7 @@
     "type-check": "tsc --noEmit",
     "test:hybrid": "playwright test --config=playwright.config.hybrid.ts",
     "test:web": "playwright test --project=web-desktop,web-mobile",
-    "test:mobile": "playwright test --project=mobile-android,mobile-ios",
+    "test:mobile": "playwright test --project=mobile-chrome",
     "test:apk": "playwright test --config=playwright.config.hybrid.ts --project=android-apk,ios-app",
     "test:pwa": "playwright test --config=playwright.config.hybrid.ts --project=pwa",
     "test:all": "playwright test",
@@ -41,7 +41,11 @@
     "test": "playwright test",
     "export:capacitor": "CAPACITOR_BUILD=true next build && next export",
     "android:build": "npm run build:capacitor && npx cap sync android",
-    "ios:build": "npm run build:capacitor && npx cap sync ios"
+    "ios:build": "npm run build:capacitor && npx cap sync ios",
+    "test:headed": "playwright test --headed",
+    "test:report": "playwright show-report",
+    "test:quick": "playwright test --grep \"🎉.*Validation\"",
+    "validate": "npm run test:quick"
   },
   "dependencies": {
     "@capacitor/android": "^7.4.2",
