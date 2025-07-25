@@ -2,14 +2,12 @@
 
 import { useState } from 'react'
 import { 
-  CreditCard, 
   CheckCircle, 
   XCircle, 
   AlertTriangle, 
   Clock,
   RefreshCw,
   Copy,
-  Info
 } from 'lucide-react'
 
 // Cartes de test Stripe avec différents scénarios

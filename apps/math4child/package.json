@@ -9,38 +9,32 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    
     "build:web": "next build",
     "build:capacitor": "CAPACITOR_BUILD=true next build",
     "build:android": "npm run build:capacitor && npx cap sync android && npx cap build android",
     "build:ios": "npm run build:capacitor && npx cap sync ios && npx cap build ios",
     "build:all": "npm run build:web && npm run build:capacitor",
-    
     "cap:init": "npx cap init Math4Child com.gotest.math4child",
     "cap:add:android": "npx cap add android",
-    "cap:add:ios": "npx cap add ios", 
+    "cap:add:ios": "npx cap add ios",
     "cap:sync": "npx cap sync",
     "cap:serve": "npx cap serve",
     "cap:doctor": "npx cap doctor",
     "cap:update": "npx cap update",
-    
     "dev:web": "npm run dev",
     "dev:android": "npm run cap:sync && npx cap run android --livereload --external",
     "dev:ios": "npm run cap:sync && npx cap run ios --livereload --external",
     "dev:all": "concurrently \"npm run dev\" \"npm run cap:serve\"",
-    
     "deploy:web": "npm run build:web && npm run export",
     "deploy:android": "npm run build:android && cd android && ./gradlew assembleRelease",
     "deploy:ios": "npm run build:ios && npx cap open ios",
     "deploy:all": "npm run deploy:web && npm run deploy:android",
-    
     "test": "playwright test",
     "test:headed": "playwright test --headed",
     "test:debug": "playwright test --debug",
     "test:ui": "playwright test --ui",
     "test:report": "playwright show-report",
     "test:install": "playwright install",
-
     "test:web": "playwright test --project=chromium --project=firefox --project=webkit",
     "test:mobile": "playwright test --project=mobile-chrome",
     "test:hybrid": "playwright test --config=playwright.config.hybrid.ts",
@@ -50,15 +44,14 @@
     "test:performance": "playwright test performance.spec.ts",
     "test:accessibility": "playwright test a11y.spec.ts",
     "test:quick": "playwright test --grep \"✅\"",
-    
     "clean": "rm -rf .next out android ios node_modules/.cache",
     "clean:all": "npm run clean && rm -rf node_modules",
     "clean:build": "rm -rf .next out",
     "clean:mobile": "rm -rf android ios",
-    
     "doctor": "npm run cap:doctor && npm run type-check && npm run lint",
     "info": "npx cap info",
-    "validate": "npm run doctor && npm run test:quick"
+    "validate": "npm run doctor && npm run test:quick",
+    "test:arabic-update": "playwright test tests/translation/arabic-languages-update.spec.ts"
   },
   "dependencies": {
     "@capacitor/android": "^6.2.1",

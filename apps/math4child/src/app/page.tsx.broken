@@ -56,17 +56,21 @@ export default function HomePage() {
     document.documentElement.lang = newLanguage.code;
   };
 
-  // Textes traduits simples
+  // Textes traduits avec toutes les langues
   const getTexts = (langCode: string) => {
     const defaultTexts = {
       title: 'Math4Child',
       subtitle: 'Application éducative pour apprendre les maths',
       description: 'L\'application n°1 pour apprendre les mathématiques en famille !',
       startFree: 'Commencer gratuitement',
+      selectLanguage: 'Choisir la langue',
       selectedLanguage: 'Langue sélectionnée',
       language: 'Langue',
       continent: 'Continent',
       currency: 'Devise',
+      rtlEnabled: 'Support RTL activé pour cette langue',
+      palestineInfo: 'Palestine ajoutée au Moyen-Orient avec support complet',
+      moroccoInfo: 'Maroc en Afrique avec drapeau marocain maintenu',
       whyChoose: 'Pourquoi choisir Math4Child ?',
       personalized: 'Personnalisé',
       personalizedDesc: 'Adapté au niveau de chaque enfant',
@@ -86,10 +90,14 @@ export default function HomePage() {
         subtitle: 'Educational app to learn math',
         description: 'The #1 app to learn mathematics as a family!',
         startFree: 'Start for free',
+        selectLanguage: 'Select language',
         selectedLanguage: 'Selected language',
         language: 'Language',
         continent: 'Continent',
         currency: 'Currency',
+        rtlEnabled: 'RTL support enabled for this language',
+        palestineInfo: 'Palestine added to Middle East with full support',
+        moroccoInfo: 'Morocco in Africa with Moroccan flag maintained',
         whyChoose: 'Why choose Math4Child?',
         personalized: 'Personalized',
         personalizedDesc: 'Adapted to each child\'s level',
@@ -101,15 +109,67 @@ export default function HomePage() {
         satisfaction: 'satisfaction',
         languages: 'languages available'
       },
+      'de': {
+        title: 'Math4Child',
+        subtitle: 'Lern-App für Mathematik',
+        description: 'Die #1 App zum Mathe lernen als Familie!',
+        startFree: 'Kostenlos starten',
+        selectLanguage: 'Sprache auswählen',
+        selectedLanguage: 'Ausgewählte Sprache',
+        language: 'Sprache',
+        continent: 'Kontinent',
+        currency: 'Währung',
+        rtlEnabled: 'RTL-Unterstützung für diese Sprache aktiviert',
+        palestineInfo: 'Palästina zum Nahen Osten mit vollständiger Unterstützung hinzugefügt',
+        moroccoInfo: 'Marokko in Afrika mit marokkanischer Flagge beibehalten',
+        whyChoose: 'Warum Math4Child wählen?',
+        personalized: 'Personalisiert',
+        personalizedDesc: 'An das Niveau jedes Kindes angepasst',
+        multilingual: 'Mehrsprachig',
+        multilingualDesc: 'verfügbare Sprachen',
+        family: 'Familie',
+        familyDesc: 'Fortschrittsverfolgung für Eltern',
+        families: 'zufriedene Familien',
+        satisfaction: 'Zufriedenheit',
+        languages: 'verfügbare Sprachen'
+      },
+      'es': {
+        title: 'Math4Child',
+        subtitle: 'Aplicación educativa para aprender matemáticas',
+        description: '¡La aplicación #1 para aprender matemáticas en familia!',
+        startFree: 'Empezar gratis',
+        selectLanguage: 'Seleccionar idioma',
+        selectedLanguage: 'Idioma seleccionado',
+        language: 'Idioma',
+        continent: 'Continente',
+        currency: 'Moneda',
+        rtlEnabled: 'Soporte RTL habilitado para este idioma',
+        palestineInfo: 'Palestina añadida a Oriente Medio con soporte completo',
+        moroccoInfo: 'Marruecos en África con bandera marroquí mantenida',
+        whyChoose: '¿Por qué elegir Math4Child?',
+        personalized: 'Personalizado',
+        personalizedDesc: 'Adaptado al nivel de cada niño',
+        multilingual: 'Multiidioma',
+        multilingualDesc: 'idiomas disponibles',
+        family: 'En familia',
+        familyDesc: 'Seguimiento del progreso para padres',
+        families: 'familias satisfechas',
+        satisfaction: 'de satisfacción',
+        languages: 'idiomas disponibles'
+      },
       'ar-PS': {
         title: 'Math4Child',
         subtitle: 'تطبيق تعليمي لتعلم الرياضيات',
         description: 'التطبيق رقم 1 لتعليم الرياضيات للعائلة في فلسطين!',
         startFree: 'ابدأ مجاناً',
+        selectLanguage: 'اختر اللغة',
         selectedLanguage: 'اللغة المختارة',
         language: 'اللغة',
         continent: 'القارة',
         currency: 'العملة',
+        rtlEnabled: 'دعم الكتابة من اليمين إلى اليسار مُفعل',
+        palestineInfo: 'فلسطين مضافة للشرق الأوسط مع دعم كامل',
+        moroccoInfo: 'المغرب في أفريقيا مع الحفاظ على العلم المغربي',
         whyChoose: 'لماذا تختار Math4Child؟',
         personalized: 'مخصص',
         personalizedDesc: 'متكيف مع مستوى كل طفل',
@@ -126,10 +186,14 @@ export default function HomePage() {
         subtitle: 'تطبيق تعليمي لتعلم الرياضيات',
         description: 'التطبيق رقم 1 لتعليم الرياضيات للعائلة في المغرب!',
         startFree: 'ابدأ مجاناً',
+        selectLanguage: 'اختر اللغة',
         selectedLanguage: 'اللغة المختارة',
         language: 'اللغة',
         continent: 'القارة',
         currency: 'العملة',
+        rtlEnabled: 'دعم الكتابة من اليمين إلى اليسار مُفعل',
+        palestineInfo: 'فلسطين مضافة للشرق الأوسط مع دعم كامل',
+        moroccoInfo: 'المغرب في أفريقيا مع الحفاظ على العلم المغربي',
         whyChoose: 'لماذا تختار Math4Child؟',
         personalized: 'مخصص',
         personalizedDesc: 'متكيف مع مستوى كل طفل',
@@ -151,7 +215,7 @@ export default function HomePage() {
   return (
     <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 ${selectedLanguage.rtl ? 'rtl' : 'ltr'}`}>
       <div className="container mx-auto px-4 py-8">
-        {/* Header avec sélecteur de langue - SYNTAXE CORRECTE */}
+        {/* Header avec sélecteur de langue */}
         <header className="flex justify-between items-center mb-12">
           <h1 className="text-3xl font-bold text-indigo-900">{currentTexts.title}</h1>
           
@@ -233,7 +297,7 @@ export default function HomePage() {
               {currentTexts.startFree}
             </button>
             
-            {/* Section d'informations sur la langue sélectionnée - AJOUT COMPLET */}
+            {/* Section d'informations sur la langue sélectionnée */}
             <div className="mt-12 p-6 bg-white rounded-lg shadow-sm">
               <h3 className="text-lg font-semibold mb-4">
                 {currentTexts.selectedLanguage}
@@ -253,19 +317,19 @@ export default function HomePage() {
               {/* Support RTL */}
               {selectedLanguage.rtl && (
                 <div className="mt-2 text-sm text-indigo-600">
-                  ✨ Support RTL activé pour cette langue
+                  ✨ {currentTexts.rtlEnabled}
                 </div>
               )}
               
               {/* Informations spéciales pour Palestine et Maroc */}
               {selectedLanguage.code === 'ar-PS' && (
                 <div className="mt-2 text-sm text-green-600">
-                  🇵🇸 Palestine ajoutée au Moyen-Orient avec support complet
+                  🇵🇸 {currentTexts.palestineInfo}
                 </div>
               )}
               {selectedLanguage.code === 'ar-MA' && (
                 <div className="mt-2 text-sm text-green-600">
-                  🇲🇦 Maroc en Afrique avec drapeau marocain maintenu
+                  🇲🇦 {currentTexts.moroccoInfo}
                 </div>
               )}
             </div>

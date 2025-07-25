@@ -56,27 +56,21 @@ export default function HomePage() {
     document.documentElement.lang = newLanguage.code;
   };
 
-  // Textes traduits simples
+  // Textes traduits avec toutes les langues
   const getTexts = (langCode: string) => {
     const defaultTexts = {
       title: 'Math4Child',
       subtitle: 'Application éducative pour apprendre les maths',
       description: 'L\'application n°1 pour apprendre les mathématiques en famille !',
       startFree: 'Commencer gratuitement',
+      selectLanguage: 'Choisir la langue',
       selectedLanguage: 'Langue sélectionnée',
       language: 'Langue',
       continent: 'Continent',
       currency: 'Devise',
-      whyChoose: 'Pourquoi choisir Math4Child ?',
-      personalized: 'Personnalisé',
-      personalizedDesc: 'Adapté au niveau de chaque enfant',
-      multilingual: 'Multilingue',
-      multilingualDesc: 'langues disponibles',
-      family: 'En famille',
-      familyDesc: 'Suivi des progrès pour les parents',
-      families: 'familles satisfaites',
-      satisfaction: 'de satisfaction',
-      languages: 'langues disponibles'
+      rtlEnabled: 'Support RTL activé pour cette langue',
+      palestineInfo: 'Palestine ajoutée au Moyen-Orient avec support complet',
+      moroccoInfo: 'Maroc en Afrique avec drapeau marocain maintenu'
     };
 
     const textsMap: Record<string, typeof defaultTexts> = {
@@ -86,60 +80,70 @@ export default function HomePage() {
         subtitle: 'Educational app to learn math',
         description: 'The #1 app to learn mathematics as a family!',
         startFree: 'Start for free',
+        selectLanguage: 'Select language',
         selectedLanguage: 'Selected language',
         language: 'Language',
         continent: 'Continent',
         currency: 'Currency',
-        whyChoose: 'Why choose Math4Child?',
-        personalized: 'Personalized',
-        personalizedDesc: 'Adapted to each child\'s level',
-        multilingual: 'Multilingual',
-        multilingualDesc: 'languages available',
-        family: 'Family',
-        familyDesc: 'Progress tracking for parents',
-        families: 'satisfied families',
-        satisfaction: 'satisfaction',
-        languages: 'languages available'
+        rtlEnabled: 'RTL support enabled for this language',
+        palestineInfo: 'Palestine added to Middle East with full support',
+        moroccoInfo: 'Morocco in Africa with Moroccan flag maintained'
+      },
+      'de': {
+        title: 'Math4Child',
+        subtitle: 'Lern-App für Mathematik',
+        description: 'Die #1 App zum Mathe lernen als Familie!',
+        startFree: 'Kostenlos starten',
+        selectLanguage: 'Sprache auswählen',
+        selectedLanguage: 'Ausgewählte Sprache',
+        language: 'Sprache',
+        continent: 'Kontinent',
+        currency: 'Währung',
+        rtlEnabled: 'RTL-Unterstützung für diese Sprache aktiviert',
+        palestineInfo: 'Palästina zum Nahen Osten mit vollständiger Unterstützung hinzugefügt',
+        moroccoInfo: 'Marokko in Afrika mit marokkanischer Flagge beibehalten'
+      },
+      'es': {
+        title: 'Math4Child',
+        subtitle: 'Aplicación educativa para aprender matemáticas',
+        description: '¡La aplicación #1 para aprender matemáticas en familia!',
+        startFree: 'Empezar gratis',
+        selectLanguage: 'Seleccionar idioma',
+        selectedLanguage: 'Idioma seleccionado',
+        language: 'Idioma',
+        continent: 'Continente',
+        currency: 'Moneda',
+        rtlEnabled: 'Soporte RTL habilitado para este idioma',
+        palestineInfo: 'Palestina añadida a Oriente Medio con soporte completo',
+        moroccoInfo: 'Marruecos en África con bandera marroquí mantenida'
       },
       'ar-PS': {
         title: 'Math4Child',
         subtitle: 'تطبيق تعليمي لتعلم الرياضيات',
         description: 'التطبيق رقم 1 لتعليم الرياضيات للعائلة في فلسطين!',
         startFree: 'ابدأ مجاناً',
+        selectLanguage: 'اختر اللغة',
         selectedLanguage: 'اللغة المختارة',
         language: 'اللغة',
         continent: 'القارة',
         currency: 'العملة',
-        whyChoose: 'لماذا تختار Math4Child؟',
-        personalized: 'مخصص',
-        personalizedDesc: 'متكيف مع مستوى كل طفل',
-        multilingual: 'متعدد اللغات',
-        multilingualDesc: 'لغة متاحة',
-        family: 'عائلي',
-        familyDesc: 'تتبع التقدم للوالدين',
-        families: 'عائلة راضية',
-        satisfaction: 'رضا',
-        languages: 'لغة متاحة'
+        rtlEnabled: 'دعم الكتابة من اليمين إلى اليسار مُفعل',
+        palestineInfo: 'فلسطين مضافة للشرق الأوسط مع دعم كامل',
+        moroccoInfo: 'المغرب في أفريقيا مع الحفاظ على العلم المغربي'
       },
       'ar-MA': {
         title: 'Math4Child',
         subtitle: 'تطبيق تعليمي لتعلم الرياضيات',
         description: 'التطبيق رقم 1 لتعليم الرياضيات للعائلة في المغرب!',
         startFree: 'ابدأ مجاناً',
+        selectLanguage: 'اختر اللغة',
         selectedLanguage: 'اللغة المختارة',
         language: 'اللغة',
         continent: 'القارة',
         currency: 'العملة',
-        whyChoose: 'لماذا تختار Math4Child؟',
-        personalized: 'مخصص',
-        personalizedDesc: 'متكيف مع مستوى كل طفل',
-        multilingual: 'متعدد اللغات',
-        multilingualDesc: 'لغة متاحة',
-        family: 'عائلي',
-        familyDesc: 'تتبع التقدم للوالدين',
-        families: 'عائلة راضية',
-        satisfaction: 'رضا',
-        languages: 'لغة متاحة'
+        rtlEnabled: 'دعم الكتابة من اليمين إلى اليسار مُفعل',
+        palestineInfo: 'فلسطين مضافة للشرق الأوسط مع دعم كامل',
+        moroccoInfo: 'المغرب في أفريقيا مع الحفاظ على العلم المغربي'
       }
     };
     
@@ -151,7 +155,7 @@ export default function HomePage() {
   return (
     <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 ${selectedLanguage.rtl ? 'rtl' : 'ltr'}`}>
       <div className="container mx-auto px-4 py-8">
-        {/* Header avec sélecteur de langue - SYNTAXE CORRECTE */}
+        {/* Header avec sélecteur de langue */}
         <header className="flex justify-between items-center mb-12">
           <h1 className="text-3xl font-bold text-indigo-900">{currentTexts.title}</h1>
           
@@ -233,7 +237,7 @@ export default function HomePage() {
               {currentTexts.startFree}
             </button>
             
-            {/* Section d'informations sur la langue sélectionnée - AJOUT COMPLET */}
+            {/* Section d'informations sur la langue sélectionnée - RESTAURÉE */}
             <div className="mt-12 p-6 bg-white rounded-lg shadow-sm">
               <h3 className="text-lg font-semibold mb-4">
                 {currentTexts.selectedLanguage}
@@ -253,59 +257,59 @@ export default function HomePage() {
               {/* Support RTL */}
               {selectedLanguage.rtl && (
                 <div className="mt-2 text-sm text-indigo-600">
-                  ✨ Support RTL activé pour cette langue
+                  ✨ {currentTexts.rtlEnabled}
                 </div>
               )}
               
-              {/* Informations spéciales pour Palestine et Maroc */}
+              {/* Informations spéciales pour Palestine et Maroc - RESTAURÉES */}
               {selectedLanguage.code === 'ar-PS' && (
                 <div className="mt-2 text-sm text-green-600">
-                  🇵🇸 Palestine ajoutée au Moyen-Orient avec support complet
+                  🇵🇸 {currentTexts.palestineInfo}
                 </div>
               )}
               {selectedLanguage.code === 'ar-MA' && (
                 <div className="mt-2 text-sm text-green-600">
-                  🇲🇦 Maroc en Afrique avec drapeau marocain maintenu
+                  🇲🇦 {currentTexts.moroccoInfo}
                 </div>
               )}
             </div>
 
-            {/* Section statistiques */}
+            {/* Section statistiques - AJOUTÉE */}
             <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="text-center p-6 bg-white rounded-lg shadow-sm">
                 <div className="text-4xl font-bold text-indigo-600 mb-2">100k+</div>
-                <div className="text-gray-600">{currentTexts.families}</div>
+                <div className="text-gray-600">familles satisfaites</div>
               </div>
               <div className="text-center p-6 bg-white rounded-lg shadow-sm">
                 <div className="text-4xl font-bold text-indigo-600 mb-2">98%</div>
-                <div className="text-gray-600">{currentTexts.satisfaction}</div>
+                <div className="text-gray-600">de satisfaction</div>
               </div>
               <div className="text-center p-6 bg-white rounded-lg shadow-sm">
                 <div className="text-4xl font-bold text-indigo-600 mb-2">{UNIVERSAL_LANGUAGES.length}</div>
-                <div className="text-gray-600">{currentTexts.languages}</div>
+                <div className="text-gray-600">langues disponibles</div>
               </div>
             </div>
 
-            {/* Section features */}
+            {/* Section features - AJOUTÉE */}
             <div className="mt-16">
               <h3 className="text-3xl font-bold text-gray-900 mb-12">
-                {currentTexts.whyChoose}
+                Pourquoi choisir Math4Child ?
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div className="p-6 bg-white rounded-lg shadow-sm">
                   <div className="text-4xl mb-4">🎯</div>
-                  <h4 className="text-xl font-bold mb-2">{currentTexts.personalized}</h4>
-                  <p className="text-gray-600">{currentTexts.personalizedDesc}</p>
+                  <h4 className="text-xl font-bold mb-2">Personnalisé</h4>
+                  <p className="text-gray-600">Adapté au niveau de chaque enfant</p>
                 </div>
                 <div className="p-6 bg-white rounded-lg shadow-sm">
                   <div className="text-4xl mb-4">🌍</div>
-                  <h4 className="text-xl font-bold mb-2">{currentTexts.multilingual}</h4>
-                  <p className="text-gray-600">{UNIVERSAL_LANGUAGES.length} {currentTexts.multilingualDesc}</p>
+                  <h4 className="text-xl font-bold mb-2">Multilingue</h4>
+                  <p className="text-gray-600">{UNIVERSAL_LANGUAGES.length} langues disponibles</p>
                 </div>
                 <div className="p-6 bg-white rounded-lg shadow-sm">
                   <div className="text-4xl mb-4">👨‍👩‍👧‍👦</div>
-                  <h4 className="text-xl font-bold mb-2">{currentTexts.family}</h4>
-                  <p className="text-gray-600">{currentTexts.familyDesc}</p>
+                  <h4 className="text-xl font-bold mb-2">En famille</h4>
+                  <p className="text-gray-600">Suivi des progrès pour les parents</p>
                 </div>
               </div>
             </div>

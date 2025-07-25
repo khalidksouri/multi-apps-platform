@@ -166,7 +166,7 @@ export class TestHelpers {
       console.log(`✅ ${foundSelectors.length} sélecteur(s) de langue trouvé(s)`)
       
       // Essayer d'interagir avec le premier sélecteur trouvé
-      const firstSelector = foundSelectors[0].selector
+      const firstSelector = foundSelectors[0]?.selector || "body"
       try {
         const element = this.page.locator(firstSelector).first()
         

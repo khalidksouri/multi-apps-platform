@@ -1,4 +1,4 @@
-import { Page, expect } from '@playwright/test'
+import { Page } from '@playwright/test'
 import { TestHelpers } from './test-helpers'
 
 export class HomePage {
@@ -69,7 +69,7 @@ export class PaymentPage {
       return {
         status: 0,
         ok: false, 
-        error: error.message
+        error: (error instanceof Error ? error.message : String(error))
       }
     }
   }

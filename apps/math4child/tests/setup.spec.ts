@@ -20,7 +20,7 @@ test.describe('🔧 Configuration et Setup', () => {
       console.log(`✅ Serveur accessible - Titre: ${title}`)
       
     } catch (error) {
-      console.log('❌ Serveur non accessible:', error.message)
+      console.log('❌ Serveur non accessible:', (error instanceof Error ? error.message : String(error)))
       throw error
     }
   })
@@ -35,7 +35,7 @@ test.describe('🔧 Configuration et Setup', () => {
     
     // Vérifier qu'il n'y a pas d'erreurs JavaScript critiques
     const jsErrors: string[] = []
-    page.on('console', msg => {
+    page.on('console', (msg: any) => {  // FIX ligne 38: syntaxe correcte pour typer le paramètre
       if (msg.type() === 'error') {
         jsErrors.push(msg.text())
       }
@@ -65,7 +65,7 @@ test.describe('🔧 Configuration et Setup', () => {
   test('Ressources de base chargées', async ({ page }) => {
     const failedRequests: string[] = []
     
-    page.on('response', response => {
+    page.on('response', (response: any) => {  // FIX ligne 68: syntaxe correcte pour typer le paramètre
       if (response.status() >= 400) {
         const url = response.url()
         // Ignorer certaines ressources optionnelles

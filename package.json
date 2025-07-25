@@ -55,7 +55,8 @@
     "test:mobile:ui": "playwright test --config=playwright.config.mobile.ts --ui",
     "test:mobile:debug": "playwright test --config=playwright.config.mobile.ts --debug",
     "clean:mobile": "rm -rf android ios && npx cap add android && npx cap add ios",
-    "health:mobile": "npm run cap:sync && npm run test:mobile -- --timeout=10000 --max-failures=1"
+    "health:mobile": "npm run cap:sync && npm run test:mobile -- --timeout=10000 --max-failures=1",
+    "test:arabic-update": "playwright test tests/translation/arabic-languages-update.spec.ts"
   },
   "dependencies": {
     "@stripe/stripe-js": "4.7.0",
