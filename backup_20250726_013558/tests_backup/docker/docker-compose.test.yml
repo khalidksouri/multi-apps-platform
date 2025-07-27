@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  math4child-app:
+    build:
+      context: ../../apps/math4child
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=test
+      - PORT=3000
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  playwright-tests:
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile.tests
+    depends_on:
+      math4child-app:
+        condition: service_healthy
+    environment:
+      - BASE_URL=http://math4child-app:3000
+      - NODE_ENV=test
+      - CI=true
+    volumes:
+      - ../test-results:/app/test-results
+      - ../playwright-report:/app/playwright-report
+    command: npm run test:ci
+
+  # Service pour les tests de performance avec Lighthouse
+  lighthouse:
+    image: femtopixel/google-lighthouse
+    depends_on:
+      - math4child-app
+    volumes:
+      - ../lighthouse-reports:/home/chrome/reports
+    command: --chrome-flags="--headless --no-sandbox --disable-gpu" --output=html --output-path=/home/chrome/reports/lighthouse-report.html http://math4child-app:3000

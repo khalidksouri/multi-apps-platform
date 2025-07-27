@@ -1,4 +1,4 @@
-export default function Math4ChildPage() {export default function Math4ChildPage() {export default function Math4ChildPage() {export default function Math4ChildPage() {'use client'
+export default function Math4ChildPage() {export default function Math4ChildPage() {export default function Math4ChildPage() {'use client'
 
 import { useState, useEffect } from 'react'
 

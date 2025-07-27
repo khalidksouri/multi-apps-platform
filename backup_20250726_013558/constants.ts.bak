@@ -1,0 +1,249 @@
+import { PricingPlan } from '@/types/pricing';
+
+// Plans optimaux Math4Child selon les données du projet
+export const OPTIMAL_PRICING_PLANS: Record<string, PricingPlan[]> = {
+  monthly: [
+    {
+      id: 'gratuit',
+      name: 'Gratuit',
+      price: 0,
+      period: 'monthly',
+      profiles: 1,
+      features: [
+        '1 profil enfant',
+        'Accès Niveau 1 seulement',
+        '10 exercices par jour',
+        'Suivi de base des progrès'
+      ],
+      button: 'Commencer gratuitement',
+      color: 'gray'
+    },
+    {
+      id: 'famille',
+      name: 'Famille',
+      price: 6.99,
+      originalPrice: 9.99,
+      savings: 'Économisez 30%',
+      period: 'monthly',
+      profiles: 5,
+      features: [
+        '5 profils enfants',
+        'Tous les niveaux 1 → 5',
+        'Exercices illimités',
+        'Suivi détaillé des 100 bonnes réponses',
+        'Statistiques par opération',
+        'Rapports de progression'
+      ],
+      button: 'Choisir ce plan',
+      color: 'blue',
+      popular: true
+    },
+    {
+      id: 'premium',
+      name: 'Premium',
+      price: 4.99,
+      originalPrice: 6.99,
+      savings: 'Économisez 28%',
+      period: 'monthly',
+      profiles: 2,
+      features: [
+        '2 profils enfants',
+        'Tous les niveaux + exercices bonus',
+        'Mode révision niveaux validés',
+        'Défis chronométrés',
+        'Analyse détaillée des erreurs',
+        'Recommandations personnalisées'
+      ],
+      button: 'Choisir ce plan',
+      color: 'purple'
+    },
+    {
+      id: 'ecole',
+      name: 'École',
+      price: 24.99,
+      originalPrice: 29.99,
+      savings: 'Économisez 20%',
+      period: 'monthly',
+      profiles: 30,
+      features: [
+        '30 profils élèves',
+        'Gestion par niveaux (1 à 5)',
+        'Tableau de bord enseignant',
+        'Suivi collectif des validations',
+        'Attribution d\'exercices ciblés',
+        'Rapports de classe détaillés',
+        'Support pédagogique dédié'
+      ],
+      button: 'Choisir ce plan',
+      color: 'green'
+    }
+  ],
+  quarterly: [
+    {
+      id: 'gratuit',
+      name: 'Gratuit',
+      price: 0,
+      period: 'quarterly',
+      profiles: 1,
+      features: [
+        '1 profil enfant',
+        'Accès Niveau 1 seulement',
+        '10 exercices par jour',
+        'Suivi de base des progrès'
+      ],
+      button: 'Commencer gratuitement',
+      color: 'gray'
+    },
+    {
+      id: 'famille',
+      name: 'Famille',
+      price: 18.87,
+      originalPrice: 29.97,
+      savings: 'Économisez 37%',
+      period: 'quarterly',
+      profiles: 5,
+      features: [
+        '5 profils enfants',
+        'Tous les niveaux 1 → 5',
+        'Exercices illimités',
+        'Suivi détaillé des 100 bonnes réponses',
+        'Statistiques par opération',
+        'Rapports de progression'
+      ],
+      button: 'Choisir ce plan',
+      color: 'blue',
+      popular: true
+    },
+    {
+      id: 'premium',
+      name: 'Premium',
+      price: 13.47,
+      originalPrice: 20.97,
+      savings: 'Économisez 36%',
+      period: 'quarterly',
+      profiles: 2,
+      features: [
+        '2 profils enfants',
+        'Tous les niveaux + exercices bonus',
+        'Mode révision niveaux validés',
+        'Défis chronométrés',
+        'Analyse détaillée des erreurs',
+        'Recommandations personnalisées'
+      ],
+      button: 'Choisir ce plan',
+      color: 'purple'
+    },
+    {
+      id: 'ecole',
+      name: 'École',
+      price: 67.47,
+      originalPrice: 89.97,
+      savings: 'Économisez 25%',
+      period: 'quarterly',
+      profiles: 30,
+      features: [
+        '30 profils élèves',
+        'Gestion par niveaux (1 à 5)',
+        'Tableau de bord enseignant',
+        'Suivi collectif des validations',
+        'Attribution d\'exercices ciblés',
+        'Rapports de classe détaillés',
+        'Support pédagogique dédié'
+      ],
+      button: 'Choisir ce plan',
+      color: 'green'
+    }
+  ],
+  annual: [
+    {
+      id: 'gratuit',
+      name: 'Gratuit',
+      price: 0,
+      period: 'annual',
+      profiles: 1,
+      features: [
+        '1 profil enfant',
+        'Accès Niveau 1 seulement',
+        '10 exercices par jour',
+        'Suivi de base des progrès'
+      ],
+      button: 'Commencer gratuitement',
+      color: 'gray'
+    },
+    {
+      id: 'famille',
+      name: 'Famille',
+      price: 58.32,
+      originalPrice: 119.88,
+      savings: 'Économisez 51%',
+      period: 'annual',
+      profiles: 5,
+      features: [
+        '5 profils enfants',
+        'Tous les niveaux 1 → 5',
+        'Exercices illimités',
+        'Suivi détaillé des 100 bonnes réponses',
+        'Statistiques par opération',
+        'Rapports de progression'
+      ],
+      button: 'Choisir ce plan',
+      color: 'blue',
+      popular: true
+    },
+    {
+      id: 'premium',
+      name: 'Premium',
+      price: 41.94,
+      originalPrice: 83.88,
+      savings: 'Économisez 50%',
+      period: 'annual',
+      profiles: 2,
+      features: [
+        '2 profils enfants',
+        'Tous les niveaux + exercices bonus',
+        'Mode révision niveaux validés',
+        'Défis chronométrés',
+        'Analyse détaillée des erreurs',
+        'Recommandations personnalisées',
+        'Mode hors-ligne complet'
+      ],
+      button: 'Choisir ce plan',
+      color: 'purple'
+    },
+    {
+      id: 'ecole',
+      name: 'École',
+      price: 209.93,
+      originalPrice: 359.88,
+      savings: 'Économisez 42%',
+      period: 'annual',
+      profiles: 30,
+      features: [
+        '30 profils élèves',
+        'Gestion par niveaux (1 à 5)',
+        'Tableau de bord enseignant',
+        'Suivi collectif des validations',
+        'Attribution d\'exercices ciblés',
+        'Rapports de classe détaillés',
+        'Support pédagogique dédié'
+      ],
+      button: 'Choisir ce plan',
+      color: 'green'
+    }
+  ]
+};
+
+// Fonctions utilitaires
+export const getPlansByPeriod = (period: 'monthly' | 'quarterly' | 'annual') => {
+  return OPTIMAL_PRICING_PLANS[period] || OPTIMAL_PRICING_PLANS.monthly;
+};
+
+export const getPlanById = (planId: string, period: 'monthly' | 'quarterly' | 'annual') => {
+  const plans = getPlansByPeriod(period);
+  return plans.find(plan => plan.id === planId);
+};
+
+export const getPopularPlan = (period: 'monthly' | 'quarterly' | 'annual') => {
+  const plans = getPlansByPeriod(period);
+  return plans.find(plan => plan.popular);
+};

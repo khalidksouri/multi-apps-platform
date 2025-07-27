@@ -1,0 +1,197 @@
+import { Page, Locator } from '@playwright/test'
+
+// Sélecteurs robustes pour Math4Child
+export const selectors = {
+  // Interface principale
+  appLogo: '[data-testid="app-logo"], .logo, header .calculator',
+  appTitle: 'h1:has-text("Math4Child")',
+  languageSelector: 'select, [data-testid="language-selector"], .language-selector select',
+  freeQuestionsCounter: '[data-testid="free-questions"], .free-questions',
+  
+  // Navigation
+  subscribeButton: 'button:has-text("Subscribe"), button:has-text("S\'abonner"), .subscribe-btn',
+  backButton: 'button:has-text("Back"), button:has-text("Retour"), .back-btn',
+  
+  // Niveaux
+  levelsGrid: '[data-testid="levels"], .levels-grid, .levels',
+  levelCard: (level: string) => `[data-testid="level-${level}"], .level-${level}, [data-level="${level}"]`,
+  progressBar: '.progress, [role="progressbar"], .progress-bar',
+  
+  // Opérations
+  operationsGrid: '[data-testid="operations"], .operations-grid, .operations',
+  operationCard: (op: string) => `[data-testid="operation-${op}"], .operation-${op}, [data-operation="${op}"]`,
+  
+  // Jeu
+  gameView: '.game-view, [data-testid="game"], .game-container',
+  mathProblem: '.problem, [data-testid="problem"], .math-problem',
+  answerInput: 'input[type="text"], input[inputmode="numeric"], .answer-input',
+  validateButton: 'button:has-text("Validate"), button:has-text("Valider"), .validate-btn',
+  nextButton: 'button:has-text("Next"), button:has-text("Suivant"), .next-btn',
+  feedback: '.feedback, [data-testid="feedback"], .correct, .incorrect',
+  gameProgress: '[data-testid="progress"], .progress-counter, .game-progress',
+  
+  // Abonnements
+  subscriptionView: '.subscription-view, [data-testid="subscription"], .subscription',
+  subscriptionTitle: '.subscription-title, h1:has-text("Subscription"), h1:has-text("Abonnement")',
+  planCard: (plan: string) => `[data-testid="plan-${plan}"], .plan-${plan}, [data-plan="${plan}"]`
+}
+
+// Fonction pour attendre et obtenir un élément avec fallbacks
+export async function waitForElement(page: Page, selectors: string[]): Promise<Locator> {
+  for (const selector of selectors) {
+    try {
+      const element = page.locator(selector).first()
+      if (await element.isVisible({ timeout: 5000 })) {
+        return element
+      }
+    } catch (error) {
+      // Continue avec le sélecteur suivant
+      continue
+    }
+  }
+  
+  throw new Error('Aucun sélecteur trouvé parmi: ' + selectors.join(', '))
+}
+
+// Fonction pour trouver le sélecteur de langue
+export async function findLanguageSelector(page: Page): Promise<Locator> {
+  const languageSelectors = [
+    'select[name="language"]',
+    'select[name="lang"]', 
+    'select:has(option[value="fr"])',
+    'select:has(option[value="en"])',
+    '.language-selector select',
+    '[data-testid="language-selector"]',
+    'select'  // Fallback générique
+  ]
+  
+  for (const selector of languageSelectors) {
+    try {
+      const element = page.locator(selector).first()
+      if (await element.isVisible({ timeout: 2000 })) {
+        return element
+      }
+    } catch (error) {
+      // Continue avec le sélecteur suivant
+    }
+  }
+  
+  throw new Error('Sélecteur de langue non trouvé')
+}
+
+// Fonction pour détecter la langue actuelle
+export async function detectCurrentLanguage(page: Page): Promise<string> {
+  const frenchIndicators = [
+    'Français',
+    'Accueil', 
+    'Bienvenue',
+    'éducative',
+    'famille',
+    'mathématiques'
+  ]
+  
+  const englishIndicators = [
+    'English',
+    'Home',
+    'Welcome', 
+    'educational',
+    'family',
+    'mathematics'
+  ]
+  
+  // Vérifier les indicateurs français
+  for (const indicator of frenchIndicators) {
+    try {
+      if (await page.locator(`text=${indicator}`).first().isVisible({ timeout: 1000 })) {
+        return 'fr'
+      }
+    } catch (error) {
+      // Continue
+    }
+  }
+  
+  // Vérifier les indicateurs anglais
+  for (const indicator of englishIndicators) {
+    try {
+      if (await page.locator(`text=${indicator}`).first().isVisible({ timeout: 1000 })) {
+        return 'en'
+      }
+    } catch (error) {
+      // Continue
+    }
+  }
+  
+  return 'unknown'
+}
+
+// Fonction pour changer de langue
+export async function changeLanguage(page: Page, targetLang: 'fr' | 'en'): Promise<boolean> {
+  try {
+    const selector = await findLanguageSelector(page)
+    await selector.selectOption(targetLang)
+    
+    // Attendre un peu pour que le changement prenne effet
+    await page.waitForTimeout(1000)
+    
+    return true
+  } catch (error) {
+    console.log('Impossible de changer la langue:', error.message)
+    return false
+  }
+}
+
+// Fonction pour valider une réponse correcte avec regex corrigée
+export function validateAnswer(answer: string): boolean {
+  // Regex corrigée pour éviter l'erreur "Nothing to repeat"
+  const correctPatterns = [
+    /correct/i,
+    /bonne/i,
+    /good/i,
+    /\+10/,  // Échappé correctement
+    /bravo/i,
+    /excellent/i
+  ]
+  
+  return correctPatterns.some(pattern => pattern.test(answer))
+}
+
+// Fonction utilitaire pour les statistiques
+export async function getAppStats(page: Page) {
+  const stats = {
+    questionsAnswered: 0,
+    correctAnswers: 0,
+    currentLevel: 'unknown',
+    currentLanguage: 'unknown'
+  }
+  
+  try {
+    // Détecter la langue
+    stats.currentLanguage = await detectCurrentLanguage(page)
+    
+    // Chercher des statistiques si disponibles
+    const progressElement = page.locator('.progress, [data-testid="progress"]').first()
+    if (await progressElement.isVisible({ timeout: 2000 })) {
+      const progressText = await progressElement.textContent()
+      if (progressText) {
+        const matches = progressText.match(/(\d+)/)
+        if (matches) {
+          stats.questionsAnswered = parseInt(matches[1])
+        }
+      }
+    }
+  } catch (error) {
+    // Les statistiques ne sont pas critiques
+  }
+  
+  return stats
+}
+
+export default {
+  selectors,
+  waitForElement,
+  findLanguageSelector,
+  detectCurrentLanguage,
+  changeLanguage,
+  validateAnswer,
+  getAppStats
+}

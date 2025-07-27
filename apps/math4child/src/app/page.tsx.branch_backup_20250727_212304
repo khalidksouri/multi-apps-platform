@@ -1,4 +1,4 @@
-export default function Math4ChildPage() {export default function Math4ChildPage() {export default function Math4ChildPage() {export default function Math4ChildPage() {'use client'
+'use client'
 
 import { useState, useEffect } from 'react'
 
@@ -260,7 +260,7 @@ export default function Math4ChildApp() {
             
             {/* Dropdown de langues MAGNIFIQUE */}
             <div style={{ position: 'relative' }}>
-              <div
+              <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                 style={{
                   display: 'flex',
@@ -295,7 +295,7 @@ export default function Math4ChildApp() {
                   transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                   transition: 'transform 0.2s ease'
                 }}>▼</span>
-              </div>
+              </button>
 
               {isDropdownOpen && (
                 <div style={{
@@ -402,7 +402,7 @@ export default function Math4ChildApp() {
                           >
                             <span style={{ fontSize: '1.2em' }}>{language.flag}</span>
                             <span>{language.name}</span>
-                          </div>
+                          </button>
                         ))}
                       </div>
                     )}
@@ -466,7 +466,7 @@ export default function Math4ChildApp() {
                           >
                             <span style={{ fontSize: '1.2em' }}>{language.flag}</span>
                             <span>{language.name}</span>
-                          </div>
+                          </button>
                         ))}
                       </div>
                     ))}
@@ -563,7 +563,7 @@ export default function Math4ChildApp() {
                 flexWrap: 'wrap',
                 marginBottom: '4rem'
               }}>
-                <div style={{
+                <button style={{
                   background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
                   color: 'white',
                   padding: '1.25rem 2.5rem',
@@ -596,7 +596,7 @@ export default function Math4ChildApp() {
                     fontSize: '0.85rem',
                     fontWeight: '600'
                   }}>14{t.daysFree}</span>
-                </div>
+                </button>
                 
                 <button style={{
                   background: 'rgba(255, 255, 255, 0.15)',
@@ -626,7 +626,7 @@ export default function Math4ChildApp() {
                 }}>
                   <span style={{ fontSize: '1.3em' }}>📊</span>
                   {t.comparePrices}
-                </div>
+                </button>
               </div>
             </main>
 
