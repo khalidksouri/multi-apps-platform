@@ -1,805 +1,356 @@
-export default function Math4ChildPage() {export default function Math4ChildPage() {export default function Math4ChildPage() {export default function Math4ChildPage() {'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react';
 
-// DONNÉES COMPLÈTES DES LANGUES - ARABE EN TÊTE
-const LANGUAGES = [
-  { code: 'ar', name: 'العربية', flag: '🇸🇦', region: 'asia', popular: true, rtl: true },
-  { code: 'fr', name: 'Français', flag: '🇫🇷', region: 'europe', popular: true },
-  { code: 'en', name: 'English', flag: '🇺🇸', region: 'world', popular: true },
-  { code: 'es', name: 'Español', flag: '🇪🇸', region: 'europe', popular: true },
-  { code: 'de', name: 'Deutsch', flag: '🇩🇪', region: 'europe', popular: true },
-  { code: 'it', name: 'Italiano', flag: '🇮🇹', region: 'europe' },
-  { code: 'pt', name: 'Português', flag: '🇵🇹', region: 'europe' },
-  { code: 'zh', name: '中文', flag: '🇨🇳', region: 'asia', popular: true },
-  { code: 'ja', name: '日本語', flag: '🇯🇵', region: 'asia', popular: true },
-  { code: 'ko', name: '한국어', flag: '🇰🇷', region: 'asia' },
-  { code: 'hi', name: 'हिन्दी', flag: '🇮🇳', region: 'asia' },
-  { code: 'ru', name: 'Русский', flag: '🇷🇺', region: 'europe' },
-  { code: 'pt-br', name: 'Português (BR)', flag: '🇧🇷', region: 'americas', popular: true }
-]
-
-const REGION_ICONS = { europe: '🇪🇺', asia: '🌏', americas: '🌎', world: '🌍' }
-const REGION_NAMES = {
-  europe: { fr: 'Europe', en: 'Europe', es: 'Europa', de: 'Europa', ar: 'أوروبا', zh: '欧洲', ja: 'ヨーロッパ' },
-  asia: { fr: 'Asie', en: 'Asia', es: 'Asia', de: 'Asien', ar: 'آسيا', zh: '亚洲', ja: 'アジア' },
-  americas: { fr: 'Amériques', en: 'Americas', es: 'Américas', de: 'Amerika', ar: 'الأمريكتين', zh: '美洲', ja: 'アメリカ' },
-  world: { fr: 'International', en: 'International', es: 'Internacional', de: 'International', ar: 'دولي', zh: '国际', ja: '国際' }
+// Types et interfaces
+interface Language {
+  code: string;
+  name: string;
+  nativeName: string;
+  flag: string;
 }
 
-export default function Math4ChildApp() {
-  const [currentLang, setCurrentLang] = useState('fr')
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [mounted, setMounted] = useState(false)
+interface SubscriptionPlan {
+  id: string;
+  name: string;
+  price: number;
+  profiles: number;
+  features: string[];
+  popular?: boolean;
+}
+
+interface Level {
+  id: number;
+  name: string;
+  icon: string;
+  progress: number;
+  isLocked: boolean;
+  isCompleted: boolean;
+}
+
+// Données
+const LANGUAGES: Language[] = [
+  { code: 'fr', name: 'Français', nativeName: 'Français', flag: '🇫🇷' },
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸' },
+  { code: 'es', name: 'Español', nativeName: 'Español', flag: '🇪🇸' },
+  { code: 'de', name: 'Deutsch', nativeName: 'Deutsch', flag: '🇩🇪' },
+  { code: 'it', name: 'Italiano', nativeName: 'Italiano', flag: '🇮🇹' }
+];
+
+const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
+  {
+    id: 'family',
+    name: 'Famille',
+    price: 6.99,
+    profiles: 5,
+    features: [
+      '5 profils enfants',
+      'Tous les niveaux (1 à 5)',
+      'Exercices illimités',
+      'Suivi détaillé des progrès',
+      'Statistiques par opération',
+      'Rapports de progression'
+    ],
+    popular: true
+  },
+  {
+    id: 'premium',
+    name: 'Premium',
+    price: 4.99,
+    profiles: 2,
+    features: [
+      '2 profils enfants',
+      'Tous les niveaux + exercices bonus',
+      'Mode révision niveaux validés',
+      'Défis chronométrés',
+      'Analyse détaillée des erreurs',
+      'Mode hors-ligne complet'
+    ]
+  },
+  {
+    id: 'school',
+    name: 'École',
+    price: 24.99,
+    profiles: 30,
+    features: [
+      '30 profils élèves',
+      'Gestion par niveaux (1 à 5)',
+      'Tableau de bord enseignant',
+      'Suivi collectif des validations',
+      'Attribution d\'exercices ciblés',
+      'Support pédagogique dédié'
+    ]
+  }
+];
+
+const LEVELS: Level[] = [
+  { id: 1, name: 'Niveau 1', icon: '🌱', progress: 75, isLocked: false, isCompleted: false },
+  { id: 2, name: 'Niveau 2', icon: '🌿', progress: 45, isLocked: false, isCompleted: false },
+  { id: 3, name: 'Niveau 3', icon: '🌳', progress: 20, isLocked: false, isCompleted: false },
+  { id: 4, name: 'Niveau 4', icon: '🏔️', progress: 0, isLocked: true, isCompleted: false },
+  { id: 5, name: 'Niveau 5', icon: '🏆', progress: 0, isLocked: true, isCompleted: false }
+];
+
+export default function Math4ChildPage() {
+  const [selectedLanguage, setSelectedLanguage] = useState<Language>(LANGUAGES[0]);
+  const [isLanguageOpen, setIsLanguageOpen] = useState(false);
+  const [selectedLevel, setSelectedLevel] = useState<Level>(LEVELS[0]);
+  const [selectedPlan, setSelectedPlan] = useState<SubscriptionPlan>(SUBSCRIPTION_PLANS[0]);
+
+  const languageDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMounted(true)
-  }, [])
+    const handleClickOutside = (event: MouseEvent) => {
+      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target as Node)) {
+        setIsLanguageOpen(false);
+      }
+    };
 
-  const texts: Record<string, any> = {
-    fr: {
-      title: 'Math4Enfants',
-      subtitle: 'Math4Enfants',
-      description: "L'app éducative n°1 pour apprendre les maths en famille !",
-      startFree: 'Commencer gratuitement',
-      comparePrices: 'Comparer les prix',
-      whyLeader: 'Pourquoi Math4Child est-il leader ?',
-      familiesCount: '100k+ familles',
-      appBadge: 'App éducative #1 en France',
-      joinMessage: 'Rejoignez plus de 100,000 familles qui apprennent déjà !',
-      searchPlaceholder: 'Rechercher une langue...',
-      noResults: 'Aucune langue trouvée',
-      daysFree: 'j gratuit'
-    },
-    en: {
-      title: 'Math4Child',
-      subtitle: 'Math4Child',
-      description: "#1 educational app to learn math as a family!",
-      startFree: 'Start for free',
-      comparePrices: 'Compare prices',
-      whyLeader: 'Why is Math4Child the leader?',
-      familiesCount: '100k+ families',
-      appBadge: '#1 educational app in France',
-      joinMessage: 'Join over 100,000 families already learning!',
-      searchPlaceholder: 'Search a language...',
-      noResults: 'No language found',
-      daysFree: 'd free'
-    },
-    ar: {
-      title: 'Math4أطفال',
-      subtitle: 'Math4أطفال',
-      description: "التطبيق التعليمي #1 لتعلم الرياضيات مع العائلة!",
-      startFree: 'ابدأ مجاناً',
-      comparePrices: 'قارن الأسعار',
-      whyLeader: 'لماذا Math4Child هو الرائد؟',
-      familiesCount: '100k+ عائلة',
-      appBadge: 'التطبيق التعليمي #1 في فرنسا',
-      joinMessage: 'انضم إلى أكثر من 100,000 عائلة تتعلم بالفعل!',
-      searchPlaceholder: 'البحث عن لغة...',
-      noResults: 'لم يتم العثور على لغة',
-      daysFree: 'ي مجاني'
-    },
-    zh: {
-      title: 'Math4儿童',
-      subtitle: 'Math4儿童',
-      description: "与家人一起学习数学的#1教育应用!",
-      startFree: '免费开始',
-      comparePrices: '比较价格',
-      whyLeader: '为什么Math4Child是领导者？',
-      familiesCount: '10万+ 家庭',
-      appBadge: '法国排名第一的教育应用',
-      joinMessage: '加入超过100,000个正在学习的家庭!',
-      searchPlaceholder: '搜索语言...',
-      noResults: '未找到语言',
-      daysFree: '天免费'
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleLanguageChange = (language: Language) => {
+    setSelectedLanguage(language);
+    setIsLanguageOpen(false);
+  };
+
+  const handleLevelSelect = (level: Level) => {
+    if (!level.isLocked) {
+      setSelectedLevel(level);
     }
-  }
+  };
 
-  const t = texts[currentLang] || texts.fr
-  const currentLanguage = LANGUAGES.find(lang => lang.code === currentLang) || LANGUAGES[1]
-
-  // Fonction de recherche
-  const filteredLanguages = LANGUAGES.filter(lang => {
-    if (!searchTerm) return true
-    const search = searchTerm.toLowerCase()
-    return lang.name.toLowerCase().includes(search) || lang.code.toLowerCase().includes(search)
-  })
-
-  // Grouper par région
-  const groupedLanguages = filteredLanguages.reduce((acc, lang) => {
-    if (!acc[lang.region]) acc[lang.region] = []
-    acc[lang.region].push(lang)
-    return acc
-  }, {} as Record<string, any[]>)
-
-  // Langues populaires
-  const popularLanguages = filteredLanguages.filter(lang => lang.popular)
-
-  if (!mounted) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif'
-      }}>
-        <div style={{ 
-          color: 'white', 
-          fontSize: '1.5rem',
-          textAlign: 'center'
-        }}>
-          <div style={{
-            width: '50px',
-            height: '50px',
-            border: '3px solid rgba(255,255,255,0.3)',
-            borderRadius: '50%',
-            borderTopColor: 'white',
-            animation: 'spin 1s linear infinite',
-            margin: '0 auto 20px'
-          }}></div>
-          Chargement de Math4Child...
-        </div>
-      </div>
-    )
-  }
+  const handlePlanSelect = (plan: SubscriptionPlan) => {
+    setSelectedPlan(plan);
+    alert(`Plan ${plan.name} sélectionné pour ${plan.price}€/mois !`);
+  };
 
   return (
-    <>
-      <style jsx>{`
-        @keyframes spin {
-          to { transform: rotate(360deg); }
-        }
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideInFromTop {
-          from { opacity: 0; transform: translateY(-30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideInFromBottom {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes float {
-          0%, 100% { transform: translateY(-10px); }
-          50% { transform: translateY(10px); }
-        }
-
-        /* Scrollbar personnalisé */
-        .dropdown-scroll::-webkit-scrollbar {
-          width: 8px;
-        }
-        .dropdown-scroll::-webkit-scrollbar-track {
-          background: #f1f5f9;
-          border-radius: 4px;
-        }
-        .dropdown-scroll::-webkit-scrollbar-thumb {
-          background: #cbd5e1;
-          border-radius: 4px;
-          transition: background 0.2s ease;
-        }
-        .dropdown-scroll::-webkit-scrollbar-thumb:hover {
-          background: #94a3b8;
-        }
-      `}</style>
-
-      <div style={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-        lineHeight: '1.6'
-      }}>
-        {/* Header Magnifique */}
-        <header style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center',
-          padding: '2rem',
-          maxWidth: '1200px',
-          margin: '0 auto',
-          flexWrap: 'wrap',
-          gap: '2rem',
-          animation: 'slideInFromTop 0.6s ease-out'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <div style={{
-              width: '60px',
-              height: '60px',
-              background: 'linear-gradient(135deg, #ff6b35 0%, #f7931e 100%)',
-              borderRadius: '16px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              boxShadow: '0 8px 24px rgba(255, 107, 53, 0.3)',
-              animation: 'float 3s ease-in-out infinite'
-            }}>
-              <span style={{ fontSize: '28px' }}>🧮</span>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        
+        {/* Header avec sélecteur de langue */}
+        <header className="flex flex-col sm:flex-row justify-between items-center mb-16 gap-4">
+          <div className="flex items-center space-x-4">
+            <div className="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-2xl flex items-center justify-center shadow-lg">
+              <span className="text-white text-3xl font-bold">M</span>
             </div>
             <div>
-              <h1 style={{ 
-                color: 'white', 
-                fontSize: 'clamp(2rem, 5vw, 3rem)', 
-                fontWeight: '800',
-                margin: 0,
-                textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-                letterSpacing: '-0.02em'
-              }}>
-                {t.title}
-              </h1>
-              <p style={{ 
-                color: 'rgba(255, 255, 255, 0.8)', 
-                fontSize: '0.9rem',
-                margin: 0
-              }}>
-                www.math4child.com • Leader mondial
-              </p>
+              <h1 className="text-3xl font-bold text-gray-900">Math4Child</h1>
+              <p className="text-lg text-gray-600">Apprendre les maths en s'amusant</p>
             </div>
           </div>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              background: 'rgba(255, 255, 255, 0.1)',
-              padding: '0.75rem 1rem',
-              borderRadius: '1rem',
-              backdropFilter: 'blur(10px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              color: 'rgba(255, 255, 255, 0.9)',
-              fontSize: '0.9rem',
-              fontWeight: '500'
-            }}>
-              <span>👥</span>
-              {t.familiesCount}
+
+          <div className="relative" ref={languageDropdownRef}>
+            <div
+              onClick={() => setIsLanguageOpen(!isLanguageOpen)}
+              className="flex items-center space-x-3 px-6 py-3 bg-white border-2 border-gray-200 rounded-xl shadow-md hover:shadow-lg hover:border-indigo-300 transition-all duration-200 cursor-pointer"
+            >
+              <span className="text-2xl">{selectedLanguage.flag}</span>
+              <span className="text-sm font-semibold text-gray-700">{selectedLanguage.name}</span>
+              <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
             </div>
-            
-            {/* Dropdown de langues MAGNIFIQUE */}
-            <div style={{ position: 'relative' }}>
-              <div
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  padding: '0.75rem 1.25rem',
-                  borderRadius: '1rem',
-                  backdropFilter: 'blur(15px)',
-                  border: '1px solid rgba(255, 255, 255, 0.25)',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-                  cursor: 'pointer',
-                  fontWeight: '600',
-                  fontSize: '0.95rem',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  color: 'white'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)'
-                  e.currentTarget.style.transform = 'translateY(-1px)'
-                  e.currentTarget.style.boxShadow = '0 12px 40px rgba(0,0,0,0.15)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
-                  e.currentTarget.style.transform = 'translateY(0)'
-                  e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.1)'
-                }}
-              >
-                <span style={{ fontSize: '1.2em' }}>{currentLanguage.flag}</span>
-                <span>{currentLanguage.name}</span>
-                <span style={{ 
-                  transform: isDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s ease'
-                }}>▼</span>
-              </div>
 
-              {isDropdownOpen && (
-                <div style={{
-                  position: 'absolute',
-                  top: '100%',
-                  right: 0,
-                  marginTop: '0.5rem',
-                  width: '320px',
-                  background: 'white',
-                  borderRadius: '1.5rem',
-                  boxShadow: '0 20px 60px rgba(0,0,0,0.15)',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  zIndex: 50,
-                  overflow: 'hidden',
-                  animation: 'fadeIn 0.3s ease-out'
-                }}>
-                  {/* Recherche */}
-                  <div style={{ padding: '1rem', borderBottom: '1px solid #f1f5f9' }}>
-                    <div style={{ position: 'relative' }}>
-                      <input
-                        type="text"
-                        placeholder={t.searchPlaceholder}
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        style={{
-                          width: '100%',
-                          padding: '0.75rem 1rem 0.75rem 2.5rem',
-                          border: '2px solid #e5e7eb',
-                          borderRadius: '0.75rem',
-                          fontSize: '0.9rem',
-                          outline: 'none',
-                          transition: 'border-color 0.2s ease'
-                        }}
-                        onFocus={(e) => e.currentTarget.style.borderColor = '#8b5cf6'}
-                        onBlur={(e) => e.currentTarget.style.borderColor = '#e5e7eb'}
-                      />
-                      <span style={{
-                        position: 'absolute',
-                        left: '0.75rem',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        fontSize: '1.1rem'
-                      }}>🔍</span>
-                    </div>
-                  </div>
-
-                  {/* Contenu scrollable */}
-                  <div className="dropdown-scroll" style={{ 
-                    maxHeight: '300px', 
-                    overflowY: 'auto'
-                  }}>
-                    {/* Langues populaires - SANS BADGES */}
-                    {popularLanguages.length > 0 && !searchTerm && (
-                      <div style={{ padding: '1rem' }}>
-                        <h3 style={{
-                          fontSize: '0.75rem',
-                          fontWeight: '600',
-                          color: '#6b7280',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.05em',
-                          marginBottom: '0.75rem',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem'
-                        }}>
-                          ⭐ Populaires
-                        </h3>
-                        {popularLanguages.map((language) => (
-                          <button
-                            key={`popular-${language.code}`}
-                            onClick={() => {
-                              setCurrentLang(language.code)
-                              setIsDropdownOpen(false)
-                              setSearchTerm('')
-                            }}
-                            style={{
-                              width: '100%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.75rem',
-                              padding: '0.75rem',
-                              borderRadius: '0.5rem',
-                              background: 'transparent',
-                              border: 'none',
-                              cursor: 'pointer',
-                              fontSize: '0.9rem',
-                              fontWeight: '500',
-                              color: currentLang === language.code ? '#8b5cf6' : '#374151',
-                              backgroundColor: currentLang === language.code ? '#f3f4f6' : 'transparent',
-                              transition: 'all 0.2s ease',
-                              flexDirection: language.rtl ? 'row-reverse' : 'row',
-                              textAlign: language.rtl ? 'right' : 'left'
-                            }}
-                            onMouseEnter={(e) => {
-                              if (currentLang !== language.code) {
-                                e.currentTarget.style.backgroundColor = '#f9fafb'
-                              }
-                            }}
-                            onMouseLeave={(e) => {
-                              if (currentLang !== language.code) {
-                                e.currentTarget.style.backgroundColor = 'transparent'
-                              }
-                            }}
-                          >
-                            <span style={{ fontSize: '1.2em' }}>{language.flag}</span>
-                            <span>{language.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Langues groupées par région */}
-                    {Object.entries(groupedLanguages).map(([region, languages]) => (
-                      <div key={region} style={{ 
-                        padding: '1rem',
-                        borderTop: '1px solid #f1f5f9'
-                      }}>
-                        <h3 style={{
-                          fontSize: '0.75rem',
-                          fontWeight: '600',
-                          color: '#6b7280',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.05em',
-                          marginBottom: '0.75rem',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem'
-                        }}>
-                          <span>{REGION_ICONS[region as keyof typeof REGION_ICONS]}</span>
-                          {REGION_NAMES[region as keyof typeof REGION_NAMES][currentLang as keyof typeof REGION_NAMES.europe] || REGION_NAMES[region as keyof typeof REGION_NAMES].fr}
-                        </h3>
-                        {languages.map((language: any) => (
-                          <button
-                            key={language.code}
-                            onClick={() => {
-                              setCurrentLang(language.code)
-                              setIsDropdownOpen(false)
-                              setSearchTerm('')
-                            }}
-                            style={{
-                              width: '100%',
-                              display: 'flex',
-                              alignItems: 'center',
-                              gap: '0.75rem',
-                              padding: '0.75rem',
-                              borderRadius: '0.5rem',
-                              background: 'transparent',
-                              border: 'none',
-                              cursor: 'pointer',
-                              fontSize: '0.9rem',
-                              fontWeight: '500',
-                              color: currentLang === language.code ? '#8b5cf6' : '#374151',
-                              backgroundColor: currentLang === language.code ? '#f3f4f6' : 'transparent',
-                              transition: 'all 0.2s ease',
-                              flexDirection: language.rtl ? 'row-reverse' : 'row',
-                              textAlign: language.rtl ? 'right' : 'left'
-                            }}
-                            onMouseEnter={(e) => {
-                              if (currentLang !== language.code) {
-                                e.currentTarget.style.backgroundColor = '#f9fafb'
-                              }
-                            }}
-                            onMouseLeave={(e) => {
-                              if (currentLang !== language.code) {
-                                e.currentTarget.style.backgroundColor = 'transparent'
-                              }
-                            }}
-                          >
-                            <span style={{ fontSize: '1.2em' }}>{language.flag}</span>
-                            <span>{language.name}</span>
-                          </div>
-                        ))}
-                      </div>
-                    ))}
-
-                    {filteredLanguages.length === 0 && (
-                      <div style={{ 
-                        padding: '2rem', 
-                        textAlign: 'center', 
-                        color: '#6b7280',
-                        fontSize: '0.9rem'
-                      }}>
-                        {t.noResults}
-                      </div>
-                    )}
-                  </div>
+            {isLanguageOpen && (
+              <div className="absolute top-full right-0 mt-2 w-64 bg-white border border-gray-200 rounded-xl shadow-2xl z-50 overflow-hidden">
+                <div className="p-4 bg-gray-50 border-b border-gray-100">
+                  <h3 className="text-sm font-bold text-gray-900">Sélectionner une langue</h3>
                 </div>
-              )}
-            </div>
+                <div className="py-2">
+                  {LANGUAGES.map((language) => (
+                    <div
+                      key={language.code}
+                      onClick={() => handleLanguageChange(language)}
+                      className="px-4 py-3 hover:bg-indigo-50 flex items-center space-x-3 transition-colors cursor-pointer"
+                    >
+                      <span className="text-2xl">{language.flag}</span>
+                      <div className="flex-1">
+                        <div className="font-semibold text-sm text-gray-900">{language.name}</div>
+                        <div className="text-xs text-gray-500">{language.nativeName}</div>
+                      </div>
+                      {language.code === selectedLanguage.code && (
+                        <div className="text-indigo-600 text-lg font-bold">✓</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </header>
 
-        <div style={{ padding: '0 2rem' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            
-            {/* Hero Section MAGNIFIQUE */}
-            <main style={{ 
-              textAlign: 'center', 
-              padding: '2rem 0 4rem',
-              animation: 'slideInFromBottom 0.8s ease-out 0.2s both'
-            }}>
-              <div style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.5rem',
-                background: 'rgba(16, 185, 129, 0.2)',
-                color: 'rgba(255, 255, 255, 0.95)',
-                padding: '0.75rem 1.5rem',
-                borderRadius: '2rem',
-                marginBottom: '2rem',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(16, 185, 129, 0.3)',
-                fontSize: '0.9rem',
-                fontWeight: '600'
-              }}>
-                <span>📊</span>
-                {t.appBadge}
-              </div>
-              
-              <h2 style={{ 
-                color: 'white', 
-                fontSize: 'clamp(2.5rem, 8vw, 6rem)', 
-                fontWeight: '800',
-                marginBottom: '2rem',
-                lineHeight: '1.1',
-                textShadow: '0 4px 8px rgba(0,0,0,0.3)',
-                letterSpacing: '-0.02em',
-                background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text'
-              }}>
-                {t.subtitle}
-              </h2>
-              
-              <p style={{ 
-                color: 'rgba(255, 255, 255, 0.95)', 
-                fontSize: 'clamp(1.2rem, 3vw, 1.8rem)',
-                marginBottom: '1.5rem',
-                maxWidth: '700px',
-                margin: '0 auto 1.5rem auto',
-                lineHeight: '1.6',
-                textShadow: '0 2px 4px rgba(0,0,0,0.2)',
-                fontWeight: '500'
-              }}>
-                {t.description}
-              </p>
+        {/* Titre principal avec design amélioré */}
+        <section className="text-center mb-20">
+          <h2 className="text-6xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent mb-8">
+            Apprends les maths en t'amusant !
+          </h2>
+          <p className="text-2xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+            Découvre une nouvelle façon d'apprendre les mathématiques avec des exercices interactifs et ludiques adaptés à ton niveau.
+          </p>
+        </section>
 
-              <p style={{ 
-                color: 'rgba(255, 255, 255, 0.85)', 
-                fontSize: 'clamp(1rem, 2.5vw, 1.3rem)',
-                marginBottom: '3rem',
-                maxWidth: '600px',
-                margin: '0 auto 3rem auto',
-                lineHeight: '1.6'
-              }}>
-                {t.joinMessage}
-              </p>
-              
-              {/* Boutons CTA MAGNIFIQUES */}
-              <div style={{ 
-                display: 'flex', 
-                gap: '1.5rem', 
-                justifyContent: 'center', 
-                flexWrap: 'wrap',
-                marginBottom: '4rem'
-              }}>
-                <div style={{
-                  background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
-                  color: 'white',
-                  padding: '1.25rem 2.5rem',
-                  border: 'none',
-                  borderRadius: '1.25rem',
-                  fontSize: '1.1rem',
-                  fontWeight: '700',
-                  cursor: 'pointer',
-                  boxShadow: '0 10px 30px rgba(16, 185, 129, 0.4)',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  textTransform: 'none'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'
-                  e.currentTarget.style.boxShadow = '0 15px 40px rgba(16, 185, 129, 0.5)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                  e.currentTarget.style.boxShadow = '0 10px 30px rgba(16, 185, 129, 0.4)'
-                }}>
-                  <span style={{ fontSize: '1.3em' }}>🎁</span>
-                  {t.startFree}
-                  <span style={{
-                    background: 'rgba(255, 255, 255, 0.25)',
-                    padding: '0.3rem 0.6rem',
-                    borderRadius: '0.5rem',
-                    fontSize: '0.85rem',
-                    fontWeight: '600'
-                  }}>14{t.daysFree}</span>
-                </div>
-                
-                <button style={{
-                  background: 'rgba(255, 255, 255, 0.15)',
-                  color: 'white',
-                  padding: '1.25rem 2.5rem',
-                  border: '2px solid rgba(255, 255, 255, 0.3)',
-                  borderRadius: '1.25rem',
-                  fontSize: '1.1rem',
-                  fontWeight: '600',
-                  cursor: 'pointer',
-                  backdropFilter: 'blur(15px)',
-                  transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.75rem',
-                  textTransform: 'none'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.25)'
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.5)'
-                  e.currentTarget.style.transform = 'translateY(-3px) scale(1.02)'
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
-                  e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.3)'
-                  e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                }}>
-                  <span style={{ fontSize: '1.3em' }}>📊</span>
-                  {t.comparePrices}
-                </div>
-              </div>
-            </main>
-
-            {/* Section Pourquoi leader */}
-            <section style={{ 
-              marginBottom: '6rem',
-              animation: 'fadeIn 1s ease-out 0.4s both'
-            }}>
-              <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-                <h3 style={{
-                  color: 'white',
-                  fontSize: 'clamp(2rem, 5vw, 3.5rem)',
-                  fontWeight: '700',
-                  marginBottom: '1rem',
-                  textShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                }}>
-                  {t.whyLeader}
-                </h3>
-              </div>
-
-              {/* Features cards MAGNIFIQUES */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                gap: '2rem',
-                marginBottom: '4rem'
-              }}>
-                {[
-                  { icon: '💰', title: 'Prix le plus compétitif', desc: '40% moins cher que la concurrence', stat: '6.99€/mois vs 8.95€+' },
-                  { icon: '👨‍👩‍👧‍👦', title: 'Gestion familiale avancée', desc: '5 profils avec synchronisation cloud', stat: '5 profils vs 3 max' },
-                  { icon: '📱', title: 'Mode hors-ligne', desc: 'Apprentissage partout', stat: '100% hors-ligne' },
-                  { icon: '📊', title: 'Analytics', desc: 'Rapports automatiques', stat: 'Rapports parents' }
-                ].map((feature, index) => (
-                  <div 
-                    key={index} 
-                    style={{ 
-                      textAlign: 'center',
-                      padding: '2.5rem 2rem',
-                      background: 'rgba(255, 255, 255, 0.1)',
-                      borderRadius: '1.5rem',
-                      backdropFilter: 'blur(15px)',
-                      border: '1px solid rgba(255, 255, 255, 0.2)',
-                      boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-                      transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                      cursor: 'pointer',
-                      color: 'white',
-                      animation: `slideInFromBottom 0.8s ease-out ${0.5 + index * 0.1}s both`
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-10px) scale(1.02)'
-                      e.currentTarget.style.boxShadow = '0 20px 50px rgba(0,0,0,0.2)'
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0) scale(1)'
-                      e.currentTarget.style.boxShadow = '0 8px 32px rgba(0,0,0,0.1)'
-                      e.currentTarget.style.background = 'rgba(255, 255, 255, 0.1)'
-                    }}
-                  >
-                    <div style={{ 
-                      fontSize: '4rem', 
-                      marginBottom: '1.5rem',
-                      filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))',
-                      animation: 'float 3s ease-in-out infinite'
-                    }}>
-                      {feature.icon}
-                    </div>
-                    <h4 style={{ 
-                      fontSize: '1.4rem', 
-                      fontWeight: '700', 
-                      marginBottom: '0.75rem',
-                      textShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                    }}>
-                      {feature.title}
-                    </h4>
-                    <p style={{ 
-                      color: 'rgba(255, 255, 255, 0.9)',
-                      fontSize: '1rem',
-                      lineHeight: '1.6',
-                      marginBottom: '1rem'
-                    }}>
-                      {feature.desc}
-                    </p>
-                    <p style={{
-                      color: feature.stat.includes('Rapports') ? '#fbbf24' : '#10b981',
-                      fontWeight: '600',
-                      fontSize: '0.9rem',
-                      textShadow: '0 1px 2px rgba(0,0,0,0.3)'
-                    }}>
-                      {feature.stat}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Message de succès MAGNIFIQUE */}
-            <div style={{
-              background: 'rgba(255, 255, 255, 0.1)',
-              borderRadius: '2rem',
-              padding: '3rem 2rem',
-              backdropFilter: 'blur(15px)',
-              border: '1px solid rgba(255, 255, 255, 0.2)',
-              boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-              textAlign: 'center',
-              animation: 'fadeIn 1.2s ease-out 0.8s both'
-            }}>
-              <h3 style={{
-                color: 'white',
-                fontSize: '2rem',
-                fontWeight: '700',
-                marginBottom: '2rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '1rem',
-                textShadow: '0 2px 4px rgba(0,0,0,0.3)'
-              }}>
-                🚀 Application Math4Child Déployée avec Succès !
-              </h3>
-              
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                gap: '2rem',
-                marginBottom: '2rem',
-                color: 'rgba(255, 255, 255, 0.9)'
-              }}>
-                <div>
-                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🌍</div>
-                  <h4 style={{ fontWeight: '600', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Multilingue</h4>
-                  <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>Support de 13+ langues avec interface RTL</p>
-                </div>
-                
-                <div>
-                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>🎨</div>
-                  <h4 style={{ fontWeight: '600', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Design Professionnel</h4>
-                  <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>Interface moderne avec glassmorphism</p>
-                </div>
-                
-                <div>
-                  <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚡</div>
-                  <h4 style={{ fontWeight: '600', marginBottom: '0.5rem', fontSize: '1.1rem' }}>Performance Optimale</h4>
-                  <p style={{ fontSize: '0.9rem', opacity: 0.8 }}>Build statique Next.js optimisé</p>
-                </div>
-              </div>
-              
-              <p style={{
-                color: '#10b981',
-                fontWeight: '700',
-                fontSize: '1.3rem',
-                textShadow: '0 2px 4px rgba(0,0,0,0.3)',
-                marginTop: '1rem'
-              }}>
-                ✅ Design Magnifique Restauré sur Netlify !
-              </p>
+        {/* Section progression des niveaux améliorée */}
+        <section className="mb-20">
+          <div className="mb-10 bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-2xl font-bold text-gray-900">Ta progression</h3>
+              <span className="text-sm font-semibold text-indigo-600 bg-indigo-100 px-4 py-2 rounded-full">
+                5 niveaux disponibles
+              </span>
             </div>
-
+            <div className="flex space-x-3">
+              {LEVELS.map((level) => (
+                <div key={level.id} className="flex-1">
+                  <div className="h-4 rounded-full bg-gray-200 overflow-hidden">
+                    {level.progress > 0 && (
+                      <div 
+                        className="h-full bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full transition-all duration-700 ease-out"
+                        style={{ width: `${level.progress}%` }}
+                      />
+                    )}
+                  </div>
+                  <div className="text-sm text-center mt-2 font-semibold text-gray-700">{level.name}</div>
+                  <div className="text-xs text-center text-gray-500">{level.progress}%</div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Fermer le dropdown si on clique ailleurs */}
-        {isDropdownOpen && (
-          <div 
-            style={{
-              position: 'fixed',
-              inset: 0,
-              zIndex: 40
-            }}
-            onClick={() => setIsDropdownOpen(false)}
-          />
-        )}
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+            {LEVELS.map((level) => (
+              <div
+                key={level.id}
+                onClick={() => handleLevelSelect(level)}
+                className={`p-8 bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 cursor-pointer transform hover:scale-105 ${
+                  level.isLocked 
+                    ? 'border-gray-200 opacity-60' 
+                    : selectedLevel.id === level.id
+                    ? 'border-indigo-400 shadow-xl ring-4 ring-indigo-100'
+                    : 'border-gray-200 hover:border-indigo-300 hover:shadow-xl'
+                }`}
+              >
+                <div className="text-center">
+                  <div className="text-5xl mb-4">{level.icon}</div>
+                  <h4 className="font-bold text-gray-900 mb-2 text-lg">{level.name}</h4>
+                  <p className="text-sm text-gray-600 mb-4 font-medium">
+                    {level.isCompleted ? '🎉 Terminé !' : level.isLocked ? '🔒 Verrouillé' : '📚 En cours'}
+                  </p>
+
+                  <div className="mb-4">
+                    <div className="flex justify-between text-sm text-gray-600 mb-2 font-semibold">
+                      <span>Progrès</span>
+                      <span>{level.progress}%</span>
+                    </div>
+                    <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                      <div 
+                        className="h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-full transition-all duration-700 ease-out"
+                        style={{ width: `${level.progress}%` }}
+                      />
+                    </div>
+                  </div>
+
+                  {!level.isLocked && (
+                    <button className="w-full mt-2 px-4 py-2 bg-indigo-600 text-white rounded-lg font-semibold hover:bg-indigo-700 transition-colors text-sm">
+                      {level.progress > 0 ? 'Continuer' : 'Commencer'}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Section plans d'abonnement améliorée */}
+        <section className="mb-16">
+          <div className="text-center mb-16">
+            <h3 className="text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-6">
+              Choisis ton plan
+            </h3>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Accède à tous les niveaux et fonctionnalités avec nos prix les plus compétitifs
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            {SUBSCRIPTION_PLANS.map((plan) => (
+              <div
+                key={plan.id}
+                className={`relative p-8 bg-white rounded-2xl shadow-xl border-2 transition-all duration-300 hover:shadow-2xl hover:scale-105 ${
+                  plan.popular 
+                    ? 'border-indigo-400 ring-4 ring-indigo-100' 
+                    : 'border-gray-200 hover:border-indigo-300'
+                }`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <span className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm px-6 py-2 rounded-full font-bold shadow-lg">
+                      ⭐ Populaire
+                    </span>
+                  </div>
+                )}
+
+                <div className="text-center mb-8">
+                  <h4 className="text-2xl font-bold text-gray-900 mb-4">{plan.name}</h4>
+                  <div className="mb-4">
+                    <span className="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                      {plan.price}€
+                    </span>
+                    <span className="text-gray-500 text-lg font-semibold">/mois</span>
+                  </div>
+                  <div className="text-lg text-gray-600 font-semibold bg-gray-50 py-2 px-4 rounded-lg">
+                    {plan.profiles} profils inclus
+                  </div>
+                </div>
+
+                <ul className="space-y-4 mb-8">
+                  {plan.features.map((feature, index) => (
+                    <li key={index} className="flex items-start">
+                      <span className="text-green-500 mr-3 mt-1 text-lg">✓</span>
+                      <span className="text-gray-700 font-medium">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <button
+                  onClick={() => handlePlanSelect(plan)}
+                  className={`w-full py-4 px-6 rounded-xl font-bold text-lg transition-all duration-300 transform hover:scale-105 ${
+                    plan.popular
+                      ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg hover:shadow-xl'
+                      : 'bg-gray-900 text-white hover:bg-gray-800 shadow-lg hover:shadow-xl'
+                  }`}
+                >
+                  Choisir ce plan
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Section garanties */}
+          <div className="mt-16 bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="text-4xl mb-4">🔒</div>
+                <h4 className="font-bold text-gray-900 mb-2">Paiement sécurisé</h4>
+                <p className="text-gray-600">Transactions protégées et chiffrées</p>
+              </div>
+              <div>
+                <div className="text-4xl mb-4">🔄</div>
+                <h4 className="font-bold text-gray-900 mb-2">Annulation facile</h4>
+                <p className="text-gray-600">Résiliez à tout moment sans frais</p>
+              </div>
+              <div>
+                <div className="text-4xl mb-4">✨</div>
+                <h4 className="font-bold text-gray-900 mb-2">Satisfaction garantie</h4>
+                <p className="text-gray-600">30 jours satisfait ou remboursé</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
       </div>
-    </>
-  )
+    </div>
+  );
 }
