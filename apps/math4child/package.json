@@ -1,12 +1,16 @@
 {
   "name": "math4child",
-  "version": "3.1.0",
-  "description": "Math4Child - Application éducative avec design magnifique",
+  "version": "4.0.0",
+  "description": "Math4Child - Application éducative complète",
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:frontend": "next dev",
     "build": "next build",
     "start": "next start",
+    "test": "playwright test",
+    "test:unit": "cd backend && npm test",
     "lint": "next lint"
   },
   "dependencies": {
@@ -16,10 +20,13 @@
     "typescript": "5.4.5",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
-    "@types/node": "20.14.8"
+    "@types/node": "20.14.8",
+    "zustand": "^4.4.7",
+    "tailwindcss": "^3.3.6",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
   },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=9.0.0"
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
   }
 }

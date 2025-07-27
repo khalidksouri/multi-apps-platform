@@ -1,5 +1,0 @@
-
-> math4child-corrected@4.0.0 type-check
-> echo 'Type check skipped' || true
-
-Type check skipped

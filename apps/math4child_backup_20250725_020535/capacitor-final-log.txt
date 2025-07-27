@@ -1,1 +1,0 @@
-timeout: failed to run command ‘CAPACITOR_BUILD=true’: No such file or directory
