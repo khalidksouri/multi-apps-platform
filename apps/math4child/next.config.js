@@ -1,14 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  env: {
-    NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+  experimental: {
+    appDir: true,
   },
   typescript: {
+    // Permet de construire même avec des erreurs TypeScript (temporaire)
     ignoreBuildErrors: false,
   },
   eslint: {
+    // Permet de construire même avec des erreurs ESLint (temporaire)
     ignoreDuringBuilds: false,
-  }
+  },
+  swcMinify: true,
 }
 
 module.exports = nextConfig

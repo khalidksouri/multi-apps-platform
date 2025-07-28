@@ -1,0 +1,312 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* =============================================================================
+   CORRECTION SÉLECTEUR DE LANGUES - PRIORITÉ MAXIMALE
+   ============================================================================= */
+
+.language-selector {
+  position: relative !important;
+  z-index: 1000 !important;
+}
+
+.language-button {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.5rem !important;
+  padding: 0.75rem 1rem !important;
+  background: white !important;
+  border: 2px solid #d1d5db !important;
+  border-radius: 0.75rem !important;
+  transition: all 0.2s ease !important;
+  cursor: pointer !important;
+  min-width: 160px !important;
+  justify-content: space-between !important;
+}
+
+.language-button:hover {
+  background: #f9fafb !important;
+  border-color: #3b82f6 !important;
+}
+
+.language-button:focus {
+  outline: 2px solid #3b82f6 !important;
+  outline-offset: 2px !important;
+}
+
+.language-flag {
+  font-size: 1.25rem !important;
+  width: 20px !important;
+  text-align: center !important;
+}
+
+.language-name {
+  font-weight: 500 !important;
+  color: #374151 !important;
+  white-space: nowrap !important;
+}
+
+.language-dropdown {
+  position: absolute !important;
+  top: 100% !important;
+  right: 0 !important;
+  margin-top: 0.5rem !important;
+  width: 280px !important;
+  background: white !important;
+  border: 2px solid #e5e7eb !important;
+  border-radius: 1rem !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+  z-index: 1001 !important;
+  max-height: 320px !important;
+  overflow-y: auto !important;
+}
+
+.language-option {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  width: 100% !important;
+  padding: 0.75rem 1rem !important;
+  border: none !important;
+  background: white !important;
+  transition: background-color 0.2s ease !important;
+  cursor: pointer !important;
+  text-align: left !important;
+  border-bottom: 1px solid #f3f4f6 !important;
+}
+
+.language-option:last-child {
+  border-bottom: none !important;
+}
+
+.language-option:hover {
+  background: #f3f4f6 !important;
+}
+
+.language-option:focus {
+  background: #eff6ff !important;
+  outline: none !important;
+}
+
+.language-option-flag {
+  font-size: 1.25rem !important;
+  width: 24px !important;
+  text-align: center !important;
+}
+
+.language-option-text {
+  flex: 1 !important;
+}
+
+.language-option-native {
+  font-weight: 500 !important;
+  color: #111827 !important;
+  line-height: 1.25 !important;
+}
+
+.language-option-english {
+  font-size: 0.875rem !important;
+  color: #6b7280 !important;
+  line-height: 1.25 !important;
+}
+
+.dropdown-arrow {
+  width: 1rem !important;
+  height: 1rem !important;
+  color: #6b7280 !important;
+  transition: transform 0.2s ease !important;
+}
+
+.dropdown-arrow.open {
+  transform: rotate(180deg) !important;
+}
+
+/* =============================================================================
+   ZONE DU PROBLÈME MATHÉMATIQUE - CORRECTION FORCÉE
+   ============================================================================= */
+
+.math-problem {
+  background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 50%, #93c5fd 100%) !important;
+  border: 3px solid #3b82f6 !important;
+  border-radius: 24px !important;
+  padding: 2rem !important;
+  margin: 1rem 0 !important;
+  min-height: 140px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2) !important;
+}
+
+.problem-text {
+  font-size: 4rem !important;
+  font-weight: 900 !important;
+  color: #1e40af !important;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1) !important;
+  line-height: 1.2 !important;
+}
+
+/* =============================================================================
+   INPUT MATHÉMATIQUE - CORRECTION COMPLÈTE
+   ============================================================================= */
+
+.math-input {
+  width: 320px !important;
+  height: 80px !important;
+  font-size: 2.5rem !important;
+  font-weight: 700 !important;
+  text-align: center !important;
+  padding: 1rem !important;
+  border: 4px solid #3b82f6 !important;
+  border-radius: 16px !important;
+  background: #ffffff !important;
+  color: #1f2937 !important;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3) !important;
+  transition: all 0.3s ease !important;
+  outline: none !important;
+  margin: 0 auto !important;
+  display: block !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: textfield !important;
+}
+
+.math-input:focus {
+  border-color: #1d4ed8 !important;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3) !important;
+  transform: scale(1.02) !important;
+  background: #f8fafc !important;
+}
+
+.math-input::placeholder {
+  color: #9ca3af !important;
+  font-weight: 400 !important;
+  opacity: 0.7 !important;
+}
+
+/* Supprimer les flèches des inputs number */
+.math-input::-webkit-outer-spin-button,
+.math-input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+input[type="number"] {
+  -webkit-appearance: none !important;
+  -moz-appearance: textfield !important;
+}
+
+/* =============================================================================
+   ZONE DE DEBUG VISIBLE
+   ============================================================================= */
+
+.debug-zone {
+  background: #fef3c7 !important;
+  border: 2px solid #f59e0b !important;
+  border-radius: 12px !important;
+  padding: 1rem !important;
+  margin: 1rem 0 !important;
+  font-family: 'Courier New', monospace !important;
+}
+
+.debug-title {
+  font-weight: bold !important;
+  color: #92400e !important;
+  margin-bottom: 0.5rem !important;
+}
+
+.debug-item {
+  color: #78350f !important;
+  font-size: 0.875rem !important;
+  margin: 0.25rem 0 !important;
+}
+
+/* =============================================================================
+   STYLES GÉNÉRAUX DE L'APPLICATION
+   ============================================================================= */
+
+.level-card {
+  @apply p-6 bg-white rounded-2xl shadow-lg border-2 border-gray-200 transition-all duration-300 cursor-pointer hover:border-blue-400 hover:shadow-xl hover:scale-105;
+}
+
+.level-card.locked {
+  @apply opacity-60 cursor-not-allowed grayscale;
+}
+
+.level-card.active {
+  @apply border-blue-500 bg-blue-50 ring-4 ring-blue-100;
+}
+
+.operation-card {
+  @apply p-8 bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl shadow-lg border-2 border-purple-200 transition-all duration-300 cursor-pointer hover:from-purple-100 hover:to-pink-100 hover:shadow-xl hover:scale-105;
+}
+
+.btn-primary {
+  @apply bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold py-4 px-10 rounded-2xl shadow-lg hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-105 active:scale-95;
+}
+
+.btn-secondary {
+  @apply bg-white text-gray-700 font-semibold py-3 px-8 rounded-xl shadow-lg border border-gray-300 hover:bg-gray-50 transition-all duration-200;
+}
+
+.progress-bar {
+  @apply w-full bg-gray-200 rounded-full h-4 overflow-hidden;
+}
+
+.progress-fill {
+  @apply h-full bg-gradient-to-r from-green-400 to-blue-500 transition-all duration-700 ease-out;
+}
+
+.modal-overlay {
+  @apply fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50;
+}
+
+.modal-content {
+  @apply bg-white rounded-2xl p-8 max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl;
+}
+
+/* Animation pour les résultats */
+.result-animation {
+  animation: bounceIn 0.6s ease-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
