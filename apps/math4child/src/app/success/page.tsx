@@ -1,74 +1,65 @@
-'use client'
+'use client';
 
-import { Suspense } from 'react'
-import { useSearchParams, useRouter } from 'next/navigation'
+import { Suspense } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 
 // Composant qui utilise useSearchParams (doit être dans Suspense)
 function SuccessContent() {
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const sessionId = searchParams.get('session_id')
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const sessionId = searchParams.get('session_id');
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center">
       <div className="max-w-md mx-auto text-center">
         <div className="mb-8">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-            <span className="text-2xl">✅</span>
+            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
+            </svg>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Paiement Réussi !
-          </h1>
-          <p className="text-gray-600">
-            Votre abonnement Math4Child a été activé avec succès.
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Paiement réussi !</h1>
+          <p className="text-gray-600 mb-4">
+            Merci pour votre abonnement à Math4Child.
           </p>
+          {sessionId && (
+            <p className="text-sm text-gray-500 mb-6">
+              ID de session: {sessionId}
+            </p>
+          )}
         </div>
-
-        {sessionId && (
-          <div className="bg-white p-4 rounded-lg border mb-6">
-            <p className="text-sm text-gray-500 mb-1">ID de session :</p>
-            <p className="font-mono text-xs break-all">{sessionId}</p>
-          </div>
-        )}
-
-        <div className="space-y-3">
-          <button 
+        
+        <div className="space-y-4">
+          <button
+            onClick={() => router.push('/game')}
+            className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+          >
+            Commencer à jouer
+          </button>
+          
+          <button
             onClick={() => router.push('/')}
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+            className="w-full bg-gray-100 text-gray-900 px-6 py-3 rounded-lg font-medium hover:bg-gray-200 transition-colors"
           >
-            Retour à l'accueil
-          </button>
-          <button 
-            onClick={() => router.push('/stripe-test')}
-            className="w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
-          >
-            Tester un autre paiement
+            Retour à l&apos;accueil
           </button>
         </div>
       </div>
     </div>
-  )
+  );
 }
 
-// Composant de chargement
-function SuccessLoading() {
-  return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="max-w-md mx-auto text-center">
-        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
-          <span className="text-2xl">⏳</span>
-        </div>
-        <p className="text-gray-600">Chargement...</p>
-      </div>
-    </div>
-  )
-}
-
-// Page principale avec Suspense
 export default function SuccessPage() {
   return (
-    <Suspense fallback={<SuccessLoading />}>
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+          <p className="mt-2 text-gray-600">Chargement...</p>
+        </div>
+      </div>
+    }>
       <SuccessContent />
     </Suspense>
-  )
+  );
 }

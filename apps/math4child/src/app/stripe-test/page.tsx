@@ -104,7 +104,7 @@ export default function StripeTestPage() {
   const copyCardNumber = async (number: string) => {
     try {
       await navigator.clipboard.writeText(number.replace(/\s/g, ''))
-      console.log(`Copié: ${number}`)
+      // console.log(`Copié: ${number}`)
     } catch (err) {
       console.error('Erreur lors de la copie:', err)
     }

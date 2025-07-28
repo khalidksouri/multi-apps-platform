@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { priceId, mode = 'subscription', testCard } = body
 
-    console.log('🧪 Test Stripe Checkout:', { priceId, mode, testCard })
+    // console.log('🧪 Test Stripe Checkout:', { priceId, mode, testCard })
 
     if (!TEST_PRICES[priceId as keyof typeof TEST_PRICES]) {
       return NextResponse.json({ error: 'Prix non valide pour les tests' }, { status: 400 })
