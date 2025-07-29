@@ -1,43 +1,37 @@
-import './globals.css'
+import type { Metadata } from 'next';
+import './globals.css';
+import { LanguageProvider } from '@/components/providers/LanguageProvider';
 
-export const metadata = {
+export const metadata: Metadata = {
   title: 'Math4Child - Apprendre les maths en s\'amusant',
-  description: 'Application éducative révolutionnaire pour l\'apprentissage des mathématiques. Plus de 100,000 familles nous font confiance.',
-  keywords: 'mathématiques, enfants, éducation, apprentissage, jeux éducatifs',
+  description: 'Application éducative premium pour apprendre les mathématiques en famille. 75+ langues, 5 niveaux, système multilingue complet avec support RTL.',
+  keywords: 'mathématiques, éducation, enfants, apprentissage, jeux éducatifs, multilingue, RTL, arabe, français, espagnol',
   authors: [{ name: 'Math4Child Team' }],
+  icons: {
+    icon: '/favicon.ico',
+  },
+  manifest: '/manifest.json',
   openGraph: {
     title: 'Math4Child - Apprendre les maths en s\'amusant',
-    description: 'Application éducative révolutionnaire pour l\'apprentissage des mathématiques',
+    description: 'Application éducative premium avec système multilingue complet',
     type: 'website',
     locale: 'fr_FR',
+    alternateLocale: ['en_US', 'es_ES', 'de_DE', 'ar_SA'],
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Math4Child - Apprendre les maths en s\'amusant',
-    description: 'Application éducative révolutionnaire pour l\'apprentissage des mathématiques',
-  },
-  viewport: 'width=device-width, initial-scale=1',
-  themeColor: '#2563eb',
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="fr">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/manifest.json" />
-      </head>
+    <html lang="fr" dir="ltr">
       <body className="antialiased">
-        <div id="__next">
+        <LanguageProvider>
           {children}
-        </div>
+        </LanguageProvider>
       </body>
     </html>
-  )
+  );
 }

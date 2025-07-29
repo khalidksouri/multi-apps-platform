@@ -1,54 +1,29 @@
 {
   "name": "math4child-app",
-  "version": "2.0.0",
-  "description": "Application éducative révolutionnaire pour l'apprentissage des mathématiques - 75+ langues, 5 niveaux, multi-plateformes",
+  "version": "4.0.0",
+  "description": "Math4Child - Application éducative complète",
   "private": true,
-  "keywords": ["education", "mathematics", "children", "multilingual", "gamification", "learning"],
-  "author": "Khalid Ksouri <khalidksouri@gmail.com>",
-  "homepage": "https://www.math4child.com",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/khalidksouri/math4child.git"
-  },
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
-    "build:web": "next build && next export",
-    "build:android": "npm run build:web && npx cap build android",
-    "build:ios": "npm run build:web && npx cap build ios",
-    "start": "next start -p 3000",
-    "lint": "next lint",
-    "lint:fix": "next lint --fix",
-    "type-check": "tsc --noEmit",
-    "test": "playwright test",
-    "test:unit": "jest",
-    "test:e2e": "playwright test",
-    "test:i18n": "playwright test --grep='i18n|translation'",
-    "test:mobile": "playwright test --project=mobile",
-    "test:performance": "lighthouse http://localhost:3000",
-    "test:stress": "k6 run tests/stress.js",
-    "test:api": "newman run tests/api-tests.json",
-    "deploy:web": "vercel --prod",
-    "deploy:android": "fastlane android deploy",
-    "deploy:ios": "fastlane ios deploy"
+    "start": "next start",
+    "lint": "next lint"
   },
   "dependencies": {
     "next": "14.2.30",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "@next/font": "14.2.30",
-    "typescript": "5.4.5"
-  },
-  "devDependencies": {
-    "@types/node": "20.14.8",
+    "typescript": "^5.4.5",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0",
-    "@playwright/test": "^1.41.0",
-    "eslint": "^8.0.0",
-    "eslint-config-next": "14.2.30"
+    "@types/node": "^20.14.8",
+    "lucide-react": "^0.263.1",
+    "tailwindcss": "^3.3.6",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.32"
   },
-  "engines": {
-    "node": ">=18.0.0",
-    "npm": ">=8.0.0"
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-next": "14.2.30"
   }
 }
