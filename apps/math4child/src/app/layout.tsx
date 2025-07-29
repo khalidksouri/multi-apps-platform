@@ -1,8 +1,8 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Math4Child - Apprentissage des mathématiques',
-  description: 'Application éducative pour enfants',
+  title: 'Math4Child - Apprendre en s\'amusant',
+  description: 'Application éducative pour apprendre les mathématiques',
 }
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
-      <body>
+      <body className="antialiased">
         {children}
       </body>
     </html>

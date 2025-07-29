@@ -1,266 +1,293 @@
-'use client';
+'use client'
 
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
 
-// Types TypeScript stricts
-interface MathProblem {
-  num1: number;
-  num2: number;
-  correctAnswer: number;
-  operator: string;
+type Operation = '+' | '-' | '×' | '÷'
+type Difficulty = 'facile' | 'moyen' | 'difficile'
+
+interface Exercise {
+  id: number
+  num1: number
+  num2: number
+  operation: Operation
+  correctAnswer: number
+  userAnswer: string
+  isCorrect: boolean | null
 }
 
-type Operation = 'addition' | 'subtraction' | 'multiplication' | 'division';
-type Level = 'beginner' | 'elementary' | 'intermediate' | 'advanced' | 'expert';
-
 export default function ExercisesPage() {
-  const [selectedOperation, setSelectedOperation] = useState<Operation>('addition');
-  const [selectedLevel, setSelectedLevel] = useState<Level>('beginner');
-  const [currentProblem, setCurrentProblem] = useState<MathProblem | null>(null);
-  const [userAnswer, setUserAnswer] = useState('');
-  const [feedback, setFeedback] = useState('');
-  const [score, setScore] = useState(0);
-  const [attempts, setAttempts] = useState(0);
+  const [difficulty, setDifficulty] = useState<Difficulty>('facile')
+  const [operation, setOperation] = useState<Operation>('+')
+  const [currentExercise, setCurrentExercise] = useState<Exercise | null>(null)
+  const [score, setScore] = useState({ correct: 0, total: 0 })
+  const [showResult, setShowResult] = useState(false)
+  const [streak, setStreak] = useState(0)
+  const [sessionTime, setSessionTime] = useState(0)
+  const [isActive, setIsActive] = useState(false)
 
-  const levelConfig = {
-    beginner: { minNum: 1, maxNum: 10 },
-    elementary: { minNum: 1, maxNum: 50 },
-    intermediate: { minNum: 1, maxNum: 100 },
-    advanced: { minNum: 1, maxNum: 500 },
-    expert: { minNum: 1, maxNum: 1000 }
-  };
+  // Timer pour la session
+  useEffect(() => {
+    let interval: NodeJS.Timeout | null = null
+    if (isActive) {
+      interval = setInterval(() => {
+        setSessionTime(time => time + 1)
+      }, 1000)
+    } else if (!isActive && sessionTime !== 0) {
+      if (interval) clearInterval(interval)
+    }
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [isActive, sessionTime])
 
-  const randomInt = (min: number, max: number): number => 
-    Math.floor(Math.random() * (max - min + 1)) + min;
-
-  const generateExercise = (): MathProblem => {
-    const config = levelConfig[selectedLevel];
-    
-    let num1: number = 1;
-    let num2: number = 1;
-    let correctAnswer: number = 2;
-    let operator: string = '+';
-
-    switch (selectedOperation) {
-      case 'addition':
-        operator = '+';
-        num1 = randomInt(config.minNum, config.maxNum);
-        num2 = randomInt(config.minNum, config.maxNum);
-        correctAnswer = num1 + num2;
-        break;
-      
-      case 'subtraction':
-        operator = '-';
-        num1 = randomInt(config.minNum, config.maxNum);
-        num2 = randomInt(config.minNum, Math.min(num1, config.maxNum));
-        if (num1 < num2) {
-          [num1, num2] = [num2, num1];
-        }
-        correctAnswer = num1 - num2;
-        break;
-      
-      case 'multiplication':
-        operator = '×';
-        num1 = randomInt(config.minNum, Math.min(config.maxNum / 10, 20));
-        num2 = randomInt(config.minNum, Math.min(config.maxNum / 10, 20));
-        correctAnswer = num1 * num2;
-        break;
-      
-      case 'division':
-        operator = '÷';
-        correctAnswer = randomInt(config.minNum, Math.min(config.maxNum / 10, 20));
-        num2 = randomInt(2, 12);
-        num1 = correctAnswer * num2;
-        break;
+  // Générer un nouvel exercice
+  const generateExercise = (): Exercise => {
+    const ranges = {
+      facile: { min: 1, max: 10 },
+      moyen: { min: 5, max: 50 },
+      difficile: { min: 10, max: 100 }
     }
 
-    return { num1, num2, correctAnswer, operator };
-  };
+    const range = ranges[difficulty]
+    let num1 = Math.floor(Math.random() * (range.max - range.min + 1)) + range.min
+    let num2 = Math.floor(Math.random() * (range.max - range.min + 1)) + range.min
+    let correctAnswer: number
+
+    switch (operation) {
+      case '+':
+        correctAnswer = num1 + num2
+        break
+      case '-':
+        if (num1 < num2) [num1, num2] = [num2, num1]
+        correctAnswer = num1 - num2
+        break
+      case '×':
+        num1 = Math.floor(Math.random() * 12) + 1
+        num2 = Math.floor(Math.random() * 12) + 1
+        correctAnswer = num1 * num2
+        break
+      case '÷':
+        correctAnswer = Math.floor(Math.random() * 12) + 1
+        num2 = Math.floor(Math.random() * 12) + 1
+        num1 = correctAnswer * num2
+        break
+    }
+
+    return {
+      id: Date.now(),
+      num1,
+      num2,
+      operation,
+      correctAnswer,
+      userAnswer: '',
+      isCorrect: null
+    }
+  }
+
+  // Vérifier la réponse
+  const checkAnswer = () => {
+    if (!currentExercise) return
+    setIsActive(true)
+
+    const userNum = parseInt(currentExercise.userAnswer)
+    const isCorrect = userNum === currentExercise.correctAnswer
+
+    setCurrentExercise(prev => prev ? { ...prev, isCorrect } : null)
+    setShowResult(true)
+    
+    setScore(prev => ({
+      correct: prev.correct + (isCorrect ? 1 : 0),
+      total: prev.total + 1
+    }))
+
+    setStreak(prev => isCorrect ? prev + 1 : 0)
+
+    setTimeout(() => {
+      setCurrentExercise(generateExercise())
+      setShowResult(false)
+    }, 2000)
+  }
+
+  // Démarrer une nouvelle session
+  const startNewSession = () => {
+    setScore({ correct: 0, total: 0 })
+    setStreak(0)
+    setSessionTime(0)
+    setIsActive(false)
+    setCurrentExercise(generateExercise())
+    setShowResult(false)
+  }
 
   useEffect(() => {
-    const problem = generateExercise();
-    setCurrentProblem(problem);
-    setUserAnswer('');
-    setFeedback('');
-  }, [selectedOperation, selectedLevel]);
+    setCurrentExercise(generateExercise())
+  }, [difficulty, operation])
 
-  const checkAnswer = () => {
-    if (!currentProblem || !userAnswer.trim()) return;
-
-    const userNum = parseInt(userAnswer);
-    const isCorrect = userNum === currentProblem.correctAnswer;
-    
-    setAttempts(prev => prev + 1);
-    
-    if (isCorrect) {
-      setScore(prev => prev + 1);
-      setFeedback('✅ Excellent ! Bonne réponse !');
-    } else {
-      setFeedback(`❌ Pas tout à fait ! La bonne réponse est ${currentProblem.correctAnswer}`);
-    }
-  };
-
-  const nextProblem = () => {
-    const newProblem = generateExercise();
-    setCurrentProblem(newProblem);
-    setUserAnswer('');
-    setFeedback('');
-  };
-
-  const getOperationSymbol = (): string => {
-    if (!currentProblem) return '+';
-    return currentProblem.operator;
-  };
-
-  const handleMouseOver = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target as HTMLElement;
-    target.style.transform = 'scale(1.05)';
-  };
-
-  const handleMouseOut = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target as HTMLElement;
-    target.style.transform = 'scale(1)';
-  };
+  const accuracyPercentage = score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    return `${mins}:${secs.toString().padStart(2, '0')}`
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="bg-white rounded-2xl p-6 shadow-lg mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Configuration de l'exercice</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Opération mathématique
-              </label>
-              <select
-                value={selectedOperation}
-                onChange={(e) => setSelectedOperation(e.target.value as Operation)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="addition">Addition (+)</option>
-                <option value="subtraction">Soustraction (-)</option>
-                <option value="multiplication">Multiplication (×)</option>
-                <option value="division">Division (÷)</option>
-              </select>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br">
+      {/* Header */}
+      <header className="bg-white/10 backdrop-blur-sm border-white/20">
+        <div className="max-w-6xl mx-auto px-4 py-4">
+          <Link href="/" className="text-white hover:text-yellow-300 mb-4 block">
+            ← Retour à l'accueil
+          </Link>
+          <h1 className="text-3xl font-bold text-white">📚 Exercices Math4Child</h1>
+          <p className="text-white/80">Entraîne-toi avec des exercices adaptés à ton niveau</p>
+        </div>
+      </header>
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Niveau de difficulté
-              </label>
-              <select
-                value={selectedLevel}
-                onChange={(e) => setSelectedLevel(e.target.value as Level)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              >
-                <option value="beginner">Débutant (1-10)</option>
-                <option value="elementary">Élémentaire (1-50)</option>
-                <option value="intermediate">Intermédiaire (1-100)</option>
-                <option value="advanced">Avancé (1-500)</option>
-                <option value="expert">Expert (1-1000)</option>
-              </select>
-            </div>
+      <div className="max-w-4xl mx-auto px-4 py-8">
+        {/* Configuration */}
+        <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-6 mb-8 border-white/30">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-bold text-white">⚙️ Configuration</h2>
+            <button
+              onClick={startNewSession}
+              className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-xl font-semibold transition-all"
+            >
+              🔄 Nouvelle Session
+            </button>
           </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-white font-semibold mb-2">Difficulté :</label>
+              <select 
+                value={difficulty} 
+                onChange={(e) => setDifficulty(e.target.value as Difficulty)}
+                className="w-full p-3 rounded-xl bg-white/20 text-white border-white/30"
+              >
+                <option value="facile">🟢 Facile (1-10)</option>
+                <option value="moyen">🟡 Moyen (5-50)</option>
+                <option value="difficile">🔴 Difficile (10-100)</option>
+              </select>
+            </div>
 
-          <div className="flex justify-center space-x-8 text-center">
-            <div 
-              className="bg-blue-50 p-4 rounded-lg transition-transform cursor-pointer"
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
-            >
-              <div className="text-2xl font-bold text-blue-600">{score}</div>
-              <div className="text-sm text-blue-800">Bonnes réponses</div>
-            </div>
-            <div 
-              className="bg-green-50 p-4 rounded-lg transition-transform cursor-pointer"
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
-            >
-              <div className="text-2xl font-bold text-green-600">{attempts}</div>
-              <div className="text-sm text-green-800">Tentatives</div>
-            </div>
-            <div 
-              className="bg-purple-50 p-4 rounded-lg transition-transform cursor-pointer"
-              onMouseOver={handleMouseOver}
-              onMouseOut={handleMouseOut}
-            >
-              <div className="text-2xl font-bold text-purple-600">
-                {attempts > 0 ? Math.round((score / attempts) * 100) : 0}%
-              </div>
-              <div className="text-sm text-purple-800">Précision</div>
+            <div>
+              <label className="block text-white font-semibold mb-2">Opération :</label>
+              <select 
+                value={operation} 
+                onChange={(e) => setOperation(e.target.value as Operation)}
+                className="w-full p-3 rounded-xl bg-white/20 text-white border-white/30"
+              >
+                <option value="+">➕ Addition</option>
+                <option value="-">➖ Soustraction</option>
+                <option value="×">✖️ Multiplication</option>
+                <option value="÷">➗ Division</option>
+              </select>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-3xl p-12 shadow-xl text-center">
-          <div className="mb-4">
-            <span className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
-              {selectedOperation.charAt(0).toUpperCase() + selectedOperation.slice(1)} - {selectedLevel.charAt(0).toUpperCase() + selectedLevel.slice(1)}
-            </span>
+        {/* Statistiques */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          <div className="bg-green-500/80 rounded-2xl p-4 text-center">
+            <div className="text-2xl font-bold text-white">{score.correct}</div>
+            <div className="text-white/80">Réussies</div>
           </div>
+          <div className="bg-blue-500/80 rounded-2xl p-4 text-center">
+            <div className="text-2xl font-bold text-white">{accuracyPercentage}%</div>
+            <div className="text-white/80">Précision</div>
+          </div>
+          <div className="bg-orange-500/80 rounded-2xl p-4 text-center">
+            <div className="text-2xl font-bold text-white">{streak}</div>
+            <div className="text-white/80">Suite</div>
+          </div>
+          <div className="bg-purple-500/80 rounded-2xl p-4 text-center">
+            <div className="text-2xl font-bold text-white">{formatTime(sessionTime)}</div>
+            <div className="text-white/80">Temps</div>
+          </div>
+        </div>
 
-          <h2 className="text-3xl font-bold text-gray-900 mb-8">
-            Résous ce calcul
-          </h2>
-          
-          {currentProblem && (
-            <div className="text-6xl font-bold text-blue-600 mb-8">
-              {currentProblem.num1} {getOperationSymbol()} {currentProblem.num2} = ?
+        {/* Exercice actuel */}
+        {currentExercise && (
+          <div className="bg-white/20 backdrop-blur-sm rounded-3xl p-8 text-center border-white/30">
+            <h3 className="text-2xl font-bold text-white mb-6">
+              🧠 Exercice #{score.total + 1}
+            </h3>
+
+            <div className="text-6xl font-bold text-white mb-8">
+              {currentExercise.num1} {currentExercise.operation} {currentExercise.num2} = ?
+            </div>
+
+            {!showResult ? (
+              <div className="space-y-6">
+                <input
+                  type="number"
+                  value={currentExercise.userAnswer}
+                  onChange={(e) => setCurrentExercise(prev => 
+                    prev ? { ...prev, userAnswer: e.target.value } : null
+                  )}
+                  className="text-4xl text-center p-4 rounded-xl bg-white/20 text-white border-white/30 w-48"
+                  placeholder="?"
+                  autoFocus
+                />
+
+                <div>
+                  <button
+                    onClick={checkAnswer}
+                    disabled={!currentExercise.userAnswer}
+                    className="bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all disabled:opacity-50"
+                  >
+                    ✅ Vérifier
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {currentExercise.isCorrect ? (
+                  <div className="bg-green-500/80 rounded-2xl p-6">
+                    <div className="text-4xl mb-2">🎉</div>
+                    <div className="text-2xl font-bold text-white">Bravo !</div>
+                    <div className="text-white/80">Réponse correcte : {currentExercise.correctAnswer}</div>
+                  </div>
+                ) : (
+                  <div className="bg-red-500/80 rounded-2xl p-6">
+                    <div className="text-4xl mb-2">🤔</div>
+                    <div className="text-2xl font-bold text-white">Pas tout à fait...</div>
+                    <div className="text-white/80">
+                      Ta réponse : {currentExercise.userAnswer} | 
+                      Bonne réponse : {currentExercise.correctAnswer}
+                    </div>
+                  </div>
+                )}
+                
+                <div className="text-white/60">
+                  Nouvel exercice dans 2 secondes...
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Badges et encouragements */}
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+          {streak >= 5 && (
+            <div className="bg-yellow-500/80 rounded-2xl p-6 text-center">
+              <div className="text-3xl mb-2">🔥</div>
+              <div className="text-xl font-bold text-white">
+                En feu ! {streak} bonnes réponses !
+              </div>
             </div>
           )}
           
-          <div className="space-y-6">
-            <input
-              type="number"
-              value={userAnswer}
-              onChange={(e) => setUserAnswer(e.target.value)}
-              className="text-4xl text-center border-2 border-gray-300 rounded-xl p-4 w-48 focus:border-blue-500 focus:outline-none"
-              placeholder="?"
-              autoFocus
-              onKeyPress={(e) => {
-                if (e.key === 'Enter') {
-                  checkAnswer();
-                }
-              }}
-            />
-            
-            <div className="flex gap-4 justify-center">
-              <button
-                onClick={checkAnswer}
-                className="px-8 py-4 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors font-semibold text-lg disabled:opacity-50"
-                disabled={!userAnswer.trim()}
-              >
-                Vérifier
-              </button>
-              <button
-                onClick={nextProblem}
-                className="px-8 py-4 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors font-semibold text-lg"
-              >
-                Nouveau calcul
-              </button>
-            </div>
-          </div>
-
-          {feedback && (
-            <div className={`mt-8 p-4 rounded-lg text-lg font-semibold ${
-              feedback.includes('✅') 
-                ? 'bg-green-100 text-green-800' 
-                : 'bg-red-100 text-red-800'
-            }`}>
-              {feedback}
+          {accuracyPercentage >= 90 && score.total >= 5 && (
+            <div className="bg-pink-500/80 rounded-2xl p-6 text-center">
+              <div className="text-3xl mb-2">🏆</div>
+              <div className="text-xl font-bold text-white">
+                Expert ! {accuracyPercentage}% de précision !
+              </div>
             </div>
           )}
-
-          <div className="mt-8 pt-6 border-t border-gray-200">
-            <div className="flex justify-center items-center space-x-6 text-sm text-gray-600">
-              <span>🎯 Niveau: {selectedLevel}</span>
-              <span>📊 Opération: {selectedOperation}</span>
-              <span>🏆 Score: {score}/{attempts}</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
-  );
+  )
 }
