@@ -1,91 +1,47 @@
+'use client'
+
 import { ReactNode } from 'react'
+import { LanguageProvider } from '@/contexts/LanguageContext'
+import Navigation from '@/components/navigation/Navigation'
+import { useLanguage } from '@/contexts/LanguageContext'
+import './globals.css'
 
-export const metadata = {
-  title: 'Math4Child - Application Éducative',
-  description: 'Application révolutionnaire pour l\'apprentissage des mathématiques',
-}
+function LayoutContent({ children }: { children: ReactNode }) {
+  const { currentLanguage, setLanguage } = useLanguage()
 
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode
-}) {
   return (
-    <html lang="fr">
+    <html lang={currentLanguage}>
+      <head>
+        <title>Math4Child - Application Éducative</title>
+        <meta name="description" content="Application révolutionnaire pour l'apprentissage des mathématiques" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body style={{ margin: 0, fontFamily: 'system-ui, sans-serif' }}>
-        <header style={{
-          background: 'white',
-          boxShadow: '0 2px 10px rgba(0,0,0,0.1)',
-          padding: '1rem 2rem',
-          borderBottom: '4px solid #3b82f6'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <div style={{
-                width: '40px',
-                height: '40px',
-                background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                borderRadius: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: 'white',
-                fontWeight: 'bold'
-              }}>
-                M4C
+        <Navigation currentLanguage={currentLanguage} onLanguageChange={setLanguage} />
+        <main className="min-h-[calc(100vh-80px)]">{children}</main>
+        <footer className="bg-gray-900 text-white py-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="flex items-center justify-center space-x-2 mb-4">
+              <div className="w-8 h-8 bg-gradient-to-br from-orange-400 to-red-500 rounded-lg flex items-center justify-center">
+                <span className="text-white text-sm font-bold">M4C</span>
               </div>
-              <div>
-                <h1 style={{ margin: 0, fontSize: '1.5rem', color: '#1f2937' }}>Math4Child</h1>
-                <p style={{ margin: 0, fontSize: '0.75rem', color: '#6b7280' }}>Apprendre en s'amusant</p>
-              </div>
+              <span className="text-xl font-bold">Math4Child</span>
             </div>
-            
-            <nav style={{ display: 'flex', gap: '2rem' }}>
-              <a href="/exercises" style={{ color: '#374151', textDecoration: 'none', fontWeight: '500' }}>
-                🧮 Exercices
-              </a>
-              <a href="/subscription" style={{ color: '#374151', textDecoration: 'none', fontWeight: '500' }}>
-                💎 Abonnement
-              </a>
-              <a href="/dashboard" style={{ color: '#374151', textDecoration: 'none', fontWeight: '500' }}>
-                📊 Tableau de bord
-              </a>
-            </nav>
-            
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-              <span style={{
-                background: '#f3f4f6',
-                color: '#374151',
-                padding: '0.25rem 0.75rem',
-                borderRadius: '1rem',
-                fontSize: '0.75rem',
-                fontWeight: '500'
-              }}>
-                Gratuit
-              </span>
-              <select style={{ padding: '0.25rem 0.5rem', borderRadius: '0.375rem', border: '1px solid #d1d5db' }}>
-                <option value="fr">🇫🇷 FR</option>
-                <option value="en">🇺🇸 EN</option>
-                <option value="es">🇪🇸 ES</option>
-                <option value="ar">🇲🇦 AR</option>
-              </select>
+            <p className="text-gray-400 mb-4">Application éducative révolutionnaire pour l'apprentissage des mathématiques</p>
+            <div className="flex items-center justify-center space-x-6 text-sm text-gray-400">
+              <span>© 2024 Math4Child</span><span>•</span><span>100k+ familles font confiance</span><span>•</span><span>Support multilingue</span>
             </div>
           </div>
-        </header>
-        
-        <main style={{ minHeight: 'calc(100vh - 140px)' }}>
-          {children}
-        </main>
-        
-        <footer style={{
-          background: '#1f2937',
-          color: 'white',
-          padding: '2rem',
-          textAlign: 'center'
-        }}>
-          <p>© 2024 Math4Child. Application éducative révolutionnaire.</p>
         </footer>
       </body>
     </html>
+  )
+}
+
+export default function RootLayout({ children }: { children: ReactNode }) {
+  return (
+    <LanguageProvider>
+      <LayoutContent>{children}</LayoutContent>
+    </LanguageProvider>
   )
 }
