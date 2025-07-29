@@ -1,338 +1,266 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
+import React, { useState, useEffect } from 'react';
+
+// Types TypeScript stricts
+interface MathProblem {
+  num1: number;
+  num2: number;
+  correctAnswer: number;
+  operator: string;
+}
+
+type Operation = 'addition' | 'subtraction' | 'multiplication' | 'division';
+type Level = 'beginner' | 'elementary' | 'intermediate' | 'advanced' | 'expert';
 
 export default function ExercisesPage() {
-  const [selectedLevel, setSelectedLevel] = useState('')
-  const [selectedOperation, setSelectedOperation] = useState('')
-  const [currentProblem, setCurrentProblem] = useState(null)
-  const [userAnswer, setUserAnswer] = useState('')
-  const [score, setScore] = useState(0)
-  const [feedback, setFeedback] = useState('')
+  const [selectedOperation, setSelectedOperation] = useState<Operation>('addition');
+  const [selectedLevel, setSelectedLevel] = useState<Level>('beginner');
+  const [currentProblem, setCurrentProblem] = useState<MathProblem | null>(null);
+  const [userAnswer, setUserAnswer] = useState('');
+  const [feedback, setFeedback] = useState('');
+  const [score, setScore] = useState(0);
+  const [attempts, setAttempts] = useState(0);
 
-  const levels = [
-    { id: 'beginner', name: 'Débutant', age: '4-6 ans', icon: '🌱', color: '#10b981' },
-    { id: 'elementary', name: 'Élémentaire', age: '7-10 ans', icon: '🌿', color: '#3b82f6' },
-    { id: 'intermediate', name: 'Intermédiaire', age: '11-14 ans', icon: '🌳', color: '#8b5cf6' },
-    { id: 'advanced', name: 'Avancé', age: '15-18 ans', icon: '🏔️', color: '#ef4444' }
-  ]
+  const levelConfig = {
+    beginner: { minNum: 1, maxNum: 10 },
+    elementary: { minNum: 1, maxNum: 50 },
+    intermediate: { minNum: 1, maxNum: 100 },
+    advanced: { minNum: 1, maxNum: 500 },
+    expert: { minNum: 1, maxNum: 1000 }
+  };
 
-  const operations = [
-    { id: 'addition', name: 'Addition', symbol: '+', color: '#10b981', exercises: 1250 },
-    { id: 'subtraction', name: 'Soustraction', symbol: '-', color: '#3b82f6', exercises: 980 },
-    { id: 'multiplication', name: 'Multiplication', symbol: '×', color: '#8b5cf6', exercises: 870 },
-    { id: 'division', name: 'Division', symbol: '÷', color: '#ef4444', exercises: 640 }
-  ]
+  const randomInt = (min: number, max: number): number => 
+    Math.floor(Math.random() * (max - min + 1)) + min;
 
-  const generateProblem = () => {
-    if (!selectedLevel || !selectedOperation) return
-
-    let num1, num2, correctAnswer
+  const generateExercise = (): MathProblem => {
+    const config = levelConfig[selectedLevel];
     
-    // Générer des nombres selon le niveau
-    switch (selectedLevel) {
-      case 'beginner':
-        num1 = Math.floor(Math.random() * 10) + 1
-        num2 = Math.floor(Math.random() * 10) + 1
-        break
-      case 'elementary':
-        num1 = Math.floor(Math.random() * 50) + 1
-        num2 = Math.floor(Math.random() * 50) + 1
-        break
-      case 'intermediate':
-        num1 = Math.floor(Math.random() * 100) + 1
-        num2 = Math.floor(Math.random() * 100) + 1
-        break
-      case 'advanced':
-        num1 = Math.floor(Math.random() * 1000) + 1
-        num2 = Math.floor(Math.random() * 1000) + 1
-        break
-    }
+    let num1: number = 1;
+    let num2: number = 1;
+    let correctAnswer: number = 2;
+    let operator: string = '+';
 
-    // Calculer selon l'opération
     switch (selectedOperation) {
       case 'addition':
-        correctAnswer = num1 + num2
-        break
+        operator = '+';
+        num1 = randomInt(config.minNum, config.maxNum);
+        num2 = randomInt(config.minNum, config.maxNum);
+        correctAnswer = num1 + num2;
+        break;
+      
       case 'subtraction':
-        if (num1 < num2) [num1, num2] = [num2, num1] // Éviter les négatifs
-        correctAnswer = num1 - num2
-        break
+        operator = '-';
+        num1 = randomInt(config.minNum, config.maxNum);
+        num2 = randomInt(config.minNum, Math.min(num1, config.maxNum));
+        if (num1 < num2) {
+          [num1, num2] = [num2, num1];
+        }
+        correctAnswer = num1 - num2;
+        break;
+      
       case 'multiplication':
-        correctAnswer = num1 * num2
-        break
+        operator = '×';
+        num1 = randomInt(config.minNum, Math.min(config.maxNum / 10, 20));
+        num2 = randomInt(config.minNum, Math.min(config.maxNum / 10, 20));
+        correctAnswer = num1 * num2;
+        break;
+      
       case 'division':
-        // Assurer une division exacte
-        correctAnswer = Math.floor(Math.random() * 20) + 1
-        num1 = correctAnswer * num2
-        break
+        operator = '÷';
+        correctAnswer = randomInt(config.minNum, Math.min(config.maxNum / 10, 20));
+        num2 = randomInt(2, 12);
+        num1 = correctAnswer * num2;
+        break;
     }
 
-    setCurrentProblem({ num1, num2, correctAnswer })
-    setUserAnswer('')
-    setFeedback('')
-  }
+    return { num1, num2, correctAnswer, operator };
+  };
+
+  useEffect(() => {
+    const problem = generateExercise();
+    setCurrentProblem(problem);
+    setUserAnswer('');
+    setFeedback('');
+  }, [selectedOperation, selectedLevel]);
 
   const checkAnswer = () => {
-    if (!currentProblem || !userAnswer) return
+    if (!currentProblem || !userAnswer.trim()) return;
 
-    const isCorrect = parseInt(userAnswer) === currentProblem.correctAnswer
-
+    const userNum = parseInt(userAnswer);
+    const isCorrect = userNum === currentProblem.correctAnswer;
+    
+    setAttempts(prev => prev + 1);
+    
     if (isCorrect) {
-      setScore(score + 10)
-      setFeedback('🎉 Excellent ! Bonne réponse !')
-      setTimeout(() => {
-        generateProblem()
-      }, 2000)
+      setScore(prev => prev + 1);
+      setFeedback('✅ Excellent ! Bonne réponse !');
     } else {
-      setFeedback(`❌ Pas tout à fait ! La bonne réponse est ${currentProblem.correctAnswer}`)
+      setFeedback(`❌ Pas tout à fait ! La bonne réponse est ${currentProblem.correctAnswer}`);
     }
-  }
+  };
 
-  const getOperationSymbol = () => {
-    const op = operations.find(o => o.id === selectedOperation)
-    return op ? op.symbol : ''
-  }
+  const nextProblem = () => {
+    const newProblem = generateExercise();
+    setCurrentProblem(newProblem);
+    setUserAnswer('');
+    setFeedback('');
+  };
+
+  const getOperationSymbol = (): string => {
+    if (!currentProblem) return '+';
+    return currentProblem.operator;
+  };
+
+  const handleMouseOver = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    target.style.transform = 'scale(1.05)';
+  };
+
+  const handleMouseOut = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    target.style.transform = 'scale(1)';
+  };
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      background: 'linear-gradient(135deg, #eff6ff 0%, #f3e8ff 100%)',
-      padding: '2rem'
-    }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '3rem' }}>
-          <h1 style={{ 
-            fontSize: '3rem', 
-            fontWeight: 'bold', 
-            color: '#1f2937', 
-            marginBottom: '1rem' 
-          }}>
-            🧮 Exercices Mathématiques
-          </h1>
-          <p style={{ fontSize: '1.25rem', color: '#6b7280' }}>
-            Choisissez votre niveau et commencez à apprendre !
-          </p>
-          {score > 0 && (
-            <div style={{
-              background: 'linear-gradient(135deg, #10b981, #3b82f6)',
-              color: 'white',
-              padding: '0.5rem 1.5rem',
-              borderRadius: '2rem',
-              fontSize: '1.125rem',
-              fontWeight: 'bold',
-              display: 'inline-block',
-              marginTop: '1rem'
-            }}>
-              🌟 Score: {score} points
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-2xl p-6 shadow-lg mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 mb-4">Configuration de l'exercice</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Opération mathématique
+              </label>
+              <select
+                value={selectedOperation}
+                onChange={(e) => setSelectedOperation(e.target.value as Operation)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="addition">Addition (+)</option>
+                <option value="subtraction">Soustraction (-)</option>
+                <option value="multiplication">Multiplication (×)</option>
+                <option value="division">Division (÷)</option>
+              </select>
             </div>
-          )}
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Niveau de difficulté
+              </label>
+              <select
+                value={selectedLevel}
+                onChange={(e) => setSelectedLevel(e.target.value as Level)}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                <option value="beginner">Débutant (1-10)</option>
+                <option value="elementary">Élémentaire (1-50)</option>
+                <option value="intermediate">Intermédiaire (1-100)</option>
+                <option value="advanced">Avancé (1-500)</option>
+                <option value="expert">Expert (1-1000)</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex justify-center space-x-8 text-center">
+            <div 
+              className="bg-blue-50 p-4 rounded-lg transition-transform cursor-pointer"
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+            >
+              <div className="text-2xl font-bold text-blue-600">{score}</div>
+              <div className="text-sm text-blue-800">Bonnes réponses</div>
+            </div>
+            <div 
+              className="bg-green-50 p-4 rounded-lg transition-transform cursor-pointer"
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+            >
+              <div className="text-2xl font-bold text-green-600">{attempts}</div>
+              <div className="text-sm text-green-800">Tentatives</div>
+            </div>
+            <div 
+              className="bg-purple-50 p-4 rounded-lg transition-transform cursor-pointer"
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
+            >
+              <div className="text-2xl font-bold text-purple-600">
+                {attempts > 0 ? Math.round((score / attempts) * 100) : 0}%
+              </div>
+              <div className="text-sm text-purple-800">Précision</div>
+            </div>
+          </div>
         </div>
 
-        {/* Sélection du niveau */}
-        <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#1f2937', marginBottom: '1.5rem' }}>
-            Choisissez votre niveau
-          </h2>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
-            gap: '1.5rem' 
-          }}>
-            {levels.map((level) => (
-              <button
-                key={level.id}
-                onClick={() => setSelectedLevel(level.id)}
-                style={{
-                  padding: '1.5rem',
-                  borderRadius: '1rem',
-                  border: selectedLevel === level.id ? `3px solid ${level.color}` : '2px solid #e5e7eb',
-                  background: selectedLevel === level.id ? level.color + '10' : 'white',
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  transform: selectedLevel === level.id ? 'scale(1.05)' : 'scale(1)',
-                  boxShadow: selectedLevel === level.id ? '0 8px 25px rgba(0,0,0,0.15)' : '0 2px 10px rgba(0,0,0,0.1)'
-                }}
-              >
-                <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>{level.icon}</div>
-                <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#1f2937', marginBottom: '0.25rem' }}>
-                  {level.name}
-                </h3>
-                <p style={{ color: '#6b7280', fontSize: '0.875rem' }}>{level.age}</p>
-              </button>
-            ))}
+        <div className="bg-white rounded-3xl p-12 shadow-xl text-center">
+          <div className="mb-4">
+            <span className="bg-blue-100 text-blue-800 px-4 py-2 rounded-full text-sm font-medium">
+              {selectedOperation.charAt(0).toUpperCase() + selectedOperation.slice(1)} - {selectedLevel.charAt(0).toUpperCase() + selectedLevel.slice(1)}
+            </span>
           </div>
-        </section>
 
-        {/* Sélection de l'opération */}
-        <section style={{ marginBottom: '3rem' }}>
-          <h2 style={{ fontSize: '1.5rem', fontWeight: '600', color: '#1f2937', marginBottom: '1.5rem' }}>
-            Choisissez une opération
+          <h2 className="text-3xl font-bold text-gray-900 mb-8">
+            Résous ce calcul
           </h2>
-          <div style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', 
-            gap: '1.5rem' 
-          }}>
-            {operations.map((operation) => (
+          
+          {currentProblem && (
+            <div className="text-6xl font-bold text-blue-600 mb-8">
+              {currentProblem.num1} {getOperationSymbol()} {currentProblem.num2} = ?
+            </div>
+          )}
+          
+          <div className="space-y-6">
+            <input
+              type="number"
+              value={userAnswer}
+              onChange={(e) => setUserAnswer(e.target.value)}
+              className="text-4xl text-center border-2 border-gray-300 rounded-xl p-4 w-48 focus:border-blue-500 focus:outline-none"
+              placeholder="?"
+              autoFocus
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  checkAnswer();
+                }
+              }}
+            />
+            
+            <div className="flex gap-4 justify-center">
               <button
-                key={operation.id}
-                onClick={() => setSelectedOperation(operation.id)}
-                style={{
-                  padding: '1.5rem',
-                  borderRadius: '1rem',
-                  border: selectedOperation === operation.id ? `3px solid ${operation.color}` : '2px solid #e5e7eb',
-                  background: selectedOperation === operation.id ? operation.color + '10' : 'white',
-                  textAlign: 'center',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s',
-                  transform: selectedOperation === operation.id ? 'scale(1.05)' : 'scale(1)',
-                  boxShadow: selectedOperation === operation.id ? '0 8px 25px rgba(0,0,0,0.15)' : '0 2px 10px rgba(0,0,0,0.1)'
-                }}
+                onClick={checkAnswer}
+                className="px-8 py-4 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-colors font-semibold text-lg disabled:opacity-50"
+                disabled={!userAnswer.trim()}
               >
-                <div style={{
-                  width: '4rem',
-                  height: '4rem',
-                  background: operation.color,
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontSize: '1.5rem',
-                  fontWeight: 'bold',
-                  margin: '0 auto 1rem auto'
-                }}>
-                  {operation.symbol}
-                </div>
-                <h3 style={{ fontSize: '1.125rem', fontWeight: '600', color: '#1f2937', marginBottom: '0.25rem' }}>
-                  {operation.name}
-                </h3>
-                <p style={{ color: '#6b7280', fontSize: '0.875rem' }}>{operation.exercises} exercices</p>
+                Vérifier
               </button>
-            ))}
+              <button
+                onClick={nextProblem}
+                className="px-8 py-4 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-colors font-semibold text-lg"
+              >
+                Nouveau calcul
+              </button>
+            </div>
           </div>
-        </section>
 
-        {/* Zone d'exercice */}
-        {selectedLevel && selectedOperation && (
-          <section style={{
-            background: 'white',
-            borderRadius: '1.5rem',
-            padding: '3rem',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.1)',
-            textAlign: 'center'
-          }}>
-            {!currentProblem ? (
-              <div>
-                <h3 style={{ fontSize: '1.5rem', color: '#1f2937', marginBottom: '1.5rem' }}>
-                  Prêt à commencer ?
-                </h3>
-                <button
-                  onClick={generateProblem}
-                  style={{
-                    background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                    color: 'white',
-                    padding: '1rem 2rem',
-                    borderRadius: '0.75rem',
-                    fontSize: '1.125rem',
-                    fontWeight: '600',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s'
-                  }}
-                  onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-                  onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-                >
-                  🚀 Commencer les exercices
-                </button>
-              </div>
-            ) : (
-              <div>
-                <div style={{
-                  fontSize: '3rem',
-                  fontWeight: 'bold',
-                  color: '#1f2937',
-                  marginBottom: '2rem',
-                  padding: '2rem',
-                  background: 'linear-gradient(135deg, #eff6ff, #f3e8ff)',
-                  borderRadius: '1rem',
-                  border: '3px solid #3b82f6'
-                }}>
-                  {currentProblem.num1} {getOperationSymbol()} {currentProblem.num2} = ?
-                </div>
+          {feedback && (
+            <div className={`mt-8 p-4 rounded-lg text-lg font-semibold ${
+              feedback.includes('✅') 
+                ? 'bg-green-100 text-green-800' 
+                : 'bg-red-100 text-red-800'
+            }`}>
+              {feedback}
+            </div>
+          )}
 
-                <div style={{ marginBottom: '2rem' }}>
-                  <input
-                    type="number"
-                    value={userAnswer}
-                    onChange={(e) => setUserAnswer(e.target.value)}
-                    placeholder="Votre réponse"
-                    style={{
-                      fontSize: '2rem',
-                      padding: '1rem',
-                      border: '3px solid #3b82f6',
-                      borderRadius: '0.75rem',
-                      textAlign: 'center',
-                      width: '200px',
-                      marginRight: '1rem'
-                    }}
-                    onKeyPress={(e) => e.key === 'Enter' && checkAnswer()}
-                  />
-                  <button
-                    onClick={checkAnswer}
-                    style={{
-                      background: '#10b981',
-                      color: 'white',
-                      border: 'none',
-                      padding: '1rem 2rem',
-                      fontSize: '1.125rem',
-                      fontWeight: '600',
-                      borderRadius: '0.75rem',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    ✓ Vérifier
-                  </button>
-                </div>
-
-                {feedback && (
-                  <div style={{
-                    fontSize: '1.25rem',
-                    fontWeight: '600',
-                    padding: '1rem 2rem',
-                    borderRadius: '0.75rem',
-                    background: feedback.includes('🎉') ? '#dcfce7' : '#fef2f2',
-                    color: feedback.includes('🎉') ? '#166534' : '#dc2626',
-                    display: 'inline-block'
-                  }}>
-                    {feedback}
-                  </div>
-                )}
-
-                <div style={{ marginTop: '2rem' }}>
-                  <button
-                    onClick={generateProblem}
-                    style={{
-                      background: '#6b7280',
-                      color: 'white',
-                      border: 'none',
-                      padding: '0.75rem 1.5rem',
-                      fontSize: '1rem',
-                      borderRadius: '0.5rem',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    🔄 Nouveau problème
-                  </button>
-                </div>
-              </div>
-            )}
-          </section>
-        )}
+          <div className="mt-8 pt-6 border-t border-gray-200">
+            <div className="flex justify-center items-center space-x-6 text-sm text-gray-600">
+              <span>🎯 Niveau: {selectedLevel}</span>
+              <span>📊 Opération: {selectedOperation}</span>
+              <span>🏆 Score: {score}/{attempts}</span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }

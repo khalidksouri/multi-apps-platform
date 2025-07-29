@@ -1,166 +1,188 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
+import React, { useState } from 'react';
+import Link from 'next/link';
 
 export default function HomePage() {
-  const [selectedAge, setSelectedAge] = useState('')
+  const [language, setLanguage] = useState('fr');
+
+  const handleMouseOver = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    target.style.transform = 'scale(1.05)';
+  };
+
+  const handleMouseOut = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    target.style.transform = 'scale(1)';
+  };
+
+  const handleFeatureMouseOver = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    target.style.borderColor = '#3b82f6';
+    target.style.color = '#3b82f6';
+  };
+
+  const handleFeatureMouseOut = (e: React.MouseEvent<HTMLElement>) => {
+    const target = e.target as HTMLElement;
+    target.style.borderColor = '#d1d5db';
+    target.style.color = '#374151';
+  };
+
+  const translations = {
+    fr: {
+      title: 'Math4Child',
+      subtitle: 'L\'apprentissage des mathématiques rendu amusant pour les enfants',
+      description: 'Une application éducative interactive qui aide les enfants à maîtriser les mathématiques de base avec des exercices personnalisés et un suivi des progrès.',
+      startLearning: 'Commencer l\'apprentissage',
+      viewPlans: 'Voir les formules',
+      features: 'Fonctionnalités',
+      featuresSubtitle: 'Tout ce dont votre enfant a besoin pour réussir en mathématiques'
+    },
+    en: {
+      title: 'Math4Child',
+      subtitle: 'Making math learning fun for children',
+      description: 'An interactive educational app that helps children master basic mathematics with personalized exercises and progress tracking.',
+      startLearning: 'Start Learning',
+      viewPlans: 'View Plans',
+      features: 'Features',
+      featuresSubtitle: 'Everything your child needs to succeed in mathematics'
+    }
+  };
+
+  const t = translations[language as keyof typeof translations];
 
   return (
-    <div style={{ background: 'linear-gradient(135deg, #eff6ff 0%, #f3e8ff 100%)', minHeight: '100vh' }}>
-      {/* Hero Section */}
-      <section style={{ padding: '5rem 2rem', textAlign: 'center' }}>
-        <div style={{ maxWidth: '1024px', margin: '0 auto' }}>
-          <h1 style={{
-            fontSize: '3.5rem',
-            fontWeight: 'bold',
-            color: '#1f2937',
-            marginBottom: '1.5rem',
-            background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent'
-          }}>
-            🧮 Math4Child
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+      <header className="bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div className="flex items-center">
+              <div className="text-2xl font-bold text-blue-600">
+                🧮 {t.title}
+              </div>
+            </div>
+            <nav className="flex space-x-8">
+              <Link href="/" className="text-gray-700 hover:text-blue-600 font-medium">
+                Accueil
+              </Link>
+              <Link href="/exercises" className="text-gray-700 hover:text-blue-600 font-medium">
+                Exercices
+              </Link>
+              <Link href="/subscription" className="text-gray-700 hover:text-blue-600 font-medium">
+                Abonnement
+              </Link>
+            </nav>
+            <div className="flex items-center space-x-4">
+              <select
+                value={language}
+                onChange={(e) => setLanguage(e.target.value)}
+                className="border border-gray-300 rounded-md px-3 py-1 text-sm"
+              >
+                <option value="fr">🇫🇷 Français</option>
+                <option value="en">🇺🇸 English</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section className="py-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            {t.title}
           </h1>
-          <p style={{
-            fontSize: '1.25rem',
-            color: '#6b7280',
-            marginBottom: '2rem',
-            maxWidth: '600px',
-            margin: '0 auto 2rem auto'
-          }}>
-            L'application éducative révolutionnaire qui rend l'apprentissage 
-            des mathématiques amusant et accessible pour tous les enfants.
+          <p className="text-xl md:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            {t.subtitle}
+          </p>
+          <p className="text-lg text-gray-500 mb-12 max-w-2xl mx-auto">
+            {t.description}
           </p>
           
-          <div style={{ marginBottom: '2rem' }}>
-            <label style={{ display: 'block', fontSize: '1.125rem', fontWeight: '500', color: '#374151', marginBottom: '1rem' }}>
-              Sélectionnez l'âge de votre enfant :
-            </label>
-            <select
-              value={selectedAge}
-              onChange={(e) => setSelectedAge(e.target.value)}
-              style={{
-                padding: '0.75rem 1.5rem',
-                fontSize: '1.125rem',
-                border: '2px solid #d1d5db',
-                borderRadius: '0.5rem',
-                background: 'white'
-              }}
-            >
-              <option value="">Choisir un âge...</option>
-              <option value="4-6">4-6 ans (Maternelle)</option>
-              <option value="7-10">7-10 ans (Primaire)</option>
-              <option value="11-14">11-14 ans (Collège)</option>
-              <option value="15-18">15-18 ans (Lycée)</option>
-            </select>
-          </div>
-
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <a
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
               href="/exercises"
-              style={{
-                background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-                color: 'white',
-                padding: '1rem 2rem',
-                borderRadius: '0.5rem',
-                fontSize: '1.125rem',
-                fontWeight: '600',
-                textDecoration: 'none',
-                display: 'inline-block',
-                transition: 'transform 0.2s'
-              }}
-              onMouseOver={(e) => e.target.style.transform = 'scale(1.05)'}
-              onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+              className="bg-blue-600 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:bg-blue-700"
+              onMouseOver={handleMouseOver}
+              onMouseOut={handleMouseOut}
             >
-              🚀 Commencer gratuitement
-            </a>
-            <a
+              {t.startLearning}
+            </Link>
+            <Link
               href="/subscription"
-              style={{
-                background: 'white',
-                color: '#374151',
-                border: '2px solid #d1d5db',
-                padding: '1rem 2rem',
-                borderRadius: '0.5rem',
-                fontSize: '1.125rem',
-                fontWeight: '600',
-                textDecoration: 'none',
-                display: 'inline-block',
-                transition: 'all 0.2s'
-              }}
-              onMouseOver={(e) => { e.target.style.borderColor = '#3b82f6'; e.target.style.color = '#3b82f6' }}
-              onMouseOut={(e) => { e.target.style.borderColor = '#d1d5db'; e.target.style.color = '#374151' }}
+              className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg border-2 border-blue-600 hover:bg-blue-50"
+              onMouseOver={handleFeatureMouseOver}
+              onMouseOut={handleFeatureMouseOut}
             >
-              💎 Voir les abonnements
-            </a>
+              {t.viewPlans}
+            </Link>
           </div>
         </div>
       </section>
 
-      {/* Fonctionnalités */}
-      <section style={{ padding: '4rem 2rem', background: 'white' }}>
-        <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '2rem', fontWeight: 'bold', textAlign: 'center', color: '#1f2937', marginBottom: '3rem' }}>
-            ✨ Fonctionnalités principales
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">{t.features}</h2>
+            <p className="text-xl text-gray-600">{t.featuresSubtitle}</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { icon: '🧮', title: 'Exercices Adaptés', desc: 'Plus de 10 000 exercices personnalisés' },
-              { icon: '🎯', title: 'Suivi Personnalisé', desc: 'IA qui s\'adapte au rythme de l\'enfant' },
-              { icon: '🏆', title: 'Gamification', desc: 'Points, badges et défis motivants' },
-              { icon: '🌍', title: 'Multilingue', desc: 'Interface en 14 langues' }
+              { icon: '🧮', title: 'Exercices Personnalisés', description: 'Des problèmes adaptés au niveau de votre enfant' },
+              { icon: '🎯', title: 'Suivi des Progrès', description: 'Visualisez les améliorations en temps réel' },
+              { icon: '📊', title: 'Statistiques Détaillées', description: 'Analyse complète des performances' },
+              { icon: '🎮', title: 'Apprentissage Ludique', description: 'Rend les mathématiques amusantes' },
+              { icon: '🌍', title: 'Multilingue', description: 'Disponible en plusieurs langues' },
+              { icon: '📱', title: 'Multi-Plateforme', description: 'Web, Android et iOS' }
             ].map((feature, index) => (
-              <div key={index} style={{
-                textAlign: 'center',
-                padding: '2rem',
-                background: 'white',
-                borderRadius: '1rem',
-                boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
-                border: '1px solid #f3f4f6'
-              }}>
-                <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{feature.icon}</div>
-                <h3 style={{ fontSize: '1.25rem', fontWeight: '600', color: '#1f2937', marginBottom: '0.5rem' }}>
-                  {feature.title}
-                </h3>
-                <p style={{ color: '#6b7280' }}>{feature.desc}</p>
+              <div key={index} className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="text-4xl mb-4">{feature.icon}</div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3">{feature.title}</h3>
+                <p className="text-gray-600">{feature.description}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA Final */}
-      <section style={{
-        padding: '4rem 2rem',
-        background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)',
-        color: 'white',
-        textAlign: 'center'
-      }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <h2 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem' }}>
-            🎯 Prêt à commencer ?
-          </h2>
-          <p style={{ fontSize: '1.25rem', marginBottom: '2rem', opacity: 0.9 }}>
-            Rejoignez plus de 50 000 familles qui font confiance à Math4Child
-          </p>
-          <a
-            href="/exercises"
-            style={{
-              background: 'white',
-              color: '#3b82f6',
-              padding: '1rem 2rem',
-              borderRadius: '0.5rem',
-              fontSize: '1.125rem',
-              fontWeight: '600',
-              textDecoration: 'none',
-              display: 'inline-block',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.2)'
-            }}
-          >
-            🚀 Commencer maintenant
-          </a>
+      <section className="py-20 bg-blue-600">
+        <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
+          <h2 className="text-4xl font-bold text-white mb-6">Prêt à commencer l'aventure mathématique ?</h2>
+          <p className="text-xl text-blue-100 mb-8">Rejoignez des milliers de familles qui font confiance à Math4Child</p>
+          <Link href="/exercises" className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut}>
+            Commencer gratuitement
+          </Link>
         </div>
       </section>
+
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div className="col-span-1 md:col-span-2">
+              <div className="text-2xl font-bold mb-4">🧮 Math4Child</div>
+              <p className="text-gray-400 mb-4">L'application qui rend l'apprentissage des mathématiques amusant et efficace pour tous les enfants.</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Liens rapides</h3>
+              <ul className="space-y-2">
+                <li><Link href="/" className="text-gray-400 hover:text-white">Accueil</Link></li>
+                <li><Link href="/exercises" className="text-gray-400 hover:text-white">Exercices</Link></li>
+                <li><Link href="/subscription" className="text-gray-400 hover:text-white">Abonnement</Link></li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Support</h3>
+              <ul className="space-y-2">
+                <li><span className="text-gray-400">Email: support@math4child.com</span></li>
+                <li><span className="text-gray-400">Version: 4.0.0</span></li>
+              </ul>
+            </div>
+          </div>
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center">
+            <p className="text-gray-400">© 2025 Math4Child. Tous droits réservés.</p>
+          </div>
+        </div>
+      </footer>
     </div>
-  )
+  );
 }
