@@ -1,20 +1,41 @@
 {
-  "name": "math4child-monorepo",
-  "version": "4.0.0",
+  "name": "multi-apps-platform",
+  "version": "4.2.0",
+  "description": "Multi-Apps Platform - Écosystème d'applications avec support I18n universel",
   "private": true,
   "workspaces": [
     "apps/*"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=apps/math4child",
-    "build": "npm run build --workspace=apps/math4child",
-    "start": "npm run start --workspace=apps/math4child",
-    "clean": "rm -rf apps/*/node_modules apps/*/.next node_modules"
+    "dev:all": "concurrently \"npm run dev --workspace=apps/postmath\" \"npm run dev --workspace=apps/unitflip\" \"npm run dev --workspace=apps/budgetcron\" \"npm run dev --workspace=apps/ai4kids\" \"npm run dev --workspace=apps/multiai\"",
+    "build:all": "npm run build --workspaces",
+    "start:all": "npm run start --workspaces",
+    "lint:all": "npm run lint --workspaces",
+    "clean:all": "npm run clean --workspaces",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:translation": "playwright test --project=translation",
+    "test:rtl": "playwright test --project=rtl",
+    "test:apps": "playwright test --project=apps",
+    "test:report": "playwright show-report",
+    "install:browsers": "npx playwright install --with-deps",
+    "validate": "npm run lint:all && npm run test",
+    "install:all": "npm install --workspaces"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "concurrently": "^8.2.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.11"
+    "@playwright/test": "1.41.2",
+    "concurrently": "^8.2.2",
+    "typescript": "5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": ["multi-apps", "i18n", "multilingual", "rtl", "arabic", "platform"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/username/multi-apps-platform.git"
   }
 }

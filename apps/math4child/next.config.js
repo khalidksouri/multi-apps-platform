@@ -1,22 +1,24 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
-  
-  // Support RTL
-  i18n: {
-    locales: ['fr', 'en', 'es', 'de', 'ar', 'zh', 'ja', 'it', 'pt', 'fi'],
-    defaultLocale: 'fr',
-  },
-  
-  // Optimisations
+  // Configuration optimisée pour math4child
+  reactStrictMode: true,
   swcMinify: true,
   
-  // Images
+  // Support I18n
+  i18n: {
+    locales: ['en', 'fr', 'es', 'de', 'ar'],
+    defaultLocale: 'en',
+  },
+  
+  // Configuration des images
   images: {
     domains: ['localhost'],
     unoptimized: process.env.NODE_ENV === 'development'
+  },
+  
+  // Variables d'environnement
+  env: {
+    CUSTOM_KEY: 'math4child',
   },
   
   // Headers de sécurité
@@ -37,12 +39,6 @@ const nextConfig = {
       },
     ]
   },
-  
-  // Support RTL
-  env: {
-    RTL_SUPPORT: 'true',
-    ARABIC_FONTS: 'true',
-  }
 }
 
 module.exports = nextConfig

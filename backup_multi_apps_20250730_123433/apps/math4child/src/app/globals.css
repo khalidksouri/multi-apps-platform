@@ -1,0 +1,104 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import des polices arabes */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Amiri:wght@400;700&display=swap');
+
+/* ===================================================================
+   STYLES RTL POUR MATH4CHILD
+   ================================================================= */
+
+/* Police arabe pour RTL */
+[lang="ar"], [dir="rtl"] {
+  font-family: 'Cairo', 'Amiri', 'Noto Sans Arabic', system-ui, sans-serif;
+  font-feature-settings: "liga" 1, "kern" 1;
+}
+
+/* Direction globale RTL */
+[dir="rtl"] {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] * {
+  direction: rtl;
+}
+
+/* Conteneurs RTL */
+[dir="rtl"] .container {
+  direction: rtl;
+}
+
+/* Pricing Cards RTL */
+[dir="rtl"] .pricing-card {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .pricing-header {
+  text-align: center;
+  direction: rtl;
+}
+
+/* Feature Lists RTL */
+[dir="rtl"] .feature-list {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .feature-icon {
+  order: 2;
+  margin-left: 0;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+[dir="rtl"] .feature-text {
+  order: 1;
+  text-align: right;
+}
+
+/* Badges RTL */
+[dir="rtl"] .badge-recommended {
+  left: auto;
+  right: 1rem;
+  top: -0.75rem;
+}
+
+/* Responsive RTL */
+@media (max-width: 768px) {
+  [dir="rtl"] .grid-cols-1.md\:grid-cols-3 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  [dir="rtl"] .pricing-card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* FAQ RTL */
+[dir="rtl"] .faq-container {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .faq-item {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Contact section RTL */
+[dir="rtl"] .contact-section {
+  direction: rtl;
+  text-align: center;
+}

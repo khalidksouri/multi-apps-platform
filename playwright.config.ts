@@ -1,83 +1,59 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices } from '@playwright/test'
+
+// Applications disponibles (math4child au lieu de postmath)
+const availableApps = []
+const appsToCheck = ['math4child', 'unitflip', 'budgetcron', 'ai4kids', 'multiai']
+
+console.log('🔍 Vérification des applications disponibles...')
+for (const app of appsToCheck) {
+  try {
+    require('fs').accessSync(`apps/${app}`, require('fs').constants.F_OK)
+    availableApps.push(app)
+    console.log(`✅ ${app}: Trouvée`)
+  } catch (e) {
+    console.log(`⚠️ ${app}: Non trouvée, ignorée dans les tests`)
+  }
+}
+
+console.log(`📊 Applications disponibles pour les tests: ${availableApps.join(', ')}`)
 
 export default defineConfig({
-  testDir: './tests',
+  testDir: './tests/specs',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 3 : 2,
-  workers: process.env.CI ? 2 : undefined,
-  timeout: 60000,
-  
-  reporter: [
-    ['html', { outputFolder: 'playwright-report', open: 'never' }],
-    ['json', { outputFile: 'test-results/results.json' }],
-    ['junit', { outputFile: 'test-results/junit.xml' }],
-    process.env.CI ? ['github'] : ['list']
-  ],
-  
-  outputDir: 'test-results/',
-  
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: 'html',
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000',
-    actionTimeout: 20000,
-    navigationTimeout: 45000,
-    trace: 'retain-on-failure',
+    trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
-    viewport: { width: 1280, height: 720 },
-    ignoreHTTPSErrors: true,
-    expect: {
-      timeout: 15000
-    }
   },
 
   projects: [
     {
-      name: 'smoke',
-      testMatch: /.*\.smoke\.spec\.ts$/,
-      use: { ...devices['Desktop Chrome'] },
-      retries: 1
-    },
-    {
       name: 'translation',
-      testMatch: /.*translation.*\.spec\.ts$/,
-      use: { 
-        ...devices['Desktop Chrome'],
-        actionTimeout: 30000
-      }
+      testMatch: '**/translation/**/*.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
     },
     {
-      name: 'responsive',
-      testMatch: /.*responsive.*\.spec\.ts$/,
-      use: { 
-        ...devices['Pixel 5'],
-        actionTimeout: 25000
-      }
+      name: 'rtl',
+      testMatch: '**/rtl/**/*.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
     },
     {
-      name: 'desktop',
-      testMatch: /.*\.spec\.ts$/,
-      testIgnore: [/.*\.smoke\.spec\.ts$/, /.*translation.*\.spec\.ts$/, /.*responsive.*\.spec\.ts$/],
-      use: { ...devices['Desktop Chrome'] }
+      name: 'apps',
+      testMatch: '**/apps/**/*.spec.ts',
+      use: { ...devices['Desktop Chrome'] },
     },
-    {
-      name: 'firefox',
-      testMatch: /.*\.spec\.ts$/,
-      use: { 
-        ...devices['Desktop Firefox'],
-        actionTimeout: 30000
-      }
-    }
   ],
 
-  // Serveur web conditionnel
-  webServer: process.env.CI ? undefined : {
-    command: 'npm run dev',
-    url: 'http://localhost:3000',
-    reuseExistingServer: !process.env.CI,
-    timeout: 120000,
-    // Ignore les erreurs de serveur pour éviter les warnings
-    stderr: 'ignore',
-    stdout: 'ignore'
-  }
-});
+  // Configuration adaptative - démarre math4child en priorité
+  webServer: availableApps.includes('math4child') ? [
+    {
+      command: 'cd apps/math4child && npm run dev',
+      port: 3001,
+      reuseExistingServer: !process.env.CI,
+      timeout: 120000,
+    },
+  ] : [],
+})

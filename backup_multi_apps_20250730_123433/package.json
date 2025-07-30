@@ -1,0 +1,23 @@
+{
+  "name": "math4child-platform",
+  "version": "4.0.0",
+  "description": "Math4Child - Plateforme éducative multilingue complète",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "tests"
+  ],
+  "scripts": {
+    "dev": "cd apps/math4child && npm run dev",
+    "build": "cd apps/math4child && npm run build",
+    "start": "cd apps/math4child && npm run start",
+    "test": "cd tests && npm run test",
+    "test:ui": "cd tests && npm run test:ui",
+    "install:all": "npm install && cd apps/math4child && npm install && cd ../../tests && npm install",
+    "setup": "npm run install:all && cd tests && npx playwright install --with-deps"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

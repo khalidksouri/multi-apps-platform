@@ -1,0 +1,45 @@
+[build]
+  publish = "out"
+  command = "npm install && npm run build"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
+  NODE_ENV = "development"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Configuration par contexte
+[context.production]
+  command = "npm install && npm run build"
+  [context.production.environment]
+    NODE_ENV = "development"
+
+[context.deploy-preview]
+  command = "npm install && npm run build"
+  [context.deploy-preview.environment]
+    NODE_ENV = "development"
+
+[context.branch-deploy]
+  command = "npm install && npm run build"
+  [context.branch-deploy.environment]
+    NODE_ENV = "development"
+
+# Redirections SPA
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers de sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

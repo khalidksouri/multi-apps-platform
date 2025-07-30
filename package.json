@@ -1,20 +1,33 @@
 {
-  "name": "math4child-platform",
-  "version": "4.0.0",
-  "description": "Math4Child - Plateforme éducative multilingue complète",
+  "name": "multi-apps-platform",
+  "version": "4.2.0",
+  "description": "Multi-Apps Platform - Écosystème d'applications avec support I18n universel",
   "private": true,
   "workspaces": [
-    "apps/*",
-    "tests"
+    "apps/*"
   ],
   "scripts": {
-    "dev": "cd apps/math4child && npm run dev",
-    "build": "cd apps/math4child && npm run build",
-    "start": "cd apps/math4child && npm run start",
-    "test": "cd tests && npm run test",
-    "test:ui": "cd tests && npm run test:ui",
-    "install:all": "npm install && cd apps/math4child && npm install && cd ../../tests && npm install",
-    "setup": "npm run install:all && cd tests && npx playwright install --with-deps"
+    "dev:all": "concurrently \"npm run dev --workspace=apps/math4child\" \"npm run dev --workspace=apps/unitflip\" \"npm run dev --workspace=apps/budgetcron\" \"npm run dev --workspace=apps/ai4kids\" \"npm run dev --workspace=apps/multiai\"",
+    "build:all": "npm run build --workspaces",
+    "start:all": "npm run start --workspaces",
+    "lint:all": "npm run lint --workspaces",
+    "clean:all": "npm run clean --workspaces",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:translation": "playwright test --project=translation",
+    "test:rtl": "playwright test --project=rtl",
+    "test:apps": "playwright test --project=apps",
+    "test:report": "playwright show-report",
+    "install:browsers": "npx playwright install --with-deps",
+    "validate": "npm run lint:all && npm run test",
+    "install:all": "npm install --workspaces"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.45.0",
+    "concurrently": "^8.2.2",
+    "typescript": "5.3.3"
   },
   "engines": {
     "node": ">=18.0.0",

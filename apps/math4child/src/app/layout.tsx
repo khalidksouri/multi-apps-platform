@@ -1,13 +1,10 @@
+import type { Metadata } from 'next'
 import './globals.css'
-import { Inter } from 'next/font/google'
-import { LanguageProvider } from '@/contexts/LanguageContext'
 
-const inter = Inter({ subsets: ['latin'] })
-
-export const metadata = {
-  title: 'Math4Child - Mathématiques pour Enfants',
-  description: 'Application éducative multilingue avec support RTL complet',
-  keywords: 'mathématiques, enfants, éducation, multilingue, RTL, arabe',
+export const metadata: Metadata = {
+  title: 'Math4Child - Apprentissage des Mathématiques',
+  description: 'Application éducative pour apprendre les mathématiques de manière ludique',
+  keywords: 'mathématiques, éducation, enfants, apprentissage',
 }
 
 export default function RootLayout({
@@ -17,16 +14,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <head>
-        <link
-          href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&family=Amiri:wght@400;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className={inter.className}>
-        <LanguageProvider>
+      <body className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50">
+        <div id="root">
           {children}
-        </LanguageProvider>
+        </div>
       </body>
     </html>
   )
