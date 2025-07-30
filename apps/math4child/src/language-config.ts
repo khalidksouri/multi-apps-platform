@@ -1,73 +1,19 @@
-/**
- * Configuration des langues supportées par Math4Child
- * Exactement 20 langues selon les spécifications du README.md
- */
+export const defaultLanguage = 'fr'
 
-import { Language, LanguageStats } from './types/translations'
+export const supportedLanguages = ['fr', 'en', 'es', 'de', 'it', 'pt', 'nl', 'ru', 'pl', 'sv', 'da', 'no', 'fi', 'zh', 'ja', 'ko', 'hi', 'th', 'vi', 'ar', 'he', 'fa', 'ur', 'tr'] as const
 
-export const SUPPORTED_LANGUAGES: Language[] = [
-  // Europe/Amérique : 8 langues
-  { code: 'fr', name: 'French', nativeName: 'Français', flag: '🇫🇷', region: 'Europe' },
-  { code: 'en', name: 'English', nativeName: 'English', flag: '🇺🇸', region: 'Americas' },
-  { code: 'es', name: 'Spanish', nativeName: 'Español', flag: '🇪🇸', region: 'Europe' },
-  { code: 'de', name: 'German', nativeName: 'Deutsch', flag: '🇩🇪', region: 'Europe' },
-  { code: 'it', name: 'Italian', nativeName: 'Italiano', flag: '🇮🇹', region: 'Europe' },
-  { code: 'pt', name: 'Portuguese', nativeName: 'Português', flag: '🇵🇹', region: 'Europe' },
-  { code: 'nl', name: 'Dutch', nativeName: 'Nederlands', flag: '🇳🇱', region: 'Europe' },
-  { code: 'ru', name: 'Russian', nativeName: 'Русский', flag: '🇷🇺', region: 'Europe' },
-  
-  // Asie : 6 langues
-  { code: 'zh', name: 'Chinese', nativeName: '中文', flag: '🇨🇳', region: 'Asia' },
-  { code: 'ja', name: 'Japanese', nativeName: '日本語', flag: '🇯🇵', region: 'Asia' },
-  { code: 'ko', name: 'Korean', nativeName: '한국어', flag: '🇰🇷', region: 'Asia' },
-  { code: 'hi', name: 'Hindi', nativeName: 'हिन्दी', flag: '🇮🇳', region: 'Asia' },
-  { code: 'th', name: 'Thai', nativeName: 'ภาษาไทย', flag: '🇹🇭', region: 'Asia' },
-  { code: 'vi', name: 'Vietnamese', nativeName: 'Tiếng Việt', flag: '🇻🇳', region: 'Asia' },
-  
-  // MENA (RTL) : 3 langues
-  { code: 'ar', name: 'Arabic', nativeName: 'العربية', flag: '🇸🇦', rtl: true, region: 'MENA' },
-  { code: 'he', name: 'Hebrew', nativeName: 'עברית', flag: '🇮🇱', rtl: true, region: 'MENA' },
-  { code: 'fa', name: 'Persian', nativeName: 'فارسی', flag: '🇮🇷', rtl: true, region: 'MENA' },
-  
-  // Nordique/Autres : 3 langues
-  { code: 'sv', name: 'Swedish', nativeName: 'Svenska', flag: '🇸🇪', region: 'Nordic' },
-  { code: 'tr', name: 'Turkish', nativeName: 'Türkçe', flag: '🇹🇷', region: 'Europe' },
-  { code: 'pl', name: 'Polish', nativeName: 'Polski', flag: '🇵🇱', region: 'Europe' },
-]
+export type SupportedLanguage = typeof supportedLanguages[number]
 
-// Validation : exactement 20 langues
-if (SUPPORTED_LANGUAGES.length !== 20) {
-  throw new Error(`Configuration incorrecte: ${SUPPORTED_LANGUAGES.length} langues au lieu de 20`)
+export const languageNames: Record<SupportedLanguage, string> = {
+  fr: 'Français', en: 'English', es: 'Español', de: 'Deutsch', it: 'Italiano',
+  pt: 'Português', nl: 'Nederlands', ru: 'Русский', pl: 'Polski', sv: 'Svenska',
+  da: 'Dansk', no: 'Norsk', fi: 'Suomi', zh: '中文', ja: '日本語',
+  ko: '한국어', hi: 'हिन्दी', th: 'ไทย', vi: 'Tiếng Việt', ar: 'العربية',
+  he: 'עברית', fa: 'فارسی', ur: 'اردو', tr: 'Türkçe'
 }
 
-// Langues RTL (exactement 3)
-export const RTL_LANGUAGES = ['ar', 'he', 'fa']
+export const rtlLanguages: SupportedLanguage[] = ['ar', 'he', 'fa', 'ur']
 
-// Utilitaires
-export function isRTL(languageCode: string): boolean {
-  return RTL_LANGUAGES.includes(languageCode)
+export function isRTL(language: SupportedLanguage): boolean {
+  return rtlLanguages.includes(language)
 }
-
-export function getLanguageByCode(code: string): Language | undefined {
-  return SUPPORTED_LANGUAGES.find((lang: Language) => lang.code === code)
-}
-
-export function getLanguageStats(): LanguageStats {
-  const total = SUPPORTED_LANGUAGES.length // 20
-  const rtlCount = SUPPORTED_LANGUAGES.filter((lang: Language) => lang.rtl).length // 3
-  const ltrCount = total - rtlCount // 17
-  const regions = new Set(SUPPORTED_LANGUAGES.map((lang: Language) => lang.region)).size
-  
-  return {
-    total,
-    rtl: rtlCount,
-    ltr: ltrCount,
-    regions
-  }
-}
-
-export const DEFAULT_LANGUAGE = 'fr'
-export const FALLBACK_LANGUAGE = 'en'
-
-// Export pour compatibilité
-export { SUPPORTED_LANGUAGES as LANGUAGES }

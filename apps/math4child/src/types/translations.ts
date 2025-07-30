@@ -1,18 +1,9 @@
 /**
  * Types pour le système de traductions Math4Child
- * Système multilingue avec support RTL complet
+ * Version propre sans doublons - Support 24 langues
  */
 
-export interface Language {
-  code: string
-  name: string
-  nativeName: string
-  flag: string
-  rtl?: boolean
-  region?: string
-}
-
-export interface TranslationKeys {
+export interface TranslationKey {
   // Navigation
   home: string
   exercises: string
@@ -20,27 +11,57 @@ export interface TranslationKeys {
   settings: string
   help: string
   
-  // Math4Child specifique
+  // App principale
   appName: string
   tagline: string
   startLearning: string
   welcomeMessage: string
   description: string
   
-  // Opérations mathématiques
+  // Marketing
+  badge: string
+  startFree: string
+  freeTrial: string
+  viewPlans: string
+  choosePlan: string
+  familiesCount: string
+  
+  // Pricing
+  pricing: string
+  monthly: string
+  quarterly: string
+  annual: string
+  save: string
+  mostPopular: string
+  recommended: string
+  
+  // Plans
+  freeVersion: string
+  premiumPlan: string
+  familyPlan: string
+  free: string
+  
+  // Footer
+  testimonials: string
+  faq: string
+  featuresFooter: string
+  contact: string
+  allRightsReserved: string
+  
+  // Math operations
   addition: string
   subtraction: string
   multiplication: string
   division: string
   
-  // Niveaux de difficulté
+  // Levels
   beginner: string
   intermediate: string
   advanced: string
   expert: string
   master: string
   
-  // Interface de jeu
+  // Game interface
   score: string
   level: string
   streak: string
@@ -49,7 +70,7 @@ export interface TranslationKeys {
   incorrect: string
   congratulations: string
   
-  // Boutons et actions
+  // Actions
   next: string
   previous: string
   continue: string
@@ -58,17 +79,15 @@ export interface TranslationKeys {
   play: string
   pause: string
   
-  // Interface générale
+  // Common
   yes: string
   no: string
   ok: string
   cancel: string
-  save: string
-  load: string
   loading: string
   error: string
   
-  // Statistiques
+  // Stats
   gamesPlayed: string
   averageScore: string
   totalTime: string
@@ -82,27 +101,6 @@ export interface TranslationKeys {
   newRecord: string
 }
 
-export interface LanguageStats {
-  total: number
-  rtl: number
-  ltr: number
-  regions: number
+export interface Translations {
+  [languageCode: string]: TranslationKey
 }
-
-export interface LanguageContextType {
-  currentLanguage: Language
-  translations: TranslationKeys
-  t: TranslationKeys
-  changeLanguage: (code: string) => void
-  isRTL: boolean
-  stats: LanguageStats
-  availableLanguages: Language[]
-  isLoading: boolean
-}
-
-export type SupportedLanguage = Language
-export type Translations = Record<string, TranslationKeys>
-
-// Constantes pour l'export
-export const RTL_LANGUAGES = ['ar', 'he', 'fa', 'ur'] as const
-export const DEFAULT_LANGUAGE = 'fr' as const

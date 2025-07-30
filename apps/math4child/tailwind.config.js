@@ -7,13 +7,10 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        'math-blue': '#3B82F6',
-        'math-purple': '#8B5CF6',
-        'math-green': '#10B981',
-      },
-      fontFamily: {
-        'math': ['Comic Neue', 'cursive'],
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-conic':
+          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
       },
     },
   },
