@@ -1,0 +1,174 @@
+'use client'
+
+import { LanguageProvider, useLanguage } from '../hooks/LanguageContext'
+import { SUPPORTED_LANGUAGES } from '../language-config'
+
+function LoadingSpinner() {
+  return (
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+  )
+}
+
+function HomeContent() {
+  const { t, currentLanguage, changeLanguage, stats, isRTL, isLoading } = useLanguage()
+  
+  if (isLoading) {
+    return <LoadingSpinner />
+  }
+  
+  return (
+    <main className={`min-h-screen flex flex-col items-center justify-center p-8 ${isRTL ? 'rtl' : 'ltr'}`}>
+      <div className="max-w-4xl mx-auto text-center">
+        {/* Header avec sélecteur de langue */}
+        <div className="mb-8">
+          <div className="flex justify-end mb-4">
+            <select 
+              value={currentLanguage.code}
+              onChange={(e) => changeLanguage(e.target.value)}
+              className="px-3 py-2 border-2 border-blue-200 rounded-lg bg-white shadow-sm hover:border-blue-400 transition-colors duration-200 focus:outline-none focus:border-blue-600"
+              data-testid="language-selector"
+            >
+              {SUPPORTED_LANGUAGES.map((lang) => (
+                <option key={lang.code} value={lang.code}>
+                  {lang.flag} {lang.nativeName}
+                </option>
+              ))}
+            </select>
+          </div>
+          
+          <h1 className="text-6xl font-bold text-blue-600 mb-4" data-testid="app-title">
+            🧮 {t.appName}
+          </h1>
+          
+          <p className="text-xl text-gray-600 mb-8" data-testid="tagline">
+            {t.tagline}
+          </p>
+          
+          <p className="text-lg text-gray-700 mb-8" data-testid="welcome-message">
+            {t.welcomeMessage}
+          </p>
+        </div>
+        
+        {/* Statistiques multilingues conformes README */}
+        <div className="mb-8 p-4 bg-blue-50 border border-blue-200 rounded-lg" data-testid="language-stats">
+          <p className="text-blue-800 font-semibold" data-testid="total-languages">
+            🌍 Exactement {stats.total} langues supportées ({stats.rtl} RTL + {stats.ltr} LTR)
+          </p>
+          <p className="text-sm text-blue-600 mt-1" data-testid="current-language">
+            Langue actuelle: {currentLanguage.nativeName} {currentLanguage.flag}
+            {isRTL && ' (Direction RTL)'}
+          </p>
+          <p className="text-sm text-blue-600 mt-1" data-testid="language-distribution">
+            Répartition: Europe/Amérique (8), Asie (6), MENA RTL (3), Nordique/Autres (3)
+          </p>
+        </div>
+        
+        {/* Logo Math4Child */}
+        <div className="mb-8">
+          <div className="inline-flex items-center justify-center w-32 h-32 bg-blue-100 rounded-full mb-4">
+            <span className="text-4xl">🧮</span>
+          </div>
+        </div>
+        
+        {/* Features mathématiques avec traductions */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8" data-testid="math-operations">
+          <div className="math-card">
+            <div className="text-3xl mb-2">➕</div>
+            <h3 className="font-semibold mb-2">{t.addition}</h3>
+            <p className="text-sm text-gray-600">{t.beginner}</p>
+          </div>
+          
+          <div className="math-card">
+            <div className="text-3xl mb-2">➖</div>
+            <h3 className="font-semibold mb-2">{t.subtraction}</h3>
+            <p className="text-sm text-gray-600">{t.intermediate}</p>
+          </div>
+          
+          <div className="math-card">
+            <div className="text-3xl mb-2">✖️</div>
+            <h3 className="font-semibold mb-2">{t.multiplication}</h3>
+            <p className="text-sm text-gray-600">{t.advanced}</p>
+          </div>
+          
+          <div className="math-card">
+            <div className="text-3xl mb-2">➗</div>
+            <h3 className="font-semibold mb-2">{t.division}</h3>
+            <p className="text-sm text-gray-600">{t.expert}</p>
+          </div>
+        </div>
+        
+        {/* Niveaux de difficulté */}
+        <div className="mb-8 p-4 bg-gray-50 rounded-lg" data-testid="difficulty-levels">
+          <h3 className="text-lg font-semibold mb-4 text-gray-800">{t.level}x :</h3>
+          <div className="flex flex-wrap justify-center gap-2">
+            {[t.beginner, t.intermediate, t.advanced, t.expert, t.master].map((level, index) => (
+              <span 
+                key={index}
+                className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium"
+              >
+                {level}
+              </span>
+            ))}
+          </div>
+        </div>
+        
+        {/* CTA Button avec traduction */}
+        <button 
+          className="math-button mb-8"
+          data-testid="start-learning-button"
+        >
+          {t.startLearning} 🚀
+        </button>
+        
+        {/* Status opérationnel conforme README.md */}
+        <div className="p-4 bg-green-50 border border-green-200 rounded-lg" data-testid="operational-status">
+          <p className="text-green-800">
+            ✅ <strong>{t.appName} opérationnel sur le port 3001</strong>
+          </p>
+          <p className="text-sm text-green-600 mt-1">
+            Version 2.0.0 - {new Date().toLocaleDateString(currentLanguage.code)}
+          </p>
+          <p className="text-sm text-green-600 mt-1">
+            GitHub: https://github.com/khalidksouri/multi-apps-platform
+          </p>
+          <p className="text-sm text-green-600 mt-1">
+            {t.score}: 0 | {t.level}: {t.beginner} | Contact: khalid_ksouri@yahoo.fr
+          </p>
+        </div>
+        
+        {/* Section de démonstration des traductions */}
+        <div className="mt-8 p-4 bg-purple-50 border border-purple-200 rounded-lg" data-testid="translations-demo">
+          <h3 className="text-lg font-semibold mb-4 text-purple-800">Démonstration multilingue :</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div className="bg-white p-2 rounded">
+              <strong>{t.home}</strong><br/>
+              <span className="text-gray-600">{t.exercises}</span>
+            </div>
+            <div className="bg-white p-2 rounded">
+              <strong>{t.correct}</strong><br/>
+              <span className="text-gray-600">{t.congratulations}</span>
+            </div>
+            <div className="bg-white p-2 rounded">
+              <strong>{t.yes} / {t.no}</strong><br/>
+              <span className="text-gray-600">{t.next} / {t.previous}</span>
+            </div>
+            <div className="bg-white p-2 rounded">
+              <strong>{t.welcome}</strong><br/>
+              <span className="text-gray-600">{t.goodJob}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  )
+}
+
+export default function HomePage() {
+  return (
+    <LanguageProvider>
+      <HomeContent />
+    </LanguageProvider>
+  )
+}

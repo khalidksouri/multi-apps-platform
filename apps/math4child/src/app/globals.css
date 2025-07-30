@@ -2,7 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Styles globaux Math4Child */
+/* Variables CSS pour Math4Child */
+:root {
+  --math-blue: #3B82F6;
+  --math-purple: #8B5CF6;
+  --math-green: #10B981;
+  --math-orange: #F59E0B;
+  --math-red: #EF4444;
+}
+
+/* Base styles */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -20,26 +29,359 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* RTL Support */
+/* Support RTL complet selon README */
 [dir="rtl"] {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .flex {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .text-left {
   text-align: right;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+[dir="rtl"] .text-right {
+  text-align: left;
 }
 
+[dir="rtl"] .mr-2 {
+  margin-right: 0;
+  margin-left: 0.5rem;
+}
+
+[dir="rtl"] .ml-2 {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+[dir="rtl"] .pr-4 {
+  padding-right: 0;
+  padding-left: 1rem;
+}
+
+[dir="rtl"] .pl-4 {
+  padding-left: 0;
+  padding-right: 1rem;
+}
+
+/* Support typographique pour langues spécifiques */
+[lang="ar"], [lang="he"], [lang="fa"] {
+  font-family: 'Noto Sans Arabic', 'Noto Sans Hebrew', system-ui, sans-serif;
+  line-height: 1.8;
+}
+
+[lang="zh"], [lang="ja"], [lang="ko"] {
+  font-family: 'Noto Sans CJK SC', 'Noto Sans CJK JP', 'Noto Sans CJK KR', system-ui, sans-serif;
+}
+
+[lang="hi"], [lang="th"] {
+  font-family: 'Noto Sans Devanagari', 'Noto Sans Thai', system-ui, sans-serif;
+  line-height: 1.7;
+}
+
+/* Animations Math4Child */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes slideInLeft {
+  from { 
+    opacity: 0; 
+    transform: translateX(-30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes slideInRight {
+  from { 
+    opacity: 0; 
+    transform: translateX(30px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateX(0); 
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate3d(0,0,0);
+  }
+  40%, 43% {
+    transform: translate3d(0, -8px, 0);
+  }
+  70% {
+    transform: translate3d(0, -4px, 0);
+  }
+  90% {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
+/* Classes utilitaires Math4Child */
 .fade-in {
   animation: fadeIn 0.5s ease-out;
 }
 
-/* Math4Child specific styles */
+.slide-in-left {
+  animation: slideInLeft 0.6s ease-out;
+}
+
+.slide-in-right {
+  animation: slideInRight 0.6s ease-out;
+}
+
+.bounce-animation {
+  animation: bounce 1s ease-in-out;
+}
+
+/* Styles spécifiques Math4Child */
 .math-card {
-  @apply bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-200;
+  @apply bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-all duration-300;
+  border: 2px solid transparent;
+}
+
+.math-card:hover {
+  border-color: var(--math-blue);
+  transform: translateY(-2px);
 }
 
 .math-button {
-  @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-colors duration-200;
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.3);
+}
+
+.math-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.4);
+}
+
+.math-button:active {
+  transform: translateY(0);
+}
+
+.language-selector {
+  @apply px-3 py-2 border-2 border-blue-200 rounded-lg bg-white shadow-sm hover:border-blue-400 transition-colors duration-200;
+}
+
+.language-selector:focus {
+  outline: none;
+  border-color: var(--math-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Styles pour affichage des statistiques selon README */
+.stats-display {
+  @apply p-4 bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-blue-200 rounded-lg;
+}
+
+.stats-display p {
+  @apply text-blue-800 font-medium;
+}
+
+.stats-counter {
+  @apply text-lg font-bold text-blue-600;
+}
+
+/* Responsivité pour mobile */
+@media (max-width: 768px) {
+  .grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .text-6xl {
+    font-size: 3rem;
+  }
+  
+  .math-card {
+    padding: 1rem;
+  }
+}
+
+/* Support sombre (optionnel) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --math-blue: #60A5FA;
+    --math-purple: #A78BFA;
+  }
+}
+
+/* Accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus visible pour accessibilité */
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--math-blue);
+  outline-offset: 2px;
+}
+
+/* ===================================================================
+ * STYLES BUSINESS MATH4CHILD
+ * ===================================================================
+ */
+
+/* Styles pour les cartes de prix */
+.pricing-card {
+  @apply transition-all duration-300 hover:shadow-xl;
+}
+
+.pricing-card.popular {
+  @apply transform scale-105;
+}
+
+/* Animations pour les CTA */
+.cta-button {
+  @apply transition-all duration-200 transform hover:scale-105;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.cta-button:hover {
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Styles pour les témoignages */
+.testimonial-card {
+  @apply transition-colors duration-300;
+}
+
+/* Effets de survol pour les cartes */
+.hover-lift {
+  @apply transition-all duration-300 hover:transform hover:scale-105 hover:shadow-xl;
+}
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+  .pricing-card.popular {
+    @apply transform-none scale-100;
+  }
+  
+  h1 {
+    @apply text-4xl;
+  }
+}
+
+/* Support RTL pour les éléments business */
+[dir="rtl"] .pricing-card,
+[dir="rtl"] .testimonial-card {
+  text-align: right;
+}
+
+/* ===================================================================
+ * STYLES POUR 4 PLANS D'ABONNEMENT
+ * ===================================================================
+ */
+
+/* Styles spécifiques pour le plan éducation */
+.education-plan {
+  @apply border-green-500;
+}
+
+.education-badge {
+  @apply bg-green-500 text-white;
+}
+
+.education-cta {
+  @apply bg-green-600 hover:bg-green-700 text-white;
+}
+
+/* Styles pour la section offre éducation */
+.education-special {
+  @apply bg-green-50 border-green-200 rounded-lg p-6;
+}
+
+.education-special h3 {
+  @apply text-green-800 font-semibold;
+}
+
+.education-special p {
+  @apply text-green-700;
+}
+
+/* Grille responsive pour 4 plans */
+@media (min-width: 1024px) {
+  .pricing-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .pricing-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .pricing-grid-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Réduire l'effet scale sur mobile */
+  .pricing-card.popular {
+    @apply transform-none scale-100;
+  }
+}
+
+/* Styles pour les listes de fonctionnalités plus longues */
+.feature-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.feature-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.feature-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+.feature-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 2px;
+}
+
+.feature-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Animation pour le plan education */
+.education-highlight {
+  animation: pulse-green 2s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
 }

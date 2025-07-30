@@ -1,7 +1,7 @@
 {
   "name": "@multiapps/math4child",
   "version": "2.0.0",
-  "description": "Math4Child - Application éducative mathématiques",
+  "description": "Math4Child - Application éducative mathématiques pour enfants",
   "private": true,
   "scripts": {
     "dev": "next dev -p 3001",
@@ -9,7 +9,9 @@
     "start": "next start -p 3001",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "test": "playwright test"
+    "test": "playwright test",
+    "build:web": "next build",
+    "build:capacitor": "next build && next export"
   },
   "dependencies": {
     "next": "14.2.30",

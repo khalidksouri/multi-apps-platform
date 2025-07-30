@@ -1,3 +1,39 @@
+#!/bin/bash
+
+# ===================================================================
+# 📚 AJOUT PLAN ÉCOLES ET ASSOCIATIONS - MATH4CHILD
+# Ajoute le plan éducatif institutionnel manquant
+# ===================================================================
+
+set -euo pipefail
+
+# Couleurs
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+echo -e "${CYAN}${BOLD}📚 AJOUT PLAN ÉCOLES ET ASSOCIATIONS${NC}"
+echo -e "${CYAN}${BOLD}====================================${NC}"
+echo ""
+
+# Vérifier le dossier
+if [ ! -d "apps/math4child" ]; then
+    echo -e "${RED}❌ Erreur: Dossier apps/math4child introuvable${NC}"
+    exit 1
+fi
+
+cd "apps/math4child"
+
+echo -e "${YELLOW}📋 Mise à jour de la page avec le plan Écoles...${NC}"
+
+# ===================================================================
+# MISE À JOUR DE LA PAGE AVEC 4 PLANS D'ABONNEMENT
+# ===================================================================
+
+cat > "src/app/page.tsx" << 'EOF'
 'use client'
 
 import { LanguageProvider, useLanguage } from '../hooks/LanguageContext'
@@ -571,3 +607,202 @@ export default function HomePage() {
     </LanguageProvider>
   )
 }
+EOF
+
+echo -e "${GREEN}✅ Page mise à jour avec le plan Écoles${NC}"
+
+# ===================================================================
+# AJOUTER LES TRADUCTIONS ÉDUCATION
+# ===================================================================
+
+echo -e "${BLUE}🔧 Ajout des traductions pour le secteur éducatif...${NC}"
+
+if [ -f "src/translations.ts" ]; then
+    # Ajouter les nouvelles clés de traduction pour l'éducation
+    cat >> "src/translations.ts" << 'EOF'
+
+// ===================================================================
+// TRADUCTIONS ÉDUCATION AJOUTÉES
+// ===================================================================
+
+// Ajouter ces clés aux objets de traduction existants :
+
+/*
+Pour le français (fr) :
+educationPlan: 'Écoles & Associations',
+institutional: 'Institutionnel',
+contactEducation: 'Contact Écoles',
+schoolsCount: '500+ écoles partenaires',
+contactSales: 'Contacter nos équipes',
+customDemo: 'Démo personnalisée gratuite',
+educationSpecial: 'Offre spéciale éducation',
+educationOffer: 'Tarifs préférentiels pour les écoles, collèges, lycées et associations. Devis sur mesure et formation incluse.',
+requestQuote: 'Demander un devis',
+
+Pour l'anglais (en) :
+educationPlan: 'Schools & Organizations',
+institutional: 'Institutional',
+contactEducation: 'Contact Schools',
+schoolsCount: '500+ partner schools',
+contactSales: 'Contact our teams',
+customDemo: 'Free custom demo',
+educationSpecial: 'Special education offer',
+educationOffer: 'Preferential rates for schools, colleges, high schools and associations. Custom quotes and training included.',
+requestQuote: 'Request a quote',
+*/
+EOF
+
+    echo -e "${GREEN}✅ Clés de traduction éducation documentées${NC}"
+else
+    echo -e "${YELLOW}⚠️ Fichier translations.ts non trouvé${NC}"
+fi
+
+# ===================================================================
+# MISE À JOUR DES STYLES POUR 4 COLONNES
+# ===================================================================
+
+echo -e "${BLUE}🔧 Mise à jour des styles pour 4 plans...${NC}"
+
+cat >> "src/app/globals.css" << 'EOF'
+
+/* ===================================================================
+ * STYLES POUR 4 PLANS D'ABONNEMENT
+ * ===================================================================
+ */
+
+/* Styles spécifiques pour le plan éducation */
+.education-plan {
+  @apply border-green-500;
+}
+
+.education-badge {
+  @apply bg-green-500 text-white;
+}
+
+.education-cta {
+  @apply bg-green-600 hover:bg-green-700 text-white;
+}
+
+/* Styles pour la section offre éducation */
+.education-special {
+  @apply bg-green-50 border-green-200 rounded-lg p-6;
+}
+
+.education-special h3 {
+  @apply text-green-800 font-semibold;
+}
+
+.education-special p {
+  @apply text-green-700;
+}
+
+/* Grille responsive pour 4 plans */
+@media (min-width: 1024px) {
+  .pricing-grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 1023px) {
+  .pricing-grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .pricing-grid-4 {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Réduire l'effet scale sur mobile */
+  .pricing-card.popular {
+    @apply transform-none scale-100;
+  }
+}
+
+/* Styles pour les listes de fonctionnalités plus longues */
+.feature-list {
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.feature-list::-webkit-scrollbar {
+  width: 4px;
+}
+
+.feature-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 2px;
+}
+
+.feature-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 2px;
+}
+
+.feature-list::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+/* Animation pour le plan education */
+.education-highlight {
+  animation: pulse-green 2s ease-in-out infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+}
+EOF
+
+echo -e "${GREEN}✅ Styles pour 4 plans ajoutés${NC}"
+
+cd "../.."
+
+# ===================================================================
+# RÉSUMÉ FINAL
+# ===================================================================
+
+echo ""
+echo -e "${GREEN}${BOLD}🎉 PLAN ÉCOLES ET ASSOCIATIONS AJOUTÉ !${NC}"
+echo ""
+echo -e "${CYAN}${BOLD}📚 NOUVEAU PLAN ÉDUCATION :${NC}"
+echo -e "${GREEN}✅ Plan 'Écoles & Associations' créé${NC}"
+echo -e "${GREEN}✅ Prix : €19.99/mois (€54.99/trimestre, €199.99/an)${NC}"
+echo -e "${GREEN}✅ Fonctionnalités spécialisées éducation${NC}"
+echo -e "${GREEN}✅ Jusqu'à 30 profils élèves${NC}"
+echo -e "${GREEN}✅ Tableau de bord enseignant${NC}"
+echo -e "${GREEN}✅ Formation des enseignants incluse${NC}"
+echo -e "${GREEN}✅ Support pédagogique dédié${NC}"
+echo -e "${GREEN}✅ Badge 'Institutionnel'${NC}"
+echo -e "${GREEN}✅ Témoignage école ajouté${NC}"
+echo -e "${GREEN}✅ Section offre spéciale éducation${NC}"
+
+echo ""
+echo -e "${BLUE}${BOLD}📊 RÉSUMÉ DES 4 PLANS :${NC}"
+echo -e "${CYAN}1. Gratuit : €0 - 5 exercices/jour, 5 langues${NC}"
+echo -e "${CYAN}2. Premium : €4.99/mois - Illimité, 20 langues (Le plus populaire)${NC}"
+echo -e "${CYAN}3. Famille : €9.99/mois - Premium + 6 profils (Recommandé familles)${NC}"
+echo -e "${CYAN}4. Écoles & Associations : €19.99/mois - 30 élèves + outils enseignant (Institutionnel)${NC}"
+
+echo ""
+echo -e "${PURPLE}${BOLD}🚀 DÉMARRAGE :${NC}"
+echo -e "${CYAN}cd apps/math4child && npm run dev${NC}"
+echo -e "${WHITE}➡️ http://localhost:3001${NC}"
+
+echo ""
+echo -e "${PURPLE}${BOLD}🧪 TESTS À EFFECTUER :${NC}"
+echo -e "${YELLOW}1. Vérifier l'affichage des 4 plans en grille${NC}"
+echo -e "${YELLOW}2. Tester le plan Écoles & Associations${NC}"
+echo -e "${YELLOW}3. Valider le badge 'Institutionnel'${NC}"
+echo -e "${YELLOW}4. Confirmer la section offre éducation${NC}"
+echo -e "${YELLOW}5. Vérifier le témoignage école${NC}"
+echo -e "${YELLOW}6. Tester le responsive pour 4 colonnes${NC}"
+
+echo ""
+echo -e "${GREEN}${BOLD}✨ MATH4CHILD AVEC PLAN ÉDUCATION COMPLET ! ✨${NC}"
+echo -e "${BLUE}🧮 Maintenant adapté aux particuliers, familles ET institutions ! 🏫${NC}"

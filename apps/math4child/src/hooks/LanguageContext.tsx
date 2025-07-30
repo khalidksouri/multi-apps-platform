@@ -2,17 +2,19 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 import { translations } from '../translations'
-import { SUPPORTED_LANGUAGES, getLanguageStats, isRTL } from '../language-config'
-import { SupportedLanguage, Language } from '../types/translations'
-
-interface LanguageContextType {
-  currentLanguage: Language
-  changeLanguage: (language: SupportedLanguage) => void
-  t: typeof translations.fr
-  isRTL: boolean
-  isLoading: boolean
-  stats: ReturnType<typeof getLanguageStats>
-}
+import { 
+  SUPPORTED_LANGUAGES, 
+  getLanguageStats, 
+  isRTL, 
+  DEFAULT_LANGUAGE,
+  getLanguageByCode 
+} from '../language-config'
+import { 
+  Language, 
+  LanguageContextType, 
+  TranslationKeys,
+  LanguageStats
+} from '../types/translations'
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
@@ -20,82 +22,106 @@ interface LanguageProviderProps {
   children: ReactNode
 }
 
-export function LanguageProvider({ children }: LanguageProviderProps) {
-  const [currentLanguage, setCurrentLanguage] = useState<Language>(SUPPORTED_LANGUAGES[0])
+export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
+  const [currentLanguage, setCurrentLanguage] = useState<Language>(() => {
+    return SUPPORTED_LANGUAGES.find(lang => lang.code === DEFAULT_LANGUAGE) || SUPPORTED_LANGUAGES[0]
+  })
   const [isLoading, setIsLoading] = useState(true)
-  
+
+  // Charger la langue sauvegardée au démarrage
   useEffect(() => {
-    // Vérification côté client uniquement pour éviter les erreurs SSR
     if (typeof window !== 'undefined') {
-      const savedLanguage = localStorage.getItem('multi_apps_language') as SupportedLanguage
-      if (savedLanguage && translations[savedLanguage]) {
-        const foundLang = SUPPORTED_LANGUAGES.find(lang => lang.code === savedLanguage)
-        if (foundLang) {
-          setCurrentLanguage(foundLang)
-          updateDocumentLanguage(foundLang)
+      setIsLoading(true)
+      
+      try {
+        const savedLanguage = localStorage.getItem('math4child_language')
+        if (savedLanguage) {
+          const foundLang = getLanguageByCode(savedLanguage)
+          if (foundLang) {
+            setCurrentLanguage(foundLang)
+          }
+        } else {
+          // Détecter la langue du navigateur
+          const browserLang = navigator.language.split('-')[0]
+          const foundLang = getLanguageByCode(browserLang)
+          if (foundLang) {
+            setCurrentLanguage(foundLang)
+          }
         }
+      } catch (error) {
+        console.warn('Erreur lors du chargement de la langue:', error)
+      } finally {
+        setIsLoading(false)
       }
+    } else {
       setIsLoading(false)
     }
   }, [])
-  
-  const updateDocumentLanguage = (language: Language) => {
-    // Vérifications pour éviter les erreurs SSR
-    if (typeof document === 'undefined') return
-    
-    const isLanguageRTL = isRTL(language.code)
-    
-    // Mise à jour des attributs du document
-    document.documentElement.lang = language.code
-    document.documentElement.dir = isLanguageRTL ? 'rtl' : 'ltr'
-    
-    // Mise à jour des classes CSS pour RTL
-    if (isLanguageRTL) {
-      document.body.classList.add('rtl')
-      document.body.classList.remove('ltr')
-    } else {
-      document.body.classList.add('ltr')
-      document.body.classList.remove('rtl')
+
+  // Sauvegarder la langue et appliquer les styles RTL
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !isLoading) {
+      try {
+        localStorage.setItem('math4child_language', currentLanguage.code)
+        
+        // Appliquer le style RTL
+        const html = document.documentElement
+        if (currentLanguage.rtl) {
+          html.setAttribute('dir', 'rtl')
+          html.style.direction = 'rtl'
+          html.lang = currentLanguage.code
+        } else {
+          html.setAttribute('dir', 'ltr')
+          html.style.direction = 'ltr'
+          html.lang = currentLanguage.code
+        }
+      } catch (error) {
+        console.warn('Erreur lors de la sauvegarde de la langue:', error)
+      }
+    }
+  }, [currentLanguage, isLoading])
+
+  const changeLanguage = (languageCode: string) => {
+    const language = getLanguageByCode(languageCode)
+    if (language) {
+      setCurrentLanguage(language)
     }
   }
-  
-  const changeLanguage = (languageCode: SupportedLanguage) => {
-    const language = SUPPORTED_LANGUAGES.find(lang => lang.code === languageCode)
-    if (!language) return
-    
-    setCurrentLanguage(language)
-    
-    // Sauvegarde côté client uniquement
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('multi_apps_language', languageCode)
-      
-      // Événement personnalisé pour les composants qui écoutent
-      window.dispatchEvent(new CustomEvent('languageChange', { detail: language }))
+
+  // Récupérer les traductions pour la langue actuelle
+  const getTranslations = (): TranslationKeys => {
+    const langTranslations = translations[currentLanguage.code]
+    if (!langTranslations) {
+      console.warn(`Traductions manquantes pour ${currentLanguage.code}, utilisation du fallback anglais`)
+      return translations['en'] || {} as TranslationKeys
     }
-    
-    updateDocumentLanguage(language)
+    return langTranslations
   }
-  
-  const t = translations[currentLanguage.code as SupportedLanguage] || translations.en
-  
+
+  const contextValue: LanguageContextType = {
+    currentLanguage,
+    translations: getTranslations(),
+    t: getTranslations(),
+    changeLanguage,
+    isRTL: currentLanguage.rtl || false,
+    stats: getLanguageStats(),
+    availableLanguages: SUPPORTED_LANGUAGES,
+    isLoading,
+  }
+
   return (
-    <LanguageContext.Provider value={{
-      currentLanguage,
-      changeLanguage,
-      t,
-      isRTL: isRTL(currentLanguage.code),
-      isLoading,
-      stats: getLanguageStats()
-    }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   )
 }
 
-export function useLanguage() {
+export const useLanguage = (): LanguageContextType => {
   const context = useContext(LanguageContext)
   if (context === undefined) {
     throw new Error('useLanguage must be used within a LanguageProvider')
   }
   return context
 }
+
+export default LanguageProvider
