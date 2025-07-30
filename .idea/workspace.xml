@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="05fa9d48-2a83-4250-b404-b2f317e7f895" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/apps/ai4kids/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ai4kids/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/ai4kids/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/ai4kids/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/capacitor.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/next-env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/next.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/budgetcron/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/budgetcron/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/scripts/extract-translations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/scripts/update-translations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/App.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/app/api/health/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/app/api/shipping/calculate/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/app/globals.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/app/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/app/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/components/I18nLayout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/components/LanguageSelector.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/hooks/useLanguage.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/hooks/useUniversalI18n.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/af/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/am/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ar/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/az/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/bg/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/bn/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/cs/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/da/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/de/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/el/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/en/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/en_US/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/es/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/es_MX/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/et/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/fa/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/fi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/fr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/fr_CA/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/gu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ha/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/hi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/hr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/hu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/id/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ig/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/it/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ja/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/km/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/kn/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ko/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ku/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/lo/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/lt/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/lv/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ml/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/mr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ms/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/my/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/nl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/no/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/pl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/pt/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/pt_BR/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ro/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ru/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/si/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/sk/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/sl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/sv/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/sw/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ta/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/te/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/th/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/tl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/tr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/ur/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/vi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/yo/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/zh_CN/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/zh_TW/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/i18n/locales/zu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/lib/shipping.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/main.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/middleware.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/src/translations/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/tailwind.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/budgetcron/vite.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/digital4kids/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/digital4kids/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/apps/digital4kids/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/src/App.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/digital4kids/src/App.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/digital4kids/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/src/i18n/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/src/i18n/locales/de.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/src/i18n/locales/en.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/src/i18n/locales/es.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/src/i18n/locales/fr.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/digital4kids/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/digital4kids/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/capacitor.build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/proguard-rules.pro" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/AndroidManifest.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/java/com/multiapps/postmath/MainActivity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-land-hdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-land-mdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-land-xhdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-land-xxhdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-land-xxxhdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-port-hdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-port-mdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-port-xhdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-port-xxhdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-port-xxxhdpi/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/drawable/splash.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/layout/activity_main.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-hdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-mdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/values/ic_launcher_background.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/values/strings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/values/styles.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/main/res/xml/file_paths.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/build.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/capacitor.settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/gradle.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/gradlew" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/gradlew.bat" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/settings.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/android/variables.gradle" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/capacitor.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/apps/math4kids/capacitor.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App.xcodeproj/project.pbxproj" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/AppDelegate.swift" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/Assets.xcassets/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/Assets.xcassets/Splash.imageset/Contents.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/Base.lproj/LaunchScreen.storyboard" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/Base.lproj/Main.storyboard" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/App/Info.plist" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/ios/App/Podfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/next.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/math4kids/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/scripts/extract-translations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/scripts/update-translations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/math4kids/src/App.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/app/api/auth/login/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/app/api/auth/register/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/app/api/health/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/app/api/shipping/calculate/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/app/globals.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/app/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/app/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/components/I18nLayout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/components/LanguageSelector.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/components/forms/ShippingCalculator.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/hooks/useLanguage.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/hooks/useUniversalI18n.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/af/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/am/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ar/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/az/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/bg/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/bn/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/cs/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/da/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/de/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/el/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/en/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/en_US/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/es/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/es_MX/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/et/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/fa/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/fi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/fr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/fr_CA/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/gu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ha/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/hi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/hr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/hu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/id/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ig/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/it/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ja/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/km/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/kn/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ko/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ku/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/lo/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/lt/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/lv/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ml/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/mr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ms/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/my/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/nl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/no/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/pl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/pt/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/pt_BR/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ro/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ru/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/si/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/sk/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/sl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/sv/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/sw/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ta/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/te/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/th/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/tl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/tr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/ur/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/vi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/yo/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/zh_CN/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/zh_TW/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/i18n/locales/zu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/apps/math4kids/src/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/lib/shipping.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/main.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/middleware.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/src/translations/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/tailwind.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/math4kids/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/math4kids/vite.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/capacitor.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/next-env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/next.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/multiai/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/multiai/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/scripts/extract-translations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/scripts/update-translations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/App.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/app/api/health/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/app/globals.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/app/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/app/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/components/I18nLayout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/components/LanguageSelector.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/hooks/useLanguage.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/hooks/useUniversalI18n.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/af/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/am/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ar/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/az/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/bg/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/bn/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/cs/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/da/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/de/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/el/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/en/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/en_US/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/es/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/es_MX/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/et/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/fa/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/fi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/fr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/fr_CA/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/gu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ha/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/hi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/hr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/hu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/id/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ig/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/it/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ja/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/km/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/kn/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ko/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ku/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/lo/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/lt/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/lv/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ml/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/mr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ms/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/my/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/nl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/no/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/pl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/pt/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/pt_BR/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ro/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ru/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/si/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/sk/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/sl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/sv/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/sw/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ta/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/te/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/th/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/tl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/tr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/ur/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/vi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/yo/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/zh_CN/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/zh_TW/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/i18n/locales/zu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/lib/shipping.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/main.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/middleware.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/src/translations/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/tailwind.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/multiai/vite.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/Dockerfile" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/capacitor.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/index.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/next-env.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/next.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/unitflip/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/apps/unitflip/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/scripts/extract-translations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/scripts/update-translations.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/App.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/app/api/health/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/app/api/shipping/calculate/route.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/app/globals.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/app/layout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/app/page.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/components/I18nLayout.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/components/LanguageSelector.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/hooks/useLanguage.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/hooks/useUniversalI18n.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/af/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/am/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ar/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/az/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/bg/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/bn/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/cs/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/da/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/de/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/el/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/en/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/en_US/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/es/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/es_MX/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/et/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/fa/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/fi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/fr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/fr_CA/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/gu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ha/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/hi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/hr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/hu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/id/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ig/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/it/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ja/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/km/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/kn/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ko/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ku/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/lo/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/lt/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/lv/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ml/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/mr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ms/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/my/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/nl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/no/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/pl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/pt/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/pt_BR/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ro/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ru/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/si/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/sk/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/sl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/sv/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/sw/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ta/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/te/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/th/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/tl/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/tr/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/ur/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/vi/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/yo/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/zh_CN/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/zh_TW/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/i18n/locales/zu/common.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/lib/shipping.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/main.tsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/middleware.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/src/translations/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/tailwind.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/tsconfig.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/unitflip/vite.config.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/platform.sh" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/playwright.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/playwright.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/postcss.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unified_platform_script.sh" beforeDir="false" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectFrameBounds" fullScreen="true">
+    <option name="width" value="1680" />
+    <option name="height" value="1050" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+      <pane id="ProjectPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="05fa9d48-2a83-4250-b404-b2f317e7f895" name="Default Changelist" comment="" />
+      <created>1752625582895</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1752625582895</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <layout>
+      <window_info id="Captures" order="0" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="1" visible="true" weight="0.32971668" />
+      <window_info id="Structure" order="2" side_tool="true" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Designer" order="4" />
+      <window_info id="Resources Explorer" order="5" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Favorites" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" order="0" />
+      <window_info anchor="bottom" id="TODO" order="1" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="2" visible="true" weight="0.32959184" />
+      <window_info anchor="bottom" id="Event Log" order="3" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="right" id="Theme Preview" order="1" />
+      <window_info anchor="right" id="Palette&#9;" order="2" />
+    </layout>
+  </component>
+</project>

@@ -1,0 +1,55 @@
+{
+  "name": "math4child",
+  "version": "2.0.0",
+  "description": "Math4Child - Application éducative avec paiements Stripe",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --quiet",
+    "lint:fix": "next lint --fix || true",
+    "type-check": "tsc --noEmit",
+    "test": "playwright test",
+    "test:stripe": "playwright test tests/e2e/stripe-*.spec.ts",
+    "test:stripe:quick": "playwright test tests/critical/stripe-critical.spec.ts",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "build:netlify": "./scripts/netlify-build.sh",
+    "build:preview": "npm run build && npm run test:stripe:quick",
+    "clean": "rm -rf .next out dist node_modules/.cache",
+    "build:prod": "next build",
+    "build:safe": "npm run lint:fix && npm run build:prod",
+    "lint:quiet": "next lint --quiet || true",
+    "dev:clean": "rm -rf .next && npm run dev",
+    "clean:all": "rm -rf .next out dist node_modules/.cache backup",
+    "type-check:safe": "tsc --noEmit || true"
+  },
+  "dependencies": {
+    "@stripe/stripe-js": "4.7.0",
+    "crypto-js": "4.2.0",
+    "date-fns": "3.6.0",
+    "lucide-react": "0.469.0",
+    "next": "14.2.30",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "recharts": "2.12.7",
+    "stripe": "16.12.0",
+    "typescript": "5.4.5",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "@types/node": "20.14.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.48.0",
+    "@types/crypto-js": "4.2.2",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.30"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}

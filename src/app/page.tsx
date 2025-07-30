@@ -1,174 +1,115 @@
-'use client';
+'use client'
 
-import { useLanguage } from '@/contexts/LanguageContext';
-import LanguageSelector from '@/components/ui/LanguageSelector';
+import { useState } from 'react'
+import { comprehensiveTranslations, SUPPORTED_LANGUAGES } from '../lib/translations/comprehensive'
 
-export default function HomePage() {
-  const { t, isRTL } = useLanguage();
+export default function Home() {
+  const [currentLanguage, setCurrentLanguage] = useState<'fr' | 'en' | 'es' | 'ar'>('fr')
+  
+  const t = comprehensiveTranslations[currentLanguage]
+  
+  const changeLanguage = (lang: 'fr' | 'en' | 'es' | 'ar') => {
+    setCurrentLanguage(lang)
+    document.documentElement.lang = lang
+    if (lang === 'ar') {
+      document.documentElement.dir = 'rtl'
+    } else {
+      document.documentElement.dir = 'ltr'
+    }
+  }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-red-500 rounded-xl flex items-center justify-center">
-                <span className="text-white text-xl font-bold">M4C</span>
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">{t('appName')}</h1>
-                <p className="text-sm text-gray-600">{t('tagline')}</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-4">
-              <div className="hidden md:flex items-center space-x-4">
-                <span className="text-gray-700">{t('seeExercises')}</span>
-                <span className="text-gray-700">{t('seeGames')}</span>
-              </div>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold">
-                {t('startFree')}
-              </button>
-              <LanguageSelector />
-            </div>
-          </div>
-        </div>
-      </header>
+    <main className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600 text-white">
+      <div className="container mx-auto px-4 py-8">
+        <header className="flex justify-between items-center mb-12">
+          <h1 className="text-4xl font-bold" data-testid="app-title">
+            {t.appName}
+          </h1>
+          
+          <select
+            data-testid="language-selector"
+            className="bg-white text-gray-800 px-4 py-2 rounded-lg"
+            value={currentLanguage}
+            onChange={(e) => changeLanguage(e.target.value as any)}
+          >
+            {SUPPORTED_LANGUAGES.map((lang) => (
+              <option key={lang.code} value={lang.code}>
+                {lang.flag} {lang.name}
+              </option>
+            ))}
+          </select>
+        </header>
 
-      {/* Hero Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center space-x-2 bg-orange-100 text-orange-800 rounded-full px-6 py-3 text-lg font-medium mb-8">
-            <span>🏆</span>
-            <span>{t('appBadge')}</span>
-          </div>
+        <section className="text-center mb-16">
+          <h2 className="text-6xl font-bold mb-6">{t.heroTitle}</h2>
+          <p className="text-xl mb-8">{t.heroSubtitle}</p>
+          <p className="text-lg mb-12 opacity-90">{t.heroDescription}</p>
           
-          <h2 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            {t('applicationCorrected')}
-          </h2>
-          
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            {t('functionsNow')}
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-              <span className="mr-2">🧮</span>
-              {t('seeExercises')}
+          <div className="flex justify-center gap-4">
+            <button 
+              className="bg-yellow-400 text-gray-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-yellow-300 transition-colors"
+              data-testid="start-free"
+            >
+              {t.startFreeNow}
             </button>
-            <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-              <span className="mr-2">🎮</span>
-              {t('seeGames')}
-            </button>
-            <button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-xl font-semibold text-lg shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-              <span className="mr-2">⭐</span>
-              {t('seePremiumPlans')}
+            <button 
+              className="border-2 border-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-800 transition-colors"
+            >
+              {t.learnMore}
             </button>
           </div>
-        </div>
+        </section>
 
-        {/* Section Jeux Mathématiques */}
-        <div className="mb-16">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center">
-              <span className="mr-3">🎮</span>
-              {t('mathGames')}
-            </h2>
-            <p className="text-xl text-gray-600">
-              {t('chooseGame')}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Puzzle Math */}
-            <div className="bg-gradient-to-br from-green-400 to-blue-500 rounded-2xl p-8 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">🧩</div>
-                <h3 className="text-2xl font-bold mb-4">{t('puzzleMath')}</h3>
-                <p className="text-white/90 mb-6">{t('puzzleMathDesc')}</p>
-                <button className="bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200">
-                  {t('playNow')} ▶
+        <section className="mb-16">
+          <h3 className="text-3xl font-bold text-center mb-8">{t.mathGames}</h3>
+          <p className="text-center mb-12">{t.chooseGame}</p>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { name: t.puzzleMath, id: 'puzzle' },
+              { name: t.memoryMath, id: 'memory' },
+              { name: t.quickMath, id: 'quick' },
+              { name: t.mixedExercises, id: 'mixed' }
+            ].map((game) => (
+              <div key={game.id} className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6 text-center">
+                <h4 className="text-xl font-semibold mb-4">{game.name}</h4>
+                <button className="bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-600 transition-colors">
+                  {t.playNow}
                 </button>
               </div>
-            </div>
-
-            {/* Memory Math */}
-            <div className="bg-gradient-to-br from-purple-400 to-pink-500 rounded-2xl p-8 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">🧠</div>
-                <h3 className="text-2xl font-bold mb-4">{t('memoryMath')}</h3>
-                <p className="text-white/90 mb-6">{t('memoryMathDesc')}</p>
-                <button className="bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200">
-                  {t('playNow')} ▶
-                </button>
-              </div>
-            </div>
-
-            {/* Quick Math */}
-            <div className="bg-gradient-to-br from-yellow-400 to-orange-500 rounded-2xl p-8 text-white shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-              <div className="text-center">
-                <div className="text-4xl mb-4">⚡</div>
-                <h3 className="text-2xl font-bold mb-4">{t('quickMath')}</h3>
-                <p className="text-white/90 mb-6">{t('quickMathDesc')}</p>
-                <button className="bg-white/20 hover:bg-white/30 backdrop-blur-sm border border-white/30 text-white px-6 py-3 rounded-xl font-semibold transition-all duration-200">
-                  {t('playNow')} ▶
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
+        </section>
 
-          {/* Bouton Découvrir les Exercices */}
-          <div className="text-center mt-12">
-            <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-bold text-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105">
-              <span className="mr-2">📚</span>
-              {t('discoverExercises')}
-            </button>
-          </div>
-        </div>
-
-        {/* Message de confiance */}
-        <div className="text-center mb-12">
-          <p className="text-lg text-gray-600 mb-2">
-            {t('alreadyTrusted')}
-          </p>
-          <div className="flex justify-center">
-            <div className="flex">
-              {[...Array(5)].map((_, i) => (
-                <span key={i} className="text-yellow-400 text-2xl">⭐</span>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Section "Pourquoi choisir Math4Child ?" */}
-        <div className="text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            {t('whyChoose')}
-          </h2>
-          <p className="text-lg text-gray-600 mb-12">
-            {t('whyChooseDesc')}
-          </p>
+        <section className="mb-16">
+          <h3 className="text-3xl font-bold text-center mb-8">{t.choosePlan}</h3>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600 mb-2">100k+</div>
-              <div className="text-gray-600">{t('families')}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600 mb-2">5M+</div>
-              <div className="text-gray-600">{t('questionsResolved')}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600 mb-2">98%</div>
-              <div className="text-gray-600">{t('satisfaction')}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-orange-600 mb-2">4.9★</div>
-              <div className="text-gray-600">{t('averageRating')}</div>
-            </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+            {[
+              { name: t.freePlan, price: '0€', features: ['10 questions/jour', '1 profil'] },
+              { name: t.premiumPlan, price: '9.99€', features: [t.unlimitedQuestions, t.allLevels] },
+              { name: t.familyPlan, price: '19.99€', features: [t.unlimitedQuestions, t.allLevels, t.multipleProfiles] }
+            ].map((plan, index) => (
+              <div key={index} className="bg-white bg-opacity-20 backdrop-blur-lg rounded-xl p-6 text-center">
+                <h4 className="text-xl font-semibold mb-2">{plan.name}</h4>
+                <div className="text-3xl font-bold mb-4">{plan.price}</div>
+                <ul className="mb-6 space-y-2">
+                  {plan.features.map((feature, i) => (
+                    <li key={i} className="text-sm">✓ {feature}</li>
+                  ))}
+                </ul>
+                <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors w-full">
+                  {t.selectPlan}
+                </button>
+              </div>
+            ))}
           </div>
-        </div>
-      </main>
-    </div>
-  );
+        </section>
+
+        <footer className="text-center opacity-70">
+          <p>&copy; 2024 {t.appName} - {t.appFullName}</p>
+        </footer>
+      </div>
+    </main>
+  )
 }

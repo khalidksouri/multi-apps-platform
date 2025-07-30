@@ -1,20 +1,23 @@
 {
-  "name": "math4child-monorepo",
+  "name": "math4child-platform",
   "version": "4.0.0",
+  "description": "Math4Child - Plateforme éducative multilingue complète",
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "tests"
   ],
   "scripts": {
-    "dev": "npm run dev --workspace=apps/math4child",
-    "build": "npm run build --workspace=apps/math4child",
-    "start": "npm run start --workspace=apps/math4child",
-    "clean": "rm -rf apps/*/node_modules apps/*/.next node_modules"
+    "dev": "cd apps/math4child && npm run dev",
+    "build": "cd apps/math4child && npm run build",
+    "start": "cd apps/math4child && npm run start",
+    "test": "cd tests && npm run test",
+    "test:ui": "cd tests && npm run test:ui",
+    "install:all": "npm install && cd apps/math4child && npm install && cd ../../tests && npm install",
+    "setup": "npm run install:all && cd tests && npx playwright install --with-deps"
   },
-  "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "concurrently": "^8.2.0",
-    "postcss": "^8.5.6",
-    "tailwindcss": "^4.1.11"
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   }
 }

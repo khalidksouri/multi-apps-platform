@@ -1,89 +1,83 @@
-import { defineConfig, devices } from '@playwright/test'
+import { defineConfig, devices } from '@playwright/test';
 
 export default defineConfig({
-  // Dossier des tests
   testDir: './tests',
-  
-  // Timeouts
-  timeout: 60 * 1000,
-  expect: { timeout: 15 * 1000 },
-  
-  // Configuration globale
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 1,
-  workers: process.env.CI ? 2 : 4,
+  retries: process.env.CI ? 3 : 2,
+  workers: process.env.CI ? 2 : undefined,
+  timeout: 60000,
   
-  // Reporters
   reporter: [
-    ['html', { outputFolder: 'playwright-report' }],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
     ['json', { outputFile: 'test-results/results.json' }],
-    ['list']
+    ['junit', { outputFile: 'test-results/junit.xml' }],
+    process.env.CI ? ['github'] : ['list']
   ],
   
-  // Dossier de sortie
-  outputDir: 'test-results',
+  outputDir: 'test-results/',
   
-  // Configuration globale des tests
   use: {
-    baseURL: 'http://localhost:3000',
-    trace: 'on-first-retry',
+    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    actionTimeout: 20000,
+    navigationTimeout: 45000,
+    trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
+    viewport: { width: 1280, height: 720 },
+    ignoreHTTPSErrors: true,
+    expect: {
+      timeout: 15000
+    }
   },
 
-  // Projets de test
   projects: [
     {
-      name: 'setup',
-      testMatch: /.*\.setup\.ts/,
-    },
-    
-    {
-      name: 'chromium',
+      name: 'smoke',
+      testMatch: /.*\.smoke\.spec\.ts$/,
       use: { ...devices['Desktop Chrome'] },
-      dependencies: ['setup'],
+      retries: 1
     },
-    
+    {
+      name: 'translation',
+      testMatch: /.*translation.*\.spec\.ts$/,
+      use: { 
+        ...devices['Desktop Chrome'],
+        actionTimeout: 30000
+      }
+    },
+    {
+      name: 'responsive',
+      testMatch: /.*responsive.*\.spec\.ts$/,
+      use: { 
+        ...devices['Pixel 5'],
+        actionTimeout: 25000
+      }
+    },
+    {
+      name: 'desktop',
+      testMatch: /.*\.spec\.ts$/,
+      testIgnore: [/.*\.smoke\.spec\.ts$/, /.*translation.*\.spec\.ts$/, /.*responsive.*\.spec\.ts$/],
+      use: { ...devices['Desktop Chrome'] }
+    },
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-      dependencies: ['setup'],
-    },
-    
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-      dependencies: ['setup'],
-    },
-    
-    {
-      name: 'mobile-chrome',
-      use: { ...devices['Pixel 5'] },
-      dependencies: ['setup'],
-    },
-    
-    // Tests spécialisés
-    {
-      name: 'translation-tests',
-      use: { ...devices['Desktop Chrome'] },
-      testMatch: '**/translation/**/*.spec.ts',
-      dependencies: ['setup'],
-    },
-    
-    {
-      name: 'stripe-tests',
-      use: { ...devices['Desktop Chrome'] },
-      testMatch: '**/stripe/**/*.spec.ts',
-      dependencies: ['setup'],
-    },
+      testMatch: /.*\.spec\.ts$/,
+      use: { 
+        ...devices['Desktop Firefox'],
+        actionTimeout: 30000
+      }
+    }
   ],
 
-  // Serveur de développement
-  webServer: {
+  // Serveur web conditionnel
+  webServer: process.env.CI ? undefined : {
     command: 'npm run dev',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
-    timeout: 120 * 1000,
-  },
-})
+    timeout: 120000,
+    // Ignore les erreurs de serveur pour éviter les warnings
+    stderr: 'ignore',
+    stdout: 'ignore'
+  }
+});

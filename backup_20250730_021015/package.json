@@ -1,0 +1,31 @@
+{
+  "name": "math4child-tests",
+  "version": "2.0.0",
+  "description": "Suite de tests E2E Playwright pour Math4Child",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:headed": "playwright test --headed",
+    "test:smoke": "playwright test --project=smoke",
+    "test:translation": "playwright test --project=translation",
+    "test:mobile": "playwright test --project=mobile",
+    "test:desktop": "playwright test --project=desktop",
+    "test:firefox": "playwright test --project=firefox",
+    "test:report": "playwright show-report",
+    "test:install": "playwright install --with-deps",
+    "clean": "rimraf test-results playwright-report",
+    "dev": "cd ../apps/math4child && npm run dev"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.41.0",
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "rimraf": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  }
+}

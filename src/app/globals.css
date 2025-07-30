@@ -2,141 +2,312 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-html, body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  scroll-behavior: smooth;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  line-height: 1.6;
-}
-
-*:focus {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Support RTL */
 [dir="rtl"] {
   text-align: right;
 }
 
-[dir="rtl"] .space-x-2 > * + * {
+[dir="rtl"] .container {
+  direction: rtl;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* ===================================================================
+   🌍 STYLES RTL POUR MATH4CHILD - INTERFACE ARABE
+   ================================================================= */
+
+/* Police arabe optimisée */
+[dir="rtl"] {
+  font-family: 'Cairo', 'Amiri', 'Noto Sans Arabic', 'Segoe UI Arabic', sans-serif;
+  font-feature-settings: "liga" 1, "kern" 1;
+}
+
+/* Direction RTL globale */
+[dir="rtl"] * {
+  direction: rtl;
+}
+
+[dir="rtl"] .container {
+  direction: rtl;
+}
+
+/* ===================================================================
+   COMPOSANTS PRICING RTL
+   ================================================================= */
+
+/* Cartes de prix RTL */
+[dir="rtl"] .pricing-card {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .pricing-header {
+  text-align: center;
+  direction: rtl;
+}
+
+/* Listes de fonctionnalités RTL */
+[dir="rtl"] .feature-list {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] .feature-icon {
+  order: 2;
+  margin-left: 0;
   margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+[dir="rtl"] .feature-text {
+  order: 1;
+  text-align: right;
+}
+
+/* ===================================================================
+   BADGES ET NOTIFICATIONS RTL
+   ================================================================= */
+
+[dir="rtl"] .badge-recommended {
+  left: auto;
+  right: 1rem;
+  top: -0.75rem;
+}
+
+[dir="rtl"] .warning-badge {
+  direction: rtl;
+  text-align: center;
+}
+
+/* ===================================================================
+   BOUTONS RTL
+   ================================================================= */
+
+[dir="rtl"] .btn-primary {
+  direction: rtl;
+  text-align: center;
+}
+
+[dir="rtl"] .btn-secondary {
+  direction: rtl;
+  text-align: center;
+}
+
+/* ===================================================================
+   GRILLES ET LAYOUTS RTL
+   ================================================================= */
+
+[dir="rtl"] .grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .flex {
+  direction: rtl;
+}
+
+[dir="rtl"] .space-y-3 > :not([hidden]) ~ :not([hidden]) {
+  margin-top: 0.75rem;
+  margin-right: 0;
   margin-left: 0;
 }
 
-[dir="rtl"] .space-x-4 > * + * {
-  margin-right: 1rem;
-  margin-left: 0;
+[dir="rtl"] .gap-3 {
+  gap: 0.75rem;
 }
 
-[dir="rtl"] .space-x-6 > * + * {
-  margin-right: 1.5rem;
-  margin-left: 0;
+[dir="rtl"] .gap-4 {
+  gap: 1rem;
 }
 
-/* Transitions */
-.transition-all {
+[dir="rtl"] .gap-6 {
+  gap: 1.5rem;
+}
+
+[dir="rtl"] .gap-8 {
+  gap: 2rem;
+}
+
+/* ===================================================================
+   ALIGNEMENTS DE TEXTE RTL
+   ================================================================= */
+
+[dir="rtl"] .text-right {
+  text-align: right;
+}
+
+[dir="rtl"] .text-center {
+  text-align: center;
+}
+
+[dir="rtl"] .text-left {
+  text-align: left;
+}
+
+/* ===================================================================
+   RESPONSIVE RTL
+   ================================================================= */
+
+@media (max-width: 768px) {
+  [dir="rtl"] .grid-cols-1.md\:grid-cols-3 {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  [dir="rtl"] .scale-105 {
+    transform: none;
+  }
+  
+  [dir="rtl"] .pricing-card {
+    margin-bottom: 1rem;
+  }
+  
+  [dir="rtl"] .feature-item {
+    padding: 0.5rem 0;
+  }
+}
+
+@media (max-width: 640px) {
+  [dir="rtl"] .text-4xl {
+    font-size: 2rem;
+    line-height: 2.5rem;
+  }
+  
+  [dir="rtl"] .text-3xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+  
+  [dir="rtl"] .px-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* ===================================================================
+   ANIMATIONS RTL
+   ================================================================= */
+
+[dir="rtl"] .transform {
+  transform: none;
+}
+
+[dir="rtl"] .hover\:-translate-y-0\.5:hover {
+  transform: translateY(-0.125rem);
+}
+
+[dir="rtl"] .transition-all {
   transition: all 0.2s ease-in-out;
 }
 
-/* Animation dropdowns */
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* ===================================================================
+   FAQ SECTION RTL
+   ================================================================= */
+
+[dir="rtl"] .faq-container {
+  direction: rtl;
+  text-align: right;
 }
 
-.dropdown-enter {
-  animation: slideDown 0.2s ease-out;
+[dir="rtl"] .faq-item {
+  text-align: right;
+  direction: rtl;
 }
 
-/* Styles boutons */
-.btn-primary {
-  background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-  color: white;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
+[dir="rtl"] .faq-question {
   font-weight: 600;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s;
+  margin-bottom: 0.5rem;
+  text-align: right;
 }
 
-.btn-primary:hover {
-  transform: scale(1.05);
-  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+[dir="rtl"] .faq-answer {
+  color: #6b7280;
+  text-align: right;
+  line-height: 1.6;
 }
 
-.btn-secondary {
-  background: white;
-  color: #374151;
-  border: 2px solid #d1d5db;
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
+/* ===================================================================
+   CONTACT SECTION RTL
+   ================================================================= */
+
+[dir="rtl"] .contact-section {
+  direction: rtl;
+  text-align: center;
 }
 
-.btn-secondary:hover {
-  border-color: #3b82f6;
-  color: #3b82f6;
+[dir="rtl"] .contact-buttons {
+  direction: rtl;
+  justify-content: center;
 }
 
-/* Responsive */
-@media (max-width: 640px) {
-  .space-x-2 > * + * {
-    margin-left: 0.5rem;
+/* ===================================================================
+   NAVIGATION RTL
+   ================================================================= */
+
+[dir="rtl"] .nav-item {
+  direction: rtl;
+}
+
+[dir="rtl"] .dropdown-menu {
+  direction: rtl;
+  text-align: right;
+}
+
+/* ===================================================================
+   UTILITAIRES RTL
+   ================================================================= */
+
+.rtl-float-right {
+  float: right;
+}
+
+.rtl-float-left {
+  float: left;
+}
+
+.rtl-clear {
+  clear: both;
+}
+
+/* ===================================================================
+   CORRECTIONS SPÉCIFIQUES NAVIGATEURS
+   ================================================================= */
+
+/* Safari RTL fixes */
+@supports (-webkit-appearance: none) {
+  [dir="rtl"] select {
+    background-position: left 0.5rem center;
+    padding-left: 2rem;
+    padding-right: 0.75rem;
   }
-  
-  .space-x-4 > * + * {
-    margin-left: 1rem;
+}
+
+/* Firefox RTL fixes */
+@-moz-document url-prefix() {
+  [dir="rtl"] .grid {
+    direction: rtl;
   }
 }
 
-/* Layout amélioré */
-.fixed-header-layout {
-  padding-top: 80px; /* Hauteur du header fixe */
-}
+/* ===================================================================
+   PRINT STYLES RTL
+   ================================================================= */
 
-/* Améliorations responsive */
-@media (max-width: 768px) {
-  .fixed-header-layout {
-    padding-top: 70px;
+@media print {
+  [dir="rtl"] * {
+    direction: rtl !important;
+    text-align: right !important;
   }
-}
-
-/* Smooth scrolling pour les ancres */
-html {
-  scroll-padding-top: 80px;
-}
-
-/* Améliorations pour le footer */
-footer a:hover {
-  text-decoration: underline;
-}
-
-/* Corrections pour l'espacement */
-.space-x-3 > * + * {
-  margin-left: 0.75rem;
-}
-
-.space-x-4 > * + * {
-  margin-left: 1rem;
-}
-
-.space-x-6 > * + * {
-  margin-left: 1.5rem;
 }
