@@ -1,21 +1,20 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Configuration Playwright - Math4Child UNIQUEMENT
- * Toutes autres applications supprimées
+ * Configuration Playwright simplifiée pour Math4Child
+ * Sans webServer automatique pour éviter les conflits
  */
 export default defineConfig({
   testDir: './tests',
   timeout: 30 * 1000,
-  expect: { timeout: 10000 },
+  expect: { timeout: 5000 },
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   
   reporter: [
     ['html', { outputFolder: 'playwright-report' }],
-    ['list'],
-    ['json', { outputFile: 'test-results.json' }]
+    ['list']
   ],
   
   use: {
@@ -28,15 +27,13 @@ export default defineConfig({
   projects: [
     {
       name: 'math4child-desktop',
-      use: { ...devices['Desktop Chrome'] },
-      testMatch: ['**/*.spec.ts']
+      use: { ...devices['Desktop Chrome'] }
     },
     {
-      name: 'math4child-mobile',
-      use: { ...devices['Pixel 5'] },
-      testMatch: ['**/*.spec.ts']
+      name: 'math4child-mobile', 
+      use: { ...devices['Pixel 5'] }
     }
   ]
   
-  // Pas de webServer - à lancer manuellement
+  // Pas de webServer - à lancer manuellement avec `npm run dev`
 });
