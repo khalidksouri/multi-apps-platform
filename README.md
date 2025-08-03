@@ -1,249 +1,361 @@
-# 🧮 Math4Child - Application Éducative Mathématiques
+# 🎯 Math4Child - Plateforme Éducative Multilingue
 
-## 📋 Vue d'ensemble
+> **Application éducative révolutionnaire pour l'apprentissage des mathématiques**  
+> Développée par GOTEST (SIRET: 53958712100028)
 
-**Math4Child** est une application éducative Next.js innovante pour l'apprentissage des mathématiques, conçue spécialement pour les enfants. L'application propose un système d'internationalisation complet avec support de **20 langues exactement**, incluant un support RTL natif pour les langues arabes.
+[![Statut](https://img.shields.io/badge/Statut-Production%20Ready-brightgreen)](http://localhost:3001)
+[![Langues](https://img.shields.io/badge/Langues-24%20Supportées-blue)](#)
+[![Système de Paiement](https://img.shields.io/badge/Stripe-Intégré-purple)](#)
+[![Tests](https://img.shields.io/badge/Tests-Playwright-orange)](#)
 
-## ✨ Fonctionnalités principales
+## 🚀 Vue d'ensemble
 
-### 🌍 Système multilingue avancé
-- **20 langues supportées exactement** (selon spécifications)
-- **Support RTL natif** pour l'arabe, l'hébreu et le persan
-- **Persistance automatique** de la langue sélectionnée
-- **Détection de la langue du navigateur**
-- **Traductions complètes** de toute l'interface
+Math4Child est une application éducative complète qui révolutionne l'apprentissage des mathématiques pour les enfants. Elle combine gamification, technologie moderne et pédagogie adaptative pour créer une expérience d'apprentissage unique et engageante.
 
-### 🧮 Contenu éducatif mathématique
-- **4 opérations de base** : Addition, Soustraction, Multiplication, Division
-- **5 niveaux de difficulté** : Débutant, Intermédiaire, Avancé, Expert, Maître
-- **Interface ludique et interactive**
-- **Suivi des progrès et statistiques**
+### ✨ Caractéristiques principales
 
-### 🔧 Architecture technique
-- **Next.js 14** avec TypeScript
-- **Tailwind CSS** pour le design responsive
-- **Tests Playwright** pour la qualité
-- **Support PWA** (Progressive Web App)
-- **Performance optimisée** < 3s de chargement
+- **🌍 Support multilingue** : 24 langues avec interface RTL complète
+- **💳 Système de paiement** : Intégration Stripe avec plans flexibles
+- **🎮 Gamification** : Badges, récompenses et défis motivants
+- **📊 Analyse adaptative** : Ajustement automatique au niveau de l'enfant
+- **👨‍👩‍👧‍👦 Plans famille** : Jusqu'à 6 profils enfants
+- **📱 Responsive design** : Interface optimisée mobile et desktop
 
-## 🌍 Langues supportées (20 exactement)
-
-### Europe/Amérique (8 langues)
-- 🇫🇷 Français (fr) - *Langue principale*
-- 🇺🇸 Anglais (en)
-- 🇪🇸 Espagnol (es)
-- 🇩🇪 Allemand (de)
-- 🇮🇹 Italien (it)
-- 🇵🇹 Portugais (pt)
-- 🇳🇱 Néerlandais (nl)
-- 🇷🇺 Russe (ru)
-
-### Asie (6 langues)
-- 🇨🇳 Chinois (zh)
-- 🇯🇵 Japonais (ja)
-- 🇰🇷 Coréen (ko)
-- 🇮🇳 Hindi (hi)
-- 🇹🇭 Thaï (th)
-- 🇻🇳 Vietnamien (vi)
-
-### MENA - Support RTL (3 langues)
-- 🇸🇦 Arabe (ar) **RTL**
-- 🇮🇱 Hébreu (he) **RTL**
-- 🇮🇷 Persan (fa) **RTL**
-
-### Nordique/Autres (3 langues)
-- 🇸🇪 Suédois (sv)
-- 🇹🇷 Turc (tr)
-- 🇵🇱 Polonais (pl)
-
-**Total : 20 langues (3 RTL + 17 LTR)**
-
-## 🚀 Installation et démarrage
-
-### Prérequis
-- Node.js 18+
-- npm ou yarn
-
-### Installation
-```bash
-# Cloner le repository
-git clone https://github.com/khalidksouri/multi-apps-platform.git
-cd multi-apps-platform
-
-# Installer les dépendances
-npm install
-
-# Démarrer Math4Child
-cd apps/math4child
-npm run dev
-```
-
-### Accès à l'application
-- **URL locale** : http://localhost:3001
-- **Port** : 3001 (spécifique à Math4Child)
-
-## 🧪 Tests et qualité
-
-### Tests Playwright
-```bash
-# Tests multilingues complets
-npm run test
-
-# Tests spécifiques RTL
-npm run test:rtl
-
-# Tests de performance
-npm run test:perf
-```
-
-### Couverture de tests
-- ✅ **Interface multilingue** - Toutes les 20 langues
-- ✅ **Support RTL** - Arabe, Hébreu, Persan
-- ✅ **Persistance** - Langue sauvegardée
-- ✅ **Responsive** - Mobile et desktop
-- ✅ **Performance** - Temps de chargement < 3s
-
-## 📁 Structure du projet
+## 🏗️ Architecture Technique
 
 ```
 apps/math4child/
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx          # Layout principal avec metadata
-│   │   ├── page.tsx            # Page d'accueil multilingue
-│   │   └── globals.css         # Styles avec support RTL
-│   ├── hooks/
-│   │   └── LanguageContext.tsx # Context React pour les langues
-│   ├── types/
-│   │   └── translations.ts     # Types TypeScript
-│   ├── translations.ts         # Traductions des 20 langues
-│   └── language-config.ts      # Configuration des langues
-├── tests/
-│   └── multilingual.spec.ts    # Tests Playwright
-├── playwright.config.ts        # Configuration Playwright
-├── package.json               # Dependencies et scripts
-└── README.md                  # Documentation spécifique
+├── 📁 src/
+│   ├── 📁 app/                    # App Router Next.js 14
+│   │   ├── 📄 layout.tsx          # Layout principal
+│   │   ├── 📄 page.tsx            # Page d'accueil
+│   │   └── 📁 api/                # Routes API
+│   │       └── 📁 stripe/         # API Stripe
+│   ├── 📁 components/             # Composants React
+│   │   ├── 📁 payment/            # Système de paiement
+│   │   └── 📄 LanguageSelector.tsx # Sélecteur multilingue
+│   ├── 📁 hooks/                  # Hooks personnalisés
+│   │   └── 📄 useTranslation.ts   # Système i18n
+│   ├── 📁 types/                  # Types TypeScript
+│   ├── 📁 lib/                    # Utilitaires
+│   │   └── 📄 stripe.ts           # Configuration Stripe
+│   └── 📄 translations.ts         # Traductions
+├── 📁 scripts/                    # Scripts d'automatisation
+└── 📄 package.json               # Configuration npm
 ```
 
-## 🎯 Scripts disponibles
+## 🛠️ Installation et Lancement
+
+### Prérequis
+- Node.js >= 18.0.0
+- npm >= 9.0.0
+- Compte Stripe (pour les paiements)
+
+### Installation rapide
 
 ```bash
-# Développement
-npm run dev              # Démarrer en mode développement (port 3001)
-npm run build           # Build de production
-npm run start           # Démarrer en production
-npm run lint            # Linter ESLint
+# Cloner et naviguer
+cd apps/math4child
 
-# Tests
-npm run test            # Tests Playwright
-npm run test:ui         # Interface de tests Playwright
-npm run type-check      # Vérification TypeScript
+# Installation des dépendances
+npm install
 
-# Qualité
-npm run analyze         # Analyse du bundle
-npm run lighthouse      # Tests de performance
+# Configuration environnement
+cp .env.example .env.local
+# Éditer .env.local avec vos clés Stripe
+
+# Lancement développement
+npm run dev
 ```
 
-## 🔧 Configuration technique
+### Scripts disponibles
 
-### Environment
 ```bash
-# .env.local
-NEXT_PUBLIC_APP_NAME=Math4Child
-NEXT_PUBLIC_VERSION=2.0.0
-NEXT_PUBLIC_SUPPORTED_LANGUAGES=20
-NEXT_PUBLIC_RTL_SUPPORT=true
+# 🚀 Correction automatique des dépendances Stripe
+./fix_stripe_dependencies.sh
+
+# 🎨 Enrichissement complet (24 langues + fonctionnalités)
+./enhance_math4child_full.sh
+
+# 💳 Installation système de paiement complet
+./payment_system_math4child.sh
+
+# 🔗 Intégration avec infrastructure Stripe existante
+./integrate_existing_stripe.sh
+
+# 🔧 Correction erreurs de configuration
+./fix_language_config_error.sh
+
+# 📊 Diagnostic complet
+./debug_math4child_startup.sh
 ```
 
-### TypeScript
-- Configuration stricte avec types personnalisés
-- Support des traductions typées
-- Validation des 20 langues à la compilation
+## 🌍 Système Multilingue Avancé
 
-### Performance
-- **First Contentful Paint** : < 1.5s
-- **Time to Interactive** : < 3s
-- **Cumulative Layout Shift** : < 0.1
-- **Largest Contentful Paint** : < 2.5s
+### Langues supportées (24 langues)
 
-## 🌐 Déploiement
+| Région | Langues | Support RTL |
+|--------|---------|-------------|
+| **Europe (13)** | 🇫🇷 Français, 🇺🇸 English, 🇪🇸 Español, 🇩🇪 Deutsch, 🇮🇹 Italiano, 🇵🇹 Português, 🇳🇱 Nederlands, 🇷🇺 Русский, 🇵🇱 Polski, 🇸🇪 Svenska, 🇩🇰 Dansk, 🇳🇴 Norsk, 🇫🇮 Suomi | Non |
+| **Asie (6)** | 🇨🇳 中文, 🇯🇵 日本語, 🇰🇷 한국어, 🇮🇳 हिन्दी, 🇹🇭 ไทย, 🇻🇳 Tiếng Việt | Non |
+| **Moyen-Orient (4)** | 🇸🇦 العربية, 🇮🇱 עברית, 🇮🇷 فارسی, 🇵🇰 اردو | **Oui** |
+| **Autres (1)** | 🇹🇷 Türkçe | Non |
 
-### Production
+### Fonctionnalités i18n
+
+- **Persistance automatique** : Langue sauvegardée dans localStorage
+- **Détection intelligente** : Langue du navigateur auto-détectée
+- **Interface RTL complète** : Support droite-à-gauche
+- **Sélecteur avancé** : Recherche et groupement par région
+- **Fallback robuste** : Français → Anglais → Clé par défaut
+
+## 💳 Système de Paiement Stripe
+
+### Plans d'abonnement
+
+| Plan | Prix | Profils | Fonctionnalités |
+|------|------|---------|-----------------|
+| **Gratuit** | 0€ | 1 | Exercices de base, 50 questions/semaine |
+| **Premium** | 9,99€/mois | 3 | Tous exercices, questions illimitées, stats avancées |
+| **Premium Annuel** | 99,99€/an | 3 | Premium + 2 mois gratuits (17% économie) |
+| **Famille** | 19,99€/mois | 6 | Tableau de bord famille, mode compétition |
+| **Famille Annuel** | 199,99€/an | 6 | Famille + 3 mois gratuits (25% économie) |
+
+### Fonctionnalités paiement
+
+- **Checkout sécurisé** : Formulaire de facturation complet
+- **Méthodes de paiement** : Carte, PayPal, SEPA
+- **Multi-devises** : Adaptation automatique par région
+- **Essai gratuit** : 14 jours pour tous les plans payants
+- **Facturation automatique** : Renouvellement transparent
+
+## 🎮 Fonctionnalités Éducatives
+
+### Apprentissage adaptatif
+- **Niveaux dynamiques** : Débutant → Intermédiaire → Avancé → Expert → Maître
+- **Algorithme d'adaptation** : Ajustement en temps réel selon les performances
+- **Parcours personnalisés** : Recommandations basées sur les forces/faiblesses
+
+### Opérations mathématiques
+- ➕ **Addition** : Nombres simples aux fractions
+- ➖ **Soustraction** : Avec retenues et nombres négatifs
+- ✖️ **Multiplication** : Tables jusqu'aux nombres décimaux
+- ➗ **Division** : Euclidienne et décimale
+
+### Gamification
+- 🏆 **Système de badges** : 50+ badges à débloquer
+- 🔥 **Streaks** : Motivation par séries de réussites
+- 🎯 **Défis quotidiens** : Objectifs renouvelés
+- 📊 **Classements** : Compétition saine entre profils
+
+## 🔧 Configuration et Personnalisation
+
+### Variables d'environnement
+
 ```bash
-# Build optimisé
+# Application
+NEXT_PUBLIC_SITE_URL=http://localhost:3001
+NODE_ENV=development
+PORT=3001
+
+# Business GOTEST
+BUSINESS_NAME=GOTEST
+BUSINESS_SIRET=53958712100028
+BUSINESS_EMAIL=khalid_ksouri@yahoo.fr
+
+# Stripe
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# Base de données (optionnel)
+DATABASE_URL=postgresql://...
+
+# Email (optionnel)
+SMTP_HOST=smtp.gmail.com
+SMTP_USER=khalid_ksouri@yahoo.fr
+```
+
+### Configuration Stripe
+
+1. **Créer les produits dans Stripe Dashboard**
+2. **Configurer les webhooks** : `${SITE_URL}/api/stripe/webhooks`
+3. **Events nécessaires** :
+   - `customer.subscription.created`
+   - `customer.subscription.updated`
+   - `customer.subscription.deleted`
+   - `invoice.payment_succeeded`
+   - `checkout.session.completed`
+
+## 🧪 Tests et Qualité
+
+### Tests Playwright intégrés
+
+```bash
+# Installation Playwright
+npm install @playwright/test
+
+# Lancement des tests
+npm run test
+
+# Tests spécifiques
+npm run test:payment    # Tests système de paiement
+npm run test:i18n      # Tests multilingues
+npm run test:ui        # Tests interface utilisateur
+```
+
+### Validation de code
+
+```bash
+# TypeScript
+npm run type-check
+
+# Linting
+npm run lint
+
+# Build de production
+npm run build
+```
+
+## 📊 Monitoring et Analytics
+
+### Métriques suivies
+- **Temps d'engagement** par session
+- **Taux de réussite** par niveau/opération
+- **Progression** des utilisateurs
+- **Conversion** des plans gratuits vers payants
+- **Utilisation** par langue/région
+
+### Logs structurés
+- **Actions utilisateur** : Connexion, changement de langue, exercices
+- **Paiements** : Tentatives, réussites, échecs
+- **Erreurs** : Capture et traçabilité complète
+
+## 🚀 Déploiement
+
+### Environnements
+
+| Environnement | URL | Status |
+|---------------|-----|--------|
+| **Développement** | http://localhost:3001 | ✅ Actif |
+| **Test** | https://test.math4child.com | 🔄 En cours |
+| **Production** | https://www.math4child.com | 🎯 Objectif |
+
+### Déploiement Netlify
+
+```bash
+# Build de production
 npm run build
 
-# Démarrage production
-npm run start
+# Déploiement automatique
+git push origin main
 ```
 
-### Vercel (recommandé)
+### Variables de production
+- Remplacer les clés Stripe test par production
+- Configurer le DNS personnalisé
+- Activer SSL automatique
+- Configurer les redirections
+
+## 🛡️ Sécurité
+
+### Mesures implémentées
+- **Validation d'entrées** : Sanitisation côté client et serveur
+- **Protection CSRF** : Tokens sécurisés
+- **Headers de sécurité** : CSP, HSTS, X-Frame-Options
+- **Rate limiting** : Protection contre le spam
+- **Chiffrement** : HTTPS obligatoire en production
+
+### Données sensibles
+- **Informations de paiement** : Jamais stockées (Stripe uniquement)
+- **Données utilisateurs** : Chiffrées en base
+- **Sessions** : JWT sécurisés avec expiration
+
+## 🐛 Dépannage
+
+### Problèmes courants
+
+| Problème | Solution |
+|----------|----------|
+| **Erreur npm config** | `./fix_npm_config_issue.sh` |
+| **Erreur SUPPORTED_LANGUAGES** | `./fix_language_config_error.sh` |
+| **Dépendances Stripe manquantes** | `./fix_stripe_dependencies.sh` |
+| **Build échoue** | `./debug_math4child_startup.sh` |
+
+### Logs de diagnostic
+
 ```bash
-# Deploy automatique via GitHub
-vercel --prod
+# Logs du serveur
+tail -f dev.log
+
+# Logs Stripe
+tail -f stripe-fix.log
+
+# Logs d'intégration
+tail -f integration.log
 ```
 
-### Docker
-```bash
-# Build de l'image
-docker build -t math4child .
+## 📞 Support et Contribution
 
-# Lancement du container
-docker run -p 3001:3001 math4child
-```
-
-## 📊 Métriques et analytics
-
-### Support des langues en temps réel
-- Statistiques d'utilisation par langue
-- Taux d'adoption des nouvelles langues
-- Performance par région géographique
-
-### Métriques éducatives
-- Temps moyen par exercice
-- Taux de réussite par niveau
-- Progression des utilisateurs
-
-## 🤝 Contribution
-
-### Ajouter une nouvelle langue
-1. Modifier `SUPPORTED_LANGUAGES` dans `language-config.ts`
-2. Ajouter les traductions dans `translations.ts`
-3. Tester avec Playwright
-4. Mettre à jour la documentation
-
-### Standards de code
-- ESLint + Prettier configurés
-- Convention de commits : `feat:`, `fix:`, `docs:`
-- Tests obligatoires pour nouvelles fonctionnalités
-
-## 📞 Support et contact
-
-- **Développeur** : Khalid Ksouri
+### Contact GOTEST
 - **Email** : khalid_ksouri@yahoo.fr
-- **GitHub** : https://github.com/khalidksouri/multi-apps-platform
-- **Issues** : https://github.com/khalidksouri/multi-apps-platform/issues
+- **SIRET** : 53958712100028
+- **IBAN** : FR7616958000016218830371501
 
-## 📄 Licence
+### Contribution
+1. Fork du repository
+2. Création d'une branche feature
+3. Tests complets
+4. Pull request avec description détaillée
 
-MIT License - Voir le fichier `LICENSE` pour plus de détails.
+### Roadmap
 
-## 🎉 Roadmap
+#### Q1 2024
+- [x] Système multilingue (24 langues)
+- [x] Intégration Stripe complète
+- [x] Interface responsive
+- [x] Tests Playwright
 
-### Version 2.1 (Q2 2025)
-- [ ] Mode hors ligne (PWA avancé)
-- [ ] Synchronisation cloud des progrès
-- [ ] Nouvelles langues : Indonésien, Bengali
-- [ ] Mode collaboratif multi-joueurs
+#### Q2 2024
+- [ ] Mode hors ligne (PWA)
+- [ ] API publique pour développeurs
+- [ ] Intégration IA pour personnalisation
+- [ ] Application mobile native
 
-### Version 2.2 (Q3 2025)
-- [ ] Intelligence artificielle pour adaptation
-- [ ] Réalité augmentée pour visualisation
-- [ ] API publique pour intégrations
-- [ ] Analytics avancés
+#### Q3 2024
+- [ ] Tableau de bord enseignant
+- [ ] Rapports avancés parents
+- [ ] Marketplace d'exercices
+- [ ] Certification pédagogique
+
+## 📄 Licences et Crédits
+
+### Licences
+- **Code source** : Propriétaire GOTEST
+- **Dépendances** : Voir package.json pour licences individuelles
+- **Assets éducatifs** : Créés spécifiquement pour Math4Child
+
+### Technologies utilisées
+- **Framework** : Next.js 14 (App Router)
+- **UI** : React 18 + TypeScript
+- **Styles** : Tailwind CSS
+- **Paiements** : Stripe
+- **Tests** : Playwright
+- **Déploiement** : Netlify
 
 ---
 
-**Math4Child v2.0.0** - Application éducative de référence pour l'apprentissage des mathématiques en famille 🧮
+## 🎯 Statut Actuel : Production Ready ✅
 
-Développé avec ❤️ par Khalid Ksouri | Support de 20 langues | RTL natif | Tests automatisés
+Math4Child est **entièrement fonctionnelle** et prête pour la production avec :
+
+- ✅ **24 langues supportées** avec interface RTL
+- ✅ **Système de paiement Stripe** opérationnel
+- ✅ **Tests automatisés** complets
+- ✅ **Interface responsive** optimisée
+- ✅ **Documentation complète** et scripts d'automatisation
+- ✅ **Sécurité robuste** et monitoring intégré
+
+**Dernière mise à jour** : Juillet 2025  
+**Version** : 2.0.0  
+**Statut** : ✨ Production Ready
