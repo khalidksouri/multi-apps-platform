@@ -1,7 +1,14 @@
 /**
- * Types pour le système de traductions Math4Child
- * Version propre sans doublons - Support 24 langues
+ * Types pour le système de traductions Math4Child - Version finale
  */
+
+export interface Language {
+  code: string
+  name: string
+  flag: string
+  rtl?: boolean
+  region?: string
+}
 
 export interface TranslationKey {
   // Navigation
@@ -103,4 +110,20 @@ export interface TranslationKey {
 
 export interface Translations {
   [languageCode: string]: TranslationKey
+}
+
+// Types pour le contexte de langue (si nécessaire)
+export interface LanguageContextType {
+  currentLanguage: Language
+  changeLanguage: (code: string) => void
+  t: (key: keyof TranslationKey) => string
+  isRTL: boolean
+  availableLanguages: Language[]
+}
+
+// Types utilitaires
+export interface LanguageStats {
+  totalLanguages: number
+  rtlLanguages: number
+  regions: string[]
 }

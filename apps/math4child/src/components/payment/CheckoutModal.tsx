@@ -51,7 +51,7 @@ export function CheckoutModal({ isOpen, onClose, plan, onSuccess }: CheckoutModa
   }
 
   const handleBillingSubmit = () => {
-    if (!billingInfo.email || !billingInfo.name) {
+    if (!billingInfo.email || !billingInfo.name || !billingInfo.address.line1 || !billingInfo.address.city) {
       setError('Veuillez remplir tous les champs obligatoires')
       return
     }
@@ -71,7 +71,7 @@ export function CheckoutModal({ isOpen, onClose, plan, onSuccess }: CheckoutModa
     try {
       console.log('🔄 Création de la session checkout...', { plan: plan.id })
 
-      // Simulation d'appel API en mode développement
+      // Simulation d'appel API
       await new Promise(resolve => setTimeout(resolve, 2000))
       
       // Simuler un succès
@@ -146,7 +146,7 @@ export function CheckoutModal({ isOpen, onClose, plan, onSuccess }: CheckoutModa
                       <input
                         type="text"
                         value={billingInfo.name}
-                        onChange={(e) => setBillingInfo(prev => ({ ...prev, name: e.target.value }))}
+                        onChange={(e) => setBillingInfo((prev: BillingInfo) => ({ ...prev, name: e.target.value }))}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         placeholder="Jean Dupont"
                       />
@@ -159,7 +159,7 @@ export function CheckoutModal({ isOpen, onClose, plan, onSuccess }: CheckoutModa
                       <input
                         type="email"
                         value={billingInfo.email}
-                        onChange={(e) => setBillingInfo(prev => ({ ...prev, email: e.target.value }))}
+                        onChange={(e) => setBillingInfo((prev: BillingInfo) => ({ ...prev, email: e.target.value }))}
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                         placeholder="jean@example.com"
                       />

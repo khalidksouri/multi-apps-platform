@@ -110,7 +110,7 @@ export const SUBSCRIPTION_PLANS = {
       'Consultation pédagogique offerte'
     ]
   }
-}
+} as const
 
 // Configuration des webhooks Stripe
 export const STRIPE_WEBHOOK_EVENTS = [

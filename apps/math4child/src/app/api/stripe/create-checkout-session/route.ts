@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { SUBSCRIPTION_PLANS, createStripeMetadata, BUSINESS_INFO, getStripeConfig } from '@/lib/stripe'
 
 // Configuration des prix de test (compatible avec l'existant)
-const TEST_PRICES = {
+const TEST_PRICES: Record<string, { amount: number; currency: string; interval: string }> = {
   'price_test_premium_monthly': { amount: 999, currency: 'eur', interval: 'month' },
   'price_test_premium_yearly': { amount: 9999, currency: 'eur', interval: 'year' },
   'price_test_family_monthly': { amount: 1999, currency: 'eur', interval: 'month' },
@@ -23,13 +23,13 @@ export async function POST(request: NextRequest) {
 
     console.log('🔄 Création session checkout:', { plan, priceId, customerEmail, platform })
 
-    // Validation du plan
-    let selectedPlan
-    if (plan && SUBSCRIPTION_PLANS[plan]) {
-      selectedPlan = SUBSCRIPTION_PLANS[plan]
-    } else if (priceId && TEST_PRICES[priceId as keyof typeof TEST_PRICES]) {
+    // Validation du plan avec typage correct
+    let selectedPlan: any
+    if (plan && SUBSCRIPTION_PLANS[plan as keyof typeof SUBSCRIPTION_PLANS]) {
+      selectedPlan = SUBSCRIPTION_PLANS[plan as keyof typeof SUBSCRIPTION_PLANS]
+    } else if (priceId && TEST_PRICES[priceId]) {
       // Compatibilité avec l'ancien système de priceId
-      const priceInfo = TEST_PRICES[priceId as keyof typeof TEST_PRICES]
+      const priceInfo = TEST_PRICES[priceId]
       selectedPlan = {
         id: priceId,
         name: `Plan ${priceId}`,

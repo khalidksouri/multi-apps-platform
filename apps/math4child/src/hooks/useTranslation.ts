@@ -12,9 +12,9 @@ export interface Language {
   region?: string
 }
 
-// 24 LANGUES COMPLÈTES - Support mondial
+// 25 LANGUES MONDIALES (toutes sauf hébreu selon les specs)
 const SUPPORTED_LANGUAGES: Language[] = [
-  // 🇪🇺 EUROPE (13 langues)
+  // Europe (13 langues)
   { code: 'fr', name: 'Français', flag: '🇫🇷', region: 'Europe' },
   { code: 'en', name: 'English', flag: '🇺🇸', region: 'World' },
   { code: 'es', name: 'Español', flag: '🇪🇸', region: 'Europe' },
@@ -29,26 +29,31 @@ const SUPPORTED_LANGUAGES: Language[] = [
   { code: 'no', name: 'Norsk', flag: '🇳🇴', region: 'Europe' },
   { code: 'fi', name: 'Suomi', flag: '🇫🇮', region: 'Europe' },
   
-  // 🌏 ASIE (6 langues)
+  // Asie (8 langues)
   { code: 'zh', name: '中文', flag: '🇨🇳', region: 'Asie' },
   { code: 'ja', name: '日本語', flag: '🇯🇵', region: 'Asie' },
   { code: 'ko', name: '한국어', flag: '🇰🇷', region: 'Asie' },
   { code: 'hi', name: 'हिन्दी', flag: '🇮🇳', region: 'Asie' },
   { code: 'th', name: 'ไทย', flag: '🇹🇭', region: 'Asie' },
   { code: 'vi', name: 'Tiếng Việt', flag: '🇻🇳', region: 'Asie' },
+  { code: 'id', name: 'Bahasa Indonesia', flag: '🇮🇩', region: 'Asie' },
+  { code: 'ms', name: 'Bahasa Melayu', flag: '🇲🇾', region: 'Asie' },
   
-  // 🕌 MOYEN-ORIENT & RTL (4 langues)
-  { code: 'ar', name: 'العربية', flag: '🇸🇦', region: 'Moyen-Orient', rtl: true },
-  { code: 'he', name: 'עברית', flag: '🇮🇱', region: 'Moyen-Orient', rtl: true },
+  // Moyen-Orient & Afrique (3 langues RTL - PAS d'hébreu selon specs)
+  { code: 'ar', name: 'العربية', flag: '🇲🇦', region: 'Moyen-Orient', rtl: true }, // Drapeau marocain
   { code: 'fa', name: 'فارسی', flag: '🇮🇷', region: 'Moyen-Orient', rtl: true },
   { code: 'ur', name: 'اردو', flag: '🇵🇰', region: 'Moyen-Orient', rtl: true },
   
-  // 🌍 AUTRES (1 langue)
+  // Autres (2 langues)
   { code: 'tr', name: 'Türkçe', flag: '🇹🇷', region: 'Autres' },
+  { code: 'sw', name: 'Kiswahili', flag: '🇰🇪', region: 'Afrique' },
 ]
 
+// Langue par défaut
+const DEFAULT_LANGUAGE: Language = SUPPORTED_LANGUAGES.find(lang => lang.code === 'fr') || SUPPORTED_LANGUAGES[0]
+
 export function useTranslation() {
-  const [currentLanguage, setCurrentLanguage] = useState<Language>(SUPPORTED_LANGUAGES[0])
+  const [currentLanguage, setCurrentLanguage] = useState<Language>(DEFAULT_LANGUAGE)
 
   // Fonction de traduction sécurisée
   const t = useCallback((key: keyof TranslationKey): string => {
@@ -101,7 +106,7 @@ export function useTranslation() {
     }
   }, [])
 
-  // Charger la langue sauvegardée au démarrage avec gestion d'erreur
+  // Charger la langue sauvegardée au démarrage
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -117,8 +122,7 @@ export function useTranslation() {
         }
       } catch (error) {
         console.warn('Impossible de charger la langue sauvegardée:', error)
-        // Utiliser la langue par défaut (français)
-        setCurrentLanguage(SUPPORTED_LANGUAGES[0])
+        setCurrentLanguage(DEFAULT_LANGUAGE)
       }
     }
   }, [changeLanguage])
@@ -150,5 +154,5 @@ export function useTranslation() {
   }
 }
 
-// Export des constantes pour utilisation externe si nécessaire
-export { SUPPORTED_LANGUAGES }
+// Export des constantes pour utilisation externe
+export { SUPPORTED_LANGUAGES, DEFAULT_LANGUAGE }
