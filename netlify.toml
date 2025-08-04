@@ -1,11 +1,11 @@
 # =============================================================================
-# CONFIGURATION NETLIFY - MATH4CHILD (CORRIGÉE)
+# CONFIGURATION NETLIFY - MATH4CHILD (CHEMINS CORRECTS)
 # =============================================================================
 
 [build]
   base = "apps/math4child"
-  publish = "apps/math4child/out"
-  command = "cd apps/math4child && npm install --legacy-peer-deps && npm run build && npm run export"
+  publish = "out"
+  command = "npm install --legacy-peer-deps && npm run build"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
