@@ -1,58 +1,36 @@
-# 🎯 Math4Child - Application Éducative Révolutionnaire et Ultra-Compétitive
+This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-> **L'application éducative N°1 mondiale pour l'apprentissage des mathématiques**  
-> Développée par GOTEST (SIRET: 53958712100028) pour dominer le marché hybride éducatif mondial
+## Getting Started
 
-## 🚨 **CONDITIONS CRITIQUES NON-NÉGOCIABLES**
+First, run the development server:
 
-### ❌ **AUCUNE VERSION SIMPLIFIÉE ACCEPTÉE**
-- **Interdiction totale** de toute version light, basique ou simplifiée
-- **Fonctionnalités complètes obligatoires** dans chaque déploiement
-- **Interface premium exclusive** - pas de compromis sur le design
-- **Toutes les langues obligatoires** - 25 langues minimum implémentées
-- **Système complet requis** - 5 niveaux + 5 opérations + progression
-
-### 🏆 **COMPÉTITIVITÉ MAXIMALE MARCHÉ HYBRIDE**
-- **Supériorité technologique** sur tous les concurrents existants
-- **Innovation disruptive** dans l'apprentissage mathématique
-- **Positionnement premium** face à Khan Academy Kids, DragonBox, Prodigy Math
-- **Fonctionnalités exclusives** non disponibles chez la concurrence
-- **Performance technique supérieure** - temps de chargement < 2s
-
-## 🚀 **Démarrage Ultra-Rapide**
-
-### Installation des dépendances
-```bash
-npm install
-```
-
-### Lancement en mode développement
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### Build de production
-```bash
-npm run build
-```
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Tests complets
-```bash
-npm run test
-npm run test:e2e
-npm run test:i18n
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## 🎯 **URLs d'Accès**
-- **Développement** : http://localhost:3001
-- **Production** : https://www.math4child.com
-- **Documentation** : https://docs.math4child.com
+This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## 📞 **Contact GOTEST**
-- **Email** : khalid_ksouri@yahoo.fr
-- **SIRET** : 53958712100028
-- **IBAN** : FR7616958000016218830371501
+## Learn More
 
----
+To learn more about Next.js, take a look at the following resources:
 
-**Statut** : ✨ **RÉVOLUTION PRÊTE POUR DOMINATION MONDIALE** ✨
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
