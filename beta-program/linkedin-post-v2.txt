@@ -1,0 +1,31 @@
+🎯 LANCEMENT BETA - Math4Child | Innovation EdTech 2025
+
+En tant que dirigeant GOTEST, je suis fier d'annoncer le lancement de notre programme beta Math4Child, l'application éducative qui révolutionne l'apprentissage des mathématiques.
+
+📊 INNOVATION TECHNIQUE POUSSÉE :
+• Architecture Next.js + TypeScript + Capacitor
+• 195+ langues avec support RTL complet (arabe, hébreu)
+• Tests automatisés Playwright + validation multi-plateforme
+• Paiements Stripe sécurisés + système de progression gamifié
+• PWA optimisé + prêt pour App Store (Android/iOS)
+• Configuration Netlify pour déploiement instantané
+
+🎯 RECHERCHE BETA TESTEURS SÉLECTIONNÉS :
+• 50 familles avec enfants 6-12 ans
+• Période de tests : 2 semaines intensives
+• Feedback produit structuré et constructif
+• Accès Premium gratuit pendant 3 mois
+
+🚀 URL BETA EXCLUSIVE : https://prismatic-sherbet-986159.netlify.app
+
+💼 OPPORTUNITÉS B2B :
+Établissements éducatifs, écoles privées et organismes de formation intéressés par des solutions innovantes d'apprentissage mathématique, contactez-nous pour des partenariats stratégiques.
+
+📧 Contact : gotesttech@gmail.com
+🏢 GOTEST - SIRET: 53958712100028
+🌐 Admin Netlify : (lien en commentaire)
+
+#EdTech #Innovation #BetaTest #Mathematics #Education #Startup #GOTEST #B2B #EducationDigitale #AppDeveloper
+
+👥 Qui connaît des familles ou des éducateurs intéressés ?
+🔄 Merci de partager pour soutenir l'innovation française !
