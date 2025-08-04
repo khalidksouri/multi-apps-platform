@@ -1,14 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configuration minimale pour export statique
+  // Configuration pour Pages Router (pas App Router)
   output: 'export',
   trailingSlash: true,
   
-  // Désactiver toutes les optimisations problématiques
+  // Désactiver les optimisations
   images: {
-    unoptimized: true,
-    loader: 'custom',
-    loaderFile: './imageLoader.js'
+    unoptimized: true
   },
   
   // Désactiver les vérifications
@@ -19,13 +17,13 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   
-  // Configuration React minimale
+  // Configuration React
   reactStrictMode: false,
-  swcMinify: false, // Désactiver SWC qui peut causer des conflits
+  swcMinify: false,
   
-  // Désactiver styled-jsx complètement
-  compiler: {
-    styledComponents: false,
+  // PAS d'experimental.appDir
+  experimental: {
+    // Vide - on utilise Pages Router classique
   },
   
   // Configuration export
@@ -33,23 +31,16 @@ const nextConfig = {
   generateEtags: false,
   poweredByHeader: false,
   
-  // Webpack configuration pour éviter styled-jsx
-  webpack: (config, { dev, isServer }) => {
-    // Exclure styled-jsx complètement
-    config.externals = config.externals || [];
+  // Webpack simple
+  webpack: (config, { isServer }) => {
     if (!isServer) {
-      config.externals.push('styled-jsx');
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        net: false,
+        tls: false,
+      };
     }
-    
-    // Fallbacks
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-      net: false,
-      tls: false,
-      crypto: false,
-    };
-    
     return config;
   },
 };
