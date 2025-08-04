@@ -1,15 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Configuration pour export statique
+  // Configuration minimale pour export statique
   output: 'export',
   trailingSlash: true,
   
-  // Désactiver l'optimisation des images pour export statique
+  // Désactiver toutes les optimisations problématiques
   images: {
-    unoptimized: true
+    unoptimized: true,
+    loader: 'custom',
+    loaderFile: './imageLoader.js'
   },
   
-  // Désactiver les vérifications pour accélérer le build
+  // Désactiver les vérifications
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -17,34 +19,37 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   
-  // Configuration React
-  reactStrictMode: false, // Désactiver pour éviter les conflits useContext
-  swcMinify: true,
+  // Configuration React minimale
+  reactStrictMode: false,
+  swcMinify: false, // Désactiver SWC qui peut causer des conflits
   
-  // Variables d'environnement
-  env: {
-    CAPACITOR_BUILD: process.env.CAPACITOR_BUILD || 'false',
+  // Désactiver styled-jsx complètement
+  compiler: {
+    styledComponents: false,
   },
   
-  // Configuration pour export
+  // Configuration export
   distDir: '.next',
   generateEtags: false,
+  poweredByHeader: false,
   
-  // Désactiver les features qui causent des problèmes en export
-  experimental: {
-    // Pas d'appDir pour éviter les conflits
-  },
-  
-  // Configuration webpack pour résoudre les conflits
-  webpack: (config, { isServer }) => {
+  // Webpack configuration pour éviter styled-jsx
+  webpack: (config, { dev, isServer }) => {
+    // Exclure styled-jsx complètement
+    config.externals = config.externals || [];
     if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-      };
+      config.externals.push('styled-jsx');
     }
+    
+    // Fallbacks
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      net: false,
+      tls: false,
+      crypto: false,
+    };
+    
     return config;
   },
 };
