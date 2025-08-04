@@ -1,0 +1,27 @@
+[build]
+  publish = "out"
+  command = "npm run build && npm run export"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_VERSION = "9"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[context.production.environment]
+  NEXT_PUBLIC_ENV = "production"
+  CAPACITOR_BUILD = "false"
+
+[context.deploy-preview.environment]
+  NEXT_PUBLIC_ENV = "preview"
+
+[headers]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Content-Security-Policy = "default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; img-src 'self' data: https:; font-src 'self' data: https:;"

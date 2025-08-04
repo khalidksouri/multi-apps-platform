@@ -1,0 +1,87 @@
+# 📧 Email Beta Testeurs - Liens d'accès
+
+## Template Email d'Envoi
+
+**Objet :** 🎉 Vos liens d'accès Math4Child Beta - C'est parti !
+
+---
+
+Bonjour [NOM_FAMILLE],
+
+Votre accès beta Math4Child est maintenant **ACTIF** ! 🚀
+
+## 🔗 Vos liens d'accès :
+
+### 🌐 **Version Web** (Recommandée pour débuter)
+**URL :** https://math4child-beta.netlify.app
+- ✅ Fonctionne sur tous navigateurs
+- ✅ Aucune installation requise
+- ✅ Mise à jour automatique
+
+### 📱 **Version Mobile** (Bientôt disponible)
+- **Android :** Lien APK dans 48h
+- **iOS :** TestFlight dans 48h
+
+## 🎮 **Comment commencer :**
+
+1. **Ouvrir le lien** dans votre navigateur
+2. **Sélectionner la langue** de votre choix (195+ disponibles !)
+3. **Cliquer "Essai Gratuit"** 
+4. **Choisir le niveau** de votre enfant
+5. **Commencer à jouer** !
+
+## 🧪 **Votre mission beta :**
+
+### 📅 **Semaine 1 (J1-J7) :**
+- Tester les fonctionnalités principales
+- Noter les bugs ou problèmes
+- Essayer différentes langues
+- Laisser votre enfant explorer librement
+
+### 📋 **Questionnaire J7 :**
+Nous vous enverrons un questionnaire rapide (5 min) pour recueillir vos premiers retours.
+
+### 📅 **Semaine 2 (J8-J14) :**
+- Tests plus approfondis
+- Tester sur différents appareils
+- Mesurer les progrès de votre enfant
+
+### 📊 **Survey final J14 :**
+Questionnaire complet (10 min) pour vos retours définitifs.
+
+## 🆘 **Support Beta :**
+
+- **Email :** khalid_ksouri@yahoo.fr
+- **Réponse garantie :** < 24h
+- **WhatsApp :** [NUMERO] (urgences uniquement)
+
+## 🎁 **Vos avantages confirmés :**
+
+✅ **Accès Premium gratuit** : 3 mois après le beta  
+✅ **Badge Beta Tester** : Exclusif et permanent  
+✅ **Réduction 50%** : Sur l'abonnement à vie  
+✅ **Influence produit** : Vos suggestions seront intégrées  
+
+## 📊 **Ce que nous analysons :**
+
+- Temps d'utilisation et engagement
+- Fonctionnalités les plus utilisées
+- Difficultés rencontrées
+- Suggestions d'amélioration
+- Performance sur votre équipement
+
+## 🤝 **Ensemble, créons la meilleure app éducative !**
+
+Votre participation va permettre d'offrir à des milliers d'enfants une expérience d'apprentissage exceptionnelle.
+
+**Merci de faire partie de l'aventure Math4Child !** 🙏
+
+---
+
+Cordialement,
+
+**L'équipe Math4Child**  
+GOTEST - SIRET: 53958712100028  
+khalid_ksouri@yahoo.fr  
+
+*P.S. : N'hésitez pas à partager vos captures d'écran et vidéos de votre enfant utilisant Math4Child (avec votre accord) !*
