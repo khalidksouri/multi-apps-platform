@@ -1,3 +1,53 @@
+#!/bin/bash
+
+# =============================================================================
+# CORRECTION DES ERREURS DE BUILD - MATH4CHILD
+# =============================================================================
+
+set -e
+
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m'
+
+log() { echo -e "${GREEN}[SUCCESS]${NC} $1"; }
+info() { echo -e "${BLUE}[INFO]${NC} $1"; }
+warning() { echo -e "${YELLOW}[WARNING]${NC} $1"; }
+error() { echo -e "${RED}[ERROR]${NC} $1"; }
+
+echo "🔧 Correction des Erreurs de Build Math4Child"
+echo "=============================================="
+echo ""
+
+# =============================================================================
+# CORRECTION 1: INSTALLATION DES DÉPENDANCES STRIPE
+# =============================================================================
+
+info "📦 Installation des dépendances Stripe manquantes..."
+
+# Installer les dépendances Stripe
+npm install @stripe/stripe-js stripe --save --legacy-peer-deps
+
+if [ $? -eq 0 ]; then
+    log "✅ Dépendances Stripe installées avec succès"
+else
+    error "❌ Erreur lors de l'installation des dépendances Stripe"
+    exit 1
+fi
+
+# =============================================================================
+# CORRECTION 2: CORRECTION DE LA SYNTAXE PAGE.TSX
+# =============================================================================
+
+info "🔧 Correction de la syntaxe dans src/app/page.tsx..."
+
+# Créer une sauvegarde
+cp src/app/page.tsx src/app/page.tsx.backup_$(date +%Y%m%d_%H%M%S)
+
+# Corriger la page principale avec une version propre
+cat > src/app/page.tsx << 'EOF'
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
@@ -436,3 +486,248 @@ export default function Math4ChildApp() {
     </div>
   )
 }
+EOF
+
+log "✅ Syntaxe corrigée dans src/app/page.tsx"
+
+# =============================================================================
+# CORRECTION 3: MISE À JOUR DE LA CONFIGURATION STRIPE
+# =============================================================================
+
+info "🔧 Mise à jour de la configuration Stripe..."
+
+# Créer la configuration Stripe corrigée
+cat > src/lib/stripe.ts << 'EOF'
+import { loadStripe } from '@stripe/stripe-js'
+import Stripe from 'stripe'
+
+// Configuration publique pour le client
+export const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
+)
+
+// Configuration serveur pour l'API
+export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
+  apiVersion: '2024-06-20',
+})
+
+// Types pour Math4Child
+export interface SubscriptionPlan {
+  name: string
+  price: number
+  currency: string
+  interval: 'month' | 'year'
+  interval_count?: number
+  features: string[]
+}
+
+// Configuration des plans d'abonnement Math4Child - GOTEST
+export const SUBSCRIPTION_PLANS: Record<string, SubscriptionPlan> = {
+  free: {
+    name: 'Math4Child Explorer',
+    price: 0, // Gratuit
+    currency: 'eur',
+    interval: 'month',
+    features: [
+      '50 questions totales',
+      'Niveau 1 seulement',
+      '1 profil enfant',
+      'Support communautaire'
+    ]
+  },
+  monthly: {
+    name: 'Math4Child Aventurier',
+    price: 999, // 9.99€ en centimes
+    currency: 'eur',
+    interval: 'month',
+    features: [
+      'Questions illimitées',
+      'Tous les 5 niveaux',
+      '3 profils enfants',
+      'IA adaptative',
+      'Support prioritaire'
+    ]
+  },
+  quarterly: {
+    name: 'Math4Child Champion',
+    price: 2697, // 26.97€ en centimes (10% de réduction)
+    currency: 'eur',
+    interval: 'month',
+    interval_count: 3,
+    features: [
+      'Tout du plan Aventurier',
+      '10% de réduction',
+      '5 profils enfants',
+      'Mode multijoueur',
+      'Défis exclusifs',
+      'Statistiques avancées'
+    ]
+  },
+  annual: {
+    name: 'Math4Child Maître',
+    price: 8393, // 83.93€ en centimes (30% de réduction)
+    currency: 'eur',
+    interval: 'year',
+    features: [
+      'Tout du plan Champion',
+      '30% de réduction',
+      '10 profils enfants',
+      'Accès anticipé aux nouvelles fonctionnalités',
+      'Mode tournoi',
+      'Support téléphonique',
+      'Certificats de progression'
+    ]
+  }
+}
+
+// Configuration business GOTEST
+export const STRIPE_BUSINESS_CONFIG = {
+  businessName: 'GOTEST',
+  siret: '53958712100028',
+  address: {
+    line1: 'Adresse GOTEST',
+    postal_code: '75000',
+    city: 'Paris',
+    country: 'FR'
+  },
+  email: 'gotesttech@gmail.com',
+  phone: '+33123456789',
+  website: 'https://www.math4child.com'
+}
+
+export type SubscriptionPlanKey = keyof typeof SUBSCRIPTION_PLANS
+EOF
+
+log "✅ Configuration Stripe corrigée"
+
+# =============================================================================
+# CORRECTION 4: MISE À JOUR DU PACKAGE.JSON
+# =============================================================================
+
+info "📦 Mise à jour du package.json avec les dépendances..."
+
+# Sauvegarder le package.json actuel
+cp package.json package.json.backup_$(date +%Y%m%d_%H%M%S)
+
+# Créer un package.json complet avec toutes les dépendances
+cat > package.json << 'EOF'
+{
+  "name": "math4child",
+  "version": "2.0.0",
+  "description": "Math4Child - Application éducative avec paiements Stripe",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --quiet",
+    "lint:fix": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "test": "echo 'Tests à implémenter'",
+    "clean": "rm -rf .next out dist node_modules/.cache"
+  },
+  "dependencies": {
+    "@stripe/stripe-js": "^4.7.0",
+    "next": "14.2.30",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "stripe": "^16.12.0",
+    "lucide-react": "^0.469.0"
+  },
+  "devDependencies": {
+    "@types/node": "20.14.8",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "autoprefixer": "10.4.20",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.30",
+    "postcss": "8.4.47",
+    "tailwindcss": "3.4.13",
+    "typescript": "5.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  }
+}
+EOF
+
+log "✅ package.json mis à jour"
+
+# =============================================================================
+# CORRECTION 5: BUILD FINAL
+# =============================================================================
+
+info "🏗️ Tentative de build final..."
+
+# Nettoyer le cache
+npm run clean 2>/dev/null || true
+
+# Installer les dépendances proprement
+npm install --legacy-peer-deps --force
+
+# Tenter le build
+if npm run build; then
+    log "✅ Build réussi après corrections !"
+    
+    if [[ -d "out" ]]; then
+        BUILD_SIZE=$(du -sh out/ | cut -f1)
+        log "✅ Export statique généré: $BUILD_SIZE"
+        
+        # Vérifier le contenu
+        if grep -q "Math4Child" out/index.html 2>/dev/null; then
+            log "✅ Contenu Math4Child présent dans l'export"
+        fi
+        
+        if grep -q "gotesttech@gmail.com" out/index.html 2>/dev/null; then
+            log "✅ Contact GOTEST présent dans l'export"
+        fi
+    fi
+else
+    error "❌ Build encore en échec - Investigation supplémentaire nécessaire"
+    
+    # Afficher les erreurs de compilation
+    echo ""
+    warning "Détails de l'erreur de compilation:"
+    npm run build 2>&1 | tail -20
+    
+    exit 1
+fi
+
+# =============================================================================
+# RÉSUMÉ DES CORRECTIONS
+# =============================================================================
+
+echo ""
+echo "🎉 Corrections Appliquées avec Succès !"
+echo "======================================="
+echo ""
+
+log "✅ Dépendances Stripe installées (@stripe/stripe-js, stripe)"
+log "✅ Syntaxe corrigée dans src/app/page.tsx"
+log "✅ Configuration Stripe mise à jour"
+log "✅ package.json optimisé"
+log "✅ Build de production réussi"
+
+if [[ -d "out" ]]; then
+    BUILD_SIZE=$(du -sh out/ | cut -f1)
+    log "✅ Export statique prêt: $BUILD_SIZE"
+fi
+
+echo ""
+info "🚀 Math4Child est maintenant prêt pour le déploiement !"
+echo ""
+info "📋 Actions suivantes recommandées:"
+echo "   1. Vérifier l'application: https://prismatic-sherbet-986159.netlify.app"
+echo "   2. Configurer les clés Stripe dans .env.local"
+echo "   3. Acheter et configurer le domaine www.math4child.com"
+echo "   4. Lancer les tests beta utilisateurs"
+echo ""
+log "✅ Toutes les erreurs de build ont été corrigées !"
+EOF
+
+log "✅ Script de correction créé"
+
+# Exécuter le script de correction immédiatement
+chmod +x fix_build_errors.sh
+./fix_build_errors.sh

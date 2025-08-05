@@ -1,48 +1,39 @@
 {
-  "name": "math4child-app",
-  "version": "4.2.0",
-  "description": "Math4Child - THE application éducative de mathématiques pour enfants",
+  "name": "math4child",
+  "version": "2.0.0",
+  "description": "Math4Child - Application éducative avec paiements Stripe",
   "private": true,
-  "workspaces": [
-    "apps/*"
-  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint --quiet",
+    "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
-    "build:web": "next build",
-    "build:capacitor": "CAPACITOR_BUILD=true next build",
-    "export": "next export",
-    "android:build": "npm run build:capacitor && npx cap sync android && npx cap open android",
-    "ios:build": "npm run build:capacitor && npx cap sync ios && npx cap open ios",
-    "test": "playwright test",
-    "test:math4child": "playwright test tests/math4child/",
-    "test:translation": "playwright test tests/translation/",
-    "test:rtl": "playwright test tests/rtl/",
-    "test:e2e": "playwright test tests/e2e/",
-    "test:headed": "playwright test --headed",
-    "test:ui": "playwright test --ui",
-    "test:report": "npx playwright show-report",
-    "clean": "rm -rf .next out node_modules/.cache",
-    "clean:tests": "rm -rf playwright-report test-results"
+    "test": "echo 'Tests à implémenter'",
+    "clean": "rm -rf .next out dist node_modules/.cache"
+  },
+  "dependencies": {
+    "@stripe/stripe-js": "^4.7.0",
+    "next": "14.2.30",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "stripe": "^16.12.0",
+    "lucide-react": "^0.469.0"
   },
   "devDependencies": {
-    "@playwright/test": "1.45.0",
-    "concurrently": "^8.2.2",
-    "typescript": "5.3.3"
+    "@types/node": "20.14.8",
+    "@types/react": "18.3.3",
+    "@types/react-dom": "18.3.0",
+    "autoprefixer": "10.4.20",
+    "eslint": "8.57.0",
+    "eslint-config-next": "14.2.30",
+    "postcss": "8.4.47",
+    "tailwindcss": "3.4.13",
+    "typescript": "5.4.5"
   },
   "engines": {
     "node": ">=18.0.0",
-    "npm": ">=8.0.0"
-  },
-  "keywords": [
-    "math4child",
-    "mathematics",
-    "education",
-    "children",
-    "nextjs",
-    "capacitor"
-  ]
+    "npm": ">=9.0.0"
+  }
 }

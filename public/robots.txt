@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://math4child.com/sitemap.xml
+Sitemap: https://www.math4child.com/sitemap.xml
+
+# GOTEST - Math4Child
+# Contact: gotesttech@gmail.com
+# SIRET: 53958712100028

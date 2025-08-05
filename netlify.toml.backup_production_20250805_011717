@@ -1,49 +1,45 @@
 # =============================================================================
-# CONFIGURATION NETLIFY PRODUCTION - MATH4CHILD
-# Optimisée pour www.math4child.com avec Stripe production
+# CONFIGURATION NETLIFY MATH4CHILD - CORRIGÉE ET SYNCHRONISÉE
 # =============================================================================
 
 [build]
+  base = ""
   publish = "out"
   command = "npm install --legacy-peer-deps && npm run build"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
   NODE_ENV = "production"
-  NPM_FLAGS = "--legacy-peer-deps"
+  DEFAULT_LANGUAGE = "fr"
+  NETLIFY_SKIP_EDGE_FUNCTIONS_BUNDLING = "true"
 
 # Variables d'environnement production
 [context.production.environment]
   NODE_ENV = "production"
   NEXT_PUBLIC_SITE_URL = "https://www.math4child.com"
-  DEFAULT_LANGUAGE = "fr"
+  COMPANY = "GOTEST"
+  CONTACT = "gotesttech@gmail.com"
+  SIRET = "53958712100028"
 
-# Variables d'environnement preview (pour tests)
+# Variables d'environnement preview
 [context.deploy-preview.environment]
   NODE_ENV = "development"
   NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
 
-# Redirections pour domaine personnalisé
+# Redirections pour domaine custom
 [[redirects]]
   from = "https://math4child.com/*"
   to = "https://www.math4child.com/:splat"
   status = 301
   force = true
 
-# Redirection Netlify vers domaine custom
-[[redirects]]
-  from = "https://prismatic-sherbet-986159.netlify.app/*"
-  to = "https://www.math4child.com/:splat"
-  status = 301
-  force = true
-
-# Redirections SPA Next.js
+# SPA redirections
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-# Headers de sécurité production
+# Headers de sécurité renforcés
 [[headers]]
   for = "/*"
   [headers.values]
@@ -51,10 +47,9 @@
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
 
-# Cache optimisé pour production
+# Cache optimisé
 [[headers]]
   for = "/_next/static/*"
   [headers.values]
@@ -62,15 +57,5 @@
 
 [[headers]]
   for = "/images/*"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-
-[[headers]]
-  for = "/*.css"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-
-[[headers]]
-  for = "/*.js"
   [headers.values]
     Cache-Control = "public, max-age=86400"
