@@ -1,20 +1,61 @@
+# =============================================================================
+# CONFIGURATION NETLIFY MATH4CHILD - CORRIGÉE ET SYNCHRONISÉE
+# =============================================================================
+
 [build]
-  base = "apps/math4child"
+  base = ""
   publish = "out"
-  command = "npm install && npm run build"
+  command = "npm install --legacy-peer-deps && npm run build"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
   NODE_ENV = "production"
+  DEFAULT_LANGUAGE = "fr"
+  NETLIFY_SKIP_EDGE_FUNCTIONS_BUNDLING = "true"
 
+# Variables d'environnement production
+[context.production.environment]
+  NODE_ENV = "production"
+  NEXT_PUBLIC_SITE_URL = "https://www.math4child.com"
+  COMPANY = "GOTEST"
+  CONTACT = "gotesttech@gmail.com"
+  SIRET = "53958712100028"
+
+# Variables d'environnement preview
+[context.deploy-preview.environment]
+  NODE_ENV = "development"
+  NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
+
+# Redirections pour domaine custom
+[[redirects]]
+  from = "https://math4child.com/*"
+  to = "https://www.math4child.com/:splat"
+  status = 301
+  force = true
+
+# SPA redirections
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
+# Headers de sécurité renforcés
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# Cache optimisé
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"

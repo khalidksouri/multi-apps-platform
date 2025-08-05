@@ -377,7 +377,7 @@ export default function Math4ChildApp() {
                     
                     <button
                       onClick={() => {
-                        initiateStripeCheckout(key)`)
+                        alert(`Plan ${plan.name} sélectionné - Intégration Stripe à venir !`)
                       }}
                       className={`w-full py-3 px-4 rounded-xl font-bold transition-all duration-200 ${
                         plan.popular || plan.bestValue
@@ -403,32 +403,4 @@ export default function Math4ChildApp() {
       )}
     </div>
   )
-}
-
-// Fonction pour initier le checkout Stripe
-const initiateStripeCheckout = async (planKey: string) => {
-  try {
-    const response = await fetch('/api/stripe/create-checkout-session', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        plan: planKey,
-        platform: 'web',
-        customerEmail: 'customer@example.com' // À remplacer par l'email réel
-      }),
-    })
-
-    const { url } = await response.json()
-    
-    if (url) {
-      window.location.href = url
-    } else {
-      alert('Erreur lors de la création de la session de paiement')
-    }
-  } catch (error) {
-    console.error('Erreur Stripe:', error)
-    alert('Erreur lors de la redirection vers Stripe')
-  }
 }

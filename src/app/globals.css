@@ -2,312 +2,133 @@
 @tailwind components;
 @tailwind utilities;
 
-[dir="rtl"] {
-  text-align: right;
-}
-
-[dir="rtl"] .container {
-  direction: rtl;
-}
-
-@media (max-width: 768px) {
-  .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-}
-
-/* ===================================================================
-   🌍 STYLES RTL POUR MATH4CHILD - INTERFACE ARABE
-   ================================================================= */
-
-/* Police arabe optimisée */
-[dir="rtl"] {
-  font-family: 'Cairo', 'Amiri', 'Noto Sans Arabic', 'Segoe UI Arabic', sans-serif;
-  font-feature-settings: "liga" 1, "kern" 1;
-}
-
-/* Direction RTL globale */
-[dir="rtl"] * {
-  direction: rtl;
-}
-
-[dir="rtl"] .container {
-  direction: rtl;
-}
-
-/* ===================================================================
-   COMPOSANTS PRICING RTL
-   ================================================================= */
-
-/* Cartes de prix RTL */
-[dir="rtl"] .pricing-card {
-  text-align: right;
-  direction: rtl;
-}
-
-[dir="rtl"] .pricing-header {
-  text-align: center;
-  direction: rtl;
-}
-
-/* Listes de fonctionnalités RTL */
-[dir="rtl"] .feature-list {
-  direction: rtl;
-  text-align: right;
-}
-
-[dir="rtl"] .feature-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  direction: rtl;
-  text-align: right;
-}
-
-[dir="rtl"] .feature-icon {
-  order: 2;
-  margin-left: 0;
-  margin-right: 0.5rem;
-  flex-shrink: 0;
-}
-
-[dir="rtl"] .feature-text {
-  order: 1;
-  text-align: right;
-}
-
-/* ===================================================================
-   BADGES ET NOTIFICATIONS RTL
-   ================================================================= */
-
-[dir="rtl"] .badge-recommended {
-  left: auto;
-  right: 1rem;
-  top: -0.75rem;
-}
-
-[dir="rtl"] .warning-badge {
-  direction: rtl;
-  text-align: center;
-}
-
-/* ===================================================================
-   BOUTONS RTL
-   ================================================================= */
-
-[dir="rtl"] .btn-primary {
-  direction: rtl;
-  text-align: center;
-}
-
-[dir="rtl"] .btn-secondary {
-  direction: rtl;
-  text-align: center;
-}
-
-/* ===================================================================
-   GRILLES ET LAYOUTS RTL
-   ================================================================= */
-
-[dir="rtl"] .grid {
-  direction: rtl;
-}
-
-[dir="rtl"] .flex {
-  direction: rtl;
-}
-
-[dir="rtl"] .space-y-3 > :not([hidden]) ~ :not([hidden]) {
-  margin-top: 0.75rem;
-  margin-right: 0;
-  margin-left: 0;
-}
-
-[dir="rtl"] .gap-3 {
-  gap: 0.75rem;
-}
-
-[dir="rtl"] .gap-4 {
-  gap: 1rem;
-}
-
-[dir="rtl"] .gap-6 {
-  gap: 1.5rem;
-}
-
-[dir="rtl"] .gap-8 {
-  gap: 2rem;
-}
-
-/* ===================================================================
-   ALIGNEMENTS DE TEXTE RTL
-   ================================================================= */
-
-[dir="rtl"] .text-right {
-  text-align: right;
-}
-
-[dir="rtl"] .text-center {
-  text-align: center;
-}
-
-[dir="rtl"] .text-left {
-  text-align: left;
-}
-
-/* ===================================================================
-   RESPONSIVE RTL
-   ================================================================= */
-
-@media (max-width: 768px) {
-  [dir="rtl"] .grid-cols-1.md\:grid-cols-3 {
-    grid-template-columns: 1fr;
-    gap: 1rem;
+/* Styles globaux Math4Child */
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
   
-  [dir="rtl"] .scale-105 {
-    transform: none;
+  body {
+    font-feature-settings: 'rlig' 1, 'calt' 1;
   }
   
-  [dir="rtl"] .pricing-card {
-    margin-bottom: 1rem;
-  }
-  
-  [dir="rtl"] .feature-item {
-    padding: 0.5rem 0;
-  }
-}
-
-@media (max-width: 640px) {
-  [dir="rtl"] .text-4xl {
-    font-size: 2rem;
-    line-height: 2.5rem;
-  }
-  
-  [dir="rtl"] .text-3xl {
-    font-size: 1.5rem;
-    line-height: 2rem;
-  }
-  
-  [dir="rtl"] .px-6 {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-}
-
-/* ===================================================================
-   ANIMATIONS RTL
-   ================================================================= */
-
-[dir="rtl"] .transform {
-  transform: none;
-}
-
-[dir="rtl"] .hover\:-translate-y-0\.5:hover {
-  transform: translateY(-0.125rem);
-}
-
-[dir="rtl"] .transition-all {
-  transition: all 0.2s ease-in-out;
-}
-
-/* ===================================================================
-   FAQ SECTION RTL
-   ================================================================= */
-
-[dir="rtl"] .faq-container {
-  direction: rtl;
-  text-align: right;
-}
-
-[dir="rtl"] .faq-item {
-  text-align: right;
-  direction: rtl;
-}
-
-[dir="rtl"] .faq-question {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  text-align: right;
-}
-
-[dir="rtl"] .faq-answer {
-  color: #6b7280;
-  text-align: right;
-  line-height: 1.6;
-}
-
-/* ===================================================================
-   CONTACT SECTION RTL
-   ================================================================= */
-
-[dir="rtl"] .contact-section {
-  direction: rtl;
-  text-align: center;
-}
-
-[dir="rtl"] .contact-buttons {
-  direction: rtl;
-  justify-content: center;
-}
-
-/* ===================================================================
-   NAVIGATION RTL
-   ================================================================= */
-
-[dir="rtl"] .nav-item {
-  direction: rtl;
-}
-
-[dir="rtl"] .dropdown-menu {
-  direction: rtl;
-  text-align: right;
-}
-
-/* ===================================================================
-   UTILITAIRES RTL
-   ================================================================= */
-
-.rtl-float-right {
-  float: right;
-}
-
-.rtl-float-left {
-  float: left;
-}
-
-.rtl-clear {
-  clear: both;
-}
-
-/* ===================================================================
-   CORRECTIONS SPÉCIFIQUES NAVIGATEURS
-   ================================================================= */
-
-/* Safari RTL fixes */
-@supports (-webkit-appearance: none) {
-  [dir="rtl"] select {
-    background-position: left 0.5rem center;
-    padding-left: 2rem;
-    padding-right: 0.75rem;
-  }
-}
-
-/* Firefox RTL fixes */
-@-moz-document url-prefix() {
-  [dir="rtl"] .grid {
+  /* Support RTL */
+  [dir="rtl"] {
     direction: rtl;
+    text-align: right;
+  }
+  
+  [dir="rtl"] .rtl\:space-x-reverse > :not([hidden]) ~ :not([hidden]) {
+    --tw-space-x-reverse: 1;
   }
 }
 
-/* ===================================================================
-   PRINT STYLES RTL
-   ================================================================= */
+@layer components {
+  /* Animation smooth pour les transitions */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  /* Gradient buttons */
+  .btn-gradient {
+    @apply bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-200 transform hover:scale-105;
+  }
+  
+  /* Glass effect */
+  .glass {
+    @apply backdrop-blur-sm bg-white/10 border border-white/20;
+  }
+}
 
+@layer utilities {
+  /* Scrollbar styling */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* Text gradient */
+  .text-gradient {
+    background: linear-gradient(to right, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+}
+
+/* Polices pour les langues spéciales */
+[lang="ar"], [lang="fa"], [lang="ur"] {
+  font-family: 'Noto Naskh Arabic', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="zh"], [lang="ja"], [lang="ko"] {
+  font-family: 'Noto Sans CJK', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
+
+[lang="hi"], [lang="bn"] {
+  font-family: 'Noto Sans Devanagari', 'Arial Unicode MS', sans-serif;
+}
+
+[lang="th"] {
+  font-family: 'Noto Sans Thai', 'Arial Unicode MS', sans-serif;
+}
+
+/* Animations CSS */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+  50% { box-shadow: 0 0 30px rgba(59, 130, 246, 0.6); }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .mobile-padding {
+    @apply px-4 py-2;
+  }
+}
+
+/* Dark mode optimization */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Print styles */
 @media print {
-  [dir="rtl"] * {
-    direction: rtl !important;
-    text-align: right !important;
+  .no-print {
+    display: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .glass {
+    @apply bg-white/90 border-2 border-black;
   }
 }
