@@ -1,63 +1,53 @@
 {
+  "name": "Math4Child - Mathématiques pour Enfants",
   "short_name": "Math4Child",
-  "name": "Math4Child - Apprendre les maths en famille",
-  "description": "L'application éducative n°1 pour apprendre les mathématiques en s'amusant. 195+ langues supportées, progression adaptative, mode famille.",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "icon-192.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "icon-512.png",
-      "type": "image/png", 
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    }
-  ],
+  "description": "Application éducative révolutionnaire pour apprendre les mathématiques en s'amusant. 195+ langues, IA adaptative, développée par GOTEST.",
   "start_url": "/",
   "display": "standalone",
+  "background_color": "#667eea",
   "theme_color": "#667eea",
-  "background_color": "#ffffff",
   "orientation": "portrait-primary",
-  "categories": ["education", "games", "kids"],
-  "lang": "fr",
+  "categories": ["education", "kids", "games", "mathematics"],
+  "lang": "fr-FR",
   "scope": "/",
-  "prefer_related_applications": false,
-  "shortcuts": [
+  "icons": [
     {
-      "name": "Nouveau Jeu",
-      "short_name": "Jouer",
-      "description": "Commencer un nouveau jeu de mathématiques",
-      "url": "/game",
-      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
     },
     {
-      "name": "Progrès",
-      "short_name": "Stats",
-      "description": "Voir mes statistiques et progrès",
-      "url": "/progress",
-      "icons": [{ "src": "icon-192.png", "sizes": "192x192" }]
+      "src": "/icon-512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
     }
   ],
   "screenshots": [
     {
-      "src": "screenshot-mobile.png",
-      "type": "image/png",
-      "sizes": "390x844",
+      "src": "/screenshot-mobile.jpg",
+      "sizes": "640x1136",
+      "type": "image/jpeg",
       "form_factor": "narrow"
     },
     {
-      "src": "screenshot-desktop.png", 
-      "type": "image/png",
-      "sizes": "1920x1080",
+      "src": "/screenshot-desktop.jpg",
+      "sizes": "1280x720",
+      "type": "image/jpeg", 
       "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Commencer à jouer",
+      "url": "/?action=play",
+      "icons": [{"src": "/icon-192.png", "sizes": "192x192"}]
+    },
+    {
+      "name": "Voir les plans",
+      "url": "/?pricing=true",
+      "icons": [{"src": "/icon-192.png", "sizes": "192x192"}]
     }
   ]
 }

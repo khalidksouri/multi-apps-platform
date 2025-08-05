@@ -1,8 +1,20 @@
 User-agent: *
 Allow: /
 
+# Sitemap
 Sitemap: https://www.math4child.com/sitemap.xml
 
-# GOTEST - Math4Child
+# Math4Child by GOTEST
+# Application éducative de mathématiques pour enfants
 # Contact: gotesttech@gmail.com
 # SIRET: 53958712100028
+
+# Optimisé pour:
+# - Googlebot
+# - Bingbot  
+# - DuckDuckBot
+# - Yandex
+# - Baiduspider
+
+# Fréquence de crawl recommandée: 1 fois par semaine
+Crawl-delay: 1
