@@ -1,36 +1,32 @@
 {
-  "name": "math4child-beta",
-  "version": "2.0.0",
-  "description": "Math4Child - Application éducative révolutionnaire",
+  "name": "math4child",
+  "version": "4.0.0",
   "private": true,
   "engines": {
-    "node": "18.17.0",
+    "node": ">=18.0.0",
     "npm": ">=9.0.0"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next export",
-    "lint": "next lint --quiet",
-    "type-check": "tsc --noEmit",
-    "clean": "rm -rf .next out node_modules/.cache"
+    "lint": "next lint"
   },
   "dependencies": {
-    "next": "14.2.30",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "lucide-react": "0.469.0"
+    "lucide-react": "^0.400.0",
+    "next": "^14.2.31",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "typescript": "5.4.5",
-    "@types/node": "20.14.8",
-    "@types/react": "18.3.3",
-    "@types/react-dom": "18.3.0",
-    "eslint": "8.57.0",
-    "eslint-config-next": "14.2.30",
-    "tailwindcss": "3.4.13",
-    "autoprefixer": "10.4.20",
-    "postcss": "8.4.47"
+    "@types/node": "^20.14.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "^14.2.0",
+    "postcss": "^8.4.0",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.9.2"
   }
 }
