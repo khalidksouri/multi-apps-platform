@@ -54,14 +54,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     return getTranslation(language, key)
   }
 
+  const contextValue: LanguageContextType = {
+    language,
+    setLanguage,
+    t,
+    isRTL,
+    availableLanguages: WORLD_LANGUAGES
+  }
+
   return (
-    <LanguageContext.Provider value={{
-      language,
-      setLanguage,
-      t,
-      isRTL,
-      availableLanguages: WORLD_LANGUAGES
-    }}>
+    <LanguageContext.Provider value={contextValue}>
       {children}
     </LanguageContext.Provider>
   )
