@@ -1,17 +1,37 @@
-/** @type {import('next').NextConfig} */
+/** @type {import("next").NextConfig} */
 const nextConfig = {
-  experimental: {
-    appDir: true,
+  images: {
+    domains: ["images.unsplash.com"],
   },
-  typescript: {
-    // Permet de construire même avec des erreurs TypeScript (temporaire)
-    ignoreBuildErrors: false,
+  env: {
+    NEXT_PUBLIC_APP_NAME: "Math4Child",
+    NEXT_PUBLIC_APP_VERSION: "4.0.0",
+    NEXT_PUBLIC_DOMAIN: "https://www.math4child.com",
+    NEXT_PUBLIC_COMPANY: "GOTEST",
+    NEXT_PUBLIC_SIRET: "53958712100028",
+    NEXT_PUBLIC_CONTACT_EMAIL: "gotesttech@gmail.com"
   },
-  eslint: {
-    // Permet de construire même avec des erreurs ESLint (temporaire)
-    ignoreDuringBuilds: false,
+  async headers() {
+    return [
+      {
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "DENY",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+        ],
+      },
+    ]
   },
-  swcMinify: true,
 }
 
 module.exports = nextConfig

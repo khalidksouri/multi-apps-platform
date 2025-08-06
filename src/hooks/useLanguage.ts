@@ -1,102 +1,80 @@
-import { useState, useEffect } from 'react'
+"use client"
 
-interface Language {
-  code: string
-  name: string
-  flag: string
-  rtl?: boolean
-}
+import { createContext, useContext, useState, useEffect } from "react"
+import { WORLD_LANGUAGES, isRTLLanguage, getTotalLanguages } from "@/data/languages/worldLanguages"
+import { getTranslation, getSupportedTranslationLanguages } from "@/lib/translations/worldTranslations"
 
-interface UseLanguageReturn {
-  currentLanguage: Language | null
-  setLanguage: (language: Language) => void
+interface LanguageContextType {
+  language: string
+  setLanguage: (lang: string) => void
+  t: (key: string) => string
   isRTL: boolean
-  getTranslation: (key: string) => string
+  availableLanguages: typeof WORLD_LANGUAGES
+  currentLanguageInfo: typeof WORLD_LANGUAGES[0] | undefined
+  totalLanguages: number
 }
 
-const translations: Record<string, Record<string, string>> = {
-  fr: {
-    appName: 'Math4Child',
-    tagline: "L'app éducative n°1 pour apprendre les maths en famille !",
-    startFree: 'Commencer gratuitement',
-    familiesCount: '100k+ familles nous font confiance'
-  },
-  en: {
-    appName: 'Math4Child',
-    tagline: 'The #1 educational app for learning math as a family!',
-    startFree: 'Start Free',
-    familiesCount: '100k+ families trust us'
-  },
-  es: {
-    appName: 'Math4Child',
-    tagline: '¡La app educativa n°1 para aprender matemáticas en familia!',
-    startFree: 'Comenzar gratis',
-    familiesCount: '100k+ familias confían en nosotros'
-  },
-  de: {
-    appName: 'Math4Child',
-    tagline: 'Die #1 Lern-App für Mathematik für die ganze Familie!',
-    startFree: 'Kostenlos starten',
-    familiesCount: '100k+ Familien vertrauen uns'
-  },
-  pt: {
-    appName: 'Math4Child',
-    tagline: 'O app educacional nº1 para aprender matemática em família!',
-    startFree: 'Começar grátis',
-    familiesCount: '100k+ famílias confiam em nós'
-  },
-  ar: {
-    appName: 'Math4Child',
-    tagline: 'تطبيق التعليم رقم 1 لتعلم الرياضيات مع العائلة!',
-    startFree: 'ابدأ مجاناً',
-    familiesCount: '100 ألف+ عائلة تثق بنا'
-  },
-  zh: {
-    appName: 'Math4Child',
-    tagline: '全家一起学数学的第一教育应用！',
-    startFree: '免费开始',
-    familiesCount: '10万+家庭信任我们'
-  }
-}
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
-export function useLanguage(defaultLang = 'en'): UseLanguageReturn {
-  const [currentLanguage, setCurrentLanguage] = useState<Language | null>(null)
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const [language, setLanguageState] = useState("fr")
+  const [isRTL, setIsRTL] = useState(false)
 
   useEffect(() => {
-    // Charger la langue depuis localStorage ou utiliser la langue par défaut
-    const savedLang = typeof window !== 'undefined' ? localStorage.getItem('math4child-language') : null
-    const langCode = savedLang || defaultLang
+    if (typeof window !== "undefined") {
+      const savedLanguage = localStorage.getItem("math4child-language") || "fr"
+      setLanguageState(savedLanguage)
+      setIsRTL(isRTLLanguage(savedLanguage))
+      
+      if (typeof document !== "undefined") {
+        document.documentElement.dir = isRTLLanguage(savedLanguage) ? "rtl" : "ltr"
+        document.documentElement.lang = savedLanguage
+      }
+    }
+  }, [])
+
+  const setLanguage = (lang: string) => {
+    setLanguageState(lang)
+    const rtl = isRTLLanguage(lang)
+    setIsRTL(rtl)
     
-    // Trouver la langue correspondante (vous devrez importer la liste des langues)
-    const defaultLanguage = {
-      code: langCode,
-      name: langCode === 'fr' ? 'Français' : 'English',
-      flag: langCode === 'fr' ? '🇫🇷' : '🇺🇸'
+    if (typeof document !== "undefined") {
+      document.documentElement.dir = rtl ? "rtl" : "ltr"
+      document.documentElement.lang = lang
     }
     
-    setCurrentLanguage(defaultLanguage)
-  }, [defaultLang])
-
-  const setLanguage = (language: Language) => {
-    setCurrentLanguage(language)
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('math4child-language', language.code)
+    if (typeof window !== "undefined") {
+      localStorage.setItem("math4child-language", lang)
     }
   }
 
-  const isRTL = currentLanguage?.rtl || false
-
-  const getTranslation = (key: string): string => {
-    if (!currentLanguage) return key
-    
-    const langTranslations = translations[currentLanguage.code]
-    return langTranslations?.[key] || translations.en?.[key] || key
+  const t = (key: string): string => {
+    return getTranslation(language, key)
   }
 
-  return {
-    currentLanguage,
+  const currentLanguageInfo = WORLD_LANGUAGES.find(lang => lang.code === language)
+
+  const contextValue: LanguageContextType = {
+    language,
     setLanguage,
+    t,
     isRTL,
-    getTranslation
+    availableLanguages: WORLD_LANGUAGES,
+    currentLanguageInfo,
+    totalLanguages: getTotalLanguages()
   }
+
+  return (
+    <LanguageContext.Provider value={contextValue}>
+      {children}
+    </LanguageContext.Provider>
+  )
+}
+
+export function useLanguage() {
+  const context = useContext(LanguageContext)
+  if (context === undefined) {
+    throw new Error("useLanguage must be used within a LanguageProvider")
+  }
+  return context
 }
