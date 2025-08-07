@@ -1,46 +1,70 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { getTranslation, t as translateFunction } from "@/lib/translations/translations"
+import { isRTLLanguage, getTotalLanguages, getLanguageByCode, WORLD_LANGUAGES } from "@/data/languages/worldLanguages"
 
 export function useLanguage() {
   const [language, setLanguageState] = useState("fr")
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const savedLanguage = localStorage.getItem("math4child-language") || "fr"
-      setLanguageState(savedLanguage)
+      // Récupérer la langue sauvegardée ou détecter la langue du navigateur
+      const savedLanguage = localStorage.getItem("math4child-language")
+      const browserLanguage = navigator.language.split('-')[0]
+      const hasTranslation = WORLD_LANGUAGES.some(lang => lang.code === browserLanguage)
+      
+      const initialLanguage = savedLanguage || (hasTranslation ? browserLanguage : "fr")
+      setLanguageState(initialLanguage)
+      
+      // Appliquer la direction RTL/LTR au document
+      applyLanguageDirection(initialLanguage)
+      
+      setIsLoading(false)
     }
   }, [])
 
-  const setLanguage = (lang: string) => {
-    setLanguageState(lang)
-    if (typeof window !== "undefined") {
-      localStorage.setItem("math4child-language", lang)
-    }
-  }
-
-  const t = (key: string): string => {
-    const translations: { [key: string]: { [lang: string]: string } } = {
-      title: {
-        fr: "Math4Child - Apprendre les maths en s'amusant !",
-        en: "Math4Child - Learn math while having fun!",
-        ar: "Math4Child - تعلم الرياضيات والمرح!"
-      },
-      subtitle: {
-        fr: "L'application éducative révolutionnaire pour apprendre les mathématiques",
-        en: "The revolutionary educational app for learning mathematics",
-        ar: "التطبيق التعليمي الثوري لتعلم الرياضيات"
+  const applyLanguageDirection = (lang: string) => {
+    if (typeof document !== "undefined") {
+      const isRTL = isRTLLanguage(lang)
+      document.documentElement.dir = isRTL ? 'rtl' : 'ltr'
+      document.documentElement.lang = lang
+      
+      // Ajouter classes CSS pour RTL
+      if (isRTL) {
+        document.body.classList.add('rtl')
+        document.body.classList.remove('ltr')
+      } else {
+        document.body.classList.add('ltr')
+        document.body.classList.remove('rtl')
       }
     }
-    
-    return translations[key]?.[language] || translations[key]?.["fr"] || key
   }
 
+  const setLanguage = (lang: string) => {
+    setLanguageState(lang)
+    
+    if (typeof window !== "undefined") {
+      localStorage.setItem("math4child-language", lang)
+      applyLanguageDirection(lang)
+    }
+  }
+
+  const t = (key: string, params?: { [key: string]: string | number }): string => {
+    return translateFunction(language, key, params)
+  }
+
+  const currentLanguageInfo = getLanguageByCode(language)
+  
   return {
     language,
     setLanguage,
     t,
-    isRTL: language === "ar",
-    totalLanguages: 195
+    isRTL: isRTLLanguage(language),
+    totalLanguages: getTotalLanguages(),
+    currentLanguageInfo,
+    isLoading,
+    availableLanguages: WORLD_LANGUAGES
   }
 }

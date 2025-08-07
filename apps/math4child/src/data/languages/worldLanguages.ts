@@ -1,115 +1,233 @@
-// 195+ Langues mondiales - Version Production Math4Child
 export interface Language {
-  code: string
-  name: string
-  nativeName: string
-  flag: string
-  rtl?: boolean
-  region: string
-  countryCode: string
+  code: string;
+  flag: string;
+  name: string;
+  nativeName: string;
+  isRTL?: boolean;
+  region: string;
 }
 
 export const WORLD_LANGUAGES: Language[] = [
-  // ===== EUROPE (45 langues) =====
-  { code: "fr", name: "French", nativeName: "Français", flag: "🇫🇷", region: "Europe", countryCode: "FR" },
-  { code: "en", name: "English", nativeName: "English", flag: "🇬🇧", region: "Europe", countryCode: "GB" },
-  { code: "es", name: "Spanish", nativeName: "Español", flag: "🇪🇸", region: "Europe", countryCode: "ES" },
-  { code: "de", name: "German", nativeName: "Deutsch", flag: "🇩🇪", region: "Europe", countryCode: "DE" },
-  { code: "it", name: "Italian", nativeName: "Italiano", flag: "🇮🇹", region: "Europe", countryCode: "IT" },
-  { code: "pt", name: "Portuguese", nativeName: "Português", flag: "🇵🇹", region: "Europe", countryCode: "PT" },
-  { code: "ru", name: "Russian", nativeName: "Русский", flag: "🇷🇺", region: "Europe", countryCode: "RU" },
-  { code: "nl", name: "Dutch", nativeName: "Nederlands", flag: "🇳🇱", region: "Europe", countryCode: "NL" },
-  { code: "pl", name: "Polish", nativeName: "Polski", flag: "🇵🇱", region: "Europe", countryCode: "PL" },
-  { code: "sv", name: "Swedish", nativeName: "Svenska", flag: "🇸🇪", region: "Europe", countryCode: "SE" },
-  { code: "da", name: "Danish", nativeName: "Dansk", flag: "🇩🇰", region: "Europe", countryCode: "DK" },
-  { code: "no", name: "Norwegian", nativeName: "Norsk", flag: "🇳🇴", region: "Europe", countryCode: "NO" },
-  { code: "fi", name: "Finnish", nativeName: "Suomi", flag: "🇫🇮", region: "Europe", countryCode: "FI" },
-  { code: "cs", name: "Czech", nativeName: "Čeština", flag: "🇨🇿", region: "Europe", countryCode: "CZ" },
-  { code: "sk", name: "Slovak", nativeName: "Slovenčina", flag: "🇸🇰", region: "Europe", countryCode: "SK" },
-  { code: "hu", name: "Hungarian", nativeName: "Magyar", flag: "🇭🇺", region: "Europe", countryCode: "HU" },
-  { code: "ro", name: "Romanian", nativeName: "Română", flag: "🇷🇴", region: "Europe", countryCode: "RO" },
-  { code: "bg", name: "Bulgarian", nativeName: "Български", flag: "🇧🇬", region: "Europe", countryCode: "BG" },
-  { code: "hr", name: "Croatian", nativeName: "Hrvatski", flag: "🇭🇷", region: "Europe", countryCode: "HR" },
-  { code: "sr", name: "Serbian", nativeName: "Српски", flag: "🇷🇸", region: "Europe", countryCode: "RS" },
-  { code: "sl", name: "Slovenian", nativeName: "Slovenščina", flag: "🇸🇮", region: "Europe", countryCode: "SI" },
-  { code: "et", name: "Estonian", nativeName: "Eesti", flag: "🇪🇪", region: "Europe", countryCode: "EE" },
-  { code: "lv", name: "Latvian", nativeName: "Latviešu", flag: "🇱🇻", region: "Europe", countryCode: "LV" },
-  { code: "lt", name: "Lithuanian", nativeName: "Lietuvių", flag: "🇱🇹", region: "Europe", countryCode: "LT" },
-  { code: "el", name: "Greek", nativeName: "Ελληνικά", flag: "🇬🇷", region: "Europe", countryCode: "GR" },
+  // EUROPE (35 langues)
+  { code: 'fr', flag: '🇫🇷', name: 'French', nativeName: 'Français', region: 'Europe' },
+  { code: 'en', flag: '🇺🇸', name: 'English', nativeName: 'English', region: 'Europe' },
+  { code: 'es', flag: '🇪🇸', name: 'Spanish', nativeName: 'Español', region: 'Europe' },
+  { code: 'de', flag: '🇩🇪', name: 'German', nativeName: 'Deutsch', region: 'Europe' },
+  { code: 'it', flag: '🇮🇹', name: 'Italian', nativeName: 'Italiano', region: 'Europe' },
+  { code: 'pt', flag: '🇵🇹', name: 'Portuguese', nativeName: 'Português', region: 'Europe' },
+  { code: 'ru', flag: '🇷🇺', name: 'Russian', nativeName: 'Русский', region: 'Europe' },
+  { code: 'pl', flag: '🇵🇱', name: 'Polish', nativeName: 'Polski', region: 'Europe' },
+  { code: 'nl', flag: '🇳🇱', name: 'Dutch', nativeName: 'Nederlands', region: 'Europe' },
+  { code: 'sv', flag: '🇸🇪', name: 'Swedish', nativeName: 'Svenska', region: 'Europe' },
+  { code: 'da', flag: '🇩🇰', name: 'Danish', nativeName: 'Dansk', region: 'Europe' },
+  { code: 'no', flag: '🇳🇴', name: 'Norwegian', nativeName: 'Norsk', region: 'Europe' },
+  { code: 'fi', flag: '🇫🇮', name: 'Finnish', nativeName: 'Suomi', region: 'Europe' },
+  { code: 'cs', flag: '🇨🇿', name: 'Czech', nativeName: 'Čeština', region: 'Europe' },
+  { code: 'hu', flag: '🇭🇺', name: 'Hungarian', nativeName: 'Magyar', region: 'Europe' },
+  { code: 'ro', flag: '🇷🇴', name: 'Romanian', nativeName: 'Română', region: 'Europe' },
+  { code: 'bg', flag: '🇧🇬', name: 'Bulgarian', nativeName: 'Български', region: 'Europe' },
+  { code: 'hr', flag: '🇭🇷', name: 'Croatian', nativeName: 'Hrvatski', region: 'Europe' },
+  { code: 'sk', flag: '🇸🇰', name: 'Slovak', nativeName: 'Slovenčina', region: 'Europe' },
+  { code: 'sl', flag: '🇸🇮', name: 'Slovenian', nativeName: 'Slovenščina', region: 'Europe' },
+  { code: 'et', flag: '🇪🇪', name: 'Estonian', nativeName: 'Eesti', region: 'Europe' },
+  { code: 'lv', flag: '🇱🇻', name: 'Latvian', nativeName: 'Latviešu', region: 'Europe' },
+  { code: 'lt', flag: '🇱🇹', name: 'Lithuanian', nativeName: 'Lietuvių', region: 'Europe' },
+  { code: 'el', flag: '🇬🇷', name: 'Greek', nativeName: 'Ελληνικά', region: 'Europe' },
+  { code: 'uk', flag: '🇺🇦', name: 'Ukrainian', nativeName: 'Українська', region: 'Europe' },
+  { code: 'be', flag: '🇧🇾', name: 'Belarusian', nativeName: 'Беларуская', region: 'Europe' },
+  { code: 'mk', flag: '🇲🇰', name: 'Macedonian', nativeName: 'Македонски', region: 'Europe' },
+  { code: 'sq', flag: '🇦🇱', name: 'Albanian', nativeName: 'Shqip', region: 'Europe' },
+  { code: 'bs', flag: '🇧🇦', name: 'Bosnian', nativeName: 'Bosanski', region: 'Europe' },
+  { code: 'sr', flag: '🇷🇸', name: 'Serbian', nativeName: 'Српски', region: 'Europe' },
+  { code: 'me', flag: '🇲🇪', name: 'Montenegrin', nativeName: 'Crnogorski', region: 'Europe' },
+  { code: 'is', flag: '🇮🇸', name: 'Icelandic', nativeName: 'Íslenska', region: 'Europe' },
+  { code: 'mt', flag: '🇲🇹', name: 'Maltese', nativeName: 'Malti', region: 'Europe' },
+  { code: 'ga', flag: '🇮🇪', name: 'Irish', nativeName: 'Gaeilge', region: 'Europe' },
+  { code: 'cy', flag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿', name: 'Welsh', nativeName: 'Cymraeg', region: 'Europe' },
 
-  // ===== ASIE (50+ langues) =====
-  { code: "zh", name: "Chinese (Simplified)", nativeName: "简体中文", flag: "🇨🇳", region: "Asia", countryCode: "CN" },
-  { code: "zh-tw", name: "Chinese (Traditional)", nativeName: "繁體中文", flag: "🇹🇼", region: "Asia", countryCode: "TW" },
-  { code: "ja", name: "Japanese", nativeName: "日本語", flag: "🇯🇵", region: "Asia", countryCode: "JP" },
-  { code: "ko", name: "Korean", nativeName: "한국어", flag: "🇰🇷", region: "Asia", countryCode: "KR" },
-  { code: "hi", name: "Hindi", nativeName: "हिन्दी", flag: "🇮🇳", region: "Asia", countryCode: "IN" },
-  { code: "th", name: "Thai", nativeName: "ไทย", flag: "🇹🇭", region: "Asia", countryCode: "TH" },
-  { code: "vi", name: "Vietnamese", nativeName: "Tiếng Việt", flag: "🇻🇳", region: "Asia", countryCode: "VN" },
-  { code: "id", name: "Indonesian", nativeName: "Bahasa Indonesia", flag: "🇮🇩", region: "Asia", countryCode: "ID" },
-  { code: "ms", name: "Malay", nativeName: "Bahasa Melayu", flag: "🇲🇾", region: "Asia", countryCode: "MY" },
-  { code: "tl", name: "Filipino", nativeName: "Filipino", flag: "🇵🇭", region: "Asia", countryCode: "PH" },
-  { code: "bn", name: "Bengali", nativeName: "বাংলা", flag: "🇧🇩", region: "Asia", countryCode: "BD" },
-  { code: "ur", name: "Urdu", nativeName: "اردو", flag: "🇵🇰", rtl: true, region: "Asia", countryCode: "PK" },
-  { code: "te", name: "Telugu", nativeName: "తెలుగు", flag: "🇮🇳", region: "Asia", countryCode: "IN" },
-  { code: "mr", name: "Marathi", nativeName: "मराठी", flag: "🇮🇳", region: "Asia", countryCode: "IN" },
-  { code: "ta", name: "Tamil", nativeName: "தமிழ்", flag: "🇮🇳", region: "Asia", countryCode: "IN" },
+  // ASIE (50 langues)
+  { code: 'zh', flag: '🇨🇳', name: 'Chinese (Simplified)', nativeName: '中文简体', region: 'Asia' },
+  { code: 'zh-tw', flag: '🇹🇼', name: 'Chinese (Traditional)', nativeName: '中文繁體', region: 'Asia' },
+  { code: 'ja', flag: '🇯🇵', name: 'Japanese', nativeName: '日本語', region: 'Asia' },
+  { code: 'ko', flag: '🇰🇷', name: 'Korean', nativeName: '한국어', region: 'Asia' },
+  { code: 'hi', flag: '🇮🇳', name: 'Hindi', nativeName: 'हिन्दी', region: 'Asia' },
+  { code: 'th', flag: '🇹🇭', name: 'Thai', nativeName: 'ไทย', region: 'Asia' },
+  { code: 'vi', flag: '🇻🇳', name: 'Vietnamese', nativeName: 'Tiếng Việt', region: 'Asia' },
+  { code: 'id', flag: '🇮🇩', name: 'Indonesian', nativeName: 'Bahasa Indonesia', region: 'Asia' },
+  { code: 'ms', flag: '🇲🇾', name: 'Malay', nativeName: 'Bahasa Melayu', region: 'Asia' },
+  { code: 'tl', flag: '🇵🇭', name: 'Filipino', nativeName: 'Filipino', region: 'Asia' },
+  { code: 'bn', flag: '🇧🇩', name: 'Bengali', nativeName: 'বাংলা', region: 'Asia' },
+  { code: 'ur', flag: '🇵🇰', name: 'Urdu', nativeName: 'اردو', isRTL: true, region: 'Asia' },
+  { code: 'ta', flag: '🇮🇳', name: 'Tamil', nativeName: 'தமிழ்', region: 'Asia' },
+  { code: 'te', flag: '🇮🇳', name: 'Telugu', nativeName: 'తెలుగు', region: 'Asia' },
+  { code: 'ml', flag: '🇮🇳', name: 'Malayalam', nativeName: 'മലയാളം', region: 'Asia' },
+  { code: 'kn', flag: '🇮🇳', name: 'Kannada', nativeName: 'ಕನ್ನಡ', region: 'Asia' },
+  { code: 'gu', flag: '🇮🇳', name: 'Gujarati', nativeName: 'ગુજરાતી', region: 'Asia' },
+  { code: 'pa', flag: '🇮🇳', name: 'Punjabi', nativeName: 'ਪੰਜਾਬੀ', region: 'Asia' },
+  { code: 'mr', flag: '🇮🇳', name: 'Marathi', nativeName: 'मराठी', region: 'Asia' },
+  { code: 'ne', flag: '🇳🇵', name: 'Nepali', nativeName: 'नेपाली', region: 'Asia' },
+  { code: 'si', flag: '🇱🇰', name: 'Sinhala', nativeName: 'සිංහල', region: 'Asia' },
+  { code: 'my', flag: '🇲🇲', name: 'Myanmar', nativeName: 'မြန်မာ', region: 'Asia' },
+  { code: 'km', flag: '🇰🇭', name: 'Khmer', nativeName: 'ខ្មែរ', region: 'Asia' },
+  { code: 'lo', flag: '🇱🇦', name: 'Lao', nativeName: 'ລາວ', region: 'Asia' },
+  { code: 'ka', flag: '🇬🇪', name: 'Georgian', nativeName: 'ქართული', region: 'Asia' },
+  { code: 'hy', flag: '🇦🇲', name: 'Armenian', nativeName: 'Հայերեն', region: 'Asia' },
+  { code: 'az', flag: '🇦🇿', name: 'Azerbaijani', nativeName: 'Azərbaycan', region: 'Asia' },
+  { code: 'kk', flag: '🇰🇿', name: 'Kazakh', nativeName: 'Қазақша', region: 'Asia' },
+  { code: 'ky', flag: '🇰🇬', name: 'Kyrgyz', nativeName: 'Кыргызча', region: 'Asia' },
+  { code: 'uz', flag: '🇺🇿', name: 'Uzbek', nativeName: 'Oʻzbekcha', region: 'Asia' },
+  { code: 'tk', flag: '🇹🇲', name: 'Turkmen', nativeName: 'Türkmençe', region: 'Asia' },
+  { code: 'tg', flag: '🇹🇯', name: 'Tajik', nativeName: 'Тоҷикӣ', region: 'Asia' },
+  { code: 'mn', flag: '🇲🇳', name: 'Mongolian', nativeName: 'Монгол', region: 'Asia' },
+  { code: 'as', flag: '🇮🇳', name: 'Assamese', nativeName: 'অসমীয়া', region: 'Asia' },
+  { code: 'or', flag: '🇮🇳', name: 'Odia', nativeName: 'ଓଡ଼ିଆ', region: 'Asia' },
+  { code: 'ps', flag: '🇦🇫', name: 'Pashto', nativeName: 'پښتو', isRTL: true, region: 'Asia' },
+  { code: 'sd', flag: '🇵🇰', name: 'Sindhi', nativeName: 'سنڌي', isRTL: true, region: 'Asia' },
+  { code: 'dz', flag: '🇧🇹', name: 'Dzongkha', nativeName: 'རྫོང་ཁ', region: 'Asia' },
+  { code: 'bo', flag: '🇨🇳', name: 'Tibetan', nativeName: 'བོད་ཡིག', region: 'Asia' },
+  { code: 'ug', flag: '🇨🇳', name: 'Uyghur', nativeName: 'ئۇيغۇرچە', isRTL: true, region: 'Asia' },
+  { code: 'tt', flag: '🇷🇺', name: 'Tatar', nativeName: 'татарча', region: 'Asia' },
+  { code: 'ba', flag: '🇷🇺', name: 'Bashkir', nativeName: 'башҡортса', region: 'Asia' },
+  { code: 'sah', flag: '🇷🇺', name: 'Yakut', nativeName: 'саха тыла', region: 'Asia' },
+  { code: 'ce', flag: '🇷🇺', name: 'Chechen', nativeName: 'нохчийн мотт', region: 'Asia' },
+  { code: 'cv', flag: '🇷🇺', name: 'Chuvash', nativeName: 'чӑваш чӗлхи', region: 'Asia' },
+  { code: 'cu', flag: '🇷🇺', name: 'Church Slavic', nativeName: 'словѣньскъ', region: 'Asia' },
+  { code: 'os', flag: '🇷🇺', name: 'Ossetic', nativeName: 'ирон æвзаг', region: 'Asia' },
+  { code: 'av', flag: '🇷🇺', name: 'Avar', nativeName: 'авар мацӏ', region: 'Asia' },
+  { code: 'krc', flag: '🇷🇺', name: 'Karachay-Balkar', nativeName: 'къарачай-малкъар тил', region: 'Asia' },
+  { code: 'kbd', flag: '🇷🇺', name: 'Kabardian', nativeName: 'адыгэбзэ', region: 'Asia' },
+  { code: 'kv', flag: '🇷🇺', name: 'Komi', nativeName: 'коми кыв', region: 'Asia' },
 
-  // ===== MOYEN-ORIENT & AFRIQUE DU NORD (15+ langues) =====
-  { code: "ar", name: "Arabic", nativeName: "العربية", flag: "🇸🇦", rtl: true, region: "MENA", countryCode: "SA" },
-  { code: "fa", name: "Persian", nativeName: "فارسی", flag: "🇮🇷", rtl: true, region: "MENA", countryCode: "IR" },
-  { code: "ku", name: "Kurdish", nativeName: "کوردی", flag: "🇮🇶", rtl: true, region: "MENA", countryCode: "IQ" },
-  { code: "ps", name: "Pashto", nativeName: "پښتو", flag: "🇦🇫", rtl: true, region: "MENA", countryCode: "AF" },
+  // MOYEN-ORIENT (15 langues) - ARABE AVEC DRAPEAU MAROCAIN
+  { code: 'ar', flag: '🇲🇦', name: 'Arabic', nativeName: 'العربية', isRTL: true, region: 'Middle East' },
+  { code: 'fa', flag: '🇮🇷', name: 'Persian', nativeName: 'فارسی', isRTL: true, region: 'Middle East' },
+  { code: 'tr', flag: '🇹🇷', name: 'Turkish', nativeName: 'Türkçe', region: 'Middle East' },
+  { code: 'ku', flag: '🏴', name: 'Kurdish', nativeName: 'کوردی', isRTL: true, region: 'Middle East' },
+  { code: 'ar-eg', flag: '🇪🇬', name: 'Arabic (Egyptian)', nativeName: 'العربية المصرية', isRTL: true, region: 'Middle East' },
+  { code: 'ar-sa', flag: '🇸🇦', name: 'Arabic (Saudi)', nativeName: 'العربية السعودية', isRTL: true, region: 'Middle East' },
+  { code: 'ar-ae', flag: '🇦🇪', name: 'Arabic (UAE)', nativeName: 'العربية الإماراتية', isRTL: true, region: 'Middle East' },
+  { code: 'ar-lb', flag: '🇱🇧', name: 'Arabic (Lebanese)', nativeName: 'العربية اللبنانية', isRTL: true, region: 'Middle East' },
+  { code: 'he', flag: '🇮🇱', name: 'Hebrew', nativeName: 'עברית', isRTL: true, region: 'Middle East' },
+  { code: 'arc', flag: '🏴', name: 'Aramaic', nativeName: 'ܐܪܡܝܐ', isRTL: true, region: 'Middle East' },
+  { code: 'syr', flag: '🏴', name: 'Syriac', nativeName: 'ܠܫܢܐ ܣܘܪܝܝܐ', isRTL: true, region: 'Middle East' },
+  { code: 'ckb', flag: '🇮🇶', name: 'Sorani Kurdish', nativeName: 'سۆرانی', isRTL: true, region: 'Middle East' },
+  { code: 'lrc', flag: '🇮🇷', name: 'Luri', nativeName: 'لۊری', isRTL: true, region: 'Middle East' },
+  { code: 'mzn', flag: '🇮🇷', name: 'Mazanderani', nativeName: 'مازرونی', isRTL: true, region: 'Middle East' },
+  { code: 'glk', flag: '🇮🇷', name: 'Gilaki', nativeName: 'گیلکی', isRTL: true, region: 'Middle East' },
 
-  // ===== AFRIQUE (25+ langues) =====
-  { code: "sw", name: "Swahili", nativeName: "Kiswahili", flag: "🇰🇪", region: "Africa", countryCode: "KE" },
-  { code: "am", name: "Amharic", nativeName: "አማርኛ", flag: "🇪🇹", region: "Africa", countryCode: "ET" },
-  { code: "yo", name: "Yoruba", nativeName: "Yorùbá", flag: "🇳🇬", region: "Africa", countryCode: "NG" },
-  { code: "ig", name: "Igbo", nativeName: "Igbo", flag: "🇳🇬", region: "Africa", countryCode: "NG" },
-  { code: "ha", name: "Hausa", nativeName: "Hausa", flag: "🇳🇬", region: "Africa", countryCode: "NG" },
-  { code: "zu", name: "Zulu", nativeName: "isiZulu", flag: "🇿🇦", region: "Africa", countryCode: "ZA" },
-  { code: "xh", name: "Xhosa", nativeName: "isiXhosa", flag: "🇿🇦", region: "Africa", countryCode: "ZA" },
-  { code: "af", name: "Afrikaans", nativeName: "Afrikaans", flag: "🇿🇦", region: "Africa", countryCode: "ZA" },
+  // AFRIQUE (45 langues)
+  { code: 'sw', flag: '🇰🇪', name: 'Swahili', nativeName: 'Kiswahili', region: 'Africa' },
+  { code: 'am', flag: '🇪🇹', name: 'Amharic', nativeName: 'አማርኛ', region: 'Africa' },
+  { code: 'zu', flag: '🇿🇦', name: 'Zulu', nativeName: 'isiZulu', region: 'Africa' },
+  { code: 'af', flag: '🇿🇦', name: 'Afrikaans', nativeName: 'Afrikaans', region: 'Africa' },
+  { code: 'xh', flag: '🇿🇦', name: 'Xhosa', nativeName: 'isiXhosa', region: 'Africa' },
+  { code: 'st', flag: '🇱🇸', name: 'Sesotho', nativeName: 'Sesotho', region: 'Africa' },
+  { code: 'tn', flag: '🇧🇼', name: 'Tswana', nativeName: 'Setswana', region: 'Africa' },
+  { code: 'ss', flag: '🇸🇿', name: 'Swati', nativeName: 'SiSwati', region: 'Africa' },
+  { code: 've', flag: '🇿🇦', name: 'Venda', nativeName: 'Tshivenḓa', region: 'Africa' },
+  { code: 'ts', flag: '🇿🇦', name: 'Tsonga', nativeName: 'Xitsonga', region: 'Africa' },
+  { code: 'nr', flag: '🇿🇦', name: 'Ndebele', nativeName: 'isiNdebele', region: 'Africa' },
+  { code: 'ig', flag: '🇳🇬', name: 'Igbo', nativeName: 'Igbo', region: 'Africa' },
+  { code: 'yo', flag: '🇳🇬', name: 'Yoruba', nativeName: 'Yorùbá', region: 'Africa' },
+  { code: 'ha', flag: '🇳🇬', name: 'Hausa', nativeName: 'Hausa', region: 'Africa' },
+  { code: 'ff', flag: '🇸🇳', name: 'Fulah', nativeName: 'Fulfulde', region: 'Africa' },
+  { code: 'wo', flag: '🇸🇳', name: 'Wolof', nativeName: 'Wolof', region: 'Africa' },
+  { code: 'mg', flag: '🇲🇬', name: 'Malagasy', nativeName: 'Malagasy', region: 'Africa' },
+  { code: 'rw', flag: '🇷🇼', name: 'Kinyarwanda', nativeName: 'Ikinyarwanda', region: 'Africa' },
+  { code: 'rn', flag: '🇧🇮', name: 'Kirundi', nativeName: 'Ikirundi', region: 'Africa' },
+  { code: 'ny', flag: '🇲🇼', name: 'Chichewa', nativeName: 'Chichewa', region: 'Africa' },
+  { code: 'sn', flag: '🇿🇼', name: 'Shona', nativeName: 'chiShona', region: 'Africa' },
+  { code: 'nd', flag: '🇿🇼', name: 'Northern Ndebele', nativeName: 'isiNdebele', region: 'Africa' },
+  { code: 'ti', flag: '🇪🇷', name: 'Tigrinya', nativeName: 'ትግርኛ', region: 'Africa' },
+  { code: 'om', flag: '🇪🇹', name: 'Oromo', nativeName: 'Afaan Oromoo', region: 'Africa' },
+  { code: 'so', flag: '🇸🇴', name: 'Somali', nativeName: 'Soomaali', region: 'Africa' },
+  { code: 'lg', flag: '🇺🇬', name: 'Luganda', nativeName: 'Luganda', region: 'Africa' },
+  { code: 'ak', flag: '🇬🇭', name: 'Akan', nativeName: 'Akan', region: 'Africa' },
+  { code: 'tw', flag: '🇬🇭', name: 'Twi', nativeName: 'Twi', region: 'Africa' },
+  { code: 'ee', flag: '🇬🇭', name: 'Ewe', nativeName: 'Eʋegbe', region: 'Africa' },
+  { code: 'bm', flag: '🇲🇱', name: 'Bambara', nativeName: 'Bamanankan', region: 'Africa' },
+  { code: 'dyu', flag: '🇨🇮', name: 'Dyula', nativeName: 'Jula', region: 'Africa' },
+  { code: 'sg', flag: '🇨🇫', name: 'Sango', nativeName: 'Sängö', region: 'Africa' },
+  { code: 'ln', flag: '🇨🇩', name: 'Lingala', nativeName: 'Lingála', region: 'Africa' },
+  { code: 'kg', flag: '🇨🇩', name: 'Kongo', nativeName: 'Kikongo', region: 'Africa' },
+  { code: 'lua', flag: '🇨🇩', name: 'Luba-Katanga', nativeName: 'Tshiluba', region: 'Africa' },
+  { code: 'sw-tz', flag: '🇹🇿', name: 'Swahili (Tanzania)', nativeName: 'Kiswahili (Tanzania)', region: 'Africa' },
+  { code: 'sw-ug', flag: '🇺🇬', name: 'Swahili (Uganda)', nativeName: 'Kiswahili (Uganda)', region: 'Africa' },
+  { code: 'fr-sn', flag: '🇸🇳', name: 'French (Senegal)', nativeName: 'Français (Sénégal)', region: 'Africa' },
+  { code: 'fr-ci', flag: '🇨🇮', name: 'French (Ivory Coast)', nativeName: 'Français (Côte d\'Ivoire)', region: 'Africa' },
+  { code: 'fr-ml', flag: '🇲🇱', name: 'French (Mali)', nativeName: 'Français (Mali)', region: 'Africa' },
+  { code: 'fr-bf', flag: '🇧🇫', name: 'French (Burkina Faso)', nativeName: 'Français (Burkina Faso)', region: 'Africa' },
+  { code: 'ar-dz', flag: '🇩🇿', name: 'Arabic (Algeria)', nativeName: 'العربية الجزائرية', isRTL: true, region: 'Africa' },
+  { code: 'ar-tn', flag: '🇹🇳', name: 'Arabic (Tunisia)', nativeName: 'العربية التونسية', isRTL: true, region: 'Africa' },
+  { code: 'ar-ly', flag: '🇱🇾', name: 'Arabic (Libya)', nativeName: 'العربية الليبية', isRTL: true, region: 'Africa' },
+  { code: 'ar-sd', flag: '🇸🇩', name: 'Arabic (Sudan)', nativeName: 'العربية السودانية', isRTL: true, region: 'Africa' },
 
-  // ===== AMÉRIQUES (25+ langues) =====
-  { code: "en-us", name: "English (US)", nativeName: "English (US)", flag: "🇺🇸", region: "Americas", countryCode: "US" },
-  { code: "en-ca", name: "English (Canada)", nativeName: "English (Canada)", flag: "🇨🇦", region: "Americas", countryCode: "CA" },
-  { code: "fr-ca", name: "French (Canada)", nativeName: "Français (Canada)", flag: "🇨🇦", region: "Americas", countryCode: "CA" },
-  { code: "es-mx", name: "Spanish (Mexico)", nativeName: "Español (México)", flag: "🇲🇽", region: "Americas", countryCode: "MX" },
-  { code: "es-ar", name: "Spanish (Argentina)", nativeName: "Español (Argentina)", flag: "🇦🇷", region: "Americas", countryCode: "AR" },
-  { code: "pt-br", name: "Portuguese (Brazil)", nativeName: "Português (Brasil)", flag: "🇧🇷", region: "Americas", countryCode: "BR" },
-  { code: "qu", name: "Quechua", nativeName: "Runasimi", flag: "🇵🇪", region: "Americas", countryCode: "PE" },
-  { code: "gn", name: "Guarani", nativeName: "Avañeẽ", flag: "🇵🇾", region: "Americas", countryCode: "PY" },
+  // AMÉRIQUES (30 langues)
+  { code: 'pt-br', flag: '🇧🇷', name: 'Portuguese (Brazil)', nativeName: 'Português (Brasil)', region: 'Americas' },
+  { code: 'es-mx', flag: '🇲🇽', name: 'Spanish (Mexico)', nativeName: 'Español (México)', region: 'Americas' },
+  { code: 'es-ar', flag: '🇦🇷', name: 'Spanish (Argentina)', nativeName: 'Español (Argentina)', region: 'Americas' },
+  { code: 'es-co', flag: '🇨🇴', name: 'Spanish (Colombia)', nativeName: 'Español (Colombia)', region: 'Americas' },
+  { code: 'es-cl', flag: '🇨🇱', name: 'Spanish (Chile)', nativeName: 'Español (Chile)', region: 'Americas' },
+  { code: 'es-pe', flag: '🇵🇪', name: 'Spanish (Peru)', nativeName: 'Español (Perú)', region: 'Americas' },
+  { code: 'es-ve', flag: '🇻🇪', name: 'Spanish (Venezuela)', nativeName: 'Español (Venezuela)', region: 'Americas' },
+  { code: 'es-ec', flag: '🇪🇨', name: 'Spanish (Ecuador)', nativeName: 'Español (Ecuador)', region: 'Americas' },
+  { code: 'es-gt', flag: '🇬🇹', name: 'Spanish (Guatemala)', nativeName: 'Español (Guatemala)', region: 'Americas' },
+  { code: 'es-cu', flag: '🇨🇺', name: 'Spanish (Cuba)', nativeName: 'Español (Cuba)', region: 'Americas' },
+  { code: 'es-do', flag: '🇩🇴', name: 'Spanish (Dominican)', nativeName: 'Español (Dominicano)', region: 'Americas' },
+  { code: 'es-hn', flag: '🇭🇳', name: 'Spanish (Honduras)', nativeName: 'Español (Honduras)', region: 'Americas' },
+  { code: 'es-py', flag: '🇵🇾', name: 'Spanish (Paraguay)', nativeName: 'Español (Paraguay)', region: 'Americas' },
+  { code: 'es-uy', flag: '🇺🇾', name: 'Spanish (Uruguay)', nativeName: 'Español (Uruguay)', region: 'Americas' },
+  { code: 'es-bo', flag: '🇧🇴', name: 'Spanish (Bolivia)', nativeName: 'Español (Bolivia)', region: 'Americas' },
+  { code: 'fr-ca', flag: '🇨🇦', name: 'French (Canada)', nativeName: 'Français (Canada)', region: 'Americas' },
+  { code: 'en-ca', flag: '🇨🇦', name: 'English (Canada)', nativeName: 'English (Canada)', region: 'Americas' },
+  { code: 'en-us', flag: '🇺🇸', name: 'English (US)', nativeName: 'English (US)', region: 'Americas' },
+  { code: 'qu', flag: '🇵🇪', name: 'Quechua', nativeName: 'Runa Simi', region: 'Americas' },
+  { code: 'ay', flag: '🇧🇴', name: 'Aymara', nativeName: 'Aymar Aru', region: 'Americas' },
+  { code: 'gn', flag: '🇵🇾', name: 'Guarani', nativeName: 'Avañe\'ẽ', region: 'Americas' },
+  { code: 'ht', flag: '🇭🇹', name: 'Haitian Creole', nativeName: 'Kreyòl Ayisyen', region: 'Americas' },
+  { code: 'nah', flag: '🇲🇽', name: 'Nahuatl', nativeName: 'Nāhuatl', region: 'Americas' },
+  { code: 'myn', flag: '🇬🇹', name: 'Mayan', nativeName: 'Maya\' t\'aan', region: 'Americas' },
+  { code: 'iu', flag: '🇨🇦', name: 'Inuktitut', nativeName: 'ᐃᓄᒃᑎᑐᑦ', region: 'Americas' },
+  { code: 'chr', flag: '🇺🇸', name: 'Cherokee', nativeName: 'ᏣᎳᎩ ᎦᏬᏂᎯᏍᏗ', region: 'Americas' },
+  { code: 'nv', flag: '🇺🇸', name: 'Navajo', nativeName: 'Diné bizaad', region: 'Americas' },
+  { code: 'lkt', flag: '🇺🇸', name: 'Lakota', nativeName: 'Lakȟótiyapi', region: 'Americas' },
+  { code: 'dak', flag: '🇺🇸', name: 'Dakota', nativeName: 'Dakȟótiyapi', region: 'Americas' },
+  { code: 'haw', flag: '🇺🇸', name: 'Hawaiian', nativeName: 'ʻŌlelo Hawaiʻi', region: 'Americas' },
 
-  // ===== OCÉANIE (10+ langues) =====
-  { code: "en-au", name: "English (Australia)", nativeName: "English (Australia)", flag: "🇦🇺", region: "Oceania", countryCode: "AU" },
-  { code: "en-nz", name: "English (New Zealand)", nativeName: "English (New Zealand)", flag: "🇳🇿", region: "Oceania", countryCode: "NZ" },
-  { code: "mi", name: "Māori", nativeName: "Te Reo Māori", flag: "🇳🇿", region: "Oceania", countryCode: "NZ" },
-  { code: "haw", name: "Hawaiian", nativeName: "ʻŌlelo Hawaiʻi", flag: "🇺🇸", region: "Oceania", countryCode: "US" },
-]
+  // OCÉANIE (15 langues)
+  { code: 'en-au', flag: '🇦🇺', name: 'English (Australia)', nativeName: 'English (Australia)', region: 'Oceania' },
+  { code: 'en-nz', flag: '🇳🇿', name: 'English (New Zealand)', nativeName: 'English (New Zealand)', region: 'Oceania' },
+  { code: 'mi', flag: '🇳🇿', name: 'Māori', nativeName: 'Te Reo Māori', region: 'Oceania' },
+  { code: 'to', flag: '🇹🇴', name: 'Tongan', nativeName: 'Lea Fakatonga', region: 'Oceania' },
+  { code: 'fj', flag: '🇫🇯', name: 'Fijian', nativeName: 'Na Vosa Vakaviti', region: 'Oceania' },
+  { code: 'sm', flag: '🇼🇸', name: 'Samoan', nativeName: 'Gagana Samoa', region: 'Oceania' },
+  { code: 'ty', flag: '🇵🇫', name: 'Tahitian', nativeName: 'Te Reo Tahiti', region: 'Oceania' },
+  { code: 'ch', flag: '🇬🇺', name: 'Chamorro', nativeName: 'Chamoru', region: 'Oceania' },
+  { code: 'gil', flag: '🇰🇮', name: 'Gilbertese', nativeName: 'Te Taetae ni Kiribati', region: 'Oceania' },
+  { code: 'mh', flag: '🇲🇭', name: 'Marshallese', nativeName: 'Kajin M̧ajeļ', region: 'Oceania' },
+  { code: 'na', flag: '🇳🇷', name: 'Nauruan', nativeName: 'Dorerin Naoero', region: 'Oceania' },
+  { code: 'niu', flag: '🇳🇺', name: 'Niuean', nativeName: 'Ko e vagahau Niuē', region: 'Oceania' },
+  { code: 'pau', flag: '🇵🇼', name: 'Palauan', nativeName: 'Tekoi er a Belau', region: 'Oceania' },
+  { code: 'pis', flag: '🇸🇧', name: 'Pijin', nativeName: 'Pijin', region: 'Oceania' },
+  { code: 'bi', flag: '🇻🇺', name: 'Bislama', nativeName: 'Bislama', region: 'Oceania' }
+];
 
-export const REGIONS = ["Europe", "Asia", "MENA", "Africa", "Americas", "Oceania"]
+export const getTotalLanguages = (): number => WORLD_LANGUAGES.length;
 
-export const getLanguagesByRegion = (region: string) => 
-  WORLD_LANGUAGES.filter(lang => lang.region === region)
+export const isRTLLanguage = (code: string): boolean => {
+  const language = WORLD_LANGUAGES.find(lang => lang.code === code);
+  return language?.isRTL || false;
+};
 
-export const getLanguageByCode = (code: string) => 
-  WORLD_LANGUAGES.find(lang => lang.code === code)
+export const getLanguageByCode = (code: string): Language | undefined => {
+  return WORLD_LANGUAGES.find(lang => lang.code === code);
+};
 
-export const isRTLLanguage = (code: string) => 
-  WORLD_LANGUAGES.find(lang => lang.code === code)?.rtl || false
+export const getLanguagesByRegion = (region: string): Language[] => {
+  return WORLD_LANGUAGES.filter(lang => lang.region === region);
+};
 
-export const getTotalLanguages = () => WORLD_LANGUAGES.length
-
-export const getLanguageStats = () => {
-  const stats = REGIONS.map(region => ({
-    region,
-    count: getLanguagesByRegion(region).length,
-    languages: getLanguagesByRegion(region).map(lang => lang.nativeName)
-  }))
-  
-  return {
-    total: getTotalLanguages(),
-    regions: stats,
-    rtlLanguages: WORLD_LANGUAGES.filter(lang => lang.rtl).length
-  }
-}
+export const getAllRegions = (): string[] => {
+  const regions = [...new Set(WORLD_LANGUAGES.map(lang => lang.region))];
+  return regions.sort();
+};

@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "test:corrections": "npx playwright test tests/e2e/corrections.spec.ts",
+    "test:pricing": "npx playwright test tests/e2e/corrections.spec.ts --grep='profils corrects'",
+    "test:languages": "npx playwright test tests/e2e/corrections.spec.ts --grep='langue.*une seule fois'",
+    "test:translations": "npx playwright test tests/e2e/corrections.spec.ts --grep='traductions'",
+    "lint:corrections": "eslint src/data/ src/hooks/ --ext .ts,.tsx",
+    "build:check": "npm run build && echo '✅ Build successful with corrections'"
+  }
+}

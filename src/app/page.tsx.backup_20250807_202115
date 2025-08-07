@@ -1,34 +1,10 @@
 "use client"
 
 import { useState } from 'react'
-import { Check, ArrowRight, Star, Zap, Users, GraduationCap, Calendar, Globe, BookOpen, TrendingUp, Smartphone, ChevronDown, Search } from 'lucide-react'
+import { Check, ArrowRight, Star, Zap, Users, GraduationCap, Calendar, Globe, BookOpen, TrendingUp, Smartphone } from 'lucide-react'
 
 export default function HomePage() {
   const [billingCycle, setBillingCycle] = useState<'monthly' | 'quarterly' | 'yearly'>('monthly')
-  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
-
-  // Langues disponibles
-  const languages = [
-    { code: 'fr', flag: '🇫🇷', name: 'Français', nativeName: 'Français' },
-    { code: 'en', flag: '🇬🇧', name: 'English', nativeName: 'English' },
-    { code: 'es', flag: '🇪🇸', name: 'Spanish', nativeName: 'Español' },
-    { code: 'de', flag: '🇩🇪', name: 'German', nativeName: 'Deutsch' },
-    { code: 'it', flag: '🇮🇹', name: 'Italian', nativeName: 'Italiano' },
-    { code: 'pt', flag: '🇵🇹', name: 'Portuguese', nativeName: 'Português' },
-    { code: 'ar', flag: '🇸🇦', name: 'Arabic', nativeName: 'العربية' },
-    { code: 'zh', flag: '🇨🇳', name: 'Chinese', nativeName: '中文' },
-    { code: 'ja', flag: '🇯🇵', name: 'Japanese', nativeName: '日本語' },
-    { code: 'ko', flag: '🇰🇷', name: 'Korean', nativeName: '한국어' }
-  ]
-
-  const [currentLanguage, setCurrentLanguage] = useState('fr')
-
-  const filteredLanguages = languages.filter(lang => 
-    !searchTerm || 
-    lang.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    lang.nativeName.toLowerCase().includes(searchTerm.toLowerCase())
-  )
 
   const plans = [
     {
@@ -162,34 +138,6 @@ export default function HomePage() {
     }
   ]
 
-  // Fonctions d'action
-  const handleStartFree = () => {
-    alert('🚀 Démarrage de la version gratuite !\n\nVous avez accès au 1er niveau (50 questions) pendant 7 jours.')
-  }
-
-  const handleViewPlans = () => {
-    // Scroll vers la section pricing
-    const pricingSection = document.getElementById('pricing-section')
-    if (pricingSection) {
-      pricingSection.scrollIntoView({ behavior: 'smooth' })
-    }
-  }
-
-  const handleChoosePlan = (plan: any) => {
-    alert(`💎 Plan ${plan.name} sélectionné !\n\n${plan.profiles} profils • ${plan.description}`)
-  }
-
-  const handleLanguageChange = (langCode: string) => {
-    setCurrentLanguage(langCode)
-    setShowLanguageDropdown(false)
-    alert(`🌍 Langue changée vers ${languages.find(l => l.code === langCode)?.nativeName}`)
-  }
-
-  const scrollToPricing = () => {
-    const element = document.getElementById('pricing-section')
-    element?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       {/* Header/Navigation */}
@@ -210,67 +158,15 @@ export default function HomePage() {
               <a href="/pricing" className="text-gray-700 hover:text-blue-600 transition-colors">Plans</a>
             </div>
 
-            {/* Language Selector */}
             <div className="flex items-center gap-4">
-              <div className="relative">
-                <button
-                  onClick={() => setShowLanguageDropdown(!showLanguageDropdown)}
-                  className="flex items-center gap-2 px-3 py-1 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
-                >
-                  <span className="text-xl">{languages.find(l => l.code === currentLanguage)?.flag}</span>
-                  <span className="text-sm font-medium text-blue-700">
-                    {languages.find(l => l.code === currentLanguage)?.nativeName}
-                  </span>
-                  <ChevronDown className="w-4 h-4 text-blue-700" />
-                </button>
-
-                {showLanguageDropdown && (
-                  <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-xl shadow-lg border border-gray-200 z-50">
-                    <div className="p-4 border-b border-gray-100">
-                      <div className="relative">
-                        <Search className="w-4 h-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                        <input
-                          type="text"
-                          placeholder="Rechercher une langue..."
-                          value={searchTerm}
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="max-h-64 overflow-y-auto">
-                      {filteredLanguages.map((lang) => (
-                        <button
-                          key={lang.code}
-                          onClick={() => handleLanguageChange(lang.code)}
-                          className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors ${
-                            currentLanguage === lang.code ? 'bg-blue-50 text-blue-600' : ''
-                          }`}
-                        >
-                          <span className="text-xl">{lang.flag}</span>
-                          <div className="flex-1 text-left">
-                            <div className="font-medium">{lang.nativeName}</div>
-                            <div className="text-sm text-gray-500">{lang.name}</div>
-                          </div>
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                )}
+              <div className="flex items-center gap-2 px-3 py-1 bg-blue-50 rounded-lg">
+                <span className="text-xl">🇫🇷</span>
+                <span className="text-sm font-medium text-blue-700">Français</span>
               </div>
             </div>
           </div>
         </div>
       </nav>
-
-      {/* Click overlay to close dropdown */}
-      {showLanguageDropdown && (
-        <div 
-          className="fixed inset-0 z-40" 
-          onClick={() => setShowLanguageDropdown(false)}
-        />
-      )}
 
       {/* Hero Section */}
       <section className="relative py-20 lg:py-32">
@@ -295,16 +191,10 @@ export default function HomePage() {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-              <button 
-                onClick={handleStartFree}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-              >
+              <button className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                 ▶ 🚀 Commencer gratuitement →
               </button>
-              <button 
-                onClick={handleViewPlans}
-                className="border-2 border-gray-300 hover:border-gray-400 text-gray-700 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 hover:bg-gray-50"
-              >
+              <button className="border-2 border-gray-300 hover:border-gray-400 text-gray-700 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 hover:bg-gray-50">
                 🔒 💎 Voir les plans
               </button>
             </div>
@@ -360,7 +250,7 @@ export default function HomePage() {
               { icon: Users, title: "Statistiques Détaillées", desc: "Suis tes progrès avec des graphiques et analyses avancées", gradient: "from-indigo-500 to-blue-600" },
               { icon: Smartphone, title: "Multi-plateforme", desc: "Web, Android et iOS avec synchronisation complète", gradient: "from-violet-500 to-purple-600" }
             ].map((feature, index) => (
-              <div key={index} className="bg-gray-50 rounded-2xl p-8 hover:bg-gray-100 transition-colors cursor-pointer">
+              <div key={index} className="bg-gray-50 rounded-2xl p-8 hover:bg-gray-100 transition-colors">
                 <div className={`w-12 h-12 bg-gradient-to-r ${feature.gradient} rounded-xl flex items-center justify-center mb-6`}>
                   <feature.icon className="w-6 h-6 text-white" />
                 </div>
@@ -373,7 +263,7 @@ export default function HomePage() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing-section" className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-6">Choisis ton plan Math4Child</h2>
@@ -465,10 +355,7 @@ export default function HomePage() {
                       ))}
                     </ul>
 
-                    <button 
-                      onClick={() => handleChoosePlan(plan)}
-                      className={`w-full py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${plan.buttonClass}`}
-                    >
+                    <button className={`w-full py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl ${plan.buttonClass}`}>
                       {plan.buttonText}
                     </button>
                   </div>
@@ -484,10 +371,7 @@ export default function HomePage() {
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-4xl font-bold text-white mb-6">Bienvenue dans Math4Child !</h2>
           <p className="text-xl text-blue-100 mb-8">Commençons l'aventure mathématique !</p>
-          <button 
-            onClick={handleStartFree}
-            className="bg-white text-blue-600 hover:bg-gray-50 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl inline-flex items-center gap-3"
-          >
+          <button className="bg-white text-blue-600 hover:bg-gray-50 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl inline-flex items-center gap-3">
             ▶ 🚀 Commencer gratuitement <ArrowRight className="w-5 h-5" />
           </button>
         </div>
@@ -510,20 +394,20 @@ export default function HomePage() {
             <div>
               <h3 className="text-lg font-semibold mb-6">Fonctionnalités</h3>
               <ul className="space-y-3 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Exercices interactifs</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Suivi des progrès</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Jeux éducatifs</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Mode multijoueurs</a></li>
+                <li>Exercices interactifs</li>
+                <li>Suivi des progrès</li>
+                <li>Jeux éducatifs</li>
+                <li>Mode multijoueurs</li>
               </ul>
             </div>
             
             <div>
               <h3 className="text-lg font-semibold mb-6">Support</h3>
               <ul className="space-y-3 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Centre d'aide</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Contact</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Guides parents</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Communauté</a></li>
+                <li>Centre d'aide</li>
+                <li>Contact</li>
+                <li>Guides parents</li>
+                <li>Communauté</li>
               </ul>
             </div>
           </div>
