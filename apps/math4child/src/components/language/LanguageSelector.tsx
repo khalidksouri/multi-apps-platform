@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react"
 import { Globe, ChevronDown, Search } from "lucide-react"
 
+// Liste unique et corrigée des langues mondiales (sans doublons)
 const WORLD_LANGUAGES = [
   // Europe
   { code: 'fr', flag: '🇫🇷', name: 'French', nativeName: 'Français' },
@@ -29,6 +30,13 @@ const WORLD_LANGUAGES = [
   { code: 'lv', flag: '🇱🇻', name: 'Latvian', nativeName: 'Latviešu' },
   { code: 'lt', flag: '🇱🇹', name: 'Lithuanian', nativeName: 'Lietuvių' },
   { code: 'el', flag: '🇬🇷', name: 'Greek', nativeName: 'Ελληνικά' },
+  { code: 'uk', flag: '🇺🇦', name: 'Ukrainian', nativeName: 'Українська' },
+  { code: 'be', flag: '🇧🇾', name: 'Belarusian', nativeName: 'Беларуская' },
+  { code: 'mk', flag: '🇲🇰', name: 'Macedonian', nativeName: 'Македонски' },
+  { code: 'sq', flag: '🇦🇱', name: 'Albanian', nativeName: 'Shqip' },
+  { code: 'bs', flag: '🇧🇦', name: 'Bosnian', nativeName: 'Bosanski' },
+  { code: 'sr', flag: '🇷🇸', name: 'Serbian', nativeName: 'Српски' },
+  { code: 'me', flag: '🇲🇪', name: 'Montenegrin', nativeName: 'Crnogorski' },
   
   // Asie
   { code: 'zh', flag: '🇨🇳', name: 'Chinese', nativeName: '中文' },
@@ -64,8 +72,8 @@ const WORLD_LANGUAGES = [
   { code: 'tj', flag: '🇹🇯', name: 'Tajik', nativeName: 'Тоҷикӣ' },
   { code: 'mn', flag: '🇲🇳', name: 'Mongolian', nativeName: 'Монгол' },
   
-  // Moyen-Orient
-  { code: 'ar', flag: '🇲🇦', name: 'Arabic', nativeName: 'العربية' }, // Maroc comme demandé
+  // Moyen-Orient (ARABE AVEC DRAPEAU MAROCAIN comme spécifié)
+  { code: 'ar', flag: '🇲🇦', name: 'Arabic', nativeName: 'العربية' },
   { code: 'fa', flag: '🇮🇷', name: 'Persian', nativeName: 'فارسی' },
   { code: 'tr', flag: '🇹🇷', name: 'Turkish', nativeName: 'Türkçe' },
   { code: 'ku', flag: '🏴', name: 'Kurdish', nativeName: 'کوردی' },
@@ -116,7 +124,7 @@ const WORLD_LANGUAGES = [
   { code: 'fj', flag: '🇫🇯', name: 'Fijian', nativeName: 'Na Vosa Vakaviti' },
   { code: 'sm', flag: '🇼🇸', name: 'Samoan', nativeName: 'Gagana Samoa' },
   
-  // Autres régions
+  // Langues régionales et minoritaires
   { code: 'is', flag: '🇮🇸', name: 'Icelandic', nativeName: 'Íslenska' },
   { code: 'fo', flag: '🇫🇴', name: 'Faroese', nativeName: 'Føroyskt' },
   { code: 'kl', flag: '🇬🇱', name: 'Greenlandic', nativeName: 'Kalaallisut' },
@@ -133,60 +141,19 @@ const WORLD_LANGUAGES = [
   { code: 'sc', flag: '🏴', name: 'Sardinian', nativeName: 'Sardu' },
   { code: 'rm', flag: '🇨🇭', name: 'Romansh', nativeName: 'Rumantsch' },
   { code: 'lb', flag: '🇱🇺', name: 'Luxembourgish', nativeName: 'Lëtzebuergesch' },
-  { code: 'li', flag: '🏴', name: 'Limburgish', nativeName: 'Limburgs' },
-  { code: 'fy', flag: '🏴', name: 'Western Frisian', nativeName: 'Frysk' },
-  { code: 'se', flag: '🏴', name: 'Northern Sami', nativeName: 'Davvisámegiella' },
-  { code: 'smj', flag: '🏴', name: 'Lule Sami', nativeName: 'Julevsámegiella' },
-  { code: 'sma', flag: '🏴', name: 'Southern Sami', nativeName: 'Åarjelsaemiengiele' },
-  { code: 'smn', flag: '🏴', name: 'Inari Sami', nativeName: 'Anarâškielâ' },
-  { code: 'sms', flag: '🏴', name: 'Skolt Sami', nativeName: 'Sääʹmǩiõll' },
   
-  // Langues construites et autres
+  // Langues Sami (corrigé - une seule entrée)
+  { code: 'se', flag: '🏴', name: 'Northern Sami', nativeName: 'Davvisámegiella' },
+  
+  // Langues construites
   { code: 'eo', flag: '🏴', name: 'Esperanto', nativeName: 'Esperanto' },
   { code: 'ia', flag: '🏴', name: 'Interlingua', nativeName: 'Interlingua' },
-  { code: 'io', flag: '🏴', name: 'Ido', nativeName: 'Ido' },
-  { code: 'vo', flag: '🏴', name: 'Volapük', nativeName: 'Volapük' },
-  { code: 'jbo', flag: '🏴', name: 'Lojban', nativeName: 'Lojban' },
   { code: 'la', flag: '🏴', name: 'Latin', nativeName: 'Latina' },
   { code: 'sa', flag: '🏴', name: 'Sanskrit', nativeName: 'संस्कृतम्' },
-  { code: 'pi', flag: '🏴', name: 'Pali', nativeName: 'पाऴि' },
+  
+  // Langues asiatiques additionnelles
   { code: 'bo', flag: '🇹🇧', name: 'Tibetan', nativeName: 'བོད་ཡིག' },
-  { code: 'dz', flag: '🇧🇹', name: 'Dzongkha', nativeName: 'རྫོང་ཁ' },
-  
-  // Langues des signes
-  { code: 'sgn-fr', flag: '🤟', name: 'French Sign Language', nativeName: 'LSF' },
-  { code: 'sgn-us', flag: '🤟', name: 'American Sign Language', nativeName: 'ASL' },
-  { code: 'sgn-gb', flag: '🤟', name: 'British Sign Language', nativeName: 'BSL' },
-  { code: 'sgn-de', flag: '🤟', name: 'German Sign Language', nativeName: 'DGS' },
-  
-  // Ajouts pour atteindre 195+
-  { code: 'uk', flag: '🇺🇦', name: 'Ukrainian', nativeName: 'Українська' },
-  { code: 'be', flag: '🇧🇾', name: 'Belarusian', nativeName: 'Беларуская' },
-  { code: 'mk', flag: '🇲🇰', name: 'Macedonian', nativeName: 'Македонски' },
-  { code: 'sq', flag: '🇦🇱', name: 'Albanian', nativeName: 'Shqip' },
-  { code: 'bs', flag: '🇧🇦', name: 'Bosnian', nativeName: 'Bosanski' },
-  { code: 'sr', flag: '🇷🇸', name: 'Serbian', nativeName: 'Српски' },
-  { code: 'me', flag: '🇲🇪', name: 'Montenegrin', nativeName: 'Crnogorski' },
-  { code: 'lv', flag: '🇱🇻', name: 'Latvian', nativeName: 'Latviešu' },
-  { code: 'ltg', flag: '🇱🇻', name: 'Latgalian', nativeName: 'Latgaļu' },
-  { code: 'liv', flag: '🇱🇻', name: 'Livonian', nativeName: 'Līvõ kēļ' },
-  { code: 'vro', flag: '🇪🇪', name: 'Võro', nativeName: 'Võro' },
-  { code: 'sms', flag: '🇫🇮', name: 'Skolt Sami', nativeName: 'Sääʹmǩiõll' },
-  { code: 'kv', flag: '🇷🇺', name: 'Komi', nativeName: 'Коми кыв' },
-  { code: 'udm', flag: '🇷🇺', name: 'Udmurt', nativeName: 'Удмурт кыл' },
-  { code: 'chm', flag: '🇷🇺', name: 'Mari', nativeName: 'Марий йылме' },
-  { code: 'mrj', flag: '🇷🇺', name: 'Western Mari', nativeName: 'Мары йӹлмӹ' },
-  { code: 'mdf', flag: '🇷🇺', name: 'Moksha', nativeName: 'Мокшень кяль' },
-  { code: 'myv', flag: '🇷🇺', name: 'Erzya', nativeName: 'Эрзянь кель' },
-  { code: 'koi', flag: '🇷🇺', name: 'Komi-Permyak', nativeName: 'Перем коми кыв' },
-  { code: 'kpv', flag: '🇷🇺', name: 'Komi-Zyrian', nativeName: 'Коми кыв' },
-  { code: 'krl', flag: '🇫🇮', name: 'Karelian', nativeName: 'Karjala' },
-  { code: 'vep', flag: '🇷🇺', name: 'Veps', nativeName: 'Vepsän kel\'' },
-  { code: 'izh', flag: '🇷🇺', name: 'Ingrian', nativeName: 'Ižoran keel' },
-  { code: 'vot', flag: '🇷🇺', name: 'Votic', nativeName: 'Vađđa tšeeli' },
-  { code: 'olo', flag: '🇷🇺', name: 'Livvi', nativeName: 'Livvin kieli' },
-  { code: 'lud', flag: '🇷🇺', name: 'Ludic', nativeName: 'Lyydi' },
-  { code: 'sms', flag: '🇫🇮', name: 'Skolt Sami', nativeName: 'Sääʹmǩiõll' }
+  { code: 'dz', flag: '🇧🇹', name: 'Dzongkha', nativeName: 'རྫོང་ཁ' }
 ]
 
 interface LanguageSelectorProps {
@@ -204,6 +171,7 @@ export default function LanguageSelector({ onLanguageChange }: LanguageSelectorP
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false)
+        setSearchTerm("") // Reset search when closing
       }
     }
 
@@ -211,12 +179,30 @@ export default function LanguageSelector({ onLanguageChange }: LanguageSelectorP
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  // Filtrer les langues selon la recherche
-  const filteredLanguages = WORLD_LANGUAGES.filter(lang =>
-    lang.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    lang.nativeName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    lang.code.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  // Fonction de recherche améliorée et corrigée
+  const filteredLanguages = WORLD_LANGUAGES.filter(lang => {
+    if (!searchTerm.trim()) return true
+    
+    const search = searchTerm.toLowerCase().trim()
+    
+    // Recherche dans le nom natif, nom anglais, et code
+    return (
+      lang.nativeName.toLowerCase().includes(search) ||
+      lang.name.toLowerCase().includes(search) ||
+      lang.code.toLowerCase().includes(search) ||
+      // Recherche spéciale pour "arabe" qui doit trouver العربية
+      (search === 'arabe' && lang.code === 'ar') ||
+      (search === 'arabic' && lang.code === 'ar') ||
+      // Recherche pour les autres langues courantes
+      (search === 'francais' && lang.code === 'fr') ||
+      (search === 'english' && lang.code === 'en') ||
+      (search === 'espagnol' && lang.code === 'es') ||
+      (search === 'allemand' && lang.code === 'de') ||
+      (search === 'italien' && lang.code === 'it') ||
+      (search === 'chinois' && lang.code === 'zh') ||
+      (search === 'japonais' && lang.code === 'ja')
+    )
+  })
 
   const currentLanguage = WORLD_LANGUAGES.find(lang => lang.code === selectedLanguage) || WORLD_LANGUAGES[0]
 
@@ -252,7 +238,7 @@ export default function LanguageSelector({ onLanguageChange }: LanguageSelectorP
                 Choisir une langue
               </h3>
               <span className="text-xs bg-gradient-to-r from-blue-500 to-purple-500 text-white px-2 py-1 rounded-full font-medium">
-                195+ langues
+                {WORLD_LANGUAGES.length} langues
               </span>
             </div>
             
@@ -293,6 +279,15 @@ export default function LanguageSelector({ onLanguageChange }: LanguageSelectorP
               }
             `}</style>
             
+            {/* Message si aucun résultat */}
+            {filteredLanguages.length === 0 && (
+              <div className="p-6 text-center text-gray-500">
+                <Search className="w-8 h-8 mx-auto mb-2 text-gray-400" />
+                <p>Aucune langue trouvée pour "{searchTerm}"</p>
+                <p className="text-xs mt-1">Essayez "arabe", "français", "english"...</p>
+              </div>
+            )}
+            
             {filteredLanguages.map((language) => (
               <button
                 key={language.code}
@@ -320,7 +315,8 @@ export default function LanguageSelector({ onLanguageChange }: LanguageSelectorP
           {/* Footer */}
           <div className="p-3 border-t border-gray-100 bg-gray-50">
             <div className="text-xs text-gray-600 text-center">
-              🌍 {filteredLanguages.length} langue{filteredLanguages.length > 1 ? 's' : ''} disponible{filteredLanguages.length > 1 ? 's' : ''}
+              🌍 {filteredLanguages.length} langue{filteredLanguages.length > 1 ? 's' : ''} {searchTerm ? `trouvée${filteredLanguages.length > 1 ? 's' : ''}` : 'disponible'}
+              {searchTerm && filteredLanguages.length > 0 ? ` pour "${searchTerm}"` : ''}
             </div>
           </div>
         </div>

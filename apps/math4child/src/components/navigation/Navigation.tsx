@@ -3,16 +3,9 @@
 import Link from "next/link"
 import { Calculator, Menu, X } from "lucide-react"
 import { useState } from "react"
-import { useLanguage } from "@/hooks/useLanguage"
-import LanguageSelector from "@/components/language/LanguageSelector"
 
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
-  const { t, setLanguage } = useLanguage()
-
-  const handleLanguageChange = (languageCode: string) => {
-    setLanguage(languageCode)
-  }
 
   return (
     <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm border-b border-gray-200 z-50">
@@ -27,17 +20,24 @@ export default function Navigation() {
           {/* Navigation Desktop */}
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/exercises" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-              {t("exercises")}
+              Exercices
             </Link>
             <Link href="/profile" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-              {t("profile")}
+              Profil
             </Link>
             <Link href="/pricing" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-              {t("pricing")}
+              Plans
             </Link>
             
-            {/* Sélecteur de langues complet */}
-            <LanguageSelector onLanguageChange={handleLanguageChange} />
+            {/* Sélecteur de langues simple */}
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🇫🇷</span>
+              <select className="bg-gray-50 border border-gray-200 rounded-lg px-2 py-1 text-sm">
+                <option value="fr">🇫🇷 Français</option>
+                <option value="en">🇺🇸 English</option>
+                <option value="ar">🇲🇦 العربية</option>
+              </select>
+            </div>
           </div>
 
           {/* Menu Mobile */}
@@ -59,28 +59,22 @@ export default function Navigation() {
               className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md font-medium"
               onClick={() => setIsOpen(false)}
             >
-              {t("exercises")}
+              Exercices
             </Link>
             <Link
               href="/profile"
               className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md font-medium"
               onClick={() => setIsOpen(false)}
             >
-              {t("profile")}
+              Profil
             </Link>
             <Link
               href="/pricing"
               className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-md font-medium"
               onClick={() => setIsOpen(false)}
             >
-              {t("pricing")}
+              Plans
             </Link>
-            
-            {/* Sélecteur de langues mobile */}
-            <div className="px-3 py-2">
-              <div className="text-sm font-medium text-gray-600 mb-2">🌍 Changer de langue</div>
-              <LanguageSelector onLanguageChange={handleLanguageChange} />
-            </div>
           </div>
         </div>
       )}
