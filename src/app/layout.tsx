@@ -1,8 +1,13 @@
-import { LanguageProvider } from '../contexts/LanguageContext'
+import type { Metadata } from "next"
+import { Inter } from "next/font/google"
+import "./globals.css"
+import { LanguageProvider } from "@/hooks/useLanguage"
 
-export const metadata = {
-  title: 'Math for Children',
-  description: 'The #1 educational app to learn mathematics as a family',
+const inter = Inter({ subsets: ["latin"] })
+
+export const metadata: Metadata = {
+  title: "Math4Child - Apprends les maths en t'amusant !",
+  description: "L'application éducative révolutionnaire pour apprendre les mathématiques. 200+ langues supportées, 5 niveaux progressifs.",
 }
 
 export default function RootLayout({
@@ -11,11 +16,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <head>
-        <script src="https://cdn.tailwindcss.com"></script>
-      </head>
-      <body>
+    <html lang="fr">
+      <body className={inter.className}>
         <LanguageProvider>
           {children}
         </LanguageProvider>
