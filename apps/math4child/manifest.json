@@ -1,0 +1,17 @@
+{
+  "name": "Math4Child - Révolution Éducative Mondiale",
+  "short_name": "Math4Child",
+  "description": "La plateforme éducative la plus avancée technologiquement au monde",
+  "version": "4.2.0",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
