@@ -9,48 +9,33 @@ import { LocalDatabase } from '@/lib/database/localStorage'
 const LEVELS = [
   {
     id: 1,
-    name: 'discovery',
-    displayName: 'Découverte',
+    name: 'Découverte',
     description: 'Premiers pas avec les nombres 1-10',
-    difficulty: 'Débutant',
-    emoji: '🎯',
-    numberRange: [1, 10]
+    innovations: ['IA Adaptive', 'Manuscrit']
   },
   {
     id: 2,
-    name: 'exploration',
-    displayName: 'Exploration',
-    description: 'Exploration des nombres 1-20',
-    difficulty: 'Facile',
-    emoji: '🚀',
-    numberRange: [1, 20]
+    name: 'Exploration',
+    description: 'Nombres 1-20 avec plus d\'innovations',
+    innovations: ['IA Adaptive', 'Manuscrit', 'Vocal IA']
   },
   {
     id: 3,
-    name: 'mastery',
-    displayName: 'Maîtrise',
-    description: 'Maîtrise des nombres 1-50',
-    difficulty: 'Intermédiaire',
-    emoji: '⭐',
-    numberRange: [1, 50]
+    name: 'Maîtrise',
+    description: 'Nombres 1-50 avec réalité augmentée',
+    innovations: ['IA Adaptive', 'Manuscrit', 'Vocal IA', 'Réalité Augmentée']
   },
   {
     id: 4,
-    name: 'expert',
-    displayName: 'Expert',
-    description: 'Expertise avec les nombres 1-100',
-    difficulty: 'Avancé',
-    emoji: '🏆',
-    numberRange: [1, 100]
+    name: 'Expert',
+    description: 'Nombres 1-100 avec compétitions',
+    innovations: ['Toutes les innovations', 'Compétitions Mondiales']
   },
   {
     id: 5,
-    name: 'champion',
-    displayName: 'Champion',
-    description: 'Maîtrise complète avec nombres 1-1000+',
-    difficulty: 'Maître',
-    emoji: '👑',
-    numberRange: [1, 1000]
+    name: 'Champion',
+    description: 'Maîtrise complète 1-1000+',
+    innovations: ['Toutes les innovations', 'Badges Mythiques']
   }
 ]
 
@@ -61,13 +46,11 @@ export default function ExercisesPage() {
 
   useEffect(() => {
     setMounted(true)
-    // Initialiser ou récupérer l'utilisateur
     let user = LocalDatabase.getUser()
     if (!user) {
       user = LocalDatabase.initDemoUser()
     }
     
-    // Charger la progression
     const progress = LocalDatabase.getProgress()
     if (progress) {
       const levelProgress: Record<number, number> = {}
@@ -81,10 +64,7 @@ export default function ExercisesPage() {
   if (!mounted) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-          <p className="text-gray-600">Chargement...</p>
-        </div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
       </div>
     )
   }
@@ -99,13 +79,8 @@ export default function ExercisesPage() {
     return (userProgress[levelId] || 0) >= 100
   }
 
-  const getLevelProgress = (levelId: number): number => {
-    return userProgress[levelId] || 0
-  }
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      {/* Header avec navigation */}
       <header className="bg-white shadow-sm border-b sticky top-0 z-40">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex justify-between items-center">
@@ -120,7 +95,6 @@ export default function ExercisesPage() {
               <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors">Accueil</Link>
               <Link href="/exercises" className="text-blue-600 font-medium">Exercices</Link>
               <Link href="/profile" className="text-gray-600 hover:text-blue-600 transition-colors">Profil</Link>
-              <Link href="/pricing" className="text-gray-600 hover:text-blue-600 transition-colors">Plans</Link>
             </nav>
             
             <LanguageSelector />
@@ -129,163 +103,94 @@ export default function ExercisesPage() {
       </header>
 
       <div className="py-8">
-        <div className="max-w-4xl mx-auto px-4">
-          {/* Header de la page */}
+        <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <h1 className="text-4xl font-bold text-gray-800 mb-4">
-              Choisis ton niveau
+              Choisis ton Niveau d'Innovation
             </h1>
-            <p className="text-xl text-gray-600">
-              Progresse étape par étape pour devenir un champion des maths !
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Chaque niveau débloque de <strong>nouvelles technologies révolutionnaires</strong> !
             </p>
           </div>
 
-          {/* Grille des niveaux */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {LEVELS.map((level) => {
               const isUnlocked = isLevelUnlocked(level.id)
               const isCompleted = isLevelCompleted(level.id)
-              const progress = getLevelProgress(level.id)
-              const progressPercent = Math.min((progress / 100) * 100, 100)
+              const progress = userProgress[level.id] || 0
 
               return (
                 <div
                   key={level.id}
-                  className={`relative bg-white rounded-2xl shadow-lg border-2 transition-all duration-300 ${
-                    isUnlocked 
-                      ? isCompleted
-                        ? 'border-green-300 shadow-green-100'
-                        : 'border-blue-300 hover:shadow-xl hover:scale-105'
-                      : 'border-gray-200 opacity-60'
+                  className={`bg-white rounded-2xl p-6 shadow-lg transition-all duration-300 ${
+                    isUnlocked ? 'transform hover:scale-105 hover:shadow-xl' : 'opacity-60'
                   }`}
                 >
-                  {/* Badge de niveau */}
-                  <div className={`absolute -top-4 left-6 px-4 py-2 rounded-full text-white font-bold text-sm ${
-                    isCompleted 
-                      ? 'bg-green-500' 
-                      : isUnlocked 
-                        ? 'bg-blue-500' 
-                        : 'bg-gray-400'
-                  }`}>
-                    Niveau {level.id}
+                  <div className="text-center mb-4">
+                    <div className="text-4xl mb-3">
+                      {level.id === 1 ? '🌟' : level.id === 2 ? '🚀' : level.id === 3 ? '✨' : level.id === 4 ? '🏆' : '👑'}
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-800">
+                      Niveau {level.id} - {level.name}
+                    </h3>
+                    <p className="text-gray-600 text-sm">{level.description}</p>
                   </div>
 
-                  <div className="p-6 pt-8">
-                    {/* Emoji et titre */}
-                    <div className="text-center mb-4">
-                      <div className="text-4xl mb-2">{level.emoji}</div>
-                      <h3 className="text-xl font-bold text-gray-800">
-                        {level.displayName}
-                      </h3>
-                      <p className="text-sm text-gray-500">{level.difficulty}</p>
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-gray-600 text-sm mb-4 text-center">
-                      {level.description}
-                    </p>
-
-                    {/* Nombres */}
-                    <div className="text-center mb-4">
-                      <span className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
-                        Nombres {level.numberRange[0]}-{level.numberRange[1]}
-                      </span>
-                    </div>
-
-                    {/* Progression */}
-                    {isUnlocked && (
-                      <div className="mb-4">
-                        <div className="flex justify-between text-sm text-gray-600 mb-1">
-                          <span>Progression</span>
-                          <span>{progress}/100</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div 
-                            className={`h-2 rounded-full transition-all duration-500 ${
-                              isCompleted ? 'bg-green-500' : 'bg-blue-500'
-                            }`}
-                            style={{ width: `${progressPercent}%` }}
-                          />
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Bouton d'action */}
-                    <div className="text-center">
-                      {!isUnlocked ? (
-                        <div className="flex items-center justify-center gap-2 text-gray-500">
-                          <span className="text-lg">🔒</span>
-                          <span className="text-sm">Verrouillé</span>
-                        </div>
-                      ) : (
-                        <Link 
-                          href={`/exercises/${level.id}`}
-                          className={`inline-flex items-center gap-2 px-6 py-2 rounded-lg font-medium transition-colors ${
-                            isCompleted
-                              ? 'bg-green-500 hover:bg-green-600 text-white'
-                              : 'bg-blue-500 hover:bg-blue-600 text-white'
-                          }`}
+                  <div className="mb-4">
+                    <h4 className="text-sm font-bold text-gray-800 mb-2">🚀 Innovations :</h4>
+                    <div className="space-y-1">
+                      {level.innovations.map((innovation, index) => (
+                        <div 
+                          key={index}
+                          className="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs"
                         >
-                          <span className="text-lg">
-                            {isCompleted ? '✅' : '▶️'}
-                          </span>
-                          {isCompleted ? 'Terminé - Rejouer' : 'Commencer'}
-                        </Link>
-                      )}
+                          ✨ {innovation}
+                        </div>
+                      ))}
                     </div>
+                  </div>
+
+                  {isUnlocked && (
+                    <div className="mb-4">
+                      <div className="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Progression</span>
+                        <span>{progress}/100</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div 
+                          className={`h-2 rounded-full transition-all duration-500 ${
+                            isCompleted ? 'bg-green-500' : 'bg-blue-500'
+                          }`}
+                          style={{ width: `${Math.min((progress / 100) * 100, 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="text-center">
+                    {!isUnlocked ? (
+                      <div className="text-gray-500">
+                        <span className="text-lg">🔒</span>
+                        <div className="text-sm">Termine le niveau {level.id - 1}</div>
+                      </div>
+                    ) : (
+                      <Link 
+                        href={`/exercises/${level.id}`}
+                        className={`inline-flex items-center gap-2 px-6 py-3 rounded-lg font-medium transition-all ${
+                          isCompleted
+                            ? 'bg-green-500 hover:bg-green-600 text-white'
+                            : 'bg-blue-500 hover:bg-blue-600 text-white'
+                        }`}
+                      >
+                        <span>{isCompleted ? '🏆' : '🚀'}</span>
+                        {isCompleted ? 'Rejouer' : 'Découvrir'}
+                      </Link>
+                    )}
                   </div>
                 </div>
               )
             })}
           </div>
-
-          {/* Informations sur le déblocage */}
-          <div className="mt-12 text-center">
-            <div className="bg-white rounded-lg p-6 shadow-lg max-w-2xl mx-auto">
-              <h3 className="text-lg font-bold text-gray-800 mb-3">
-                Comment débloquer les niveaux ?
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Pour débloquer un niveau, tu dois obtenir <strong>100 bonnes réponses</strong> dans le niveau précédent.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <div className="text-blue-600 font-medium">🎯 Pratique</div>
-                  <div className="text-gray-600">Réponds aux questions</div>
-                </div>
-                <div className="bg-green-50 rounded-lg p-3">
-                  <div className="text-green-600 font-medium">✅ Progresse</div>
-                  <div className="text-gray-600">100 bonnes réponses</div>
-                </div>
-                <div className="bg-purple-50 rounded-lg p-3">
-                  <div className="text-purple-600 font-medium">🔓 Débloque</div>
-                  <div className="text-gray-600">Niveau suivant</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Navigation mobile */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-2">
-        <div className="flex justify-around">
-          <Link href="/" className="flex flex-col items-center gap-1 text-gray-600">
-            <span className="text-lg">🏠</span>
-            <span className="text-xs">Accueil</span>
-          </Link>
-          <Link href="/exercises" className="flex flex-col items-center gap-1 text-blue-600">
-            <span className="text-lg">📚</span>
-            <span className="text-xs">Exercices</span>
-          </Link>
-          <Link href="/profile" className="flex flex-col items-center gap-1 text-gray-600">
-            <span className="text-lg">👤</span>
-            <span className="text-xs">Profil</span>
-          </Link>
-          <Link href="/pricing" className="flex flex-col items-center gap-1 text-gray-600">
-            <span className="text-lg">💎</span>
-            <span className="text-xs">Plans</span>
-          </Link>
         </div>
       </div>
     </div>

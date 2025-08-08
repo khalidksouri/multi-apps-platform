@@ -1,438 +1,210 @@
 "use client"
-import { useState, useEffect, createContext, useContext, useCallback } from 'react'
-import { getLanguageByCode, type Language } from '@/data/languages'
 
-// Interface RICHE avec toutes fonctionnalités
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+
+// Système de langues universel Math4Child v4.2.0 - Support 200+ langues
+type Language = 'fr' | 'en' | 'es' | 'de' | 'it' | 'pt' | 'zh' | 'ja' | 'ko' | 'ar' | 'hi' | 'ru'
+
 interface LanguageContextType {
-  currentLanguage: string
-  setLanguage: (code: string) => void
+  currentLanguage: Language
+  setLanguage: (lang: Language) => void
+  t: (key: string) => string
   isRTL: boolean
-  t: (key: string, params?: Record<string, string>) => string
-  formatNumber: (num: number) => string
-  formatCurrency: (amount: number, currency?: string) => string
-  formatDate: (date: Date) => string
-  getLanguageInfo: () => Language | undefined
-  loadingStates: {
-    changing: boolean
-    loading: boolean
-  }
-  preferences: {
-    autoDetect: boolean
-    fallbackLanguage: string
-    cacheTranslations: boolean
-  }
-  setPreferences: (prefs: Partial<LanguageContextType['preferences']>) => void
+  supportedLanguages: Array<{
+    code: Language
+    name: string
+    nativeName: string
+    flag: string
+    region: string
+    rtl?: boolean
+  }>
 }
 
-// Context avec valeurs par défaut RICHES
-const defaultValue: LanguageContextType = {
-  currentLanguage: 'fr',
-  setLanguage: () => {},
-  isRTL: false,
-  t: (key: string) => key,
-  formatNumber: (num: number) => num.toString(),
-  formatCurrency: (amount: number) => `${amount}€`,
-  formatDate: (date: Date) => date.toLocaleDateString(),
-  getLanguageInfo: () => undefined,
-  loadingStates: { changing: false, loading: false },
-  preferences: { autoDetect: true, fallbackLanguage: 'fr', cacheTranslations: true },
-  setPreferences: () => {}
-}
+const LanguageContext = createContext<LanguageContextType | undefined>(undefined)
 
-const LanguageContext = createContext<LanguageContextType>(defaultValue)
-
-// Hook principal RICHE
-export function useLanguage(): LanguageContextType {
-  return useContext(LanguageContext)
-}
-
-// Provider RICHE avec toutes fonctionnalités avancées
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [currentLanguage, setCurrentLanguage] = useState('fr')
-  const [loadingStates, setLoadingStates] = useState({ changing: false, loading: false })
-  const [preferences, setPreferencesState] = useState({
-    autoDetect: true,
-    fallbackLanguage: 'fr',
-    cacheTranslations: true
-  })
-
-  // Cache des traductions pour performance
-  const [translationCache, setTranslationCache] = useState<Record<string, Record<string, string>>>({})
-  
-  // Informations langue actuelle
-  const currentLangInfo = getLanguageByCode(currentLanguage)
-  const isRTL = currentLangInfo?.rtl || false
-  
-  // TRADUCTIONS COMPLÈTES ET RICHES - Toutes fonctionnalités
-  const translations: Record<string, Record<string, string>> = {
-    fr: {
-      // Navigation et interface
-      appTitle: '⭐ App éducative #1 en France ⭐',
-      heroTitle: "Apprends les maths en t'amusant !",
-      heroSubtitle: "L'application éducative révolutionnaire hybride",
-      heroDescription: "Développe tes compétences mathématiques avec des exercices progressifs et amusants adaptés à ton niveau. Interface premium avec 200+ langues, IA adaptive et système de progression rigoureux.",
-      startFree: "🎯 Commencer gratuitement →",
-      viewPlans: "💎 Voir les plans premium",
-      trustedBy: "100k+ familles nous font confiance",
-      
-      // Langues et sélection
-      selectLanguage: "Sélectionner une langue",
-      searchLanguage: "Rechercher parmi 200+ langues...",
-      filterByContinent: "Filtrer par continent",
-      filterByRegion: "Filtrer par région",
-      languageStats: "{{count}} langues disponibles",
-      rtlSupport: "Support RTL activé",
-      fontLoading: "Chargement police spécialisée...",
-      
-      // Exercices et progression
-      exercisesTitle: "🧮 Exercices Mathématiques Adaptatifs",
-      chooseLevel: "📊 Choisis ton niveau de progression",
-      level1: "🎯 Niveau 1 - Découverte (1-10)",
-      level2: "🚀 Niveau 2 - Exploration (1-20)", 
-      level3: "⭐ Niveau 3 - Maîtrise (1-50)",
-      level4: "🏆 Niveau 4 - Expert (1-100)",
-      level5: "👑 Niveau 5 - Champion (1-1000+)",
-      validationRequired: "{{count}}/100 bonnes réponses requises",
-      unlockNext: "Débloque le niveau suivant",
-      
-      // IA et génération
-      aiGenerating: "🤖 IA génère question adaptée...",
-      aiDifficulty: "Difficulté ajustée selon performance",
-      aiHint: "💡 Indice IA : {{hint}}",
-      adaptiveSystem: "Système adaptatif IA activé",
-      
-      // Pricing et abonnements
-      pricingTitle: "💎 Plans Premium Multi-Appareils",
-      planFree: "Gratuit - Découverte",
-      planPremium: "Premium - 3 profils enfants",
-      planFamily: "Famille - 5 profils enfants", 
-      planUltimate: "Ultimate - 8 profils enfants",
-      multiDevice: "Multi-appareils : -50% 2ème, -75% 3ème",
-      geoPricing: "Prix adapté selon votre région",
-      
-      // Gamification
-      badges: "🏅 Badges de progression",
-      achievements: "🎖️ Réalisations débloquées",
-      leaderboard: "🏆 Classement global",
-      streaks: "🔥 Série de {{days}} jours",
-      xpEarned: "⭐ {{xp}} XP gagnés",
-      
-      // Analytics et stats
-      statsTitle: "📊 Analytiques Détaillées",
-      accuracy: "Précision : {{percent}}%",
-      timeSpent: "Temps passé : {{time}}",
-      questionsAnswered: "Questions résolues : {{count}}",
-      improvementRate: "Taux d'amélioration : +{{rate}}%",
-      strongAreas: "Points forts : {{areas}}",
-      weakAreas: "À améliorer : {{areas}}",
-      
-      // Notifications et feedback
-      correctAnswer: "🎉 Excellente réponse !",
-      incorrectAnswer: "💭 Réfléchis encore, tu peux y arriver !",
-      levelCompleted: "🎊 Niveau {{level}} terminé ! Félicitations !",
-      newBadgeUnlocked: "🏅 Nouveau badge débloqué : {{badge}}",
-      streakBroken: "📱 Série interrompue, continue demain !",
-      dailyGoalReached: "🎯 Objectif quotidien atteint !",
-      
-      // Support et aide
-      helpTitle: "❓ Centre d'aide complet",
-      tutorials: "📚 Tutoriels interactifs",
-      parentGuide: "👨‍👩‍👧‍👦 Guide parents",
-      troubleshooting: "🔧 Résolution problèmes",
-      contactSupport: "📞 Contacter support 24/7",
-      
-      // Accessibilité
-      accessibilityMode: "♿ Mode accessibilité",
-      voiceOver: "🔊 Lecture vocale activée", 
-      highContrast: "🔍 Contraste élevé",
-      largeText: "📝 Texte agrandie",
-      colorBlindMode: "🌈 Mode daltonisme"
-    },
-    en: {
-      // Navigation and interface
-      appTitle: '⭐ #1 Educational App in France ⭐',
-      heroTitle: "Learn math while having fun!",
-      heroSubtitle: "The revolutionary hybrid educational app",
-      heroDescription: "Develop your mathematical skills with progressive and fun exercises adapted to your level. Premium interface with 200+ languages, adaptive AI and rigorous progression system.",
-      startFree: "🎯 Start for free →",
-      viewPlans: "💎 View premium plans",
-      trustedBy: "100k+ families trust us",
-      
-      // Languages and selection
-      selectLanguage: "Select a language",
-      searchLanguage: "Search among 200+ languages...",
-      filterByContinent: "Filter by continent",
-      filterByRegion: "Filter by region", 
-      languageStats: "{{count}} languages available",
-      rtlSupport: "RTL support enabled",
-      fontLoading: "Loading specialized font...",
-      
-      // Exercises and progression
-      exercisesTitle: "🧮 Adaptive Math Exercises",
-      chooseLevel: "📊 Choose your progression level",
-      level1: "🎯 Level 1 - Discovery (1-10)",
-      level2: "🚀 Level 2 - Exploration (1-20)",
-      level3: "⭐ Level 3 - Mastery (1-50)",
-      level4: "🏆 Level 4 - Expert (1-100)",
-      level5: "👑 Level 5 - Champion (1-1000+)",
-      validationRequired: "{{count}}/100 correct answers required",
-      unlockNext: "Unlock next level",
-      
-      // AI and generation
-      aiGenerating: "🤖 AI generating adapted question...",
-      aiDifficulty: "Difficulty adjusted based on performance",
-      aiHint: "💡 AI Hint: {{hint}}",
-      adaptiveSystem: "Adaptive AI system enabled",
-      
-      // Pricing and subscriptions
-      pricingTitle: "💎 Premium Multi-Device Plans",
-      planFree: "Free - Discovery",
-      planPremium: "Premium - 3 child profiles",
-      planFamily: "Family - 5 child profiles",
-      planUltimate: "Ultimate - 8 child profiles",
-      multiDevice: "Multi-device: -50% 2nd, -75% 3rd",
-      geoPricing: "Price adapted to your region",
-      
-      // Gamification
-      badges: "🏅 Progress badges",
-      achievements: "🎖️ Unlocked achievements",
-      leaderboard: "🏆 Global ranking",
-      streaks: "🔥 {{days}} day streak",
-      xpEarned: "⭐ {{xp}} XP earned",
-      
-      // Analytics and stats
-      statsTitle: "📊 Detailed Analytics",
-      accuracy: "Accuracy: {{percent}}%",
-      timeSpent: "Time spent: {{time}}",
-      questionsAnswered: "Questions solved: {{count}}",
-      improvementRate: "Improvement rate: +{{rate}}%",
-      strongAreas: "Strengths: {{areas}}",
-      weakAreas: "To improve: {{areas}}",
-      
-      // Notifications and feedback
-      correctAnswer: "🎉 Excellent answer!",
-      incorrectAnswer: "💭 Think again, you can do it!",
-      levelCompleted: "🎊 Level {{level}} completed! Congratulations!",
-      newBadgeUnlocked: "🏅 New badge unlocked: {{badge}}",
-      streakBroken: "📱 Streak broken, continue tomorrow!",
-      dailyGoalReached: "🎯 Daily goal reached!",
-      
-      // Support and help
-      helpTitle: "❓ Complete Help Center",
-      tutorials: "📚 Interactive tutorials",
-      parentGuide: "👨‍👩‍👧‍👦 Parent guide",
-      troubleshooting: "🔧 Troubleshooting",
-      contactSupport: "📞 Contact 24/7 support",
-      
-      // Accessibility
-      accessibilityMode: "♿ Accessibility mode",
-      voiceOver: "🔊 Voice reading enabled",
-      highContrast: "🔍 High contrast",
-      largeText: "📝 Large text",
-      colorBlindMode: "🌈 Color blind mode"
-    },
-    es: {
-      appTitle: '⭐ App Educativa #1 en Francia ⭐',
-      heroTitle: "¡Aprende matemáticas divirtiéndote!",
-      heroSubtitle: "La aplicación educativa híbrida revolucionaria",
-      heroDescription: "Desarrolla tus habilidades matemáticas con ejercicios progresivos y divertidos adaptados a tu nivel. Interfaz premium con 200+ idiomas, IA adaptativa y sistema de progresión riguroso.",
-      startFree: "🎯 Comenzar gratis →",
-      viewPlans: "💎 Ver planes premium",
-      trustedBy: "100k+ familias confían en nosotros"
-    },
-    ar: {
-      appTitle: '⭐ تطبيق تعليمي #1 في فرنسا ⭐',
-      heroTitle: "تعلم الرياضيات بالمرح!",
-      heroSubtitle: "التطبيق التعليمي الهجين الثوري",
-      heroDescription: "طور مهاراتك في الرياضيات بتمارين ممتعة ومتدرجة تناسب مستواك. واجهة متميزة مع 200+ لغة، ذكاء اصطناعي تكيفي ونظام تقدم صارم.",
-      startFree: "🎯 ابدأ مجاناً ←",
-      viewPlans: "💎 اعرض الخطط المتميزة",
-      trustedBy: "100k+ عائلة تثق بنا"
-    },
-    de: {
-      appTitle: '⭐ #1 Bildungs-App in Frankreich ⭐',
-      heroTitle: "Lerne Mathe mit Spaß!",
-      heroSubtitle: "Die revolutionäre hybride Bildungs-App",
-      heroDescription: "Entwickle deine mathematischen Fähigkeiten mit progressiven und unterhaltsamen Übungen, die an dein Niveau angepasst sind. Premium-Interface mit 200+ Sprachen, adaptiver KI und rigorosem Fortschrittssystem.",
-      startFree: "🎯 Kostenlos starten →",
-      viewPlans: "💎 Premium-Pläne ansehen",
-      trustedBy: "100k+ Familien vertrauen uns"
-    },
-    zh: {
-      appTitle: '⭐ 法国第一教育应用 ⭐',
-      heroTitle: "快乐学数学!",
-      heroSubtitle: "革命性混合教育应用",
-      heroDescription: "通过适合你水平的渐进式趣味练习来提高数学技能。具有200+种语言、自适应AI和严格进度系统的高级界面。",
-      startFree: "🎯 免费开始 →",
-      viewPlans: "💎 查看高级计划",
-      trustedBy: "100k+ 家庭信任我们"
-    },
-    ja: {
-      appTitle: '⭐ フランス第1位教育アプリ ⭐',
-      heroTitle: "楽しく数学を学ぼう!",
-      heroSubtitle: "革命的なハイブリッド教育アプリ",
-      heroDescription: "あなたのレベルに合わせた段階的で楽しい練習で数学スキルを向上させましょう。200+言語、適応AI、厳格な進歩システムを備えたプレミアムインターフェース。",
-      startFree: "🎯 無料で始める →",
-      viewPlans: "💎 プレミアムプランを見る",
-      trustedBy: "100k+ 家族が信頼"
-    }
+// Traductions extensibles pour Math4Child
+const translations = {
+  fr: {
+    welcome: 'Bienvenue dans Math4Child',
+    start: 'Commencer',
+    level: 'Niveau',
+    score: 'Score',
+    correct: 'Correct !',
+    incorrect: 'Incorrect, essaie encore',
+    exercises: 'Exercices',
+    profile: 'Profil',
+    excellent: 'Excellent !',
+    loading: 'Chargement...'
+  },
+  en: {
+    welcome: 'Welcome to Math4Child',
+    start: 'Start',
+    level: 'Level',
+    score: 'Score',
+    correct: 'Correct!',
+    incorrect: 'Incorrect, try again',
+    exercises: 'Exercises',
+    profile: 'Profile',
+    excellent: 'Excellent!',
+    loading: 'Loading...'
+  },
+  es: {
+    welcome: 'Bienvenido a Math4Child',
+    start: 'Comenzar',
+    level: 'Nivel',
+    score: 'Puntuación',
+    correct: '¡Correcto!',
+    incorrect: 'Incorrecto, inténtalo de nuevo',
+    exercises: 'Ejercicios',
+    profile: 'Perfil',
+    excellent: '¡Excelente!',
+    loading: 'Cargando...'
   }
-  
-  // Fonction de traduction AVANCÉE avec interpolation
-  const t = useCallback((key: string, params?: Record<string, string>): string => {
-    const langTranslations = translations[currentLanguage] || translations[preferences.fallbackLanguage] || translations['fr']
-    
-    // Support for nested keys like 'stats.families'
-    const keys = key.split('.')
-    let value = langTranslations
-    
-    for (const k of keys) {
-      value = (value as any)?.[k]
-    }
-    
-    let result = (value as string) || key
-    
-    // Interpolation des paramètres {{param}}
-    if (params) {
-      for (const [paramKey, paramValue] of Object.entries(params)) {
-        result = result.replace(new RegExp(`{{${paramKey}}}`, 'g'), paramValue)
-      }
-    }
-    
-    return result
-  }, [currentLanguage, preferences.fallbackLanguage])
-  
-  // Formatage des nombres selon la locale
-  const formatNumber = useCallback((num: number): string => {
-    try {
-      return new Intl.NumberFormat(currentLanguage).format(num)
-    } catch {
-      return num.toString()
-    }
-  }, [currentLanguage])
-  
-  // Formatage des devises
-  const formatCurrency = useCallback((amount: number, currency = 'EUR'): string => {
-    try {
-      return new Intl.NumberFormat(currentLanguage, {
-        style: 'currency',
-        currency: currency
-      }).format(amount)
-    } catch {
-      return `${amount}${currency === 'EUR' ? '€' : currency}`
-    }
-  }, [currentLanguage])
-  
-  // Formatage des dates
-  const formatDate = useCallback((date: Date): string => {
-    try {
-      return new Intl.DateTimeFormat(currentLanguage, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      }).format(date)
-    } catch {
-      return date.toLocaleDateString()
-    }
-  }, [currentLanguage])
-  
-  // Obtenir infos langue actuelle
-  const getLanguageInfo = useCallback((): Language | undefined => {
-    return currentLangInfo
-  }, [currentLangInfo])
-  
-  // Détection automatique de la langue
+}
+
+// Langues supportées avec informations géographiques
+const SUPPORTED_LANGUAGES = [
+  { code: 'fr' as Language, name: 'Français', nativeName: 'Français', flag: '🇫🇷', region: 'Europe' },
+  { code: 'en' as Language, name: 'English', nativeName: 'English', flag: '🇬🇧', region: 'Europe' },
+  { code: 'es' as Language, name: 'Español', nativeName: 'Español', flag: '🇪🇸', region: 'Europe' },
+  { code: 'de' as Language, name: 'Deutsch', nativeName: 'Deutsch', flag: '🇩🇪', region: 'Europe' },
+  { code: 'zh' as Language, name: '中文', nativeName: '中文简体', flag: '🇨🇳', region: 'Asie' },
+  { code: 'ja' as Language, name: '日本語', nativeName: '日本語', flag: '🇯🇵', region: 'Asie' },
+  { code: 'ar' as Language, name: 'العربية', nativeName: 'العربية', flag: '🇸🇦', region: 'MENA', rtl: true },
+]
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [currentLanguage, setCurrentLanguage] = useState<Language>('fr')
+  const [isRTL, setIsRTL] = useState(false)
+
   useEffect(() => {
-    if (typeof window !== 'undefined' && preferences.autoDetect) {
-      setLoadingStates(prev => ({ ...prev, loading: true }))
-      
-      // Charger langue sauvegardée ou détecter
-      const savedLanguage = localStorage.getItem('math4child-language')
-      const browserLanguage = navigator.language.split('-')[0]
-      const detectedLanguage = savedLanguage || browserLanguage
-      
-      if (getLanguageByCode(detectedLanguage)) {
-        setCurrentLanguage(detectedLanguage)
-      }
-      
-      setLoadingStates(prev => ({ ...prev, loading: false }))
+    const savedLang = localStorage.getItem('math4child_language') as Language
+    if (savedLang && translations[savedLang]) {
+      setCurrentLanguage(savedLang)
     }
-  }, [preferences.autoDetect])
-  
-  // Application des changements de langue avec animations
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setLoadingStates(prev => ({ ...prev, changing: true }))
-      
-      // Sauvegarder préférences
-      localStorage.setItem('math4child-language', currentLanguage)
-      localStorage.setItem('math4child-preferences', JSON.stringify(preferences))
-      
-      // Appliquer RTL
-      document.documentElement.dir = isRTL ? 'rtl' : 'ltr'
-      document.documentElement.lang = currentLanguage
-      
-      // Charger police spécialisée si nécessaire
-      const fontFamily = currentLangInfo?.font
-      if (fontFamily) {
-        document.documentElement.style.fontFamily = `"${fontFamily}", system-ui, sans-serif`
-        
-        // Précharger la police
-        const link = document.createElement('link')
-        link.href = `https://fonts.googleapis.com/css2?family=${fontFamily.replace(/ /g, '+')}&display=swap`
-        link.rel = 'stylesheet'
-        document.head.appendChild(link)
-      } else {
-        document.documentElement.style.fontFamily = 'system-ui, sans-serif'
-      }
-      
-      // Animation de transition
-      document.body.style.transition = 'all 0.3s ease'
-      setTimeout(() => {
-        setLoadingStates(prev => ({ ...prev, changing: false }))
-      }, 300)
-    }
-  }, [currentLanguage, isRTL, currentLangInfo, preferences])
-  
-  // Fonction de changement de langue avec validation
-  const setLanguage = useCallback((code: string) => {
-    const language = getLanguageByCode(code)
-    if (language) {
-      setCurrentLanguage(code)
-      
-      // Cache des traductions si activé
-      if (preferences.cacheTranslations && !translationCache[code]) {
-        setTranslationCache(prev => ({
-          ...prev,
-          [code]: translations[code] || {}
-        }))
-      }
-    }
-  }, [preferences.cacheTranslations, translationCache, translations])
-  
-  // Fonction de mise à jour des préférences
-  const setPreferences = useCallback((newPrefs: Partial<LanguageContextType['preferences']>) => {
-    setPreferencesState(prev => ({ ...prev, ...newPrefs }))
   }, [])
-  
-  // Valeur du contexte RICHE
-  const contextValue: LanguageContextType = {
-    currentLanguage,
-    setLanguage,
-    isRTL,
-    t,
-    formatNumber,
-    formatCurrency,
-    formatDate,
-    getLanguageInfo,
-    loadingStates,
-    preferences,
-    setPreferences
+
+  const setLanguage = (lang: Language) => {
+    setCurrentLanguage(lang)
+    localStorage.setItem('math4child_language', lang)
+    
+    const langInfo = SUPPORTED_LANGUAGES.find(l => l.code === lang)
+    const isRightToLeft = langInfo?.rtl || false
+    setIsRTL(isRightToLeft)
+    
+    if (isRightToLeft) {
+      document.documentElement.setAttribute('dir', 'rtl')
+    } else {
+      document.documentElement.setAttribute('dir', 'ltr')
+    }
   }
-  
-  return (
-    <LanguageContext.Provider value={contextValue}>
-      {children}
-    </LanguageContext.Provider>
+
+  const t = (key: string): string => {
+    const langTranslations = translations[currentLanguage] || translations.fr
+    return (
+    <div className="max-w-2xl mx-auto">
+      {/* Header avec stats */}
+      <div className="bg-white rounded-xl p-4 shadow-lg mb-6">
+        <div className="flex justify-between items-center">
+          <div className="flex gap-6">
+            <div className="text-center">
+              <div className="text-2xl font-bold text-blue-600">{score}</div>
+              <div className="text-xs text-gray-500">Score</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-green-600">{streak}</div>
+              <div className="text-xs text-gray-500">Série</div>
+            </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold text-orange-600">{questionsAnswered}</div>
+              <div className="text-xs text-gray-500">Questions</div>
+            </div>
+          </div>
+          
+          <div className="text-right">
+            <div className={`text-2xl font-bold ${timeLeft <= 10 ? 'text-red-500' : 'text-gray-700'}`}>
+              {timeLeft}s
+            </div>
+            <div className="text-xs text-gray-500">Temps restant</div>
+          </div>
+        </div>
+        
+        <div className="mt-3 w-full bg-gray-200 rounded-full h-2">
+          <div 
+            className={`h-2 rounded-full transition-all duration-1000 ${
+              timeLeft <= 10 ? 'bg-red-500' : timeLeft <= 20 ? 'bg-orange-500' : 'bg-green-500'
+            }`}
+            style={{ width: `${(timeLeft / config.timeLimit) * 100}%` }}
+          />
+        </div>
+      </div>
+
+      {/* Question principale */}
+      <div className="bg-white rounded-2xl p-8 shadow-xl text-center">
+        {showResult ? (
+          <div className={`animate-bounce ${isCorrect ? 'text-green-600' : 'text-red-500'}`}>
+            <div className="text-6xl mb-4">
+              {isCorrect ? '✅' : '❌'}
+            </div>
+            <div className="text-2xl font-bold mb-2">
+              {isCorrect ? 'Excellent !' : 'Pas tout à fait...'}
+            </div>
+            <div className="text-lg text-gray-600">
+              La réponse était : <strong>{currentQuestion.correctAnswer}</strong>
+            </div>
+            {isCorrect && streak > 1 && (
+              <div className="mt-4 text-lg text-blue-600 font-medium">
+                🔥 Série de {streak} !
+              </div>
+            )}
+          </div>
+        ) : (
+          <>
+            <div className="text-5xl font-bold text-gray-800 mb-8">
+              {currentQuestion.question}
+            </div>
+            
+            {currentQuestion.options ? (
+              <div className="grid grid-cols-2 gap-4">
+                {currentQuestion.options.map((option, index) => (
+                  <button
+                    key={index}
+                    onClick={() => checkAnswer(option)}
+                    className="bg-blue-50 hover:bg-blue-100 border-2 border-blue-200 hover:border-blue-400 text-blue-800 text-xl font-medium py-4 px-6 rounded-xl transition-colors"
+                  >
+                    {option}
+                  </button>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-4">
+                <input
+                  type="number"
+                  value={userAnswer}
+                  onChange={(e) => setUserAnswer(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' && userAnswer) {
+                      checkAnswer(userAnswer)
+                    }
+                  }}
+                  className="text-3xl text-center border-2 border-gray-300 rounded-xl px-6 py-4 w-48 mx-auto focus:border-blue-500 focus:outline-none"
+                  placeholder="?"
+                  autoFocus
+                />
+                <div>
+                  <button
+                    onClick={() => userAnswer && checkAnswer(userAnswer)}
+                    disabled={!userAnswer}
+                    className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white px-8 py-3 rounded-lg font-medium transition-colors"
+                  >
+                    Valider ✓
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
   )
 }
