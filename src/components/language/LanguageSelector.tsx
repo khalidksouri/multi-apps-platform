@@ -1,96 +1,74 @@
 "use client"
+
 import { useState, useRef, useEffect } from 'react'
 import { useLanguage } from '@/hooks/useLanguage'
-import { 
-  languages, 
-  filterLanguages, 
-  getContinents, 
-  getRegions,
-  getLanguageStats,
-  type Language 
-} from '@/data/languages'
+
+const LANGUAGES = [
+  { code: 'fr', name: 'Français', nativeName: 'Français', flag: '🇫🇷' },
+  { code: 'en', name: 'English', nativeName: 'English', flag: '🇬🇧' },
+  { code: 'es', name: 'Español', nativeName: 'Español', flag: '🇪🇸' },
+  { code: 'de', name: 'Deutsch', nativeName: 'Deutsch', flag: '🇩🇪' },
+  { code: 'it', name: 'Italiano', nativeName: 'Italiano', flag: '🇮🇹' },
+  { code: 'pt', name: 'Português', nativeName: 'Português', flag: '🇵🇹' },
+  { code: 'ru', name: 'Русский', nativeName: 'Русский', flag: '🇷🇺' },
+  { code: 'ar', name: 'العربية', nativeName: 'العربية', flag: '🇲🇦' },
+  { code: 'zh', name: '中文', nativeName: '中文', flag: '🇨🇳' },
+  { code: 'ja', name: '日本語', nativeName: '日本語', flag: '🇯🇵' },
+  { code: 'ko', name: '한국어', nativeName: '한국어', flag: '🇰🇷' },
+  { code: 'hi', name: 'हिन्दी', nativeName: 'हिन्दी', flag: '🇮🇳' },
+]
 
 export function LanguageSelector() {
-  const { currentLanguage, setLanguage, t, isRTL, loadingStates } = useLanguage()
+  const { currentLanguage, setLanguage } = useLanguage()
   const [isOpen, setIsOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedContinent, setSelectedContinent] = useState<string>('all')
-  const [selectedRegion, setSelectedRegion] = useState<string>('all')
-  const [showStats, setShowStats] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
   
-  // Langue actuelle avec infos complètes
-  const currentLang = languages.find(lang => lang.code === currentLanguage) || languages[0]
+  const currentLang = LANGUAGES.find(lang => lang.code === currentLanguage) || LANGUAGES[0]
   
-  // Filtrage AVANCÉ avec continents et régions
-  const filteredLanguages = filterLanguages(
-    searchTerm, 
-    selectedContinent === 'all' ? undefined : selectedContinent,
-    selectedRegion === 'all' ? undefined : selectedRegion
-  )
-  
-  // Stats des langues
-  const stats = getLanguageStats()
-  const continents = getContinents()
-  const regions = getRegions()
-  
-  // Fermer dropdown si clic extérieur
+  // Fermer dropdown au clic extérieur
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false)
-        setSearchTerm('')
-        setSelectedContinent('all')
-        setSelectedRegion('all')
-        setShowStats(false)
       }
     }
     
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isOpen])
   
-  // Sélectionner une langue avec animation
-  const handleLanguageSelect = (language: Language) => {
-    setLanguage(language.code)
+  const handleLanguageSelect = (languageCode: string) => {
+    setLanguage(languageCode as any)
     setIsOpen(false)
-    setSearchTerm('')
-    setSelectedContinent('all')
-    setSelectedRegion('all')
   }
   
-  // Grouper langues par continent pour affichage
-  const languagesByContinent = continents.reduce((acc, continent) => {
-    acc[continent] = filteredLanguages.filter(lang => lang.continent === continent)
-    return acc
-  }, {} as Record<string, Language[]>)
+  const toggleDropdown = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsOpen(!isOpen)
+  }
   
   return (
     <div className="relative" ref={dropdownRef}>
-      {/* Bouton principal RICHE */}
+      {/* Bouton principal */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
-        data-testid="language-selector"
-        className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all duration-300 bg-white shadow-lg hover:shadow-xl ${
-          isOpen 
-            ? 'border-blue-500 ring-4 ring-blue-500 ring-opacity-20' 
-            : 'border-gray-200 hover:border-blue-300'
-        } ${loadingStates.changing ? 'animate-pulse' : ''}`}
-        disabled={loadingStates.changing}
+        onClick={toggleDropdown}
+        className="flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 hover:border-blue-300 bg-white transition-all duration-200 shadow-sm hover:shadow-md min-w-[120px]"
+        type="button"
+        aria-expanded={isOpen}
+        aria-haspopup="listbox"
       >
-        <span className="text-2xl">{currentLang.flag}</span>
-        <div className="flex flex-col items-start">
-          <span className="font-bold text-gray-800">{currentLang.nativeName}</span>
-          <span className="text-xs text-gray-500">{currentLang.name}</span>
-        </div>
-        {currentLang.rtl && (
-          <span className="text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">RTL</span>
-        )}
-        {loadingStates.changing && (
-          <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-500 border-t-transparent"></div>
-        )}
+        <span className="text-lg">{currentLang.flag}</span>
+        <span className="font-medium text-sm text-gray-700 flex-1 text-left">
+          {currentLang.nativeName}
+        </span>
         <svg 
-          className={`w-5 h-5 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+          className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
           fill="none" 
           stroke="currentColor" 
           viewBox="0 0 24 24"
@@ -99,81 +77,55 @@ export function LanguageSelector() {
         </svg>
       </button>
       
-      {/* Dropdown RICHE avec filtres */}
+      {/* Dropdown avec animation */}
       {isOpen && (
-        <div className="absolute top-full left-0 mt-2 w-96 bg-white border-2 border-gray-200 rounded-xl shadow-2xl z-50 animate-fadeIn">
-          {/* Header avec stats */}
-          <div className="p-4 border-b border-gray-100 bg-gradient-to-r from-blue-50 to-purple-50">
-            <div className="flex items-center justify-between mb-3">
-              <h3 className="font-bold text-lg text-gray-800">{t('selectLanguage')}</h3>
-              <button
-                onClick={() => setShowStats(!showStats)}
-                className="text-sm text-blue-600 hover:text-blue-700 transition-colors"
-              >
-                📊 {showStats ? 'Masquer' : 'Stats'}
-              </button>
-            </div>
-            
-            {showStats && (
-              <div className="grid grid-cols-2 gap-2 mb-3 text-xs">
-                <div className="bg-white rounded-lg p-2 text-center">
-                  <div className="font-bold text-blue-600">{stats.totalLanguages}</div>
-                  <div className="text-gray-600">Langues</div>
-                </div>
-                <div className="bg-white rounded-lg p-2 text-center">
-                  <div className="font-bold text-green-600">{stats.continents}</div>
-                  <div className="text-gray-600">Continents</div>
-                </div>
-                <div className="bg-white rounded-lg p-2 text-center">
-                  <div className="font-bold text-purple-600">{stats.rtlLanguages}</div>
-                  <div className="text-gray-600">RTL</div>
-                </div>
-                <div className="bg-white rounded-lg p-2 text-center">
-                  <div className="font-bold text-orange-600">{Math.round(stats.totalSpeakers / 1000000)}M</div>
-                  <div className="text-gray-600">Locuteurs</div>
-                </div>
-              </div>
-            )}
-            
-            {/* Barre de recherche avancée */}
-            <div className="relative mb-3">
-              <input
-                type="text"
-                placeholder={t('searchLanguage')}
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-4 py-2 pl-10 border border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 transition-all"
-              />
-              <svg className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </div>
-            
-            {/* Filtres par continent et région */}
-            <div className="grid grid-cols-2 gap-2">
-              <select
-                value={selectedContinent}
-                onChange={(e) => setSelectedContinent(e.target.value)}
-                className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-              >
-                <option value="all">Tous continents</option>
-                {continents.map(continent => (
-                  <option key={continent} value={continent}>{continent}</option>
-                ))}
-              </select>
-              
-              <select
-                value={selectedRegion}
-                onChange={(e) => setSelectedRegion(e.target.value)}
-                className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500"
-              >
-                <option value="all">Toutes régions</option>
-                {regions.map(region => (
-                  <option key={region} value={region}>{region}</option>
-                ))}
-              </select>
+        <div className="absolute top-full left-0 mt-1 w-full min-w-[200px] bg-white border border-gray-200 rounded-lg shadow-xl z-50 animate-fadeIn">
+          {/* Header */}
+          <div className="px-3 py-2 border-b border-gray-100 bg-gray-50 rounded-t-lg">
+            <div className="flex items-center gap-2 text-sm font-medium text-gray-700">
+              <span className="text-base">🌍</span>
+              <span>Choisir une langue</span>
             </div>
           </div>
           
-          {/* Liste des langues groupées par continent */}
-          <div className
+          {/* Liste des langues */}
+          <div className="py-1 max-h-64 overflow-y-auto">
+            {LANGUAGES.map((language, index) => (
+              <button
+                key={language.code}
+                onClick={(e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  handleLanguageSelect(language.code)
+                }}
+                className={`w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-blue-50 transition-colors duration-150 ${
+                  currentLanguage === language.code 
+                    ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-500' 
+                    : 'text-gray-700 hover:text-blue-600'
+                }`}
+                type="button"
+                role="option"
+                aria-selected={currentLanguage === language.code}
+              >
+                <span className="text-lg flex-shrink-0">{language.flag}</span>
+                <div className="flex-1 min-w-0">
+                  <div className="font-medium text-sm truncate">
+                    {language.nativeName}
+                  </div>
+                  <div className="text-xs text-gray-500 truncate">
+                    {language.name}
+                  </div>
+                </div>
+                {currentLanguage === language.code && (
+                  <svg className="w-4 h-4 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}

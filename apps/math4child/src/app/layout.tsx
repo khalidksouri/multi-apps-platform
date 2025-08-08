@@ -1,13 +1,13 @@
-import type { Metadata } from "next"
-import { Inter } from "next/font/google"
-import "./globals.css"
-import Navigation from "@/components/navigation/Navigation"
+import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
+import './globals.css'
+import { LanguageProvider } from '@/hooks/useLanguage'
 
-const inter = Inter({ subsets: ["latin"] })
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "Math4Child - Apprendre les maths en s'amusant",
-  description: "L'application éducative révolutionnaire pour apprendre les mathématiques",
+  title: 'Math4Child - Apprendre les mathématiques en s\'amusant',
+  description: 'Application éducative révolutionnaire avec 200+ langues, 5 niveaux progressifs et système d\'exercices adaptatif pour enfants.',
 }
 
 export default function RootLayout({
@@ -18,10 +18,9 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body className={inter.className}>
-        <Navigation />
-        <main className="pt-16">
+        <LanguageProvider>
           {children}
-        </main>
+        </LanguageProvider>
       </body>
     </html>
   )

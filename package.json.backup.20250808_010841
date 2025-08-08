@@ -1,7 +1,7 @@
 {
   "name": "math4child",
-  "version": "4.1.0",
-  "description": "Math4Child - Application éducative révolutionnaire - 200+ langues - Tous navigateurs",
+  "version": "2.0.0",
+  "description": "Math4Child - Application éducative avec paiements Stripe",
   "private": true,
   "scripts": {
     "dev": "next dev",
