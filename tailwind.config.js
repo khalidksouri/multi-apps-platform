@@ -1,22 +1,27 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    './src/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}'
   ],
   theme: {
     extend: {
       colors: {
-        primary: '#667eea',
-        secondary: '#764ba2',
-        accent: '#f093fb'
+        'math4child': {
+          'blue': '#3b82f6',
+          'purple': '#8b5cf6',
+          'pink': '#ec4899',
+        }
+      },
+      fontFamily: {
+        'math': ['Inter', 'system-ui', 'sans-serif'],
       },
       animation: {
-        'bounce-slow': 'bounce 2s infinite',
-        'pulse-slow': 'pulse 3s infinite'
+        'spin-slow': 'spin 3s linear infinite',
+        'pulse-soft': 'pulse 2s ease-in-out infinite',
       }
-    }
+    },
   },
-  plugins: []
+  plugins: [],
 }

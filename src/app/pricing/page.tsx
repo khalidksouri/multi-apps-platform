@@ -1,68 +1,66 @@
 "use client"
 
-import Navigation from '@/components/navigation/Navigation'
-import { BillingOptions } from '@/components/pricing/BillingOptions'
-import { pricingPlans } from '@/data/pricing'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
+import { useLanguage } from '@/hooks/useLanguage'
+import { UniversalLanguageSelector } from '@/components/language/UniversalLanguageSelector'
+import { PricingPlans } from '@/components/subscription/PricingPlans'
 
 export default function PricingPage() {
+  const { t, isRTL } = useLanguage()
+
+  const handleSelectPlan = (planId: string, interval: string) => {
+    console.log('🛒 [PRICING] Plan sélectionné:', planId, interval)
+    // Ici on redirigerait vers Stripe Checkout
+    alert(`Plan ${planId} sélectionné pour ${interval}. Redirection vers Stripe...`)
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      <Navigation />
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">
-            💎 Plans Math4Child v4.2.0
-          </h1>
-          <p className="text-xl text-gray-600">
-            Choisissez le plan parfait pour votre révolution éducative
-          </p>
-        </div>
-
-        <BillingOptions />
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
-          {pricingPlans.map((plan) => (
-            <div 
-              key={plan.id}
-              className={`bg-white rounded-xl p-6 shadow-lg border-2 ${
-                plan.popular ? 'border-purple-400 relative' : 'border-gray-200'
-              }`}
+    <div className={`min-h-screen bg-gray-50 ${isRTL ? 'rtl' : 'ltr'}`}>
+      {/* Header NETTOYÉ */}
+      <header className="bg-white border-b border-gray-200 p-6">
+        <div className="flex justify-between items-center max-w-7xl mx-auto">
+          <div className="flex items-center gap-4">
+            <Link 
+              href="/"
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 transition-colors"
             >
-              {plan.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-purple-500 text-white px-4 py-1 rounded-full text-sm font-bold">
-                  ⭐ POPULAIRE
-                </div>
-              )}
-              
-              <div className="text-center mb-6">
-                <div className="text-4xl mb-3">{plan.icon}</div>
-                <h3 className="text-2xl font-bold text-gray-800">{plan.name}</h3>
-                <p className="text-gray-600 mb-4">{plan.description}</p>
-                <div className="text-3xl font-bold text-blue-600">
-                  {plan.price.monthly}€<span className="text-lg text-gray-500">/mois</span>
-                </div>
+              <ArrowLeft size={20} />
+              Retour à l'accueil
+            </Link>
+            <div className="flex items-center gap-4">
+              <div className="text-2xl">🧮</div>
+              <div>
+                <h1 className="text-xl font-bold text-gray-900">Math4Child v4.2.0</h1>
+                <p className="text-gray-600 text-sm">Plans d'abonnement</p>
               </div>
-
-              <ul className="space-y-3 mb-6">
-                {plan.features.map((feature, index) => (
-                  <li key={index} className="flex items-center text-sm">
-                    <span className="text-green-500 mr-2">✓</span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-
-              <button className={`w-full py-3 rounded-lg font-semibold transition-colors ${
-                plan.popular 
-                  ? 'bg-purple-500 text-white hover:bg-purple-600'
-                  : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
-              }`}>
-                Choisir {plan.name}
-              </button>
             </div>
-          ))}
+          </div>
+          
+          <UniversalLanguageSelector />
         </div>
-      </div>
+      </header>
+
+      {/* Contenu principal */}
+      <main>
+        <PricingPlans onSelectPlan={handleSelectPlan} />
+      </main>
+
+      {/* Footer NETTOYÉ */}
+      <footer className="bg-gray-900 text-white py-8">
+        <div className="max-w-7xl mx-auto px-6 text-center">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="text-2xl">🧮</div>
+            <span className="text-xl font-bold">Math4Child v4.2.0</span>
+          </div>
+          <p className="mb-2">Révolution Éducative Mondiale</p>
+          <div className="space-y-1 text-sm text-gray-400">
+            <p>📧 <strong>Support :</strong> support@math4child.com</p>
+            <p>💼 <strong>Commercial :</strong> commercial@math4child.com</p>
+            <p>🌐 <strong>Site web :</strong> www.math4child.com</p>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

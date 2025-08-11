@@ -1,179 +1,226 @@
 "use client"
 
+import { useState } from 'react'
 import Link from 'next/link'
-import Navigation from '@/components/navigation/Navigation'
+import { useLanguage } from '@/hooks/useLanguage'
+import { UniversalLanguageSelector } from '@/components/language/UniversalLanguageSelector'
 
 export default function HomePage() {
+  const { t, isRTL } = useLanguage()
+  const [showFeatures, setShowFeatures] = useState(false)
+
   const innovations = [
     {
       icon: '🧠',
-      title: 'IA Adaptative',
-      description: 'PREMIÈRE MONDIALE - IA qui s\'adapte à votre style d\'apprentissage',
-      tag: 'PREMIÈRE MONDIALE'
+      title: t('ai_adaptive'),
+      description: 'IA qui s\'adapte en temps réel au niveau de l\'enfant',
+      tag: t('global_first')
     },
     {
       icon: '✍️',
-      title: 'Reconnaissance Manuscrite',
-      description: 'RÉVOLUTIONNAIRE - Écrivez vos réponses à la main',
-      tag: 'RÉVOLUTIONNAIRE'
+      title: t('handwriting_recognition'),
+      description: 'Reconnaissance des écritures mathématiques manuscrites',
+      tag: t('global_first')
     },
     {
       icon: '🥽',
-      title: 'Réalité Augmentée 3D',
-      description: 'PREMIÈRE MONDIALE - Visualisez les maths en 3D immersif',
-      tag: '3D IMMERSIVE'
+      title: t('augmented_reality'),
+      description: 'Visualisation 3D des concepts mathématiques',
+      tag: t('global_first')
     },
     {
       icon: '🎙️',
-      title: 'Assistant Vocal IA',
-      description: 'INNOVATION MAJEURE - Tuteur vocal avec 3 personnalités',
-      tag: 'IA ÉMOTIONNELLE'
+      title: t('voice_assistant'),
+      description: 'Assistant vocal avec intelligence émotionnelle',
+      tag: t('global_first')
+    },
+    {
+      icon: '🧮',
+      title: t('exercise_engine'),
+      description: 'Générateur intelligent d\'exercices adaptatifs',
+      tag: t('global_first')
     },
     {
       icon: '🌍',
-      title: 'Compétitions Mondiales',
-      description: 'SYSTÈME LE PLUS AVANCÉ - Millions de joueurs temps réel',
-      tag: 'TEMPS RÉEL'
-    },
-    {
-      icon: '🏆',
-      title: 'Système de Badges',
-      description: 'LE PLUS COMPLET - 50+ badges, 5 raretés, 6 catégories',
-      tag: 'ULTRA-GAMIFIÉ'
+      title: t('universal_languages_system'),
+      description: 'Support de 200+ langues avec traduction temps réel',
+      tag: t('global_first')
     }
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
-      <Navigation />
-      
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-6xl md:text-8xl font-bold mb-6">
-            <span className="text-blue-600">Math4Child</span>
-            <span className="block text-purple-600 text-4xl md:text-5xl">v4.2.0</span>
-          </h1>
-          <p className="text-2xl md:text-3xl text-gray-700 mb-4 font-medium">
-            🚀 Révolution Éducative Mondiale
-          </p>
-          <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
-            <strong>6 innovations révolutionnaires</strong> jamais vues dans l'éducation mathématique mondiale. 
-            Première IA adaptative, réalité augmentée 3D, reconnaissance manuscrite, assistant vocal émotionnel.
-          </p>
+    <div className={`min-h-screen bg-gradient-to-br from-blue-500 via-purple-600 to-pink-500 ${isRTL ? 'rtl' : 'ltr'}`}>
+      {/* Header avec sélecteur de langues */}
+      <header className="relative p-6">
+        <div className="flex justify-between items-center max-w-7xl mx-auto">
+          <div className="flex items-center gap-4">
+            <div className="text-4xl">🧮</div>
+            <div>
+              <h1 className="text-2xl font-bold text-white">Math4Child v4.2.0</h1>
+              <p className="text-white/80 text-sm">Révolution Éducative Mondiale</p>
+            </div>
+          </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          <UniversalLanguageSelector />
+        </div>
+      </header>
+
+      {/* Hero Section */}
+      <main className="px-6 py-12">
+        <div className="max-w-7xl mx-auto text-center text-white">
+          <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
+            {t('app_title')}
+          </h1>
+          
+          <p className="text-xl md:text-2xl mb-8 text-white/90 max-w-4xl mx-auto">
+            {t('app_subtitle')}
+          </p>
+
+          {/* Statistiques selon README.md */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mb-12">
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+              <div className="text-3xl font-bold text-yellow-300">200+</div>
+              <div className="text-white/80 text-sm">{t('universal_languages')}</div>
+            </div>
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+              <div className="text-3xl font-bold text-green-300">6</div>
+              <div className="text-white/80 text-sm">Innovations {t('global_first')}</div>
+            </div>
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+              <div className="text-3xl font-bold text-blue-300">5</div>
+              <div className="text-white/80 text-sm">{t('levels_available')}</div>
+            </div>
+            <div className="bg-white/20 backdrop-blur-sm rounded-xl p-4">
+              <div className="text-3xl font-bold text-purple-300">500</div>
+              <div className="text-white/80 text-sm">{t('questions_total')}</div>
+            </div>
+          </div>
+
+          {/* Boutons d'action */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
             <Link 
               href="/exercises"
-              className="bg-gradient-to-r from-blue-500 to-purple-500 text-white px-8 py-4 rounded-xl font-bold text-xl hover:shadow-lg transition-all transform hover:scale-105 inline-flex items-center gap-2"
+              className="bg-white text-purple-600 px-8 py-4 rounded-xl font-bold text-xl hover:bg-gray-100 transition-all transform hover:scale-105 inline-flex items-center gap-2"
             >
-              🚀 Découvrir les Innovations
+              🚀 {t('start_learning')}
             </Link>
             <Link 
               href="/pricing"
-              className="bg-white text-gray-700 px-8 py-4 rounded-xl font-bold text-xl border-2 border-gray-200 hover:border-gray-300 transition-all"
+              className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-xl hover:bg-white hover:text-purple-600 transition-all"
             >
-              💎 Voir les Plans
+              💎 {t('view_plans')}
             </Link>
           </div>
 
-          {/* Statistiques selon README.md */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12">
-            <div className="bg-white rounded-lg p-4 shadow-md">
-              <div className="text-2xl font-bold text-blue-600">200+</div>
-              <div className="text-sm text-gray-600">Langues Universelles</div>
-            </div>
-            <div className="bg-white rounded-lg p-4 shadow-md">
-              <div className="text-2xl font-bold text-green-600">6</div>
-              <div className="text-sm text-gray-600">Innovations Premières Mondiales</div>
-            </div>
-            <div className="bg-white rounded-lg p-4 shadow-md">
-              <div className="text-2xl font-bold text-purple-600">50+</div>
-              <div className="text-sm text-gray-600">Badges Ultra-Gamifiés</div>
-            </div>
-            <div className="bg-white rounded-lg p-4 shadow-md">
-              <div className="text-2xl font-bold text-orange-600">5</div>
-              <div className="text-sm text-gray-600">Niveaux Progressifs</div>
+          {/* Section des 6 innovations révolutionnaires */}
+          <div className="mb-16">
+            <h2 className="text-4xl font-bold mb-8 text-center">
+              🏆 6 Innovations Révolutionnaires
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {innovations.map((innovation, index) => (
+                <div 
+                  key={index}
+                  className="bg-white/15 backdrop-blur-sm rounded-xl p-6 hover:bg-white/25 transition-all duration-300 transform hover:scale-105"
+                >
+                  <div className="text-center">
+                    <div className="text-5xl mb-4">{innovation.icon}</div>
+                    <div className="inline-block bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-xs font-bold mb-3">
+                      {innovation.tag}
+                    </div>
+                    <h3 className="text-xl font-bold text-white mb-3">
+                      {innovation.title}
+                    </h3>
+                    <p className="text-white/80 text-sm">
+                      {innovation.description}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        </div>
 
-        {/* Grille des innovations selon README.md */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {innovations.map((innovation, index) => (
-            <div 
-              key={index}
-              className="bg-white rounded-xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-            >
-              <div className="text-center">
-                <div className="text-4xl mb-3">{innovation.icon}</div>
-                <div className="inline-block bg-blue-100 text-blue-600 px-3 py-1 rounded-full text-xs font-bold mb-3">
-                  {innovation.tag}
-                </div>
-                <h3 className="text-lg font-bold text-gray-800 mb-2">
-                  {innovation.title}
-                </h3>
-                <p className="text-sm text-gray-600">
-                  {innovation.description}
-                </p>
+          {/* Section spécifications primordiales selon README.md */}
+          <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 mb-16">
+            <h2 className="text-3xl font-bold text-center text-white mb-8">
+              📋 Spécifications Primordiales
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
+              <div className="space-y-3">
+                <h3 className="font-bold text-white">🎨 Design & Interface</h3>
+                <ul className="text-white/80 text-sm space-y-1">
+                  <li>✅ Design interactif attrayant</li>
+                  <li>✅ Interface révolutionnaire</li>
+                  <li>✅ Version riche complète</li>
+                </ul>
+              </div>
+              <div className="space-y-3">
+                <h3 className="font-bold text-white">🌍 Langues Universelles</h3>
+                <ul className="text-white/80 text-sm space-y-1">
+                  <li>✅ 200+ langues supportées</li>
+                  <li>✅ Traduction temps réel</li>
+                  <li>✅ Support RTL (🇲🇦🇵🇸)</li>
+                </ul>
+              </div>
+              <div className="space-y-3">
+                <h3 className="font-bold text-white">🎮 Progression</h3>
+                <ul className="text-white/80 text-sm space-y-1">
+                  <li>✅ 5 niveaux structurés</li>
+                  <li>✅ 100 réponses/niveau min</li>
+                  <li>✅ 5 opérations mathématiques</li>
+                </ul>
+              </div>
+              <div className="space-y-3">
+                <h3 className="font-bold text-white">💳 Abonnements</h3>
+                <ul className="text-white/80 text-sm space-y-1">
+                  <li>✅ Version gratuite 1 semaine</li>
+                  <li>✅ Plans compétitifs</li>
+                  <li>✅ Multi-plateformes</li>
+                </ul>
+              </div>
+              <div className="space-y-3">
+                <h3 className="font-bold text-white">🌐 Déploiement</h3>
+                <ul className="text-white/80 text-sm space-y-1">
+                  <li>✅ Web + Android + iOS</li>
+                  <li>✅ www.math4child.com</li>
+                  <li>✅ Déploiements parallèles</li>
+                </ul>
+              </div>
+              <div className="space-y-3">
+                <h3 className="font-bold text-white">🧪 Qualité</h3>
+                <ul className="text-white/80 text-sm space-y-1">
+                  <li>✅ Tests complets Playwright</li>
+                  <li>✅ Tests traduction</li>
+                  <li>✅ Tests performance</li>
+                </ul>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Section avantages concurrentiels README.md */}
-        <div className="bg-white rounded-2xl p-8 shadow-lg mb-16">
-          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-            🥇 Domination Concurrentielle Totale
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="text-5xl mb-3">🆚</div>
-              <h3 className="font-bold text-gray-800 mb-2">VS Khan Academy Kids</h3>
-              <p className="text-gray-600 text-sm">❌ Pas d'IA adaptative<br/>✅ Math4Child: IA révolutionnaire</p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl mb-3">🆚</div>
-              <h3 className="font-bold text-gray-800 mb-2">VS Photomath</h3>
-              <p className="text-gray-600 text-sm">❌ Pas de gamification<br/>✅ Math4Child: 50+ badges</p>
-            </div>
-            <div className="text-center">
-              <div className="text-5xl mb-3">🆚</div>
-              <h3 className="font-bold text-gray-800 mb-2">VS Prodigy Math</h3>
-              <p className="text-gray-600 text-sm">❌ 20 langues<br/>✅ Math4Child: 200+ langues</p>
-            </div>
           </div>
         </div>
+      </main>
 
-        {/* Call-to-action final */}
-        <div className="text-center">
-          <div className="bg-gradient-to-r from-purple-100 to-blue-100 rounded-2xl p-8 border border-purple-200">
-            <h2 className="text-3xl font-bold text-gray-800 mb-4">
-              🌟 Objectif 2025 - 10 Millions d'Enfants Impactés
-            </h2>
-            <p className="text-lg text-gray-600 mb-6">
-              Rejoignez la révolution éducative qui transforme l'apprentissage des mathématiques dans le monde entier
+      {/* Footer NETTOYÉ - Seul Math4Child visible */}
+      <footer className="bg-black/20 backdrop-blur-sm py-8 mt-16">
+        <div className="max-w-7xl mx-auto px-6 text-center text-white/80">
+          <div className="flex items-center justify-center gap-3 mb-4">
+            <div className="text-2xl">🧮</div>
+            <span className="text-xl font-bold text-white">Math4Child v4.2.0</span>
+          </div>
+          <p className="mb-2">Révolution Éducative Mondiale</p>
+          <div className="space-y-1">
+            <p className="text-sm">
+              📧 <strong>Support :</strong> support@math4child.com
             </p>
-            <Link 
-              href="/exercises"
-              className="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-10 py-4 rounded-xl font-bold text-xl hover:shadow-lg transition-all transform hover:scale-105 inline-flex items-center gap-2"
-            >
-              ✨ Commencer la Révolution
-            </Link>
+            <p className="text-sm">
+              💼 <strong>Commercial :</strong> commercial@math4child.com
+            </p>
+            <p className="text-sm">
+              🌐 <strong>Site web :</strong> www.math4child.com
+            </p>
           </div>
-        </div>
-      </div>
-
-      {/* Footer avec informations société README.md */}
-      <footer className="bg-gray-800 text-white py-8">
-        <div className="container mx-auto px-4 text-center">
-          <div className="mb-4">
-            <h3 className="text-xl font-bold">Math4Child v4.2.0</h3>
-            <p className="text-gray-300">Révolution Éducative Mondiale</p>
-          </div>
-          <div className="text-sm text-gray-400">
-            <p>© 2025 GOTEST - www.math4child.com</p>
-            <p>SIRET: 53958712100028 | Email: gotesttech@gmail.com</p>
-            <p><strong>6 innovations révolutionnaires</strong> pour transformer l'éducation mathématique mondiale</p>
+          <div className="mt-4 text-xs">
+            © 2024 Math4Child. Tous droits réservés. 
+            Cette version contient des innovations jamais vues dans l'éducation mondiale.
           </div>
         </div>
       </footer>
