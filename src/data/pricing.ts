@@ -1,95 +1,92 @@
 export interface PricingPlan {
-  id: string;
-  name: string;
-  profiles: number;
+  id: string
+  name: string
+  description: string
   price: {
-    monthly: string;
-    quarterly: string;
-    yearly: string;
-  };
-  originalPrice?: {
-    quarterly?: string;
-    yearly?: string;
-  };
-  discount?: {
-    quarterly?: string;
-    yearly?: string;
-  };
-  features: string[];
-  popular?: boolean;
+    monthly: number
+    quarterly: number
+    yearly: number
+  }
+  features: string[]
+  popular?: boolean
+  color: string
+  icon: string
 }
 
 export const pricingPlans: PricingPlan[] = [
   {
-    id: 'free',
-    name: 'Gratuit',
-    profiles: 1,
+    id: 'basic',
+    name: 'Basique',
+    description: 'Parfait pour débuter avec Math4Child',
     price: {
-      monthly: '0€',
-      quarterly: '0€', 
-      yearly: '0€'
+      monthly: 9.99,
+      quarterly: 24.99,
+      yearly: 79.99
     },
     features: [
-      '1 profil enfant',
-      '50 questions total',
-      'Niveaux 1-2 seulement',
-      'Accès 7 jours',
-      'Toutes opérations de base'
-    ]
+      '🧮 Exercices de base',
+      '📊 Suivi des progrès',
+      '🎯 3 niveaux de difficulté',
+      '🌍 Support multilingue',
+      '📱 Accès mobile'
+    ],
+    color: 'blue',
+    icon: '🌟'
   },
   {
     id: 'premium',
     name: 'Premium',
-    profiles: 3, // CORRIGÉ: 3 profils au lieu de 5
+    description: 'L\'expérience complète Math4Child',
     price: {
-      monthly: '9.99€',
-      quarterly: '26.97€',
-      yearly: '83.93€'
-    },
-    originalPrice: {
-      quarterly: '29.97€',
-      yearly: '119.88€'
-    },
-    discount: {
-      quarterly: '10%',
-      yearly: '30%'
+      monthly: 19.99,
+      quarterly: 49.99,
+      yearly: 159.99
     },
     features: [
-      '3 profils enfants + 2 parents', // CORRIGÉ
-      'Questions illimitées',
-      'Tous les 5 niveaux',
-      'Toutes les opérations',
-      'Statistiques détaillées',
-      'Support prioritaire'
+      '🧠 IA Adaptative complète',
+      '✍️ Reconnaissance manuscrite',
+      '🎙️ Assistant vocal',
+      '📈 Analyses avancées',
+      '👨‍👩‍👧‍👦 Comptes famille (5)',
+      '🎨 Personnalisation',
+      '📞 Support prioritaire'
     ],
-    popular: true
+    popular: true,
+    color: 'purple',
+    icon: '🚀'
   },
   {
-    id: 'family',
-    name: 'Famille',
-    profiles: 5, // CORRIGÉ: 5 profils au lieu de 8
+    id: 'ultimate',
+    name: 'Ultimate',
+    description: 'Toute la puissance révolutionnaire',
     price: {
-      monthly: '14.99€',
-      quarterly: '40.47€', 
-      yearly: '125.93€'
-    },
-    originalPrice: {
-      quarterly: '44.97€',
-      yearly: '179.88€'
-    },
-    discount: {
-      quarterly: '10%',
-      yearly: '30%'
+      monthly: 39.99,
+      quarterly: 99.99,
+      yearly: 319.99
     },
     features: [
-      '5 profils enfants + 2 parents', // CORRIGÉ
-      'Questions illimitées',
-      'Tous les 5 niveaux',
-      'Toutes les opérations',
-      'Rapports parents détaillés',
-      'Contrôle parental avancé',
-      'Mode hors-ligne',
-      'Support premium 24/7'
-    ]
+      '🥽 Réalité Augmentée 3D',
+      '🧠 IA Ultra-Adaptative',
+      '✍️ Reconnaissance avancée',
+      '🎙️ Assistant vocal émotionnel',
+      '👨‍👩‍👧‍👦 Comptes illimités',
+      '🏫 Fonctionnalités école',
+      '📊 Tableaux de bord enseignant',
+      '🔧 API développeur',
+      '🎯 Support dédié 24/7'
+    ],
+    color: 'gold',
+    icon: '👑'
   }
-];
+]
+
+export const getDiscountedPrice = (basePrice: number, discount: number): number => {
+  return basePrice * (1 - discount / 100)
+}
+
+export const formatPrice = (price: number): string => {
+  return new Intl.NumberFormat('fr-FR', {
+    style: 'currency',
+    currency: 'EUR'
+  }).format(price)
+}

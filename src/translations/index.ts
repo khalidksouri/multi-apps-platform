@@ -1,96 +1,71 @@
+// =============================================================================
+// 🌍 SYSTÈME DE TRADUCTION MATH4CHILD v4.2.0
+// =============================================================================
+
 export interface Translation {
-  [key: string]: string | Translation
+  [key: string]: string | Translation;
+}
+
+export interface TranslationData {
+  title: string;
+  subtitle: string;
+  description: string;
+  features: string[];
+  cta: string;
+  [key: string]: string | string[] | Translation;
 }
 
 export interface Translations {
-  [languageCode: string]: Translation
+  [languageCode: string]: TranslationData;
 }
 
-export const translations: Translations = {
-  fr: {
-    home: {
-      title: 'Math4Child',
-      subtitle: "L'app éducative n°1 pour apprendre les maths en famille !",
-      startFree: 'Commencer gratuitement',
-      comparePrices: 'Comparer les prix'
-    },
-    language: {
-      select: 'Sélectionner une langue',
-      search: 'Tapez pour rechercher...',
-      directTyping: 'Tapez directement dans la liste',
-      available: 'disponibles'
-    }
-  },
-  en: {
-    home: {
-      title: 'Math4Child',
-      subtitle: 'The #1 educational app for learning math as a family!',
-      startFree: 'Start Free',
-      comparePrices: 'Compare Prices'
-    },
-    language: {
-      select: 'Select a language',
-      search: 'Type to search...',
-      directTyping: 'Type directly in the list',
-      available: 'available'
-    }
-  },
-  es: {
-    home: {
-      title: 'Math4Child',
-      subtitle: '¡La app educativa n°1 para aprender matemáticas en familia!',
-      startFree: 'Comenzar gratis',
-      comparePrices: 'Comparar precios'
-    },
-    language: {
-      select: 'Seleccionar idioma',
-      search: 'Escribe para buscar...',
-      directTyping: 'Escribe directamente en la lista',
-      available: 'disponibles'
-    }
-  },
-  de: {
-    home: {
-      title: 'Math4Child',
-      subtitle: 'Die #1 Lern-App für Mathematik in der Familie!',
-      startFree: 'Kostenlos starten',
-      comparePrices: 'Preise vergleichen'
-    },
-    language: {
-      select: 'Sprache auswählen',
-      search: 'Tippen zum Suchen...',
-      directTyping: 'Direkt in die Liste tippen',
-      available: 'verfügbar'
-    }
+// Import des traductions
+import { translations as importedTranslations } from '@/data/translations';
+
+export const translations: Translations = importedTranslations;
+
+export function getTranslation(languageCode: string, key: string): string {
+  const langData = translations[languageCode];
+  if (!langData) {
+    return key; // Fallback au key si langue non trouvée
   }
-}
-
-export function getTranslation(
-  translations: Translations,
-  language: string,
-  key: string,
-  fallbackLanguage = 'en'
-): string {
-  const keys = key.split('.')
-  let current: unknown = translations[language]
+  
+  const keys = key.split('.');
+  let current: any = langData;
   
   for (const k of keys) {
-    current = current?.[k]
+    if (current && typeof current === 'object' && k in current) {
+      current = current[k];
+    } else {
+      return key; // Fallback au key si path non trouvé
+    }
   }
   
-  if (typeof current === 'string') {
-    return current
-  }
-  
-  current = translations[fallbackLanguage]
-  for (const k of keys) {
-    current = current?.[k]
-  }
-  
-  return typeof current === 'string' ? current : key
+  return typeof current === 'string' ? current : key;
 }
 
-export function useTranslation(language: string) {
-  const t = (key: string) => getTranslation(translations, language, key)
-  return { t, language }
+export function getTranslationArray(languageCode: string, key: string): string[] {
+  const langData = translations[languageCode];
+  if (!langData) {
+    return [];
+  }
+  
+  const keys = key.split('.');
+  let current: any = langData;
+  
+  for (const k of keys) {
+    if (current && typeof current === 'object' && k in current) {
+      current = current[k];
+    } else {
+      return [];
+    }
+  }
+  
+  return Array.isArray(current) ? current : [];
 }
+
+export function getSupportedLanguages(): string[] {
+  return Object.keys(translations);
+}
+
+export default translations;

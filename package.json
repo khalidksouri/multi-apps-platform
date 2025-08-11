@@ -1,30 +1,63 @@
 {
-  "name": "math4child-revolutionary",
+  "name": "math4child",
   "version": "4.2.0",
-  "description": "Plateforme éducative révolutionnaire avec 6 innovations mondiales",
+  "description": "Révolution éducative mondiale avec 6 innovations révolutionnaires",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "type-check": "tsc --noEmit"
+    "lint": "next lint --fix",
+    "type-check": "tsc --noEmit",
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "clean": "rm -rf .next node_modules/.cache test-results playwright-report",
+    "clean:all": "npm run clean && rm -rf node_modules",
+    "build:capacitor": "CAPACITOR_BUILD=true npm run build",
+    "android:build": "npm run build:capacitor && npx cap sync android && npx cap build android",
+    "ios:build": "npm run build:capacitor && npx cap sync ios && npx cap build ios",
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,md}\""
   },
   "dependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "next": "^14.0.0",
-    "@types/node": "^20.0.0",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "typescript": "^5.0.0",
-    "tailwindcss": "^3.0.0",
-    "autoprefixer": "^10.0.0",
-    "postcss": "^8.0.0"
+    "next": "^14.2.30",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.4.5",
+    "lucide-react": "^0.469.0",
+    "recharts": "^2.12.7",
+    "crypto-js": "^4.2.0",
+    "date-fns": "^3.6.0",
+    "@stripe/stripe-js": "^4.7.0",
+    "stripe": "^16.12.0",
+    "@capacitor/core": "^7.4.2",
+    "@capacitor/app": "^7.0.1",
+    "@capacitor/haptics": "^7.0.1",
+    "@capacitor/keyboard": "^7.0.1",
+    "@capacitor/splash-screen": "^7.0.1",
+    "@capacitor/status-bar": "^7.0.1"
   },
   "devDependencies": {
-    "eslint": "^8.0.0",
-    "eslint-config-next": "^14.0.0"
+    "@playwright/test": "^1.54.1",
+    "@types/node": "^20.14.8",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@types/crypto-js": "^4.2.2",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.4.17",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.30",
+    "prettier": "^3.3.3",
+    "@capacitor/cli": "^6.2.1",
+    "@capacitor/android": "^7.4.2",
+    "@capacitor/ios": "^7.4.2"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "keywords": [
     "education",
@@ -34,7 +67,11 @@
     "ar",
     "voice",
     "handwriting",
-    "revolutionary"
+    "revolutionary",
+    "typescript",
+    "nextjs",
+    "react",
+    "capacitor"
   ],
   "author": "GOTEST - www.math4child.com",
   "license": "MIT"

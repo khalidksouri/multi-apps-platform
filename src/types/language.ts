@@ -1,80 +1,65 @@
-/**
- * Types pour le système de langues de Math4Child
- */
+// =============================================================================
+// 🌍 TYPES LANGUES MATH4CHILD v4.2.0
+// =============================================================================
 
 export interface Language {
-  code: string
-  name: string
-  flag: string
-  rtl?: boolean
-  region?: string
-  nativeName?: string
-}
-
-export interface Translation {
-  [key: string]: string | Translation
-}
-
-export interface Translations {
-  [languageCode: string]: Translation
+  code: string;
+  name: string;
+  nativeName: string;
+  rtl?: boolean;
+  flag?: string;
+  region?: string;
 }
 
 export interface LanguageConfig {
-  supportedLanguages: Language[]
-  defaultLanguage: string
-  fallbackLanguage: string
-  rtlLanguages: string[]
+  supported: Language[];
+  default: string;
+  fallback: string;
 }
 
-export interface LanguageContextType {
-  currentLanguage: Language | null
-  setLanguage: (language: Language) => void
-  t: (key: string, params?: Record<string, string>) => string
-  isRTL: boolean
-  isLoading: boolean
+export interface TranslationKey {
+  [key: string]: string | TranslationKey;
 }
 
-export interface LanguageDropdownProps {
-  onLanguageChange?: (language: Language) => void
-  className?: string
-  defaultLanguage?: string
-  disabled?: boolean
-  showSearch?: boolean
-  maxHeight?: number
-  placement?: 'bottom' | 'top'
+export interface LocaleData {
+  language: Language;
+  translations: TranslationKey;
+  dateFormat: string;
+  numberFormat: {
+    decimal: string;
+    thousands: string;
+  };
 }
 
-export interface LanguageProviderProps {
-  children: React.ReactNode
-  defaultLanguage?: string
-  translations?: Translations
-}
-
-// Constantes pour les langues supportées
+// Langues supportées par Math4Child
 export const SUPPORTED_LANGUAGES: Language[] = [
-  { code: 'fr', name: 'Français', flag: '🇫🇷', nativeName: 'Français' },
-  { code: 'en', name: 'English', flag: '🇺🇸', nativeName: 'English' },
-  { code: 'es', name: 'Español', flag: '🇪🇸', nativeName: 'Español' },
-  { code: 'de', name: 'Deutsch', flag: '🇩🇪', nativeName: 'Deutsch' },
-  { code: 'it', name: 'Italiano', flag: '🇮🇹', nativeName: 'Italiano' },
-  { code: 'pt', name: 'Português', flag: '🇵🇹', nativeName: 'Português' },
-  { code: 'ru', name: 'Русский', flag: '🇷🇺', nativeName: 'Русский' },
-  { code: 'zh', name: '中文', flag: '🇨🇳', nativeName: '中文' },
-  { code: 'ja', name: '日本語', flag: '🇯🇵', nativeName: '日本語' },
-  { code: 'ko', name: '한국어', flag: '🇰🇷', nativeName: '한국어' },
-  { code: 'ar', name: 'العربية', flag: '🇸🇦', nativeName: 'العربية', rtl: true },
-  { code: 'he', name: 'עברית', flag: '🇮🇱', nativeName: 'עברית', rtl: true },
-  { code: 'hi', name: 'हिन्दी', flag: '🇮🇳', nativeName: 'हिन्दी' },
-  { code: 'tr', name: 'Türkçe', flag: '🇹🇷', nativeName: 'Türkçe' },
-  { code: 'pl', name: 'Polski', flag: '🇵🇱', nativeName: 'Polski' },
-  { code: 'nl', name: 'Nederlands', flag: '🇳🇱', nativeName: 'Nederlands' },
-  { code: 'sv', name: 'Svenska', flag: '🇸🇪', nativeName: 'Svenska' },
-  { code: 'da', name: 'Dansk', flag: '🇩🇰', nativeName: 'Dansk' },
-  { code: 'no', name: 'Norsk', flag: '🇳🇴', nativeName: 'Norsk' },
-  { code: 'fi', name: 'Suomi', flag: '🇫🇮', nativeName: 'Suomi' }
-]
+  { code: 'fr-FR', name: 'Français', nativeName: 'Français', flag: '🇫🇷', region: 'Europe' },
+  { code: 'en-US', name: 'English', nativeName: 'English', flag: '🇺🇸', region: 'Americas' },
+  { code: 'es-ES', name: 'Español', nativeName: 'Español', flag: '🇪🇸', region: 'Europe' },
+  { code: 'de-DE', name: 'Deutsch', nativeName: 'Deutsch', flag: '🇩🇪', region: 'Europe' },
+  { code: 'it-IT', name: 'Italiano', nativeName: 'Italiano', flag: '🇮🇹', region: 'Europe' },
+  { code: 'pt-PT', name: 'Português', nativeName: 'Português', flag: '🇵🇹', region: 'Europe' },
+  { code: 'ru-RU', name: 'Русский', nativeName: 'Русский', flag: '🇷🇺', region: 'Europe', rtl: false },
+  { code: 'ar-SA', name: 'العربية', nativeName: 'العربية', flag: '🇸🇦', region: 'Middle East', rtl: true },
+  { code: 'zh-CN', name: '中文', nativeName: '中文 (简体)', flag: '🇨🇳', region: 'Asia' },
+  { code: 'ja-JP', name: '日本語', nativeName: '日本語', flag: '🇯🇵', region: 'Asia' },
+  { code: 'ko-KR', name: '한국어', nativeName: '한국어', flag: '🇰🇷', region: 'Asia' },
+  { code: 'hi-IN', name: 'हिन्दी', nativeName: 'हिन्दी', flag: '🇮🇳', region: 'Asia' }
+];
 
-export const RTL_LANGUAGES = ['ar', 'he', 'fa', 'ur']
+export const DEFAULT_LANGUAGE = 'fr-FR';
+export const FALLBACK_LANGUAGE = 'en-US';
 
-export const DEFAULT_LANGUAGE = 'en'
-export const FALLBACK_LANGUAGE = 'en'
+// Utilitaires
+export function getLanguageByCode(code: string): Language | undefined {
+  return SUPPORTED_LANGUAGES.find(lang => lang.code === code);
+}
+
+export function getLanguagesByRegion(region: string): Language[] {
+  return SUPPORTED_LANGUAGES.filter(lang => lang.region === region);
+}
+
+export function isRTLLanguage(code: string): boolean {
+  const language = getLanguageByCode(code);
+  return language?.rtl === true;
+}

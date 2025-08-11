@@ -1,13 +1,10 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
 import "./globals.css"
 import { LanguageProvider } from "@/hooks/useLanguage"
 
-const inter = Inter({ subsets: ["latin"] })
-
 export const metadata: Metadata = {
   title: "Math4Child v4.2.0 - Révolution Éducative Mondiale",
-  description: "La plateforme éducative la plus avancée technologiquement au monde avec IA, AR, Vocal et 200+ langues",
+  description: "6 innovations révolutionnaires pour l'éducation mathématique",
 }
 
 export default function RootLayout({
@@ -16,12 +13,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="fr" suppressHydrationWarning>
-      <body className={`${inter.className} antialiased`} suppressHydrationWarning>
+    <html lang="fr">
+      <body suppressHydrationWarning>
         <LanguageProvider>
-          <div id="root">
-            {children}
-          </div>
+          {children}
         </LanguageProvider>
       </body>
     </html>

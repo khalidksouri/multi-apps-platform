@@ -22,7 +22,7 @@ out/
 logs/
 *.log
 
-# scripts sh
+# Scripts (pour sécurité)
 scripts/
 *.sh
 
@@ -45,6 +45,7 @@ docker-compose.override.yml
 # Test results
 test-results/
 playwright-report/
+test-results.json
 
 # Cache
 .cache/
@@ -53,3 +54,36 @@ tmp/
 
 # Backup
 *.backup
+backup_*/
+
+# Capacitor
+android/
+ios/
+.capacitor/
+
+# TypeScript
+*.tsbuildinfo
+
+# ESLint
+.eslintcache
+
+# Backups (ajout post-nettoyage)
+backup_*/
+*_backup_*/
+*.backup
+old_*/
+temp_*/
+backups/
+**/*backup*/**
+**/*old*/**
+**/*temp*/**
+
+# Fichiers de log temporaires
+typescript_*.log
+dev_test.log
+build_test.log
+lint_test.log
+cleanup_*.log
+
+# Fichiers de script temporaires
+*.sh.backup

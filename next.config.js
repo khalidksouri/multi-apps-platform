@@ -1,16 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: process.env.CAPACITOR_BUILD ? 'export' : undefined,
+  trailingSlash: true,
   images: {
-    domains: ['localhost'],
+    unoptimized: process.env.CAPACITOR_BUILD === 'true'
   },
-  webpack: (config) => {
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      fs: false,
-      path: false,
-      os: false,
-    }
-    return config
+  eslint: {
+    ignoreDuringBuilds: false
+  },
+  typescript: {
+    ignoreBuildErrors: false
+  },
+  experimental: {
+    optimizeCss: true
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production'
   }
 }
 

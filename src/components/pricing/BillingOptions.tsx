@@ -1,69 +1,95 @@
 "use client"
+
 import { useState } from 'react'
 
-interface BillingOptionsProps {
-  onBillingChange: (cycle: 'monthly' | 'quarterly' | 'yearly') => void
+export interface BillingOption {
+  id: string
+  name: string
+  period: string
+  discount?: number
 }
 
-export function BillingOptions({ onBillingChange }: BillingOptionsProps) {
-  const [selected, setSelected] = useState<'monthly' | 'quarterly' | 'yearly'>('monthly')
-  
-  const options = [
-    { 
-      id: 'monthly' as const, 
-      label: 'Mensuel', 
-      description: 'Flexibilité maximale' 
+interface BillingOptionsProps {
+  onBillingChange?: (option: BillingOption) => void
+  currentBilling?: string
+}
+
+export function BillingOptions({ onBillingChange, currentBilling = 'monthly' }: BillingOptionsProps) {
+  const [selectedBilling, setSelectedBilling] = useState(currentBilling)
+
+  const billingOptions: BillingOption[] = [
+    {
+      id: 'monthly',
+      name: 'Mensuel',
+      period: 'mois'
     },
-    { 
-      id: 'quarterly' as const, 
-      label: 'Trimestriel', 
-      description: 'Économisez 10%', 
-      discount: '10%',
-      badge: 'Populaire'
+    {
+      id: 'quarterly',
+      name: 'Trimestriel',
+      period: '3 mois',
+      discount: 10
     },
-    { 
-      id: 'yearly' as const, 
-      label: 'Annuel', 
-      description: 'Économisez 30%', 
-      discount: '30%',
-      badge: 'Meilleure offre'
+    {
+      id: 'yearly',
+      name: 'Annuel',
+      period: 'an',
+      discount: 20
     }
   ]
-  
-  const handleChange = (cycle: 'monthly' | 'quarterly' | 'yearly') => {
-    setSelected(cycle)
-    onBillingChange(cycle)
+
+  const handleBillingChange = (option: BillingOption) => {
+    setSelectedBilling(option.id)
+    onBillingChange?.(option)
   }
-  
+
   return (
-    <div className="flex justify-center mb-8">
-      <div className="bg-gray-100 p-2 rounded-xl flex flex-wrap gap-2">
-        {options.map(option => (
+    <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
+      <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">
+        🔄 Options de Facturation
+      </h3>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {billingOptions.map((option) => (
           <button
             key={option.id}
-            onClick={() => handleChange(option.id)}
-            className={`relative px-6 py-3 rounded-lg font-semibold transition-all ${
-              selected === option.id 
-                ? 'bg-blue-600 text-white shadow-lg transform scale-105' 
-                : 'text-gray-600 hover:text-blue-600 hover:bg-white'
+            onClick={() => handleBillingChange(option)}
+            className={`p-4 rounded-lg border-2 transition-all duration-200 relative ${
+              selectedBilling === option.id
+                ? 'border-blue-500 bg-blue-50 shadow-md'
+                : 'border-gray-200 bg-gray-50 hover:border-gray-300'
             }`}
           >
-            <div className="text-center">
-              <div className="font-bold">{option.label}</div>
-              <div className="text-xs opacity-80">{option.description}</div>
-            </div>
             {option.discount && (
-              <span className="absolute -top-2 -right-2 text-xs bg-green-500 text-white px-2 py-1 rounded-full">
-                -{option.discount}
-              </span>
+              <div className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+                -{option.discount}%
+              </div>
             )}
-            {option.badge && selected === option.id && (
-              <span className="absolute -top-2 -left-2 text-xs bg-orange-500 text-white px-2 py-1 rounded-full">
-                {option.badge}
-              </span>
-            )}
+            
+            <div className="text-center">
+              <div className={`font-semibold ${
+                selectedBilling === option.id ? 'text-blue-700' : 'text-gray-700'
+              }`}>
+                {option.name}
+              </div>
+              <div className={`text-sm ${
+                selectedBilling === option.id ? 'text-blue-600' : 'text-gray-500'
+              }`}>
+                par {option.period}
+              </div>
+              {option.discount && (
+                <div className="text-xs text-green-600 font-medium mt-1">
+                  Économisez {option.discount}%
+                </div>
+              )}
+            </div>
           </button>
         ))}
+      </div>
+
+      <div className="mt-4 text-center">
+        <p className="text-sm text-gray-600">
+          💡 Plus d'engagement = Plus d'économies !
+        </p>
       </div>
     </div>
   )
