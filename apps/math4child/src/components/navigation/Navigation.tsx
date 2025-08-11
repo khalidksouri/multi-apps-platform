@@ -3,10 +3,11 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/hooks/useLanguage'
+import { LanguageSelector } from '@/components/language/LanguageSelector'
 
 export default function Navigation() {
   const pathname = usePathname()
-  const { t, currentLanguage, setLanguage } = useLanguage()
+  const { t } = useLanguage()
 
   const isActive = (path: string) => pathname === path
 
@@ -32,7 +33,7 @@ export default function Navigation() {
                   : 'text-gray-700 hover:text-blue-600'
               }`}
             >
-              🏠 Accueil
+              🏠 {t('home')}
             </Link>
             <Link 
               href="/exercises"
@@ -42,7 +43,7 @@ export default function Navigation() {
                   : 'text-gray-700 hover:text-blue-600'
               }`}
             >
-              🧮 Exercices
+              🧮 {t('exercises')}
             </Link>
             <Link 
               href="/pricing"
@@ -52,7 +53,7 @@ export default function Navigation() {
                   : 'text-gray-700 hover:text-blue-600'
               }`}
             >
-              💰 Pricing
+              💰 {t('pricing')}
             </Link>
             <Link 
               href="/profile"
@@ -62,22 +63,12 @@ export default function Navigation() {
                   : 'text-gray-700 hover:text-blue-600'
               }`}
             >
-              👤 Profil
+              👤 {t('profile')}
             </Link>
           </div>
 
-          {/* Sélecteur de langue */}
-          <div className="flex items-center space-x-2">
-            <select 
-              value={currentLanguage} 
-              onChange={(e) => setLanguage(e.target.value as any)}
-              className="bg-gray-100 border border-gray-300 rounded-lg px-3 py-1 text-sm"
-            >
-              <option value="fr">🇫🇷 FR</option>
-              <option value="en">🇺🇸 EN</option>
-              <option value="es">🇪🇸 ES</option>
-            </select>
-          </div>
+          {/* Sélecteur de langue avancé */}
+          <LanguageSelector />
         </div>
       </div>
     </nav>
