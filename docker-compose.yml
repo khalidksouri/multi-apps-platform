@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  math4child:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_APP_NAME=Math4Child
+      - NEXT_PUBLIC_APP_VERSION=4.2.0
+      - NEXT_PUBLIC_DOMAIN=www.math4child.com
+      - NEXT_PUBLIC_SUPPORT_EMAIL=support@math4child.com
+      - NEXT_PUBLIC_COMMERCIAL_EMAIL=commercial@math4child.com
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=math4child
+      - POSTGRES_USER=math4child
+      - POSTGRES_PASSWORD=secure_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:

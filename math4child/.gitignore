@@ -3,7 +3,6 @@ node_modules/
 .npm
 
 # Testing
-/coverage
 /playwright-report/
 /test-results/
 
@@ -13,30 +12,17 @@ node_modules/
 
 # Production
 /build
-/dist
 
 # Misc
 .DS_Store
-*.tgz
-*.tar.gz
 *.backup*
-**/*.backup*
 
 # Debug
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 
 # Local env files
 .env*.local
-.env.production
 
 # TypeScript
 *.tsbuildinfo
 next-env.d.ts
-
-# Fichiers interdits (au cas où)
-*GOTEST*
-*gotest*
-*53958712100028*
-*gotesttech*

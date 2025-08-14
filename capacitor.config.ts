@@ -1,7 +1,7 @@
-import type { CapacitorConfig } from '@capacitor/cli'
+import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.gotest.math4child',
+  appId: 'com.math4child.app',
   appName: 'Math4Child',
   webDir: 'out',
   server: {
@@ -9,19 +9,15 @@ const config: CapacitorConfig = {
   },
   plugins: {
     SplashScreen: {
-      launchAutoHide: false,
-      backgroundColor: "#667eea",
-      androidSplashResourceName: "splash",
-      androidScaleType: "CENTER_CROP",
-      showSpinner: false,
-      splashFullScreen: true,
-      splashImmersive: true
+      launchShowDuration: 2000,
+      backgroundColor: "#3b82f6",
+      showSpinner: false
     },
     StatusBar: {
-      style: 'dark',
-      backgroundColor: '#667eea'
+      style: "dark",
+      backgroundColor: "#3b82f6"
     }
   }
-}
+};
 
-export default config
+export default config;

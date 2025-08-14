@@ -11,20 +11,13 @@
     "type-check": "tsc --noEmit",
     "test": "playwright test",
     "test:ui": "playwright test --ui",
-    "test:headed": "playwright test --headed",
-    "test:debug": "playwright test --debug",
-    "clean": "rm -rf .next && rm -rf node_modules/.cache && rm -rf *.backup* && rm -rf **/*.backup*",
-    "build:capacitor": "npm run build && npx cap sync",
-    "android:build": "npx cap build android",
-    "ios:build": "npx cap build ios"
+    "clean": "rm -rf .next && rm -rf node_modules/.cache"
   },
   "dependencies": {
     "next": "14.2.5",
     "react": "^18",
     "react-dom": "^18",
-    "lucide-react": "^0.263.1",
-    "stripe": "^12.0.0",
-    "@stripe/stripe-js": "^1.54.0"
+    "lucide-react": "^0.263.1"
   },
   "devDependencies": {
     "@types/node": "^20",

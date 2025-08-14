@@ -8,10 +8,6 @@ const nextConfig = {
     SUPPORT_EMAIL: 'support@math4child.com',
     COMMERCIAL_EMAIL: 'commercial@math4child.com',
     DOMAIN: 'www.math4child.com'
-  },
-  images: {
-    domains: ['www.math4child.com'],
-    formats: ['image/webp', 'image/avif'],
   }
 }
 

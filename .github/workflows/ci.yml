@@ -1,0 +1,75 @@
+name: Math4Child CI/CD v4.2.0
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Type check
+      run: npm run type-check
+    
+    - name: Lint
+      run: npm run lint
+    
+    - name: Build
+      run: npm run build
+    
+    - name: Install Playwright
+      run: npx playwright install
+    
+    - name: Run Playwright tests
+      run: npm run test
+    
+    - name: Run stress tests
+      run: npm run test:stress
+    
+    - name: Upload test results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: playwright-report
+        path: playwright-report/
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Build for production
+      run: npm run build
+      env:
+        NEXT_PUBLIC_APP_NAME: Math4Child
+        NEXT_PUBLIC_APP_VERSION: 4.2.0
+        NEXT_PUBLIC_DOMAIN: www.math4child.com
+    
+    - name: Deploy to production
+      run: echo "Déploiement sur www.math4child.com"
