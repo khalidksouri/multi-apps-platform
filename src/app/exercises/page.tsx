@@ -1,180 +1,211 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { useState } from 'react'
+import { BookOpen, Play, Plus, Minus, X, DivideIcon, Shuffle } from 'lucide-react'
 
-interface UserProfile {
-  name: string
-  level: number
-  totalPoints: number
-  streak: number
-  accuracy: number
-  badges: string[]
-}
+export default function ExercisesPage() {
+  const [selectedLevel, setSelectedLevel] = useState('debutant')
+  const [selectedOperation, setSelectedOperation] = useState('addition')
 
-export default function ExercisesHub() {
-  const [profile, setProfile] = useState<UserProfile>({
-    name: 'Emma',
-    level: 3,
-    totalPoints: 2847,
-    streak: 7,
-    accuracy: 89,
-    badges: ['🌟', '🔥', '🎯', '🏆']
-  })
+  // 5 niveaux selon spécifications
+  const levels = [
+    { id: 'debutant', name: 'Débutant', description: '100 bonnes réponses minimum', unlocked: true },
+    { id: 'apprenti', name: 'Apprenti', description: '100 bonnes réponses minimum', unlocked: true },
+    { id: 'explorateur', name: 'Explorateur', description: '100 bonnes réponses minimum', unlocked: false },
+    { id: 'expert', name: 'Expert', description: '100 bonnes réponses minimum', unlocked: false },
+    { id: 'maitre', name: 'Maître', description: '100 bonnes réponses minimum', unlocked: false }
+  ]
 
-  const gameModes = [
-    {
-      id: 'classic',
-      name: 'Mode Classique',
-      description: 'Exercices traditionnels avec interface moderne',
-      icon: '📚',
-      color: 'from-blue-500 to-blue-600',
-      path: '/exercises/1'
+  // 5 opérations mathématiques selon spécifications
+  const operations = [
+    { 
+      id: 'addition', 
+      name: 'Addition', 
+      icon: <Plus className="w-6 h-6" />,
+      description: 'Apprendre à additionner'
     },
-    {
-      id: 'handwriting',
-      name: 'Reconnaissance Manuscrite',
-      description: 'Écris tes réponses à la main !',
-      icon: '✏️',
-      color: 'from-green-500 to-green-600',
-      path: '/exercises/1/handwriting'
+    { 
+      id: 'soustraction', 
+      name: 'Soustraction', 
+      icon: <Minus className="w-6 h-6" />,
+      description: 'Apprendre à soustraire'
     },
-    {
-      id: 'ar3d',
-      name: 'Réalité Augmentée 3D',
-      description: 'Visualise les maths en 3D !',
-      icon: '🥽',
-      color: 'from-purple-500 to-purple-600',
-      path: '/exercises/1/ar3d'
+    { 
+      id: 'multiplication', 
+      name: 'Multiplication', 
+      icon: <X className="w-6 h-6" />,
+      description: 'Apprendre à multiplier'
+    },
+    { 
+      id: 'division', 
+      name: 'Division', 
+      icon: <DivideIcon className="w-6 h-6" />,
+      description: 'Apprendre à diviser'
+    },
+    { 
+      id: 'mixte', 
+      name: 'Mixte', 
+      icon: <Shuffle className="w-6 h-6" />,
+      description: 'Mélange de toutes les opérations'
     }
   ]
 
-  const levels = [1, 2, 3, 4, 5]
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-cyan-50 p-4">
-      <div className="max-w-6xl mx-auto">
-        
-        {/* Header avec profil Emma */}
-        <div className="bg-white rounded-2xl shadow-lg p-6 mb-8">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                {profile.name[0]}
-              </div>
-              <div>
-                <h1 className="text-2xl font-bold text-gray-800">Salut {profile.name} ! 👋</h1>
-                <p className="text-gray-600">Prête pour une nouvelle aventure mathématique ?</p>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-3xl font-bold text-purple-600">{profile.totalPoints}</div>
-              <div className="text-sm text-gray-600">points totaux</div>
-            </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      {/* Header */}
+      <header className="bg-white shadow-sm border-b">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex justify-between items-center">
+            <Link href="/" className="flex items-center space-x-2">
+              <BookOpen className="w-8 h-8 text-blue-600" />
+              <span className="text-xl font-bold text-gray-800">Math4Child</span>
+              <span className="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full">v4.2.0</span>
+            </Link>
+            
+            <nav className="hidden md:flex items-center space-x-6">
+              <Link href="/" className="text-gray-600 hover:text-blue-600 transition-colors">
+                Accueil
+              </Link>
+              <Link href="/exercises" className="text-blue-600 font-medium">
+                Exercices
+              </Link>
+              <Link href="/pricing" className="text-gray-600 hover:text-blue-600 transition-colors">
+                Abonnements
+              </Link>
+            </nav>
           </div>
+        </div>
+      </header>
+
+      {/* Contenu principal */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+            🎮 Hub Exercices Math4Child
+          </h1>
+          <p className="text-xl text-gray-600">
+            5 Opérations • 5 Niveaux • 3 Modes d'apprentissage
+          </p>
+        </div>
+
+        {/* Sélection du niveau */}
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold text-gray-800 mb-6">🎯 Choisis ton niveau</h3>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            {levels.map((level, index) => (
+              <button
+                key={level.id}
+                onClick={() => level.unlocked && setSelectedLevel(level.id)}
+                className={`p-4 rounded-xl border-2 transition-all relative ${
+                  selectedLevel === level.id 
+                    ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200' 
+                    : level.unlocked 
+                    ? 'border-gray-200 bg-white hover:border-blue-300' 
+                    : 'border-gray-200 bg-gray-100 opacity-50 cursor-not-allowed'
+                }`}
+              >
+                {!level.unlocked && (
+                  <div className="absolute top-2 right-2">
+                    <span className="text-gray-400">🔒</span>
+                  </div>
+                )}
+                
+                <div className="text-center">
+                  <div className="text-2xl mb-2">{index + 1}</div>
+                  <div className="font-bold text-gray-800">{level.name}</div>
+                  <div className="text-sm text-gray-600">{level.description}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Sélection de l'opération - 5 opérations selon spécifications */}
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold text-gray-800 mb-6">🧮 Choisis une opération</h3>
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+            {operations.map((operation) => (
+              <button
+                key={operation.id}
+                onClick={() => setSelectedOperation(operation.id)}
+                data-operation={operation.id}
+                className={`p-4 rounded-xl border-2 transition-all ${
+                  selectedOperation === operation.id
+                    ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
+                    : 'border-gray-200 bg-white hover:border-blue-300'
+                }`}
+              >
+                <div className="text-center">
+                  <div className="flex justify-center mb-2 text-blue-600">
+                    {operation.icon}
+                  </div>
+                  <div className="font-bold text-gray-800">{operation.name}</div>
+                  <div className="text-sm text-gray-600">{operation.description}</div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* 3 Modes d'exercices */}
+        <div className="mb-8">
+          <h3 className="text-2xl font-bold text-gray-800 mb-6">🎮 Choisis ton mode d'exercice</h3>
           
-          {/* Stats */}
-          <div className="grid grid-cols-4 gap-4 mt-6">
-            <div className="text-center p-3 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">Niveau {profile.level}</div>
-              <div className="text-xs text-blue-600">Progression</div>
-            </div>
-            <div className="text-center p-3 bg-orange-50 rounded-lg">
-              <div className="text-2xl font-bold text-orange-600">{profile.streak} 🔥</div>
-              <div className="text-xs text-orange-600">Jours consécutifs</div>
-            </div>
-            <div className="text-center p-3 bg-green-50 rounded-lg">
-              <div className="text-2xl font-bold text-green-600">{profile.accuracy}%</div>
-              <div className="text-xs text-green-600">Précision</div>
-            </div>
-            <div className="text-center p-3 bg-purple-50 rounded-lg">
-              <div className="text-lg">{profile.badges.join(' ')}</div>
-              <div className="text-xs text-purple-600">Badges</div>
-            </div>
-          </div>
-        </div>
-
-        {/* Modes de jeu */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">🎮 Choisis ton Mode d&apos;Aventure</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {gameModes.map((mode) => (
-              <Link key={mode.id} href={mode.path}>
-                <div className={`bg-gradient-to-br ${mode.color} p-6 rounded-xl text-white hover:shadow-xl transform hover:scale-105 transition-all duration-300 cursor-pointer`}>
-                  <div className="text-4xl mb-3">{mode.icon}</div>
-                  <h3 className="text-xl font-bold mb-2">{mode.name}</h3>
-                  <p className="text-sm opacity-90">{mode.description}</p>
-                  <div className="mt-4 bg-white bg-opacity-20 rounded-lg p-2 text-center">
-                    <span className="text-sm font-medium">Commencer →</span>
-                  </div>
+            {/* Mode Classique */}
+            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Play className="w-8 h-8 text-blue-600" />
                 </div>
-              </Link>
-            ))}
+                <h4 className="text-xl font-bold text-gray-800 mb-2">Mode Classique</h4>
+                <p className="text-gray-600 mb-4">Exercices traditionnels avec clavier</p>
+                <button className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                  Commencer
+                </button>
+              </div>
+            </div>
+
+            {/* Mode Manuscrit */}
+            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  ✏️
+                </div>
+                <h4 className="text-xl font-bold text-gray-800 mb-2">Écriture Manuscrite</h4>
+                <p className="text-gray-600 mb-4">Écris ta réponse à la main</p>
+                <button className="bg-purple-500 text-white px-4 py-2 rounded-lg hover:bg-purple-600 transition-colors">
+                  Essayer
+                </button>
+              </div>
+            </div>
+
+            {/* Mode AR 3D */}
+            <div className="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-all">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-cyan-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  🥽
+                </div>
+                <h4 className="text-xl font-bold text-gray-800 mb-2">Réalité Augmentée 3D</h4>
+                <p className="text-gray-600 mb-4">Visualise en 3D</p>
+                <button className="bg-cyan-500 text-white px-4 py-2 rounded-lg hover:bg-cyan-600 transition-colors">
+                  Explorer
+                </button>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Sélection des niveaux */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">📊 Sélectionne ton Niveau</h2>
-          <div className="grid grid-cols-5 gap-4">
-            {levels.map((level) => (
-              <Link key={level} href={`/exercises/${level}`}>
-                <div className={`
-                  p-6 rounded-xl text-center cursor-pointer transition-all duration-300 hover:shadow-lg
-                  ${level <= profile.level 
-                    ? 'bg-gradient-to-br from-green-400 to-green-500 text-white hover:scale-105' 
-                    : 'bg-gray-100 text-gray-400 hover:bg-gray-200'
-                  }
-                `}>
-                  <div className="text-2xl font-bold mb-2">Niveau {level}</div>
-                  <div className="text-sm">
-                    {level <= profile.level ? '✅ Débloqué' : '🔒 Verrouillé'}
-                  </div>
-                  {level === profile.level && (
-                    <div className="mt-2 bg-white bg-opacity-20 rounded px-2 py-1 text-xs">
-                      En cours
-                    </div>
-                  )}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-
-        {/* Innovations disponibles */}
-        <div className="bg-white rounded-2xl shadow-lg p-6">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">🚀 Innovations Disponibles</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-            <div className="p-4 bg-blue-50 rounded-lg text-center">
-              <div className="text-3xl mb-2">🧠</div>
-              <div className="text-sm font-medium text-blue-800">IA Adaptative</div>
-              <div className="text-xs text-blue-600">Actif</div>
-            </div>
-            <div className="p-4 bg-green-50 rounded-lg text-center">
-              <div className="text-3xl mb-2">✏️</div>
-              <div className="text-sm font-medium text-green-800">Manuscrit</div>
-              <div className="text-xs text-green-600">Disponible</div>
-            </div>
-            <div className="p-4 bg-purple-50 rounded-lg text-center">
-              <div className="text-3xl mb-2">🥽</div>
-              <div className="text-sm font-medium text-purple-800">AR 3D</div>
-              <div className="text-xs text-purple-600">Disponible</div>
-            </div>
-            <div className="p-4 bg-orange-50 rounded-lg text-center">
-              <div className="text-3xl mb-2">🎙️</div>
-              <div className="text-sm font-medium text-orange-800">Vocal IA</div>
-              <div className="text-xs text-orange-600">Actif</div>
-            </div>
-            <div className="p-4 bg-red-50 rounded-lg text-center">
-              <div className="text-3xl mb-2">🧮</div>
-              <div className="text-sm font-medium text-red-800">Moteur</div>
-              <div className="text-xs text-red-600">Actif</div>
-            </div>
-            <div className="p-4 bg-indigo-50 rounded-lg text-center">
-              <div className="text-3xl mb-2">🌍</div>
-              <div className="text-sm font-medium text-indigo-800">200+ Langues</div>
-              <div className="text-xs text-indigo-600">🇲🇦🇵🇸</div>
-            </div>
+        {/* Statut actuel */}
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white p-6 rounded-2xl text-center">
+          <h3 className="text-2xl font-bold mb-2">🎯 Configuration actuelle</h3>
+          <p className="text-blue-100 mb-4">
+            Niveau: {levels.find(l => l.id === selectedLevel)?.name} • 
+            Opération: {operations.find(o => o.id === selectedOperation)?.name}
+          </p>
+          <div className="text-sm opacity-90">
+            🌟 Math4Child v4.2.0 - Révolution Éducative Mondiale
           </div>
         </div>
       </div>
