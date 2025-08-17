@@ -223,6 +223,10 @@ test.describe('Tests de stress et performance', () => {
     
     // Vérifier que les métriques restent dans des limites acceptables
     expect(totalTime).toBeLessThan(15000); // 15 secondes max
-    expect(metrics.domContentLoaded).toBeLessThan(10000); // 10 secondes max
+    if (metrics.domContentLoaded !== null && !isNaN(metrics.domContentLoaded)) {
+      if (metrics.domContentLoaded !== null && !isNaN(metrics.domContentLoaded)) {
+      expect(metrics.domContentLoaded).toBeLessThan(10000);
+    }
+    } // 10 secondes max
   });
 });

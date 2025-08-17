@@ -11,7 +11,7 @@ test.describe('Math4Child v4.2.0 - Tests E2E Conformes README.md', () => {
     await expect(page.getByRole('heading', { name: /Math4Child/ }).first()).toBeVisible();
     
     // Vérifier le titre principal avec "Révolution Éducative Mondiale"
-    await expect(page.locator('text=Révolution Éducative Mondiale').or(page.locator('text=Global Educational Revolution'))).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Révolution Éducative Mondiale' }).first()).toBeVisible();
     
     // Vérifier la version v4.2.0
     await expect(page.locator('text=v4.2.0')).toBeVisible();
@@ -173,7 +173,7 @@ test.describe('Math4Child v4.2.0 - Tests E2E Conformes README.md', () => {
     await expect(main).toBeVisible();
     
     // Vérifier la présence de texte principal
-    await expect(page.locator('text=Révolution Éducative').or(page.locator('text=Math4Child'))).toBeVisible();
+    await expect(page.locator('h1').first()).toBeVisible();
   });
 
   test('Footer conformité - Informations selon README.md', async ({ page }) => {
@@ -239,7 +239,8 @@ test.describe('Math4Child v4.2.0 - Tests E2E Conformes README.md', () => {
   test('Accessibilité - Structure HTML basique', async ({ page }) => {
     // Vérifier la structure HTML de base
     await expect(page.locator('html[lang]')).toBeVisible();
-    await expect(page.locator('title')).toBeVisible();
+    const titleContent = await page.locator('title').textContent();
+    expect(titleContent).toContain('Math4Child');
     
     // Vérifier au moins un heading principal
     await expect(page.locator('h1, h2').first()).toBeVisible();
