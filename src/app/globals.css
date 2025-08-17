@@ -108,3 +108,116 @@ html[dir="rtl"] .ltr-only {
     font-size: 0.875rem;
   }
 }
+
+/* =============================================================================
+   STYLES DROPDOWN LANGUES MATH4CHILD v4.2.0
+   ============================================================================= */
+
+/* Scrollbar personnalisée pour le dropdown selon spécifications */
+.scrollbar-thin {
+  scrollbar-width: thin;
+}
+
+.scrollbar-thumb-gray-300::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 6px;
+}
+
+.scrollbar-track-gray-100::-webkit-scrollbar-track {
+  background-color: #f3f4f6;
+}
+
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Animations pour le dropdown */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-in-from-top-2 {
+  from { transform: translateY(-8px); }
+  to { transform: translateY(0); }
+}
+
+.animate-in {
+  animation-fill-mode: both;
+}
+
+.fade-in {
+  animation-name: fade-in;
+}
+
+.slide-in-from-top-2 {
+  animation-name: slide-in-from-top-2;
+}
+
+.duration-200 {
+  animation-duration: 200ms;
+}
+
+/* Support RTL pour les langues arabes selon spécifications */
+[dir="rtl"] .flex-row-reverse {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .text-left {
+  text-align: right;
+}
+
+[dir="rtl"] .left-3 {
+  left: auto;
+  right: 0.75rem;
+}
+
+/* Focus visible pour l'accessibilité */
+.focus\:ring-2:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
+}
+
+/* Hover effects pour le dropdown */
+.hover\:bg-blue-50:hover {
+  background-color: #eff6ff;
+}
+
+.hover\:bg-white\/30:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.hover\:border-white\/40:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Backdrop blur pour l'effet glassmorphism */
+.backdrop-blur-sm {
+  backdrop-filter: blur(4px);
+}
+
+/* Z-index pour s'assurer que le dropdown est au-dessus */
+.z-50 {
+  z-index: 50;
+}
+
+/* Styles pour les drapeaux */
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+/* Transition pour les rotations */
+.rotate-180 {
+  transform: rotate(180deg);
+}
+
+.transition-transform {
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.duration-200 {
+  transition-duration: 200ms;
+}
