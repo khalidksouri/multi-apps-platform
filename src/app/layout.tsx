@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
-import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -14,7 +13,7 @@ export const metadata: Metadata = {
     'reconnaissance manuscrite', 'réalité augmentée', 'assistant vocal',
     '200+ langues', 'révolution éducative', 'apprentissage', 'enfants'
   ].join(', '),
-  authors: [{ name: 'Math4Child', email: 'support@math4child.com' }],
+  authors: [{ name: 'Math4Child' }], // Suppression de 'email'
   creator: 'Math4Child',
   publisher: 'Math4Child',
   robots: 'index, follow',
@@ -57,7 +56,6 @@ export default function RootLayout({
       </head>
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col">
-          <Header />
           <main className="flex-grow">
             {children}
           </main>

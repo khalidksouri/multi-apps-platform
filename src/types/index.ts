@@ -1,136 +1,126 @@
-// Types Math4Child v4.2.0 - Révolution Éducative Mondiale
+// =============================================================================
+// 🧠 TYPES MATH4CHILD v4.2.0 - COMPLETS
+// =============================================================================
 
-export interface User {
-  id: string
-  name: string
-  email: string
-  age: number
-  level: number
-  totalPoints: number
-  streak: number
-  profileImage?: string
-  language: string
-  parentalControls: boolean
-}
-
-export interface Exercise {
-  id: string
-  type: 'addition' | 'subtraction' | 'multiplication' | 'division' | 'mixed'
-  level: number
-  question: string
-  correctAnswer: number
-  options?: number[]
-  difficulty: 'easy' | 'medium' | 'hard'
-  timeLimit?: number
-}
-
-export interface GameMode {
-  id: string
-  name: string
-  description: string
-  icon: string
-  path: string
-  unlocked: boolean
-  beta?: boolean
-}
-
-export interface Innovation {
-  id: string
-  name: string
-  description: string
-  icon: string
-  status: 'active' | 'beta' | 'coming_soon'
-  features: string[]
-}
-
-export interface SubscriptionPlan {
-  id: string
-  name: string
-  price: number
-  currency: string
-  period: 'month' | 'year'
-  features: string[]
-  popular?: boolean
-  badge?: string
-  discount?: number
-}
-
+// Types pour l'internationalisation
 export interface Language {
   code: string
   name: string
   nativeName: string
   flag: string
+  regions: string[]  // Corrigé: tableau de régions
   rtl?: boolean
-  regions?: string[]
 }
 
-export interface Progress {
+// Types pour les exercices - AJOUT TYPE EXERCISE MANQUANT
+export interface Exercise {
+  id: string
+  question: string
+  answer: number
   level: number
-  correctAnswers: number
-  totalAnswers: number
-  accuracy: number
-  timeSpent: number
-  badges: Badge[]
-  achievements: Achievement[]
+  operation: string
+  difficulty: number
+  format: 'multiple_choice' | 'input' | 'drag_drop'
+  options?: number[]
+  hints?: string[]
+  explanation?: string
 }
 
-export interface Badge {
+// Alias pour compatibilité
+export interface MathExercise extends Exercise {}
+
+// Types pour les plans d'abonnement
+export interface SubscriptionPlan {
+  id: string
+  name: string
+  price: number
+  currency: string
+  period: string
+  profiles: number  // OBLIGATOIRE selon spécifications
+  popular?: boolean
+  badge?: string
+  features: string[]
+}
+
+// Types pour la progression
+export interface ProgressLevel {
+  id: number
+  name: string
+  description: string
+  requiredCorrectAnswers: number
+  operations: string[]
+  difficultyRange: {
+    min: number
+    max: number
+  }
+  unlockConditions: string[]
+  rewards: Reward[]
+  estimatedDuration: string
+}
+
+export interface Reward {
   id: string
   name: string
   description: string
   icon: string
   rarity: 'common' | 'rare' | 'epic' | 'legendary'
-  unlockedAt?: Date
 }
 
-export interface Achievement {
-  id: string
-  title: string
-  description: string
-  icon: string
-  progress: number
-  target: number
-  completed: boolean
-  reward?: {
-    points: number
-    badge?: Badge
+// Types pour l'IA adaptative
+export interface AIPersonality {
+  name: string
+  voice: string
+  responses: {
+    greeting: string
+    hint: string
+    success: string
+    struggle: string
+    motivation: string
   }
 }
 
-export interface AIFeedback {
-  encouragement: string
-  hints: string[]
-  nextSteps: string[]
-  difficulty_adjustment: 'increase' | 'decrease' | 'maintain'
+// Types pour la reconnaissance vocale
+export interface VoiceMessage {
+  id: string
+  text: string
+  type: 'user' | 'assistant'
+  timestamp: number
+  emotion?: string
+  confidence?: number
 }
 
-export interface HandwritingRecognition {
-  input: string
+export interface VoiceState {
+  isListening: boolean
+  isProcessing: boolean
+  isSpeaking: boolean
+  currentPhrase: string
+  recognitionConfidence: number
+  conversationHistory: ConversationEntry[]
+}
+
+export interface ConversationEntry {
+  timestamp: number
+  speaker: 'user' | 'assistant'
+  message: string
+  emotion?: string
+  intent?: string
+}
+
+// Types pour la reconnaissance manuscrite
+export interface Point {
+  x: number
+  y: number
+  timestamp?: number
+}
+
+export interface Stroke {
+  points: Point[]
+  color?: string
+  width?: number
+}
+
+export interface Recognition {
+  character: string
   confidence: number
-  alternatives: string[]
-  processed: boolean
-}
-
-export interface ARVisualization {
-  type: '3d_objects' | 'animation' | 'interactive'
-  objects: ARObject[]
-  interactions: ARInteraction[]
-}
-
-export interface ARObject {
-  id: string
-  type: 'cube' | 'sphere' | 'number' | 'operation'
-  position: [number, number, number]
-  rotation: [number, number, number]
-  scale: [number, number, number]
-  color: string
-  animation?: string
-}
-
-export interface ARInteraction {
-  id: string
-  type: 'tap' | 'drag' | 'voice'
-  target: string
-  action: string
-  feedback: string
+  alternatives: { character: string; confidence: number }[]
 }
