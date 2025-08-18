@@ -1,0 +1,77 @@
+{
+  "typescript.preferences.includePackageJsonAutoImports": "on",
+  "typescript.suggest.autoImports": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "typescript.workspaceSymbols.scope": "allOpenProjects",
+  
+  "typescript.validate.enable": true,
+  "typescript.format.enable": true,
+  "typescript.preferences.importModuleSpecifier": "relative",
+  
+  "editor.codeActionsOnSave": {
+    "source.fixAll": false,
+    "source.organizeImports": false
+  },
+  
+  "files.associations": {
+    "*.tsx": "typescriptreact",
+    "*.ts": "typescript"
+  },
+  
+  "emmet.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html"
+  },
+  
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  
+  "eslint.validate": [
+    "typescript",
+    "typescriptreact"
+  ],
+  
+  "typescript.jsx": "preserve",
+  
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true,
+    "**/build": true,
+    "**/dist": true,
+    "**/*.backup*": true,
+    "**/backups_*": true
+  },
+  
+  "files.exclude": {
+    "**/.next": true,
+    "**/node_modules": true,
+    "**/*.backup*": true,
+    "**/backups_*": true
+  },
+  
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  
+  "tailwindCSS.includeLanguages": {
+    "typescript": "html",
+    "typescriptreact": "html"
+  },
+  
+  "typescript.preferences.quoteStyle": "single",
+  "typescript.suggest.completeFunctionCalls": true,
+  
+  "files.watcherExclude": {
+    "**/.next/**": true,
+    "**/node_modules/**": true,
+    "**/*.backup*": true,
+    "**/backups_*/**": true
+  }
+}
