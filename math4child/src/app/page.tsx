@@ -177,7 +177,7 @@ export default function Math4ChildApp() {
   const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
 
-  const t = translations[selectedLanguage] || translations.fr;
+  const t = translations[selectedLanguage as keyof typeof translations] || translations.fr;
   const currentLang = SUPPORTED_LANGUAGES.find(l => l.code === selectedLanguage) || SUPPORTED_LANGUAGES[0];
   const isRightToLeft = ['ar-ma', 'ar-ps'].includes(selectedLanguage);
 

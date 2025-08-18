@@ -1,39 +1,41 @@
-"use client"
+'use client'
 
-import React, { useState } from 'react'
 import Link from 'next/link'
-import { ChevronDown, Menu, X, Globe, User, Settings } from 'lucide-react'
+import { useState } from 'react'
+import { ChevronDown, User, Settings, Globe, Menu, X } from 'lucide-react'
 
+// Interface pour les langues
 interface Language {
   code: string
   name: string
   flag: string
 }
 
-const languages: Language[] = [
+// Langues supportées - 200+ selon spécifications README.md
+const LANGUAGES: Language[] = [
   { code: 'fr', name: 'Français', flag: '🇫🇷' },
-  { code: 'en', name: 'English', flag: '🇺🇸' },
   { code: 'ar-ma', name: 'العربية (المغرب)', flag: '🇲🇦' },
   { code: 'ar-ps', name: 'العربية (فلسطين)', flag: '🇵🇸' },
+  { code: 'en', name: 'English', flag: '🇺🇸' },
   { code: 'es', name: 'Español', flag: '🇪🇸' },
   { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
   { code: 'it', name: 'Italiano', flag: '🇮🇹' },
   { code: 'pt', name: 'Português', flag: '🇵🇹' },
-  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
   { code: 'zh', name: '中文', flag: '🇨🇳' },
+  { code: 'ja', name: '日本語', flag: '🇯🇵' },
 ]
 
 export default function Header() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
-  const [isLangOpen, setIsLangOpen] = useState(false)
-  const [isUserOpen, setIsUserOpen] = useState(false)
-  const [currentLang, setCurrentLang] = useState(languages[0])
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false)
+  const [isLangOpen, setIsLangOpen] = useState<boolean>(false)
+  const [isUserOpen, setIsUserOpen] = useState<boolean>(false)
+  const [currentLang, setCurrentLang] = useState<Language>(LANGUAGES[0])
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
-  const toggleLang = () => setIsLangOpen(!isLangOpen)
-  const toggleUser = () => setIsUserOpen(!isUserOpen)
+  const toggleMenu = (): void => setIsMenuOpen(!isMenuOpen)
+  const toggleLang = (): void => setIsLangOpen(!isLangOpen)
+  const toggleUser = (): void => setIsUserOpen(!isUserOpen)
 
-  const selectLanguage = (lang: Language) => {
+  const handleLangChange = (lang: Language): void => {
     setCurrentLang(lang)
     setIsLangOpen(false)
   }
@@ -43,7 +45,7 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           
-          {/* Logo et Marque */}
+          {/* Logo */}
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
@@ -61,19 +63,19 @@ export default function Header() {
           {/* Navigation Desktop */}
           <nav className="hidden lg:flex items-center space-x-8">
             <Link href="/" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-              🏠 Accueil
+              Accueil
             </Link>
             <Link href="/exercises" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-              🎮 Exercices
+              Exercices
             </Link>
             <Link href="/pricing" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-              💎 Plans
+              Plans
             </Link>
             <Link href="/dashboard" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-              📊 Dashboard
+              Dashboard
             </Link>
             <Link href="/profile" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
-              👤 Profil
+              Profil
             </Link>
           </nav>
 
@@ -85,6 +87,7 @@ export default function Header() {
               <button
                 onClick={toggleLang}
                 className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                type="button"
               >
                 <span className="text-lg">{currentLang.flag}</span>
                 <span className="text-sm font-medium text-gray-700">{currentLang.code.toUpperCase()}</span>
@@ -94,13 +97,14 @@ export default function Header() {
               {isLangOpen && (
                 <div className="absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50 max-h-80 overflow-y-auto">
                   <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                    200+ Langues disponibles
+                    Choisir une langue
                   </div>
-                  {languages.map((lang) => (
+                  {LANGUAGES.map((lang: Language) => (
                     <button
                       key={lang.code}
-                      onClick={() => selectLanguage(lang)}
+                      onClick={() => handleLangChange(lang)}
                       className="w-full flex items-center space-x-3 px-3 py-2 hover:bg-blue-50 transition-colors text-left"
+                      type="button"
                     >
                       <span className="text-lg">{lang.flag}</span>
                       <span className="text-sm font-medium text-gray-700">{lang.name}</span>
@@ -108,7 +112,7 @@ export default function Header() {
                   ))}
                   <div className="border-t border-gray-200 mt-2 pt-2 px-3">
                     <div className="text-xs text-gray-500">
-                      + 190 autres langues disponibles...
+                      200+ langues supportées selon README.md
                     </div>
                   </div>
                 </div>
@@ -120,6 +124,7 @@ export default function Header() {
               <button
                 onClick={toggleUser}
                 className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+                type="button"
               >
                 <div className="w-8 h-8 bg-gradient-to-br from-pink-400 to-purple-500 rounded-full flex items-center justify-center">
                   <span className="text-white text-sm font-bold">E</span>
@@ -147,44 +152,45 @@ export default function Header() {
               )}
             </div>
 
-            {/* Bouton CTA */}
+            {/* Bouton principal */}
             <Link
               href="/exercises"
               className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all duration-300"
             >
-              🚀 Commencer
+              Commencer
             </Link>
           </div>
 
-          {/* Menu Mobile */}
+          {/* Menu mobile */}
           <div className="lg:hidden">
             <button
               onClick={toggleMenu}
               className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              type="button"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
 
-        {/* Menu Mobile Déployé */}
+        {/* Menu mobile étendu */}
         {isMenuOpen && (
           <div className="lg:hidden border-t border-gray-200 py-4">
             <div className="space-y-4">
               <Link href="/" className="block text-gray-700 hover:text-blue-600 font-medium">
-                🏠 Accueil
+                Accueil
               </Link>
               <Link href="/exercises" className="block text-gray-700 hover:text-blue-600 font-medium">
-                🎮 Exercices
+                Exercices
               </Link>
               <Link href="/pricing" className="block text-gray-700 hover:text-blue-600 font-medium">
-                💎 Plans
+                Plans
               </Link>
               <Link href="/dashboard" className="block text-gray-700 hover:text-blue-600 font-medium">
-                📊 Dashboard
+                Dashboard
               </Link>
               <Link href="/profile" className="block text-gray-700 hover:text-blue-600 font-medium">
-                👤 Profil
+                Profil
               </Link>
               
               <div className="border-t border-gray-200 pt-4">
@@ -196,7 +202,7 @@ export default function Header() {
                   href="/exercises"
                   className="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg font-semibold text-center"
                 >
-                  🚀 Commencer l'Aventure
+                  Commencer
                 </Link>
               </div>
             </div>

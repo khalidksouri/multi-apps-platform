@@ -12,7 +12,7 @@ test.describe('Tests API - Tarification', () => {
       expect(plans).toHaveLength(5);
       
       // Vérifier les prix exacts
-      const premiumPlan = plans.find(p => p.id === 'premium');
+      const premiumPlan = plans.find((p: any) => p.id === 'premium');
       expect(premiumPlan.price).toBe(14.99);
       expect(premiumPlan.popular).toBe(true);
     }

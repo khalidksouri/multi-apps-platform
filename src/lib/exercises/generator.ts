@@ -67,7 +67,7 @@ export class MathExerciseGenerator {
       5: { min: 1, max: 1000, complex: true }
     };
     
-    return levelConfig[level] || levelConfig[1];
+    return levelConfig[level as keyof typeof levelConfig] || levelConfig[1];
   }
   
   private static generateAddition(ranges: any, difficulty: number): MathExercise {

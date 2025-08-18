@@ -214,7 +214,7 @@ export const getLanguagesByRegion = (region: string): Language[] => {
 };
 
 export const getAllRegions = (): string[] => {
-  const regions = [...new Set(WORLD_LANGUAGES.map(lang => lang.region))];
+  const regions = Array.from(new Set(WORLD_LANGUAGES.map(lang => lang.region)));
   return regions.sort();
 };
 

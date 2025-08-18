@@ -50,16 +50,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <head>
-        <meta charSet="utf-8" />
-        <link rel="icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-        <meta name="application-name" content="Math4Child" />
-        <meta name="apple-mobile-web-app-title" content="Math4Child" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta name="mobile-web-app-capable" content="yes" />
-      </head>
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col">
           {/* ✅ HEADER AJOUTÉ */}

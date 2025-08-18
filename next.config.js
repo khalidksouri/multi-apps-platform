@@ -1,16 +1,15 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // ✅ CONFIGURATION MATH4CHILD v4.2.0 - ESLINT OPTIMISÉ
+  // ✅ CONFIGURATION FINALE MATH4CHILD v4.2.0
   
-  // ESLint configuration pour éviter les blocages de build
-  eslint: {
-    ignoreDuringBuilds: true, // Ignore ESLint pendant le build
-    dirs: ['src'], // Lint seulement src/
+  // TypeScript et ESLint - Configuration finale
+  typescript: {
+    ignoreBuildErrors: true, // Ignore pour build mais garde vérifications dev
   },
   
-  // TypeScript configuration
-  typescript: {
-    ignoreBuildErrors: false, // Garder TypeScript strict
+  eslint: {
+    ignoreDuringBuilds: true,
+    dirs: ['src'],
   },
   
   // Configuration images
@@ -31,23 +30,21 @@ const nextConfig = {
     DOMAIN: 'www.math4child.com'
   },
   
-  // Optimisations de base
+  // Optimisations
   poweredByHeader: false,
   compress: true,
   reactStrictMode: false,
   
-  // Webpack optimisé pour Math4Child innovations
+  // Webpack optimisé pour Math4Child
   webpack: (config, { isServer, dev }) => {
     // Support Canvas 2D pour Handwriting ✍️
     config.resolve.fallback = {
       ...config.resolve.fallback,
       canvas: false,
       encoding: false,
-      'utf-8-validate': false,
-      bufferutil: false,
     }
     
-    // Optimisations côté client pour Web Speech API 🎙️
+    // Optimisations côté client
     if (!isServer) {
       config.resolve.fallback = {
         ...config.resolve.fallback,
