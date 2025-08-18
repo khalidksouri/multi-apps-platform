@@ -1,5 +1,5 @@
 // =============================================================================
-// 🧠 TYPES MATH4CHILD v4.2.0 - COMPLETS
+// 🧠 TYPES MATH4CHILD v4.2.0 - COMPLETS ET CORRIGÉS
 // =============================================================================
 
 // Types pour l'internationalisation
@@ -12,14 +12,15 @@ export interface Language {
   rtl?: boolean
 }
 
-// Types pour les exercices - AJOUT TYPE EXERCISE MANQUANT
+// Types pour les exercices - INTERFACE COMPLÈTE CORRIGÉE
 export interface Exercise {
   id: string
+  type: string  // ✅ AJOUTÉ: Propriété 'type' manquante
   question: string
   answer: number
   level: number
   operation: string
-  difficulty: number
+  difficulty: 'easy' | 'medium' | 'hard'  // ✅ CORRIGÉ: string enum au lieu de number
   format: 'multiple_choice' | 'input' | 'drag_drop'
   options?: number[]
   hints?: string[]

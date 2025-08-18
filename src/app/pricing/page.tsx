@@ -1,3 +1,6 @@
+import type { Viewport } from 'next'
+import { defaultViewport } from '@/lib/viewport'
+
 "use client"
 
 import Link from 'next/link'
