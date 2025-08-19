@@ -1,0 +1,64 @@
+# =============================================================================
+# 🚀 CONFIGURATION NETLIFY - MATH4CHILD v4.2.0 - CORRIGÉE
+# =============================================================================
+
+[build]
+  base = "."
+  publish = "out"
+  command = "npm install && npm run build:safe"
+
+[build.environment]
+  NODE_VERSION = "20.9.0"
+  NODE_ENV = "production"
+  NPM_VERSION = "10.1.0"
+  DEFAULT_LANGUAGE = "fr"
+
+# =============================================================================
+# 🌟 CONFIGURATION PRODUCTION (BRANCHE MAIN)
+# =============================================================================
+
+[context.production]
+  command = "npm install && npm run build:production"
+  
+[context.production.environment]
+  NODE_ENV = "production"
+  BRANCH_NAME = "main"
+  NEXT_PUBLIC_APP_NAME = "Math4Child"
+  NEXT_PUBLIC_APP_VERSION = "4.2.0"
+
+# =============================================================================
+# 🧪 CONFIGURATION FEATURE/MATH4CHILD
+# =============================================================================
+
+[context."feature/math4child"]
+  command = "npm install && npm run build:safe"
+  
+[context."feature/math4child".environment]
+  NODE_ENV = "staging"
+  BRANCH_NAME = "feature/math4child"
+  NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
+  NEXT_PUBLIC_APP_NAME = "Math4Child [FEATURE]"
+  NEXT_PUBLIC_APP_VERSION = "4.2.0-feature"
+  SKIP_LINT = "true"
+  DEBUG_MODE = "true"
+
+# =============================================================================
+# 🔧 CONFIGURATION BRANCH DEPLOYS
+# =============================================================================
+
+[context.branch-deploy]
+  command = "npm install && npm run build:safe"
+  
+[context.branch-deploy.environment]
+  NODE_ENV = "development"
+  SKIP_LINT = "true"
+  NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
+
+# =============================================================================
+# 🔄 REDIRECTIONS
+# =============================================================================
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
