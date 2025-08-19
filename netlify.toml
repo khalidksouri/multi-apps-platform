@@ -1,12 +1,12 @@
 # =============================================================================
-# 🚀 CONFIGURATION NETLIFY - MATH4CHILD v4.2.0
-# Révolution Éducative Mondiale - 100% Conforme aux Spécifications
+# 🚀 CONFIGURATION NETLIFY - MATH4CHILD v4.2.0 - MULTI-BRANCHES
+# Configuration pour main ET feature/math4child
 # =============================================================================
 
 [build]
   base = "."
   publish = "out"
-  command = "npm install && npm run build"
+  command = "npm install && npm run build:safe"
 
 [build.environment]
   NODE_VERSION = "18.17.0"
@@ -15,14 +15,18 @@
   NETLIFY_SKIP_EDGE_FUNCTIONS_BUNDLING = "true"
 
 # =============================================================================
-# 🌐 VARIABLES D'ENVIRONNEMENT PRODUCTION
+# 🌟 CONFIGURATION PRODUCTION (BRANCHE MAIN)
 # =============================================================================
 
+[context.production]
+  command = "npm install && npm run build"
+  
 [context.production.environment]
   NODE_ENV = "production"
   DEFAULT_LANGUAGE = "fr"
+  BRANCH_NAME = "main"
   
-  # Domaine officiel selon spécifications MATH4CHILD
+  # Domaine officiel production
   NEXT_PUBLIC_SITE_URL = "https://www.math4child.com"
   NEXT_PUBLIC_DOMAIN = "www.math4child.com"
   
@@ -32,26 +36,35 @@
   NEXT_PUBLIC_SUPPORT_EMAIL = "support@math4child.com"
   NEXT_PUBLIC_COMMERCIAL_EMAIL = "commercial@math4child.com"
   
-  # Système de paiement global selon spécifications
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_live_math4child_stripe_key"
-  STRIPE_SECRET_KEY = "sk_live_math4child_stripe_key"
-  STRIPE_WEBHOOK_SECRET = "whsec_math4child_webhook"
+  # Innovations en production
+  ENABLE_AI_ADAPTIVE = "true"
+  ENABLE_HANDWRITING = "true"
+  ENABLE_AR_3D = "true"
+  ENABLE_VOICE_AI = "true"
+  ENABLE_EXERCISE_ENGINE = "true"
+  ENABLE_UNIVERSAL_LANGUAGES = "true"
+
+# =============================================================================
+# 🧪 CONFIGURATION DÉVELOPPEMENT (BRANCHE FEATURE/MATH4CHILD)
+# =============================================================================
+
+[context.branch-deploy]
+  command = "npm install && npm run build:dev"
   
-  # Paiements internationaux selon spécifications
-  PAYPAL_CLIENT_ID = "math4child_paypal_live"
-  PAYPAL_CLIENT_SECRET = "math4child_paypal_secret"
+[context.branch-deploy.environment]
+  NODE_ENV = "development"
+  DEFAULT_LANGUAGE = "fr"
+  BRANCH_NAME = "$BRANCH"
   
-  # Innovations technologiques selon spécifications
-  GOOGLE_VISION_API_KEY = "math4child_vision_api"
-  OPENAI_API_KEY = "math4child_openai_api"
+  # URL dynamique basée sur la branche
+  NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
+  NEXT_PUBLIC_DOMAIN = "$DEPLOY_PRIME_URL"
   
-  # Base de données production
-  DATABASE_URL = "postgresql://math4child_prod"
+  # Informations de développement
+  NEXT_PUBLIC_APP_NAME = "Math4Child [DEV]"
+  NEXT_PUBLIC_APP_VERSION = "4.2.0-dev"
   
-  # Analytics et monitoring
-  NEXT_PUBLIC_ANALYTICS_ID = "math4child_analytics"
-  
-  # 6 Innovations révolutionnaires selon spécifications
+  # Innovations en mode test
   ENABLE_AI_ADAPTIVE = "true"
   ENABLE_HANDWRITING = "true"
   ENABLE_AR_3D = "true"
@@ -59,258 +72,61 @@
   ENABLE_EXERCISE_ENGINE = "true"
   ENABLE_UNIVERSAL_LANGUAGES = "true"
   
-  # 5 Plans d'abonnement selon spécifications exactes
-  BASIC_PRICE = "4.99"
-  STANDARD_PRICE = "9.99"
-  PREMIUM_PRICE = "14.99"
-  FAMILLE_PRICE = "19.99"
-  ULTIMATE_PRICE = "29.99"
-  MOST_POPULAR_PLAN = "premium"
+  # Mode debug activé
+  DEBUG_MODE = "true"
+  VERBOSE_LOGGING = "true"
 
 # =============================================================================
-# 🧪 VARIABLES D'ENVIRONNEMENT PREVIEW/DÉVELOPPEMENT
+# 🔧 CONFIGURATION SPÉCIFIQUE POUR FEATURE/MATH4CHILD
 # =============================================================================
 
-[context.deploy-preview.environment]
-  NODE_ENV = "development"
-  DEFAULT_LANGUAGE = "fr"
-  NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
-  NEXT_PUBLIC_APP_NAME = "Math4Child"
-  NEXT_PUBLIC_APP_VERSION = "4.2.0"
-  NEXT_PUBLIC_SUPPORT_EMAIL = "support@math4child.com"
-  NEXT_PUBLIC_COMMERCIAL_EMAIL = "commercial@math4child.com"
+[context."feature/math4child"]
+  command = "npm install && npm run build:feature"
   
-  # Clés de test pour développement
-  NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY = "pk_test_math4child_stripe"
-  STRIPE_SECRET_KEY = "sk_test_math4child_stripe"
-
-[context.branch-deploy.environment]
-  NODE_ENV = "development"
+[context."feature/math4child".environment]
+  NODE_ENV = "staging"
   DEFAULT_LANGUAGE = "fr"
+  BRANCH_NAME = "feature/math4child"
+  
+  # URL de staging pour la feature branch
   NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
-  NEXT_PUBLIC_APP_NAME = "Math4Child"
-  NEXT_PUBLIC_APP_VERSION = "4.2.0"
-  NEXT_PUBLIC_SUPPORT_EMAIL = "support@math4child.com"
-  NEXT_PUBLIC_COMMERCIAL_EMAIL = "commercial@math4child.com"
+  NEXT_PUBLIC_DOMAIN = "$DEPLOY_PRIME_URL"
+  
+  # Identification claire de la branche feature
+  NEXT_PUBLIC_APP_NAME = "Math4Child [FEATURE]"
+  NEXT_PUBLIC_APP_VERSION = "4.2.0-feature"
+  
+  # Toutes les innovations activées pour les tests
+  ENABLE_AI_ADAPTIVE = "true"
+  ENABLE_HANDWRITING = "true"
+  ENABLE_AR_3D = "true"
+  ENABLE_VOICE_AI = "true"
+  ENABLE_EXERCISE_ENGINE = "true"
+  ENABLE_UNIVERSAL_LANGUAGES = "true"
+  
+  # Features expérimentales activées
+  ENABLE_EXPERIMENTAL_FEATURES = "true"
+  ENABLE_BETA_TESTING = "true"
+  DEBUG_MODE = "true"
 
 # =============================================================================
-# 🔄 REDIRECTIONS ET ROUTAGE
+# 🔄 REDIRECTIONS INTELLIGENTES
 # =============================================================================
 
-# Redirection du domaine principal
 [[redirects]]
   from = "https://math4child.netlify.app/*"
   to = "https://www.math4child.com/:splat"
   status = 301
   force = true
+  condition = "Branch"
+  value = "main"
 
-# Support des applications hybrides (Web/Android/iOS)
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
 
-# Support SPA pour Next.js
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# Redirections pour l'internationalisation (200+ langues)
-[[redirects]]
-  from = "/fr/*"
-  to = "/:splat"
-  status = 200
-  conditions = {Language = ["fr"]}
-
-[[redirects]]
-  from = "/en/*"
-  to = "/:splat"
-  status = 200
-  conditions = {Language = ["en"]}
-
-[[redirects]]
-  from = "/es/*"
-  to = "/:splat"
-  status = 200
-  conditions = {Language = ["es"]}
-
-[[redirects]]
-  from = "/de/*"
-  to = "/:splat"
-  status = 200
-  conditions = {Language = ["de"]}
-
-[[redirects]]
-  from = "/it/*"
-  to = "/:splat"
-  status = 200
-  conditions = {Language = ["it"]}
-
-# Support pour les langues arabes avec RTL selon spécifications
-[[redirects]]
-  from = "/ar/*"
-  to = "/:splat"
-  status = 200
-  conditions = {Language = ["ar"]}
-
-# Support des deep links pour applications mobiles
-[[redirects]]
-  from = "/app/*"
-  to = "/mobile-redirect.html"
-  status = 200
-  conditions = {User-Agent = ["*Mobile*"]}
-
-# =============================================================================
-# 🔒 HEADERS DE SÉCURITÉ ET PERFORMANCE
-# =============================================================================
-
-# Headers de sécurité pour toutes les pages
-[[headers]]
-  for = "/*"
-  [headers.values]
-    # Sécurité renforcée selon spécifications
-    X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
-    X-Content-Type-Options = "nosniff"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
-    
-    # Support des innovations technologiques
-    Feature-Policy = "microphone 'self'; camera 'self'; geolocation 'self'"
-    
-    # CORS pour API internationales
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type, Authorization, X-Requested-With"
-
-# Cache optimisé pour les assets Next.js
-[[headers]]
-  for = "/_next/static/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-    X-Content-Type-Options = "nosniff"
-
-# Cache pour les images et icônes
-[[headers]]
-  for = "/images/*"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    X-Content-Type-Options = "nosniff"
-
-[[headers]]
-  for = "/icons/*"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    X-Content-Type-Options = "nosniff"
-
-# Headers spéciaux pour les sons (innovations audio)
-[[headers]]
-  for = "/sounds/*"
-  [headers.values]
-    Cache-Control = "public, max-age=86400"
-    X-Content-Type-Options = "nosniff"
-
-# Headers pour les fichiers de langues (200+ langues)
-[[headers]]
-  for = "/locales/*"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
-    X-Content-Type-Options = "nosniff"
-
-# Headers pour le manifest PWA
-[[headers]]
-  for = "/manifest.json"
-  [headers.values]
-    Cache-Control = "public, max-age=3600"
-    Content-Type = "application/manifest+json"
-
-# Headers pour les service workers
-[[headers]]
-  for = "/sw.js"
-  [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
-    Content-Type = "application/javascript"
-
-# =============================================================================
-# ⚡ FONCTIONS NETLIFY POUR LES INNOVATIONS
-# =============================================================================
-
-# Configuration des fonctions
-[functions]
-  directory = "netlify/functions"
-
-# Fonction pour les paiements internationaux
-[[edge_functions]]
-  function = "payment-processor"
-  path = "/api/payments/*"
-
-# Fonction pour la reconnaissance vocale multilingue (Innovation 4)
-[[edge_functions]]
-  function = "voice-recognition"
-  path = "/api/voice/*"
-
-# Fonction pour la reconnaissance manuscrite (Innovation 2)
-[[edge_functions]]
-  function = "handwriting-ocr"
-  path = "/api/ocr/*"
-
-# Fonction pour l'IA adaptative (Innovation 1)
-[[edge_functions]]
-  function = "ai-adaptive"
-  path = "/api/ai/*"
-
-# Fonction pour la réalité augmentée 3D (Innovation 3)
-[[edge_functions]]
-  function = "ar-3d-engine"
-  path = "/api/ar/*"
-
-# =============================================================================
-# 🌍 CONFIGURATION MULTILINGUE (200+ LANGUES)
-# =============================================================================
-
-# Support automatique de la détection de langue
-[context.production]
-  environment = { NEXT_PUBLIC_I18N_DOMAINS = "www.math4child.com" }
-
-# Optimisations pour le déploiement mondial
-[build.processing]
-  skip_processing = false
-
-[build.processing.css]
-  bundle = true
-  minify = true
-
-[build.processing.js]
-  bundle = true
-  minify = true
-
-[build.processing.html]
-  pretty_urls = true
-
-# =============================================================================
-# 🔧 CONFIGURATION AVANCÉE
-# =============================================================================
-
-# Limitation de taille pour éviter les problèmes
-[build.command]
-  timeout = "15m"
-
-# Configuration pour les 5 niveaux de progression
-[context.production.environment]
-  # Système de progression selon spécifications
-  PROGRESSION_LEVELS = "5"
-  MIN_CORRECT_ANSWERS_PER_LEVEL = "100"
-  
-  # 5 Opérations mathématiques selon spécifications
-  MATH_OPERATIONS = "addition,subtraction,multiplication,division,mixed"
-  
-  # Version gratuite selon spécifications
-  FREE_VERSION_DURATION = "7"
-  FREE_VERSION_QUESTIONS = "50"
-  
-  # Réductions selon spécifications
-  QUARTERLY_DISCOUNT = "10"
-  ANNUAL_DISCOUNT = "30"
-  SECOND_DEVICE_DISCOUNT = "50"
-  THIRD_DEVICE_DISCOUNT = "75"

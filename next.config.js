@@ -1,93 +1,178 @@
 /** @type {import('next').NextConfig} */
+
+// Détecter l'environnement et la branche
+const isDevelopment = process.env.NODE_ENV === 'development'
+const isProduction = process.env.NODE_ENV === 'production'
+const currentBranch = process.env.BRANCH_NAME || process.env.VERCEL_GIT_COMMIT_REF || 'unknown'
+
+// Configuration selon la branche
+const getBranchConfig = () => {
+  console.log(`🌿 Branche détectée: ${currentBranch}`)
+  console.log(`🏷️  Environnement: ${process.env.NODE_ENV}`)
+
+  switch (currentBranch) {
+    case 'main':
+      return {
+        environment: 'production',
+        enableExperimental: false,
+        enableDebug: false,
+        optimizeForPerformance: true,
+        enableAllFeatures: true
+      }
+    
+    case 'feature/math4child':
+      return {
+        environment: 'staging',
+        enableExperimental: true,
+        enableDebug: true,
+        optimizeForPerformance: false,
+        enableAllFeatures: true
+      }
+    
+    default:
+      return {
+        environment: 'development',
+        enableExperimental: false,
+        enableDebug: true,
+        optimizeForPerformance: false,
+        enableAllFeatures: false
+      }
+  }
+}
+
+const branchConfig = getBranchConfig()
+
+// Configuration ESLint intelligente
+const getESLintConfig = () => {
+  const skipLint = process.env.SKIP_LINT === 'true'
+  
+  if (skipLint) {
+    console.log('⚠️  ESLint désactivé via SKIP_LINT')
+    return {
+      ignoreDuringBuilds: true,
+      dirs: []
+    }
+  }
+
+  switch (currentBranch) {
+    case 'main':
+      return {
+        ignoreDuringBuilds: false,
+        dirs: ['pages', 'components', 'lib', 'utils']
+      }
+    
+    case 'feature/math4child':
+      return {
+        ignoreDuringBuilds: true,
+        dirs: ['pages', 'components', 'lib', 'utils']
+      }
+    
+    default:
+      return {
+        ignoreDuringBuilds: true,
+        dirs: ['pages', 'components']
+      }
+  }
+}
+
+// Configuration TypeScript
+const getTypeScriptConfig = () => {
+  const skipTypeCheck = process.env.SKIP_TYPE_CHECK === 'true'
+  
+  if (skipTypeCheck) {
+    console.log('⚠️  Vérification TypeScript désactivée')
+    return {
+      ignoreBuildErrors: true
+    }
+  }
+
+  switch (currentBranch) {
+    case 'main':
+      return {
+        ignoreBuildErrors: false
+      }
+    
+    default:
+      return {
+        ignoreBuildErrors: true
+      }
+  }
+}
+
 const nextConfig = {
-  // ✅ CONFIGURATION FINALE MATH4CHILD v4.2.0
+  reactStrictMode: true,
+  swcMinify: true,
   
-  // TypeScript et ESLint - Configuration finale
-  typescript: {
-    ignoreBuildErrors: true, // Ignore pour build mais garde vérifications dev
+  // Configuration ESLint intelligente
+  eslint: getESLintConfig(),
+  
+  // Configuration TypeScript intelligente
+  typescript: getTypeScriptConfig(),
+  
+  // Configuration i18n
+  i18n: {
+    locales: ['fr', 'en', 'es', 'de', 'it'],
+    defaultLocale: 'fr',
+    localeDetection: true
   },
   
-  eslint: {
-    ignoreDuringBuilds: true,
-    dirs: ['src'],
+  // Fonctionnalités expérimentales
+  experimental: {
+    appDir: branchConfig.enableExperimental,
+    serverActions: branchConfig.enableExperimental
   },
   
-  // Configuration images
+  // Configuration des images
   images: {
-    domains: [
-      'localhost',
-      'math4child.com',
-      'www.math4child.com'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'math4child.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.math4child.com'
+      },
+      {
+        protocol: 'https',
+        hostname: '*.netlify.app'
+      }
     ],
-    formats: ['image/webp', 'image/avif'],
+    formats: ['image/webp', 'image/avif']
   },
   
   // Variables d'environnement
   env: {
-    MATH4CHILD_VERSION: '4.2.0',
-    SUPPORT_EMAIL: 'support@math4child.com',
-    COMMERCIAL_EMAIL: 'commercial@math4child.com',
-    DOMAIN: 'www.math4child.com'
+    BRANCH_NAME: currentBranch,
+    BUILD_ENVIRONMENT: branchConfig.environment,
+    ENABLE_DEBUG: branchConfig.enableDebug.toString(),
+    ENABLE_EXPERIMENTAL: branchConfig.enableExperimental.toString(),
+    APP_VERSION: '4.2.0',
+    BUILD_TIME: new Date().toISOString()
   },
   
-  // Optimisations
-  poweredByHeader: false,
-  compress: true,
-  reactStrictMode: false,
-  
-  // Webpack optimisé pour Math4Child
-  webpack: (config, { isServer, dev }) => {
-    // Support Canvas 2D pour Handwriting ✍️
-    config.resolve.fallback = {
-      ...config.resolve.fallback,
-      canvas: false,
-      encoding: false,
+  // Configuration Webpack
+  webpack: (config, { dev }) => {
+    if (branchConfig.enableDebug && dev) {
+      config.devtool = 'eval-source-map'
     }
     
-    // Optimisations côté client
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        net: false,
-        tls: false,
-        crypto: false,
-        stream: false,
-        url: false,
-        zlib: false,
-        http: false,
-        https: false,
-        assert: false,
-        os: false,
-        path: false,
-      }
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      path: false,
+      os: false
     }
     
     return config
-  },
-  
-  // Headers de sécurité
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-        ],
-      },
-    ]
-  },
+  }
 }
+
+console.log('')
+console.log('🎯 MATH4CHILD v4.2.0 - CONFIGURATION NEXT.JS')
+console.log(`🌿 Branche: ${currentBranch}`)
+console.log(`🏷️  Environnement: ${branchConfig.environment}`)
+console.log(`🔍 ESLint: ${nextConfig.eslint.ignoreDuringBuilds ? 'Non bloquant' : 'Strict'}`)
+console.log('')
 
 module.exports = nextConfig
