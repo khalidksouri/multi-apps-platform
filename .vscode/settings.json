@@ -9,8 +9,8 @@
   "typescript.preferences.importModuleSpecifier": "relative",
   
   "editor.codeActionsOnSave": {
-    "source.fixAll": false,
-    "source.organizeImports": false
+    "source.fixAll": "never",
+    "source.organizeImports": "never"
   },
   
   "files.associations": {

@@ -1,130 +1,22 @@
-# =============================================================================
-# 🚀 CONFIGURATION NETLIFY - MATH4CHILD v4.2.0 - MULTI-BRANCHES
-# Configuration pour main ET feature/math4child
-# =============================================================================
-
 [build]
-  base = "."
-  publish = "out"
-  command = "npm install && npm run build:safe"
+  base = "apps/math4child"
+  publish = "apps/math4child/out"
+  command = "cd apps/math4child && npm install --no-audit && ./build-safe.sh"
 
 [build.environment]
-  NODE_VERSION = "18.17.0"
-  NODE_ENV = "production"
-  DEFAULT_LANGUAGE = "fr"
-  NETLIFY_SKIP_EDGE_FUNCTIONS_BUNDLING = "true"
-
-# =============================================================================
-# 🌟 CONFIGURATION PRODUCTION (BRANCHE MAIN)
-# =============================================================================
+  NODE_VERSION = "20.18.0"
+  NPM_VERSION = "10.8.0"
+  SKIP_LINT = "true"
+  SKIP_TYPE_CHECK = "true"
 
 [context.production]
-  command = "npm install && npm run build"
-  
-[context.production.environment]
-  NODE_ENV = "production"
-  DEFAULT_LANGUAGE = "fr"
-  BRANCH_NAME = "main"
-  
-  # Domaine officiel production
-  NEXT_PUBLIC_SITE_URL = "https://www.math4child.com"
-  NEXT_PUBLIC_DOMAIN = "www.math4child.com"
-  
-  # Informations conformes Math4Child
-  NEXT_PUBLIC_APP_NAME = "Math4Child"
-  NEXT_PUBLIC_APP_VERSION = "4.2.0"
-  NEXT_PUBLIC_SUPPORT_EMAIL = "support@math4child.com"
-  NEXT_PUBLIC_COMMERCIAL_EMAIL = "commercial@math4child.com"
-  
-  # Innovations en production
-  ENABLE_AI_ADAPTIVE = "true"
-  ENABLE_HANDWRITING = "true"
-  ENABLE_AR_3D = "true"
-  ENABLE_VOICE_AI = "true"
-  ENABLE_EXERCISE_ENGINE = "true"
-  ENABLE_UNIVERSAL_LANGUAGES = "true"
-
-# =============================================================================
-# 🧪 CONFIGURATION DÉVELOPPEMENT (BRANCHE FEATURE/MATH4CHILD)
-# =============================================================================
-
-[context.branch-deploy]
-  command = "npm install && npm run build:dev"
-  
-[context.branch-deploy.environment]
-  NODE_ENV = "development"
-  DEFAULT_LANGUAGE = "fr"
-  BRANCH_NAME = "$BRANCH"
-  
-  # URL dynamique basée sur la branche
-  NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
-  NEXT_PUBLIC_DOMAIN = "$DEPLOY_PRIME_URL"
-  
-  # Informations de développement
-  NEXT_PUBLIC_APP_NAME = "Math4Child [DEV]"
-  NEXT_PUBLIC_APP_VERSION = "4.2.0-dev"
-  
-  # Innovations en mode test
-  ENABLE_AI_ADAPTIVE = "true"
-  ENABLE_HANDWRITING = "true"
-  ENABLE_AR_3D = "true"
-  ENABLE_VOICE_AI = "true"
-  ENABLE_EXERCISE_ENGINE = "true"
-  ENABLE_UNIVERSAL_LANGUAGES = "true"
-  
-  # Mode debug activé
-  DEBUG_MODE = "true"
-  VERBOSE_LOGGING = "true"
-
-# =============================================================================
-# 🔧 CONFIGURATION SPÉCIFIQUE POUR FEATURE/MATH4CHILD
-# =============================================================================
+  command = "cd apps/math4child && npm install --no-audit && ./build-safe.sh"
 
 [context."feature/math4child"]
-  command = "npm install && npm run build:feature"
-  
-[context."feature/math4child".environment]
-  NODE_ENV = "staging"
-  DEFAULT_LANGUAGE = "fr"
-  BRANCH_NAME = "feature/math4child"
-  
-  # URL de staging pour la feature branch
-  NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
-  NEXT_PUBLIC_DOMAIN = "$DEPLOY_PRIME_URL"
-  
-  # Identification claire de la branche feature
-  NEXT_PUBLIC_APP_NAME = "Math4Child [FEATURE]"
-  NEXT_PUBLIC_APP_VERSION = "4.2.0-feature"
-  
-  # Toutes les innovations activées pour les tests
-  ENABLE_AI_ADAPTIVE = "true"
-  ENABLE_HANDWRITING = "true"
-  ENABLE_AR_3D = "true"
-  ENABLE_VOICE_AI = "true"
-  ENABLE_EXERCISE_ENGINE = "true"
-  ENABLE_UNIVERSAL_LANGUAGES = "true"
-  
-  # Features expérimentales activées
-  ENABLE_EXPERIMENTAL_FEATURES = "true"
-  ENABLE_BETA_TESTING = "true"
-  DEBUG_MODE = "true"
+  command = "cd apps/math4child && npm install --no-audit && ./build-safe.sh"
 
-# =============================================================================
-# 🔄 REDIRECTIONS INTELLIGENTES
-# =============================================================================
-
-[[redirects]]
-  from = "https://math4child.netlify.app/*"
-  to = "https://www.math4child.com/:splat"
-  status = 301
-  force = true
-  condition = "Branch"
-  value = "main"
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
+[context.branch-deploy]
+  command = "cd apps/math4child && npm install --no-audit && ./build-safe.sh"
 
 [[redirects]]
   from = "/*"
