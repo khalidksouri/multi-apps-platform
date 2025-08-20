@@ -1,82 +1,18 @@
-# =============================================================================
-# 🚀 CONFIGURATION NETLIFY - MATH4CHILD v4.2.0 - MONOREPO
-# GitHub: https://github.com/khalidksouri/multi-apps-platform
-# Branche: feature/math4child
-# App: apps/math4child
-# =============================================================================
-
 [build]
   base = "apps/math4child"
   publish = "apps/math4child/out"
-  command = "cd apps/math4child && npm install --no-audit --legacy-peer-deps && npm run build:safe"
+  command = "npm install --no-audit --legacy-peer-deps && npm run build:static"
 
 [build.environment]
   NODE_VERSION = "20.9.0"
   NODE_ENV = "production"
-  NPM_VERSION = "10.1.0"
   NEXT_PUBLIC_APP_NAME = "Math4Child"
   NEXT_PUBLIC_APP_VERSION = "4.2.0"
-  MONOREPO_APP = "math4child"
-
-# =============================================================================
-# 🌟 CONFIGURATION PRODUCTION (BRANCHE MAIN)
-# =============================================================================
-
-[context.production]
-  command = "cd apps/math4child && npm install --no-audit && npm run build"
-  
-[context.production.environment]
-  NODE_ENV = "production"
-  BRANCH_NAME = "main"
-  NEXT_PUBLIC_SITE_URL = "https://math4child.com"
-
-# =============================================================================
-# 🧪 CONFIGURATION FEATURE/MATH4CHILD (BRANCHE ACTUELLE)
-# =============================================================================
 
 [context."feature/math4child"]
-  command = "cd apps/math4child && npm install --no-audit && npm run build:safe"
-  
-[context."feature/math4child".environment]
-  NODE_ENV = "staging"
-  BRANCH_NAME = "feature/math4child"
-  NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
-  NEXT_PUBLIC_APP_NAME = "Math4Child [FEATURE]"
-  NEXT_PUBLIC_APP_VERSION = "4.2.0-feature"
-  SKIP_LINT = "true"
-  DEBUG_MODE = "true"
-
-# =============================================================================
-# 🔧 CONFIGURATION BRANCH DEPLOYS
-# =============================================================================
-
-[context.branch-deploy]
-  command = "cd apps/math4child && npm install --no-audit && npm run build:safe"
-  
-[context.branch-deploy.environment]
-  NODE_ENV = "development"
-  SKIP_LINT = "true"
-  NEXT_PUBLIC_SITE_URL = "$DEPLOY_PRIME_URL"
-
-# =============================================================================
-# 🔄 REDIRECTIONS SPA
-# =============================================================================
+  command = "npm install --no-audit && npm run build:static"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# =============================================================================
-# 🔒 HEADERS SÉCURITÉ MATH4CHILD
-# =============================================================================
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
-    Referrer-Policy = "strict-origin-when-cross-origin"
-    X-Math4Child-Version = "4.2.0"
-    X-Monorepo-App = "math4child"

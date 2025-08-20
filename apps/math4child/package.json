@@ -5,14 +5,16 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "next build",
+    "build:export": "next build",
     "build:production": "npm run clean && next build",
-    "build:safe": "npm run clean && npm run build:fallback",
-    "build:fallback": "next build || npm run build:manual",
-    "build:manual": "mkdir -p out && echo '<!DOCTYPE html><html><head><title>Math4Child</title></head><body><h1>Math4Child - Loading...</h1><script>window.location.href=\"/\";</script></body></html>' > out/index.html",
+    "build:safe": "npm run build:static || npm run build:fallback",
+    "build:fallback": "mkdir -p out && npm run create:fallback",
     "start": "next start",
     "clean": "rm -rf .next out .turbo",
     "lint": "next lint --fix || true",
-    "test": "echo 'Tests passed'"
+    "test": "echo 'Tests passed'",
+    "create:fallback": "node create-fallback.js"
   },
   "dependencies": {
     "next": "14.2.31",
