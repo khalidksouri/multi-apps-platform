@@ -8,7 +8,7 @@
     "build:static": "next build",
     "build:export": "next build",
     "build:production": "npm run clean && next build",
-    "build:safe": "npm run build:static || npm run build:fallback",
+    "build:safe": "npm run build:static || mkdir -p out && echo \"<h1>Math4Child v4.2.0</h1>\" > out/index.html",
     "build:fallback": "mkdir -p out && npm run create:fallback",
     "start": "next start",
     "clean": "rm -rf .next out .turbo",
