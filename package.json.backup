@@ -23,7 +23,7 @@
     "lint:check": "next lint --max-warnings 0",
     "lint:ignore": "echo \"ESLint ignoré\"",
     "build:check": "tsc --noEmit && next build",
-    "build:safe": "npm run build:static || npm run build:fallback",
+    "build:safe": "npm run build:with-fallback",
     "type-check:watch": "tsc --noEmit --skipLibCheck --watch",
     "build:production": "npm run pre-build && next build",
     "build:dev": "npm run pre-build && SKIP_LINT=true next build",
@@ -38,10 +38,7 @@
     "diagnose": "npm run diagnose:env && npm run diagnose:deps",
     "diagnose:env": "node -v && npm -v && echo $NODE_ENV",
     "diagnose:deps": "npm ls @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint typescript || true",
-    "health-check": "npm run diagnose && npm run lint:check && npm run type-check",
-    "build:static": "next build",
-    "build:fallback": "mkdir -p out && echo \"<!DOCTYPE html><html><head><title>Math4Child</title></head><body><h1>Math4Child v4.2.0 - Chargement...</h1></body></html>\" > out/index.html",
-    "export": "next build"
+    "health-check": "npm run diagnose && npm run lint:check && npm run type-check"
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.54.0",
