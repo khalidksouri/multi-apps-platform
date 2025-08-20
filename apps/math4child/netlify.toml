@@ -1,14 +1,19 @@
 [build]
   base = "apps/math4child"
   publish = "apps/math4child/out"
-  command = "npm install --no-audit --legacy-peer-deps && npm run build:safe"
+  command = "npm install --no-audit --legacy-peer-deps && npm run build"
 
 [build.environment]
   NODE_VERSION = "20.9.0"
   NODE_ENV = "production"
+  NEXT_PUBLIC_APP_NAME = "Math4Child"
+  NEXT_PUBLIC_APP_VERSION = "4.2.0"
+
+[context.production]
+  command = "npm install --no-audit && npm run build"
 
 [context."feature/math4child"]
-  command = "npm install --no-audit && npm run build:safe"
+  command = "npm install --no-audit && npm run build"
 
 [[redirects]]
   from = "/*"

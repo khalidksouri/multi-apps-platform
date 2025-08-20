@@ -8,11 +8,11 @@
     "build:static": "next build",
     "build:export": "next build",
     "build:production": "npm run clean && next build",
-    "build:safe": "npm run build:static || mkdir -p out && echo \"<h1>Math4Child v4.2.0</h1>\" > out/index.html",
+    "build:safe": "next build || echo \"Build failed but continuing\"",
     "build:fallback": "mkdir -p out && npm run create:fallback",
     "start": "next start",
     "clean": "rm -rf .next out .turbo",
-    "lint": "next lint --fix || true",
+    "lint": "next lint",
     "test": "echo 'Tests passed'",
     "create:fallback": "node create-fallback.js"
   },
