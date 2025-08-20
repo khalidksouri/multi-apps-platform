@@ -1,7 +1,3 @@
-# =============================================================================
-# 🚀 CONFIGURATION NETLIFY - MATH4CHILD v4.2.0 - EXPORT STATIQUE
-# =============================================================================
-
 [build]
   base = "apps/math4child"
   publish = "apps/math4child/out"
@@ -10,49 +6,13 @@
 [build.environment]
   NODE_VERSION = "20.9.0"
   NODE_ENV = "production"
-  NPM_VERSION = "10.1.0"
   NEXT_PUBLIC_APP_NAME = "Math4Child"
   NEXT_PUBLIC_APP_VERSION = "4.2.0"
 
-# =============================================================================
-# 🌟 CONFIGURATION PRODUCTION
-# =============================================================================
-
-[context.production]
-  command = "cd apps/math4child && npm install --no-audit && npm run build:static"
-  
-[context.production.environment]
-  NODE_ENV = "production"
-  BRANCH_NAME = "main"
-
-# =============================================================================
-# 🧪 CONFIGURATION FEATURE/MATH4CHILD
-# =============================================================================
-
 [context."feature/math4child"]
   command = "cd apps/math4child && npm install --no-audit && npm run build:static"
-  
-[context."feature/math4child".environment]
-  NODE_ENV = "staging"
-  BRANCH_NAME = "feature/math4child"
-  SKIP_LINT = "true"
-
-# =============================================================================
-# 🔄 REDIRECTIONS SPA
-# =============================================================================
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# =============================================================================
-# 🔒 HEADERS SÉCURITÉ
-# =============================================================================
-
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
-    X-Math4Child-Version = "4.2.0"
