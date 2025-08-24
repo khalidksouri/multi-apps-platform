@@ -1,24 +1,24 @@
-import type { Metadata } from 'next'
-import './globals.css'
+import type { Metadata } from 'next';
+import { BranchInfoProvider, BranchMetaTags } from '../components/BranchInfo';
 
 export const metadata: Metadata = {
-  title: 'Math4Child v4.2.0 - Révolution Éducative Mondiale',
-  description: 'La première application éducative révolutionnaire',
-}
+  title: 'Math4Child - Apprentissage Mathématiques pour Enfants',
+  description: 'Plateforme révolutionnaire d\'apprentissage des mathématiques pour enfants',
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="fr">
       <body>
-        <nav style={{ padding: '1rem', background: '#667eea', color: 'white' }}>
-          <h1>Math4Child v4.2.0</h1>
-        </nav>
-        {children}
+        <BranchInfoProvider>
+          <BranchMetaTags />
+          {children}
+        </BranchInfoProvider>
       </body>
     </html>
-  )
+  );
 }

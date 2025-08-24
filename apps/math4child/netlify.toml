@@ -9,13 +9,67 @@
   NEXT_PUBLIC_APP_NAME = "Math4Child"
   NEXT_PUBLIC_APP_VERSION = "4.2.0"
 
+# Configuration pour la branche principale (production)
 [context.production]
-  command = "npm install --no-audit && npm run build"
+  command = "npm install --no-audit && npm run build:production"
+  [context.production.environment]
+    NODE_ENV = "production"
+    NEXT_PUBLIC_ENVIRONMENT = "production"
+    NEXT_PUBLIC_API_URL = "https://api.math4child.com"
 
+# Configuration pour la branche de développement
 [context."feature/math4child"]
-  command = "npm install --no-audit && npm run build"
+  command = "npm install --no-audit && npm run build:staging"
+  [context."feature/math4child".environment]
+    NODE_ENV = "development"
+    NEXT_PUBLIC_ENVIRONMENT = "staging"
+    NEXT_PUBLIC_API_URL = "https://api-staging.math4child.com"
 
+# Configuration pour toute branche feature/*
+[context."feature/*"]
+  command = "npm install --no-audit && npm run build:development"
+  [context."feature/*".environment]
+    NODE_ENV = "development"
+    NEXT_PUBLIC_ENVIRONMENT = "development"
+    NEXT_PUBLIC_API_URL = "https://api-dev.math4child.com"
+
+# Configuration pour les branches develop
+[context.develop]
+  command = "npm install --no-audit && npm run build:staging"
+  [context.develop.environment]
+    NODE_ENV = "staging"
+    NEXT_PUBLIC_ENVIRONMENT = "staging"
+    NEXT_PUBLIC_API_URL = "https://api-staging.math4child.com"
+
+# Configuration pour les pull requests / deploy previews
+[context.deploy-preview]
+  command = "npm install --no-audit && npm run build:preview"
+  [context.deploy-preview.environment]
+    NODE_ENV = "preview"
+    NEXT_PUBLIC_ENVIRONMENT = "preview"
+    NEXT_PUBLIC_API_URL = "https://api-preview.math4child.com"
+
+# Configuration pour les branch deploys
+[context.branch-deploy]
+  command = "npm install --no-audit && npm run build:development"
+
+# Redirections pour SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+# Headers de sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Headers pour les assets statiques
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
