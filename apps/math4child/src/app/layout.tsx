@@ -1,10 +1,9 @@
-// src/app/layout.tsx - VERSION CORRIGÉE
 import type { Metadata } from 'next';
-import { BranchInfoProvider, BranchMetaTags } from '../components/BranchInfo';
+import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'Math4Child - Apprentissage Mathématiques pour Enfants',
-  description: 'Plateforme révolutionnaire d\'apprentissage des mathématiques pour enfants',
+  title: 'Math4Child v4.2.0 - Révolution Éducative Mondiale',
+  description: 'La première application éducative révolutionnaire qui transforme l\'apprentissage des mathématiques',
 };
 
 export default function RootLayout({
@@ -14,11 +13,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <body>
-        <BranchInfoProvider>
-          <BranchMetaTags />
-          {children}
-        </BranchInfoProvider>
+      <body className="antialiased">
+        {children}
       </body>
     </html>
   );
