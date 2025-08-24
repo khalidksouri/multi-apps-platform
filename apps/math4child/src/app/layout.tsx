@@ -1,3 +1,4 @@
+// src/app/layout.tsx - VERSION CORRIGÉE
 import type { Metadata } from 'next';
 import { BranchInfoProvider, BranchMetaTags } from '../components/BranchInfo';
 

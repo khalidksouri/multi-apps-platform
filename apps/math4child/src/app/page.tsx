@@ -1,3 +1,4 @@
+// src/app/page.tsx - VERSION CORRIGÉE
 'use client';
 
 import { useBranch, useApiConfig } from '../hooks/useBranch';
@@ -12,7 +13,7 @@ export default function HomePage() {
     shouldEnableAnalytics 
   } = useBranch();
   
-  const { apiUrl, config } = useApiConfig();
+  const { apiUrl } = useApiConfig();
 
   useEffect(() => {
     if (shouldEnableAnalytics) {

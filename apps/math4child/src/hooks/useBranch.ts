@@ -1,3 +1,4 @@
+// src/hooks/useBranch.ts - VERSION CORRIGÉE COMPLÈTE
 import { useEffect, useState } from 'react';
 import { BranchDetector, type BranchInfo } from '../utils/BranchDetector';
 
@@ -8,7 +9,7 @@ interface UseBranchReturn {
   isDevelopment: boolean;
   isStaging: boolean;
   apiUrl: string;
-  deployUrl?: string;
+  deployUrl: string;
   features: BranchInfo['features'];
   branchInfo: BranchInfo;
   shouldShowDebugInfo: boolean;
@@ -16,18 +17,38 @@ interface UseBranchReturn {
   shouldRunTests: boolean;
 }
 
+const defaultBranchInfo: BranchInfo = {
+  name: 'main',
+  environment: 'development',
+  deployUrl: 'http://localhost:3000',
+  apiUrl: 'https://api-dev.math4child.com',
+  features: {
+    analytics: false,
+    debugging: true,
+    testing: true
+  }
+};
+
 export function useBranch(): UseBranchReturn {
-  const [branchDetector] = useState(() => BranchDetector.getInstance());
-  const [branchInfo, setBranchInfo] = useState<BranchInfo>(() => branchDetector.getBranchInfo());
+  const [branchInfo, setBranchInfo] = useState<BranchInfo>(defaultBranchInfo);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    branchDetector.logBranchInfo();
-    
-    const currentInfo = branchDetector.getBranchInfo();
-    if (JSON.stringify(currentInfo) !== JSON.stringify(branchInfo)) {
-      setBranchInfo(currentInfo);
+    try {
+      const detector = BranchDetector.getInstance();
+      const info = detector.getBranchInfo();
+      
+      if (info) {
+        setBranchInfo(info);
+        detector.logBranchInfo();
+      }
+    } catch (error) {
+      console.warn('Erreur useBranch:', error);
+      setBranchInfo(defaultBranchInfo);
+    } finally {
+      setIsReady(true);
     }
-  }, [branchDetector, branchInfo]);
+  }, []);
 
   return {
     branch: branchInfo.name,
@@ -57,24 +78,22 @@ export function useBranchBanner() {
           show: true,
           color: '#f97316',
           backgroundColor: '#fff7ed',
-          text: `🚧 Environnement de développement - Branche: ${branch}`,
+          text: `🚧 Développement - Branche: ${branch}`,
         };
       case 'staging':
         return {
           show: true,
           color: '#3b82f6',
           backgroundColor: '#eff6ff',
-          text: `🧪 Environnement de test - Branche: ${branch}`,
-        };
-      case 'preview':
-        return {
-          show: true,
-          color: '#8b5cf6',
-          backgroundColor: '#f5f3ff',
-          text: `👀 Aperçu de déploiement - Branche: ${branch}`,
+          text: `🧪 Test - Branche: ${branch}`,
         };
       default:
-        return { show: false, color: '', backgroundColor: '', text: '' };
+        return {
+          show: false,
+          color: '',
+          backgroundColor: '',
+          text: '',
+        };
     }
   };
 
@@ -87,17 +106,15 @@ export function useBranchBanner() {
 export function useApiConfig() {
   const { apiUrl, isProduction, features } = useBranch();
   
-  const getApiConfig = () => ({
-    baseURL: apiUrl,
-    timeout: isProduction ? 10000 : 30000,
-    retries: isProduction ? 3 : 1,
-    debug: features.debugging,
-    cache: isProduction,
-    headers: {
-      'X-Environment': isProduction ? 'production' : 'development',
-      'X-Debug': features.debugging ? 'true' : 'false',
+  return {
+    apiUrl,
+    config: {
+      baseURL: apiUrl,
+      timeout: isProduction ? 10000 : 30000,
+      debug: features.debugging,
+      headers: {
+        'X-Environment': isProduction ? 'production' : 'development',
+      },
     },
-  });
-
-  return { apiUrl, config: getApiConfig() };
+  };
 }
