@@ -2,33 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Variables CSS Math4Child */
-:root {
-  --math4child-primary: #667eea;
-  --math4child-secondary: #764ba2;
-  --math4child-accent: #22c55e;
-}
+/* Styles personnalisés Math4Child v4.2.0 */
 
-/* Base styles */
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Inter', system-ui, sans-serif;
-}
-
-/* Custom animations */
+/* Animations personnalisées */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 5px rgba(34, 197, 94, 0.5); }
-  50% { box-shadow: 0 0 20px rgba(34, 197, 94, 0.8); }
+  0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.4); }
+  50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.8), 0 0 60px rgba(59, 130, 246, 0.4); }
 }
 
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce-in {
+  0% { transform: scale(0.3); opacity: 0; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+  70% { transform: scale(0.9); opacity: 0.9; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Classes utilitaires personnalisées */
 .animate-float {
   animation: float 3s ease-in-out infinite;
 }
@@ -37,19 +41,203 @@ body {
   animation: pulse-glow 2s ease-in-out infinite;
 }
 
-/* Performance optimizations */
-* {
-  box-sizing: border-box;
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
 }
 
-img, video {
-  max-width: 100%;
-  height: auto;
+.animate-bounce-in {
+  animation: bounce-in 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
 }
 
-/* Responsive text sizes */
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient-shift 3s ease infinite;
+}
+
+/* Styles canvas handwriting */
+.handwriting-canvas {
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Styles voice assistant */
+.voice-listening {
+  position: relative;
+}
+
+.voice-listening::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #ef4444, #f97316, #eab308, #22c55e, #3b82f6, #8b5cf6);
+  background-size: 300% 300%;
+  animation: gradient-shift 2s linear infinite;
+  z-index: -1;
+}
+
+/* Styles AR 3D */
+.ar3d-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.ar3d-object {
+  transition: transform 0.3s ease;
+}
+
+.ar3d-object:hover {
+  transform: translateZ(20px) rotateY(15deg);
+}
+
+/* Styles responsive */
 @media (max-width: 768px) {
-  .hero-title {
-    font-size: 3rem !important;
+  .handwriting-canvas {
+    max-width: 280px;
+    max-height: 280px;
   }
+  
+  .voice-assistant-button {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .ar3d-container {
+    height: 300px;
+  }
+}
+
+/* Styles accessibilité */
+@media (prefers-reduced-motion: reduce) {
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-slide-up,
+  .animate-bounce-in,
+  .animate-gradient {
+    animation: none;
+  }
+  
+  .voice-listening::before {
+    animation: none;
+  }
+}
+
+/* Mode sombre automatique */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: 0 0% 3.9%;
+    --foreground: 0 0% 98%;
+  }
+}
+
+/* Styles pour différents environnements */
+.env-development {
+  border-left: 4px solid #f97316;
+}
+
+.env-staging {
+  border-left: 4px solid #3b82f6;
+}
+
+.env-production {
+  border-left: 4px solid #22c55e;
+}
+
+.env-preview {
+  border-left: 4px solid #8b5cf6;
+}
+
+/* Styles scrollbar personnalisés */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(45deg, #2563eb, #7c3aed);
+}
+
+/* Styles focus pour accessibilité */
+.focus-ring:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Classes de performance */
+.gpu-accelerated {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000;
+}
+
+/* Styles impression */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Variables CSS personnalisées */
+:root {
+  --math4child-primary: #3b82f6;
+  --math4child-secondary: #8b5cf6;
+  --math4child-success: #22c55e;
+  --math4child-warning: #f59e0b;
+  --math4child-error: #ef4444;
+  --math4child-info: #06b6d4;
+  
+  --math4child-gradient-primary: linear-gradient(135deg, var(--math4child-primary), var(--math4child-secondary));
+  --math4child-gradient-success: linear-gradient(135deg, #22c55e, #16a34a);
+  --math4child-gradient-warning: linear-gradient(135deg, #f59e0b, #d97706);
+  --math4child-gradient-error: linear-gradient(135deg, #ef4444, #dc2626);
+}
+
+/* Styles components spécifiques */
+.math4child-button {
+  background: var(--math4child-gradient-primary);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(0);
+}
+
+.math4child-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.math4child-card {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Loading states */
+.loading-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading-shimmer 1.5s infinite;
+}
+
+@keyframes loading-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
