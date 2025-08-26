@@ -1,98 +1,110 @@
-// BranchDetector Math4Child v4.2.0 - Détection branche intelligente
-export type Environment = 'production' | 'staging' | 'development' | 'preview';
-export type Branch = 'main' | 'feature/math4child' | string;
+// =============================================================================
+// 🌿 BRANCH DETECTOR - Détection branche temps réel selon README.md
+// =============================================================================
 
 export interface BranchInfo {
-  branch: string;
-  environment: Environment;
+  name: string;
+  environment: 'production' | 'staging' | 'development' | 'preview';
+  deployUrl: string;
   apiUrl: string;
-  debugEnabled: boolean;
-  analyticsEnabled: boolean;
-  bannerColor: string;
-  bannerText: string;
+  features: {
+    analytics: boolean;
+    debugging: boolean;
+    testing: boolean;
+  };
 }
 
 export class BranchDetector {
-  static detect(): BranchInfo {
-    // Détection via variables d'environnement Netlify
-    const netlifyContext = process.env.CONTEXT || 'development';
-    const branchName = process.env.BRANCH || process.env.HEAD || 'development';
-    const appEnv = process.env.NEXT_PUBLIC_APP_ENV as Environment || 'development';
-    
-    let environment: Environment;
-    let apiUrl: string;
-    let debugEnabled: boolean;
-    let analyticsEnabled: boolean;
-    let bannerColor: string;
-    let bannerText: string;
+  private static instance: BranchDetector;
+  private branchInfo: BranchInfo;
 
-    // Logique de détection selon README.md
-    switch (netlifyContext) {
-      case 'production':
-        environment = 'production';
-        apiUrl = 'https://api.math4child.com';
-        debugEnabled = false;
-        analyticsEnabled = true;
-        bannerColor = '';
-        bannerText = '';
-        break;
-        
-      case 'branch-deploy':
-        if (branchName === 'feature/math4child') {
-          environment = 'staging';
-          apiUrl = 'https://api-staging.math4child.com';
-          debugEnabled = true;
-          analyticsEnabled = true;
-          bannerColor = 'bg-blue-600';
-          bannerText = '🧪 ENVIRONNEMENT STAGING';
-        } else {
-          environment = 'development';
-          apiUrl = 'https://api-dev.math4child.com';
-          debugEnabled = true;
-          analyticsEnabled = false;
-          bannerColor = 'bg-orange-600';
-          bannerText = `🚧 DÉVELOPPEMENT - ${branchName}`;
-        }
-        break;
-        
-      case 'deploy-preview':
-        environment = 'preview';
-        apiUrl = 'https://api-preview.math4child.com';
-        debugEnabled = true;
-        analyticsEnabled = false;
-        bannerColor = 'bg-purple-600';
-        bannerText = '👀 APERÇU PULL REQUEST';
-        break;
-        
-      default:
-        environment = 'development';
-        apiUrl = 'http://localhost:3001/api';
-        debugEnabled = true;
-        analyticsEnabled = false;
-        bannerColor = 'bg-orange-600';
-        bannerText = `🔧 LOCAL - ${branchName}`;
+  constructor() {
+    this.branchInfo = this.detectBranch();
+  }
+
+  static getInstance(): BranchDetector {
+    if (!BranchDetector.instance) {
+      BranchDetector.instance = new BranchDetector();
     }
+    return BranchDetector.instance;
+  }
 
+  private detectBranch(): BranchInfo {
+    const branchName = this.getBranchName();
+    const environment = this.getEnvironmentFromBranch(branchName);
+    
     return {
-      branch: branchName,
+      name: branchName,
       environment,
-      apiUrl,
-      debugEnabled,
-      analyticsEnabled,
-      bannerColor,
-      bannerText
+      deployUrl: this.getDeployUrl(branchName),
+      apiUrl: this.getApiUrl(environment),
+      features: this.getFeatures(environment)
     };
   }
 
-  static isProduction(): boolean {
-    return this.detect().environment === 'production';
+  private getBranchName(): string {
+    if (typeof window !== 'undefined') {
+      return (window as any).__BRANCH_NAME__ || 'main';
+    }
+    
+    if (typeof process !== 'undefined' && process.env) {
+      return process.env.BRANCH || 
+             process.env.VERCEL_GIT_COMMIT_REF || 
+             process.env.NETLIFY_BRANCH || 'main';
+    }
+    
+    return 'main';
   }
 
-  static isStaging(): boolean {
-    return this.detect().environment === 'staging';
+  private getEnvironmentFromBranch(branch: string): BranchInfo['environment'] {
+    if (branch === 'main' || branch === 'master') return 'production';
+    if (branch === 'feature/math4child') return 'staging';
+    if (branch.startsWith('feature/')) return 'development';
+    return 'development';
   }
 
-  static isDevelopment(): boolean {
-    return this.detect().environment === 'development';
+  private getDeployUrl(branch: string): string {
+    const urls = {
+      'main': 'https://math4child.com',
+      'feature/math4child': 'https://feature-math4child--math4child.netlify.app'
+    };
+    return urls[branch as keyof typeof urls] || 'http://localhost:3000';
+  }
+
+  private getApiUrl(environment: BranchInfo['environment']): string {
+    const urls = {
+      production: 'https://api.math4child.com',
+      staging: 'https://api-staging.math4child.com',
+      development: 'https://api-dev.math4child.com',
+      preview: 'https://api-preview.math4child.com'
+    };
+    return urls[environment];
+  }
+
+  private getFeatures(environment: BranchInfo['environment']): BranchInfo['features'] {
+    switch (environment) {
+      case 'production':
+        return { analytics: true, debugging: false, testing: false };
+      case 'staging':
+        return { analytics: true, debugging: true, testing: true };
+      default:
+        return { analytics: false, debugging: true, testing: true };
+    }
+  }
+
+  public getBranchInfo(): BranchInfo {
+    return this.branchInfo;
+  }
+
+  public logBranchInfo(): void {
+    if (this.branchInfo.features.debugging) {
+      console.group('🌿 Branch Detection Info - Math4Child');
+      console.log('Branch:', this.branchInfo.name);
+      console.log('Environment:', this.branchInfo.environment);
+      console.log('Deploy URL:', this.branchInfo.deployUrl);
+      console.log('API URL:', this.branchInfo.apiUrl);
+      console.log('Features:', this.branchInfo.features);
+      console.groupEnd();
+    }
   }
 }

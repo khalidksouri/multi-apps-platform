@@ -2,21 +2,15 @@
 const nextConfig = {
   output: 'export',
   trailingSlash: true,
-  images: {
-    unoptimized: true
-  },
-  eslint: {
-    ignoreDuringBuilds: true
-  },
-  typescript: {
-    ignoreBuildErrors: true
-  },
+  distDir: 'out',
+  images: { unoptimized: true },
+  eslint: { ignoreDuringBuilds: true },
+  typescript: { ignoreBuildErrors: true },
+  // Variables d'environnement pour détection branche
   env: {
-    APP_NAME: 'Math4Child',
-    APP_VERSION: '4.2.0',
-    EXPORT_MODE: 'static'
-  }
-}
+    NEXT_PUBLIC_APP_VERSION: '4.2.0',
+    NEXT_PUBLIC_APP_NAME: 'Math4Child',
+  },
+};
 
-console.log('🎯 Math4Child v4.2.0 - Export statique configuré')
-module.exports = nextConfig
+module.exports = nextConfig;

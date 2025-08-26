@@ -1,69 +1,65 @@
-import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import Header from '@/components/layout/Header'
-import Footer from '@/components/layout/Footer'
+import type { Metadata, Viewport } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { BranchInfoProvider } from '../components/BranchInfo';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
-// ✅ Metadata Math4Child v4.2.0
 export const metadata: Metadata = {
   title: 'Math4Child v4.2.0 - Révolution Éducative Mondiale',
-  description: '6 Innovations Révolutionnaires pour l\'apprentissage des mathématiques : IA Adaptative Avancée, Reconnaissance Manuscrite, Réalité Augmentée 3D, Assistant Vocal IA, Moteur d\'Exercices Révolutionnaire, Système Langues Universel. 200+ Langues supportées avec drapeaux spécifiques 🇲🇦🇵🇸. Prêt pour révolutionner l\'éducation mondiale !',
-  keywords: [
-    'Math4Child', 'v4.2.0', 'mathématiques', 'éducation', 'IA adaptative', 
-    'reconnaissance manuscrite', 'réalité augmentée', 'assistant vocal',
-    '200+ langues', 'révolution éducative', 'apprentissage', 'enfants'
-  ].join(', '),
-  authors: [{ name: 'Math4Child' }],
-  creator: 'Math4Child',
-  publisher: 'Math4Child',
-  robots: 'index, follow',
+  description: '6 Innovations Révolutionnaires pour transformer apprentissage mathématiques',
+  keywords: ['mathématiques', 'enfants', 'éducation', 'IA'],
+  authors: [{ name: 'Math4Child Team' }],
+  robots: { index: true, follow: true },
   openGraph: {
-    title: 'Math4Child v4.2.0 - Révolution Éducative Mondiale',
-    description: '6 Innovations Révolutionnaires pour transformer l\'apprentissage des mathématiques',
-    url: 'https://www.math4child.com',
-    siteName: 'Math4Child',
-    locale: 'fr_FR',
     type: 'website',
+    locale: 'fr_FR',
+    url: 'https://math4child.com',
+    title: 'Math4Child v4.2.0',
   },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'Math4Child v4.2.0 - Révolution Éducative Mondiale',
-    description: '6 Innovations Révolutionnaires pour l\'apprentissage des mathématiques',
-    creator: '@math4child',
-  },
-}
+};
 
-// ✅ Viewport séparé selon Next.js 14
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
-  themeColor: '#3B82F6',
-}
+  themeColor: '#3b82f6',
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body className={inter.className}>
-        <div className="min-h-screen flex flex-col">
-          {/* ✅ HEADER AJOUTÉ */}
-          <Header />
-          
-          {/* Contenu principal */}
-          <main className="flex-grow">
-            {children}
-          </main>
-          
-          {/* Footer */}
-          <Footer />
-        </div>
+      <body className={`${inter.className} antialiased`}>
+        <BranchInfoProvider>
+          <nav className="fixed top-0 w-full z-40 bg-white/90 backdrop-blur border-b">
+            <div className="max-w-7xl mx-auto px-4">
+              <div className="flex justify-between items-center h-16">
+                <div className="flex items-center space-x-4">
+                  <div className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    🎯 Math4Child
+                  </div>
+                  <div className="text-sm text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+                    v4.2.0
+                  </div>
+                </div>
+                <div className="flex items-center space-x-6">
+                  <a href="/exercises" className="text-gray-700 hover:text-blue-600 transition-colors">Exercices</a>
+                  <a href="/pricing" className="text-gray-700 hover:text-blue-600 transition-colors">Plans</a>
+                  <a href="/dashboard" className="text-gray-700 hover:text-blue-600 transition-colors">Dashboard</a>
+                </div>
+              </div>
+            </div>
+          </nav>
+          <main className="pt-16 min-h-screen">{children}</main>
+          <footer className="bg-gray-900 text-white py-12">
+            <div className="max-w-7xl mx-auto px-4">
+              <div className="text-center">
+                <p className="text-gray-400">© 2025 Math4Child. Révolution éducative mondiale.</p>
+                <p className="text-sm text-gray-500 mt-2">v4.2.0 - 6 Innovations Révolutionnaires</p>
+              </div>
+            </div>
+          </footer>
+        </BranchInfoProvider>
       </body>
     </html>
-  )
+  );
 }
