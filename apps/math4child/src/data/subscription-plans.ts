@@ -1,125 +1,99 @@
-// Plans d'abonnement Math4Child v4.2.0 - Conformes spécifications README.md
-import type { SubscriptionPlan } from '../types';
+// Plans d'abonnement Math4Child - Conformes aux spécifications EXACTES
+export interface SubscriptionPlan {
+  id: string;
+  name: string;
+  price: number;
+  profiles: number;
+  features: string[];
+  popular?: boolean;
+  badge?: string;
+  description: string;
+}
 
-export const subscriptionPlans: SubscriptionPlan[] = [
+// 5 Plans EXACTS selon spécifications
+export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     id: 'basic',
     name: 'BASIC',
     price: 4.99,
-    currency: 'EUR',
-    interval: 'monthly',
-    profiles: 1, // 1 profil selon spécifications exactes
+    profiles: 1, // 1 profil selon spécifications EXACTES
     description: '1 Profil',
     features: [
-      '👤 1 profil utilisateur unique et personnalisé',
-      '🎯 5 niveaux de progression complète et structurée',
-      '✅ 100 bonnes réponses minimum par niveau (validation stricte)',
-      '🧮 5 opérations mathématiques (Addition, Soustraction, Multiplication, Division, Mixte)',
-      '💬 Support communautaire actif et bienveillant'
-    ],
-    innovations: ['Progression gamifiée', 'Interface adaptative']
+      '✓ 1 profil utilisateur unique',
+      '✓ 5 niveaux de progression',
+      '✓ 100 bonnes réponses minimum par niveau',
+      '✓ 5 opérations mathématiques',
+      '✓ Version gratuite 1 semaine (50 questions)',
+      '✓ Support communautaire'
+    ]
   },
   {
     id: 'standard',
     name: 'STANDARD',
     price: 9.99,
-    currency: 'EUR',
-    interval: 'monthly',
-    profiles: 2, // 2 profils selon spécifications exactes
+    profiles: 2, // 2 profils selon spécifications EXACTES
     description: '2 Profils',
     features: [
-      '👥 2 profils utilisateur distincts et configurables',
-      '🚀 Toutes fonctionnalités BASIC incluses sans restriction',
-      '🧠 IA Adaptative avancée et personnalisée par profil',
-      '✏️ Reconnaissance manuscrite complète avec feedback IA',
-      '📊 Statistiques détaillées et analytics approfondies',
-      '🆘 Support prioritaire garanti sous 24h'
-    ],
-    innovations: ['IA Adaptative', 'Reconnaissance manuscrite', 'Analytics avancées']
+      '✓ 2 profils utilisateur',
+      '✓ Toutes fonctionnalités BASIC',
+      '✓ IA Adaptative avancée',
+      '✓ Reconnaissance manuscrite',
+      '✓ Support prioritaire',
+      '✓ 50% réduction 2ème device'
+    ]
   },
   {
     id: 'premium',
     name: 'PREMIUM',
     price: 14.99,
-    currency: 'EUR',
-    interval: 'monthly',
-    profiles: 3, // 3 profils selon spécifications exactes
-    description: '3 Profils',
+    profiles: 3, // 3 profils selon spécifications EXACTES
     popular: true, // LE PLUS CHOISI selon spécifications
-    badge: 'LE PLUS CHOISI', // Badge exact selon README.md
+    badge: 'LE PLUS CHOISI',
+    description: '3 Profils',
     features: [
-      '👨‍👩‍👧‍👦 3 profils utilisateur familiaux coordonnés',
-      '🎉 Toutes fonctionnalités STANDARD incluses intégralement',
-      '🎙️ Assistant vocal IA complet avec 3 personnalités distinctes',
-      '🥽 Réalité augmentée 3D mathématique immersive',
-      '📈 Analytics avancées détaillées avec insights',
-      '🎨 Personnalisation complète interface et expérience'
-    ],
-    innovations: ['Assistant vocal IA', 'Réalité augmentée 3D', 'Personnalisation complète']
+      '✓ 3 profils utilisateur',
+      '✓ Toutes fonctionnalités STANDARD',
+      '✓ Assistant vocal IA',
+      '✓ Réalité augmentée 3D',
+      '✓ Analytics avancées',
+      '✓ Réductions: 10% (3 mois), 30% (annuel)'
+    ]
   },
   {
     id: 'famille',
     name: 'FAMILLE',
     price: 19.99,
-    currency: 'EUR',
-    interval: 'monthly',
-    profiles: 5, // 5 profils selon spécifications exactes
+    profiles: 5, // 5 profils selon spécifications EXACTES
     description: '5 Profils',
     features: [
-      '👪 5 profils utilisateur pour toute la famille élargie',
-      '🎊 Toutes fonctionnalités PREMIUM incluses sans limite',
-      '👨‍👩‍👧‍👦 Rapports familiaux complets et détaillés',
-      '🔒 Contrôle parental avancé et sécurisé',
-      '🌟 Support VIP prioritaire 24h/24 avec dédiés'
-    ],
-    innovations: ['Contrôle parental', 'Rapports familiaux', 'Support VIP']
+      '✓ 5 profils utilisateur',
+      '✓ Toutes fonctionnalités PREMIUM',
+      '✓ Rapports familiaux complets',
+      '✓ Contrôle parental avancé',
+      '✓ Support VIP 24h/24',
+      '✓ Accès bêta nouvelles fonctionnalités'
+    ]
   },
   {
     id: 'ultimate',
     name: 'ULTIMATE',
-    price: 0, // Sur devis selon spécifications
-    currency: 'EUR',
-    interval: 'monthly',
-    profiles: 999, // 10+ profils (sans limite) selon spécifications
+    price: 29.99,
+    profiles: 10, // 10+ profils selon spécifications EXACTES
     description: '10+ Profils (Sans Limite)',
     features: [
-      '🏫 10+ profils (sans limitation maximale)',
-      '📋 Devis personnalisé selon besoins spécifiques clients',
-      '⚙️ API développeur complète et documentée',
-      '🎓 Fonctionnalités école/institution avancées',
-      '👨‍💼 Support dédié 24/7 avec account manager attitré',
-      '🎯 Formation équipes incluse avec certification'
-    ],
-    innovations: ['API développeur', 'Fonctionnalités institutionnelles', 'Support dédié']
+      '✓ 10+ profils (sans limitation maximum)',
+      '✓ Devis personnalisé selon besoins',
+      '✓ API développeur complète',
+      '✓ Fonctionnalités école/institution',
+      '✓ Support dédié 24/7',
+      '✓ Formation équipes incluse'
+    ]
   }
 ];
 
-// Validation des plans selon spécifications strictes
-export function validatePlanProfiles(planId: string): number {
-  const plan = subscriptionPlans.find(p => p.id === planId);
-  if (!plan) throw new Error('Plan non trouvé');
-  
-  // Validation stricte selon README.md
-  const expectedProfiles = {
-    basic: 1,
-    standard: 2, 
-    premium: 3,
-    famille: 5,
-    ultimate: 999
-  };
-  
-  if (plan.profiles !== expectedProfiles[planId as keyof typeof expectedProfiles]) {
-    throw new Error(`Plan ${planId}: nombre de profils incorrect`);
-  }
-  
-  return plan.profiles;
-}
-
-// Premium "LE PLUS CHOISI" selon spécifications
-export function getPopularPlan(): SubscriptionPlan {
-  const premium = subscriptionPlans.find(p => p.popular);
-  if (!premium || premium.id !== 'premium') {
-    throw new Error('Premium doit être "LE PLUS CHOISI"');
-  }
-  return premium;
-}
+// Contacts AUTORISÉS uniquement
+export const CONTACTS = {
+  support: 'support@math4child.com',
+  commercial: 'commercial@math4child.com',
+  domain: 'www.math4child.com'
+};

@@ -1,5 +1,17 @@
 {
-  "/page": "app/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/page": "app/admin/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/pricing/page": "app/pricing/page.js"
+  "/exercises/addition/page": "app/exercises/addition/page.js",
+  "/exercises/ar3d/page": "app/exercises/ar3d/page.js",
+  "/exercises/handwriting/page": "app/exercises/handwriting/page.js",
+  "/exercises/page": "app/exercises/page.js",
+  "/page": "app/page.js",
+  "/exercises/voice/page": "app/exercises/voice/page.js",
+  "/pricing/page": "app/pricing/page.js",
+  "/profile/page": "app/profile/page.js",
+  "/exercises/[level]/handwriting/page": "app/exercises/[level]/handwriting/page.js",
+  "/exercises/[level]/ar3d/page": "app/exercises/[level]/ar3d/page.js",
+  "/exercises/[level]/voice/page": "app/exercises/[level]/voice/page.js",
+  "/exercises/[level]/page": "app/exercises/[level]/page.js"
 }

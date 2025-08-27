@@ -1,0 +1,1 @@
+self.__SSG_MANIFEST=new Set(["\u002Fexercises\u002F[level]","\u002Fexercises\u002F[level]\u002Far3d","\u002Fexercises\u002F[level]\u002Fhandwriting","\u002Fexercises\u002F[level]\u002Fvoice"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
