@@ -36,13 +36,6 @@
       "static/chunks/main-app-2f89d264cf41834e.js",
       "static/chunks/app/exercises/addition/page-2a5a18842ef77eaf.js"
     ],
-    "/exercises/ar3d/page": [
-      "static/chunks/webpack-0954c5d36ad957a9.js",
-      "static/chunks/fd9d1056-10dfaec9b4318f4c.js",
-      "static/chunks/117-e0347641a1928d6c.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/exercises/ar3d/page-084e0674f2d67ea3.js"
-    ],
     "/exercises/handwriting/page": [
       "static/chunks/webpack-0954c5d36ad957a9.js",
       "static/chunks/fd9d1056-10dfaec9b4318f4c.js",
@@ -50,12 +43,19 @@
       "static/chunks/main-app-2f89d264cf41834e.js",
       "static/chunks/app/exercises/handwriting/page-2f74ac97bc9d3d62.js"
     ],
-    "/exercises/page": [
+    "/exercises/ar3d/page": [
       "static/chunks/webpack-0954c5d36ad957a9.js",
       "static/chunks/fd9d1056-10dfaec9b4318f4c.js",
       "static/chunks/117-e0347641a1928d6c.js",
       "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/exercises/page-6117ba51b3918d7a.js"
+      "static/chunks/app/exercises/ar3d/page-084e0674f2d67ea3.js"
+    ],
+    "/exercises/voice/page": [
+      "static/chunks/webpack-0954c5d36ad957a9.js",
+      "static/chunks/fd9d1056-10dfaec9b4318f4c.js",
+      "static/chunks/117-e0347641a1928d6c.js",
+      "static/chunks/main-app-2f89d264cf41834e.js",
+      "static/chunks/app/exercises/voice/page-5c3f23562236725b.js"
     ],
     "/page": [
       "static/chunks/webpack-0954c5d36ad957a9.js",
@@ -64,12 +64,12 @@
       "static/chunks/main-app-2f89d264cf41834e.js",
       "static/chunks/app/page-25f5cb7cde8a0d33.js"
     ],
-    "/exercises/voice/page": [
+    "/exercises/page": [
       "static/chunks/webpack-0954c5d36ad957a9.js",
       "static/chunks/fd9d1056-10dfaec9b4318f4c.js",
       "static/chunks/117-e0347641a1928d6c.js",
       "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/exercises/voice/page-5c3f23562236725b.js"
+      "static/chunks/app/exercises/page-6117ba51b3918d7a.js"
     ],
     "/pricing/page": [
       "static/chunks/webpack-0954c5d36ad957a9.js",
