@@ -1,0 +1,32 @@
+# Dependencies - NE PAS IGNORER node_modules en local pour éviter réinstallations
+# node_modules/
+
+# Caches Next.js et build
+.next/
+out/
+dist/
+build/
+
+# Fichiers TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Tests
+playwright-report/
+test-results/
+coverage/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env*.local
+
+# Temporary files
+*.tmp
+*.temp
+
+# Backups
+backup_*/
+*.backup*
