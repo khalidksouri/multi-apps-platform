@@ -1,22 +1,14 @@
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
+import Header from '@/components/layout/Header'
+import Footer from '@/components/layout/Footer'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'Math4Child v4.2.0 - Application Éducative Mathématique',
-  description: 'Application éducative moderne pour l\'apprentissage des mathématiques avec design interactif attrayant',
-  keywords: ['mathématiques', 'enfants', 'éducation', 'apprentissage', 'IA'],
-  authors: [{ name: 'Math4Child Team' }],
-  robots: { index: true, follow: true },
-  openGraph: {
-    title: 'Math4Child v4.2.0',
-    description: 'Application éducative révolutionnaire pour les mathématiques',
-    url: 'https://www.math4child.com',
-    type: 'website',
-    locale: 'fr_FR',
-  },
+  title: 'Math4Child v4.2.0 - Révolution Éducative Mondiale',
+  description: '6 Innovations Révolutionnaires pour l\'apprentissage des mathématiques',
 }
 
 export default function RootLayout({
@@ -26,12 +18,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fr">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="theme-color" content="#3b82f6" />
-      </head>
-      <body className={`${inter.className} antialiased`}>
-        {children}
+      <body className={inter.className}>
+        <div className="min-h-screen flex flex-col">
+          <Header />
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+        </div>
       </body>
     </html>
   )

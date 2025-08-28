@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Math4Child</string>
+    <string name="title_activity_main">Math4Child</string>
+    <string name="package_name">com.math4child.app</string>
+    <string name="custom_url_scheme">com.math4child.app</string>
+</resources>

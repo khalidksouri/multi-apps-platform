@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.math4child.com/sitemap.xml
+
+# Interdire indexation pages admin
+Disallow: /admin
+Disallow: /api
+Disallow: /_next

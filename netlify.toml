@@ -1,18 +1,27 @@
 [build]
-  base = "apps/math4child"
+  command = "cd apps/math4child && npm ci --legacy-peer-deps && npm run build"
   publish = "apps/math4child/out"
-  command = "cd apps/math4child && npm install --no-audit --legacy-peer-deps && npm run build:static"
 
 [build.environment]
-  NODE_VERSION = "20.9.0"
+  NODE_VERSION = "18"
   NODE_ENV = "production"
-  NEXT_PUBLIC_APP_NAME = "Math4Child"
-  NEXT_PUBLIC_APP_VERSION = "4.2.0"
+  NEXT_TELEMETRY_DISABLED = "1"
 
-[context."feature/math4child"]
-  command = "cd apps/math4child && npm install --no-audit && npm run build:static"
+[context.production]
+  command = "cd apps/math4child && npm ci --legacy-peer-deps && npm run build"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/_next/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
