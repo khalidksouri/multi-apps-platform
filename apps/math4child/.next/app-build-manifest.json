@@ -1,122 +1,15 @@
 {
   "pages": {
-    "/_not-found/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/_not-found/page-82a2b5770f07de15.js"
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
     ],
     "/layout": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/css/4082d8cb212d3e79.css",
-      "static/chunks/972-66fe8c15ab2ed532.js",
-      "static/chunks/app/layout-cf76812d638aaaab.js"
-    ],
-    "/admin/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/admin/page-553c79f32c864381.js"
-    ],
-    "/dashboard/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/dashboard/page-69494a6c11b749f9.js"
-    ],
-    "/exercises/voice/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/exercises/voice/page-da874325d70d527b.js"
-    ],
-    "/exercises/addition/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/exercises/addition/page-e2691189e60cd994.js"
-    ],
-    "/exercises/ar3d/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/exercises/ar3d/page-d84fd7b65b65776f.js"
-    ],
-    "/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/page-4632a221d06345da.js"
-    ],
-    "/exercises/handwriting/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/exercises/handwriting/page-392813c65c824072.js"
-    ],
-    "/exercises/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/exercises/page-f4be6b707766f486.js"
-    ],
-    "/profile/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/profile/page-6f1804079f25d6e4.js"
-    ],
-    "/pricing/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/app/pricing/page-13b8f6b51b02f120.js"
-    ],
-    "/exercises/[level]/handwriting/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/972-66fe8c15ab2ed532.js",
-      "static/chunks/app/exercises/[level]/handwriting/page-12769c447a43047e.js"
-    ],
-    "/exercises/[level]/voice/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/972-66fe8c15ab2ed532.js",
-      "static/chunks/app/exercises/[level]/voice/page-0d9f29fc6c0ea968.js"
-    ],
-    "/exercises/[level]/ar3d/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/972-66fe8c15ab2ed532.js",
-      "static/chunks/app/exercises/[level]/ar3d/page-440c4aa1e1730505.js"
-    ],
-    "/exercises/[level]/page": [
-      "static/chunks/webpack-9d964d8cb0d81fe9.js",
-      "static/chunks/fd9d1056-0807e69ea9c303ac.js",
-      "static/chunks/117-472bba1ae6403edb.js",
-      "static/chunks/main-app-2f89d264cf41834e.js",
-      "static/chunks/972-66fe8c15ab2ed532.js",
-      "static/chunks/app/exercises/[level]/page-8a9d378c83def66d.js"
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/css/app/layout.css",
+      "static/chunks/app/layout.js"
     ]
   }
 }
