@@ -55,3 +55,8 @@ yarn-error.log*
 
 # Backup
 backup_*/
+
+.next/
+out/
+dist/
+build/
