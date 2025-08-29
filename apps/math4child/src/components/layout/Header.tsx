@@ -161,22 +161,29 @@ export default function Header() {
 
   // FIX PRINCIPAL: Recherche améliorée pour détecter "arabe" dans les langues arabes
   // FIX: Recherche améliorée pour détecter "arabe" dans les langues arabes
+  // Fonction de recherche améliorée avec support arabe
   const filteredLanguages = UNIVERSAL_LANGUAGES.filter(lang => {
-    const searchLower = searchTerm.toLowerCase()
+    const searchLower = searchTerm.toLowerCase().trim()
+    
+    if (!searchLower) return true
     
     // Recherche normale dans le nom et continent
     const normalMatch = lang.name.toLowerCase().includes(searchLower) ||
-                       lang.continent?.toLowerCase().includes(searchLower)
+                       (lang.continent && lang.continent.toLowerCase().includes(searchLower))
     
-    // FIX: Recherche spéciale pour "arabe" qui doit matcher les langues arabes
-    const arabicMatch = searchLower.includes('arabe') && 
-                       (lang.code === 'ar-AF' || lang.code === 'ar-ME')
+    // Recherche spéciale pour "arabe" qui doit matcher les langues arabes
+    const arabicFrenchMatch = searchLower.includes('arabe') && 
+                             (lang.code === 'ar-AF' || lang.code === 'ar-ME')
     
-    // FIX: Recherche pour "arabic" en anglais
+    // Recherche pour "arabic" en anglais
     const arabicEnglishMatch = searchLower.includes('arabic') && 
                               (lang.code === 'ar-AF' || lang.code === 'ar-ME')
     
-    return normalMatch || arabicMatch || arabicEnglishMatch
+    // Recherche pour "arab" (partiel)
+    const arabPartialMatch = searchLower.includes('arab') && 
+                            (lang.code === 'ar-AF' || lang.code === 'ar-ME')
+    
+    return normalMatch || arabicFrenchMatch || arabicEnglishMatch || arabPartialMatch
   })
 
   // Fermeture des dropdowns en cliquant à l'extérieur

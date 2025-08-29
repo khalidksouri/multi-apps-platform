@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tests Stripe Math4Child - Fri Aug 29 01:17:00 +01 2025</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 20px; background: #f8fafc; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 12px; margin-bottom: 30px; text-align: center; }
+        .header h1 { margin: 0 0 10px 0; font-size: 2em; }
+        .header p { margin: 0; opacity: 0.9; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat { background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .stat h3 { margin: 0 0 10px 0; color: #374151; }
+        .stat .number { font-size: 2.5em; font-weight: bold; margin: 10px 0; }
+        .passed { color: #10b981; }
+        .failed { color: #ef4444; }
+        .total { color: #6366f1; }
+        .tests { background: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .test { padding: 20px; border-bottom: 1px solid #e5e7eb; }
+        .test:last-child { border-bottom: none; }
+        .test.passed { border-left: 4px solid #10b981; }
+        .test.failed { border-left: 4px solid #ef4444; }
+        .test-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+        .test-name { font-weight: bold; font-size: 1.1em; }
+        .test-status { padding: 4px 12px; border-radius: 20px; font-size: 0.8em; font-weight: bold; text-transform: uppercase; }
+        .test-status.passed { background: #d1fae5; color: #065f46; }
+        .test-status.failed { background: #fee2e2; color: #991b1b; }
+        .test-desc { color: #6b7280; margin-bottom: 10px; }
+        .test-details { font-size: 0.9em; color: #374151; background: #f9fafb; padding: 10px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧪 Tests Automatisés Stripe</h1>
+            <p>Math4Child v4.2.0 - Fri Aug 29 01:17:00 +01 2025</p>
+        </div>
+        
+        <div class="stats">
+            <div class="stat">
+                <h3>✅ Tests Réussis</h3>
+                <div class="number passed">1</div>
+            </div>
+            <div class="stat">
+                <h3>❌ Tests Échoués</h3>
+                <div class="number failed">15</div>
+            </div>
+            <div class="stat">
+                <h3>📊 Total</h3>
+                <div class="number total">16</div>
+            </div>
+            <div class="stat">
+                <h3>📈 Taux de Réussite</h3>
+                <div class="number total">6%</div>
+            </div>
+        </div>
+        
+        <div class="tests">
+<div class="test passed">
+                <div class="test-header">
+                    <div class="test-name">Server Health Check</div>
+                    <div class="test-status passed">PASSED</div>
+                </div>
+                <div class="test-desc">Vérification que le serveur Next.js répond correctement</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> GET /../<br>
+                    <strong>Status:</strong> 200 (attendu: 200)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:16:59+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">API Health Check</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Test endpoint API non existant (devrait retourner 404)</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> GET /health<br>
+                    <strong>Status:</strong> 308 (attendu: 404)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:16:59+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Checkout Basic Plan (App Router)</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Création session checkout pour plan Basic via App Router</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 200)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:16:59+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Checkout Premium Plan</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Création session checkout pour plan Premium</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 200)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:16:59+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Checkout Ultimate Plan</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Création session checkout pour plan Ultimate</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 200)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:16:59+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Checkout Invalid Plan</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Tentative checkout avec plan inexistant</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 400)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:16:59+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Checkout Missing Data</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Tentative checkout sans données requises</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 400)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:17:00+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Checkout Wrong Method</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Tentative checkout avec méthode GET (au lieu de POST)</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> GET /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 405)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:17:00+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Pages Router Checkout</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Test endpoint Pages Router pour checkout</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /payments/create-checkout<br>
+                    <strong>Status:</strong> 308 (attendu: 200)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:17:00+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Optimal Payments Test</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Test système de paiement optimal (endpoint possiblement inexistant)</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /optimal-payments<br>
+                    <strong>Status:</strong> 308 (attendu: 404)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:17:00+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Plan Validation basic</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Validation du plan basic</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 200)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:17:00+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Plan Validation premium</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Validation du plan premium</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 200)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:17:00+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Plan Validation ultimate</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Validation du plan ultimate</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 200)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:17:00+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Large Payload Test</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Test avec payload très volumineux</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 200)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:17:00+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Special Characters Test</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Test avec caractères spéciaux</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 200)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:17:00+01:00
+                </div>
+            </div>
+<div class="test failed">
+                <div class="test-header">
+                    <div class="test-name">Numeric PlanId Test</div>
+                    <div class="test-status failed">FAILED</div>
+                </div>
+                <div class="test-desc">Test avec planId numérique (devrait échouer)</div>
+                <div class="test-details">
+                    <strong>Endpoint:</strong> POST /stripe/create-checkout-session<br>
+                    <strong>Status:</strong> 308 (attendu: 400)<br>
+                    <strong>Timestamp:</strong> 2025-08-29T01:17:00+01:00
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
